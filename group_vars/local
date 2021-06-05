@@ -1,0 +1,6 @@
+dotfiles_user_home: "{{ '~' | expanduser }}"
+dotfiles_home: "{{ dotfiles_user_home }}/.dotfiles"
+
+full_name: Dario Vogogna
+git_user: akyrey
+git_email: stein.dario@gmail.com
