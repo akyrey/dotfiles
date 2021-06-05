@@ -9,6 +9,7 @@ fi
 
 if ! [ -x "$(command -v ansible)" ]; then
   sudo pacman -S ansible
+  ansible-galaxy collection install community.general
 fi
 
 ansible-playbook -i ~/.dotfiles/hosts ~/.dotfiles/dotfiles.yml --ask-become-pass --tags $tags
