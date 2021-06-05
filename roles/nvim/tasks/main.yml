@@ -1,0 +1,8 @@
+- name: Install neovim
+  raw: pacaur -S --noedit --noconfirm neovim-nightly-bin
+
+- name: Symlink neovim configurations
+  file:
+    src: "{{ dotfiles_home }}/roles/vim/files"
+    dest: "~/.config/nvim"
+    state: link

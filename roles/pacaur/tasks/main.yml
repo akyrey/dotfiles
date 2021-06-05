@@ -1,0 +1,12 @@
+- name: Download pacaur
+  git:
+    repo: https://aur.archlinux.org/pacaur.git
+    dest: "~/pacaur"
+
+- name: Check for pacaur installation
+  stat: "path=~/pacaur"
+  register: pacaur_stat
+      
+- name: Install pacaur
+  raw: "~/pacaur/makepkg -si"
+  when: not pacaur_stat.stat.exists
