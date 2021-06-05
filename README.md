@@ -5,5 +5,6 @@ Inspired by [this](https://medium.com/espinola-designs/manage-your-dotfiles-with
 ## Bootstrap
 Firt setup installation run the dot-bootstrap command.
 > `$ ./bin/dot-bootstrap.sh`
+
 After that you can run any scripts defined in the `$DOTFILES_PATH/bin`
 > `$ dot-bootstrap`
