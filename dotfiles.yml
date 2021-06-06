@@ -3,7 +3,7 @@
   roles:
     - role: pacaur
       tags:
-        - pacur
+        - pacaur
     - role: git
       tags:
         - git
