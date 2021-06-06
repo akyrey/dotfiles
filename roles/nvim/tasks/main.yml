@@ -1,5 +1,8 @@
 - name: Install neovim
-  raw: pacaur -S --noedit --noconfirm neovim-nightly-bin
+  raw: curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim.appimage \;\
+       chmod u+x nvim.appimage \;\
+       ./nvim.appimage
+
 
 - name: Symlink neovim configurations
   file:

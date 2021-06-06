@@ -1,0 +1,5 @@
+- name: Install git with pacman
+  community.general.pacman:
+    name: git
+    state: present
+

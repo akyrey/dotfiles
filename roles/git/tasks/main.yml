@@ -1,7 +1,8 @@
-- name: Install git
-  community.general.pacman:
-    name: git
-    state: present
+- import_tasks: arch-linux.yml
+  when: ansible_os_family == "Archlinux"
+
+- import_tasks: debian.yml
+  when: ansible_os_family == "Debian"
 
 - name: Link global gitignore file
   file:
