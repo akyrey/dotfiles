@@ -1,0 +1,18 @@
+- name: Set up local Arch Linux machine
+  hosts: local
+  roles:
+    - role: pacaur
+      tags:
+        - pacur
+    - role: git
+      tags:
+        - git
+    - role: zsh
+      tags:
+        - zsh
+    - role: nvim
+      tags:
+        - nvim
+    - role: asdf
+      tags:
+        - asdf
