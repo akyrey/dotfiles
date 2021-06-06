@@ -1,10 +1,8 @@
-- name: Install zsh
-  community.general.pacman:
-    name:
-      - zsh
-      - zsh-completions
-      - zsh-autosuggestions
-    state: present
+- import_tasks: arch-linux.yml
+  when: ansible_os_family == "Archlinux"
+
+- import_tasks: debian.yml
+  when: ansible_os_family == "Debian"
 
 - name: Check for oh-my-zsh installation
   stat: "path=~/.oh-my-zsh"

@@ -1,0 +1,8 @@
+- name: Install zsh with apt
+  apt:
+    name:
+      - zsh
+      - zsh-completions
+      - zsh-autosuggestions
+    state: present
+
