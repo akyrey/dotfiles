@@ -13,6 +13,9 @@
     - role: nvim
       tags:
         - nvim
+    - role: tmux
+      tags:
+        - tmux
     - role: asdf
       tags:
         - asdf
