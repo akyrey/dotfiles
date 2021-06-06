@@ -8,7 +8,7 @@ if [ -z $tags ]; then
 fi
 
 if ! [ -x "$(command -v ansible)" ]; then
-  sudo pacman -S ansible
+  pacman -S ansible
   ansible-galaxy collection install community.general
 fi
 
