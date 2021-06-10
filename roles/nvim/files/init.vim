@@ -38,6 +38,8 @@ Plug 'neovim/nvim-lspconfig'
 Plug 'glepnir/lspsaga.nvim'
 " Tree like structure to display symbols in file based on lsp
 Plug 'simrat39/symbols-outline.nvim'
+" Parser generator and parsing library
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'} 
 " Comment multiple lines
 Plug 'tpope/vim-commentary'
 " Auto completion and snippets
@@ -49,9 +51,8 @@ Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-telescope/telescope-fzy-native.nvim'
-" File system explorer
-Plug 'preservim/nerdtree'
-Plug 'Xuyuanp/nerdtree-git-plugin'
+" Mark and easily navigate through files
+Plug 'ThePrimeagen/harpoon'
 " Formatter
 Plug 'sbdchd/neoformat'
 " Git management

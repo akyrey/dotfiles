@@ -10,3 +10,5 @@ nnoremap <leader>pw :lua require('telescope.builtin').grep_string { search = vim
 nnoremap <leader>pb :lua require('telescope.builtin').buffers()<CR>
 " Lists available help tags and opens a new window with the relevant help info on <cr>
 nnoremap <leader>vh :lua require('telescope.builtin').help_tags()<CR>
+" Search by tree-sitter symbols
+nnoremap <leader>pt :lua require('telescope.builtin').treesitter()<CR>
