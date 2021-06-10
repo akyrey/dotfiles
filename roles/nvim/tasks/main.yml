@@ -1,8 +1,13 @@
 - name: Install neovim
-  raw: curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim.appimage \;\
-       chmod u+x nvim.appimage \;\
-       ./nvim.appimage
+  raw: curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz \;\
+       tar zxf nvim-linux64.tar.gz -C ~/
 
+- name: Symlink neovim file
+  file:
+    src: "{{ dotfiles_user_home }}/nvim-linux64/bin/nvim"
+    dest: "/usr/bin/nvim"
+    state: link
+    become: yes
 
 - name: Symlink neovim configurations
   file:

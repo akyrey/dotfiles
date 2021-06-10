@@ -1,7 +1,7 @@
-- import_tasks: arch-linux.yml
+- import_tasks: roles/zsh/tasks/arch-linux.yml
   when: ansible_os_family == "Archlinux"
 
-- import_tasks: debian.yml
+- import_tasks: roles/zsh/tasks/debian.yml
   when: ansible_os_family == "Debian"
 
 - name: Check for oh-my-zsh installation
@@ -26,11 +26,6 @@
   args:
     creates: "{{dotfiles_user_home}}/.zshrc.bak"
   when: zshrc_stat.stat.exists
-
-- name: Remove .zshrc
-  command: rm ~/.zshrc
-  when: zshrc_stat.stat.exists
-
 
 - name: Symlink .zshrc
   file:
