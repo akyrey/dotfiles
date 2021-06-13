@@ -11,6 +11,6 @@
 
 - name: Symlink neovim configurations
   file:
-    src: "{{ dotfiles_home }}/roles/vim/files"
+    src: "{{ dotfiles_home }}/roles/nvim/files"
     dest: "~/.config/nvim"
     state: link
