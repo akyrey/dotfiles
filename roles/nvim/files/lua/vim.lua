@@ -45,7 +45,7 @@ local function set_vim_o()
     -- Message on status line to show current mode
     showmode = false,
     -- When and how to display the sign column
-    signcolumn = yes,
+    signcolumn = "yes",
     -- Put cursor at the right indentation after creating a new line
     smartindent = true,
     -- Number of spaces that <Tab> uses while editing
@@ -55,7 +55,7 @@ local function set_vim_o()
     -- Number of spaces that <Tab> in file uses
     tabstop = 2,
     -- Where to store undo files
-    undodir = "$HOME/.vim/undodir",
+    undodir = vim.fn.stdpath('data').."/undodir",
     -- Save undo information in a file
     undofile = true,
     -- After this many milliseconds flush swap file
@@ -153,6 +153,14 @@ local function set_keymaps()
   map('n', '<leader>vh', "<CMD>lua require('telescope.builtin').help_tags()<CR>", options)
   -- Search by tree-sitter symbols
   map('n', '<leader>pt', "<CMD>lua require('telescope.builtin').treesitter()<CR>", options)
+  -- List worktrees
+  map('n', '<leader>fw', '<CMD>lua require("telescope").extensions.git_worktree.git_worktrees()<CR>', options)
+  -- ------------------- --
+  --    Git Worktree     --
+  -- ------------------- --
+  map('n', '<leader>wc', '<CMD>lua require("git-worktree").create_worktree(vim.fn.input("Worktree name > "), vim.fn.input("Worktree upstream > "))<CR>', options)
+  map('n', '<leader>ws', '<CMD>lua require("git-worktree").switch_worktree(vim.fn.input("Worktree name > "))<CR>', options)
+  map('n', '<leader>wd', '<CMD>lua require("git-worktree").delete_worktree(vim.fn.input("Worktree name > "))<CR>', options)
 end
 
 local function init()

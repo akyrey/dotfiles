@@ -62,6 +62,7 @@ Plug 'sbdchd/neoformat'
 Plug 'tpope/vim-fugitive'
 Plug 'junegunn/gv.vim'
 Plug 'lewis6991/gitsigns.nvim'
+Plug 'ThePrimeagen/git-worktree.nvim'
 " Man page inside vim
 Plug 'vim-utils/vim-man'
 " Visualize undo history
