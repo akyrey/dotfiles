@@ -1,4 +1,5 @@
 - name: Install tmux with pacman
+  become: yes
   community.general.pacman:
     name: tmux
     state: present

@@ -1,7 +1,7 @@
-- import_tasks: arch-linux.yml
+- import_tasks: roles/git/tasks/arch-linux.yml
   when: ansible_os_family == "Archlinux"
 
-- import_tasks: debian.yml
+- import_tasks: roles/git/tasks/debian.yml
   when: ansible_os_family == "Debian"
 
 - name: Link global gitignore file
