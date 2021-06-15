@@ -30,28 +30,32 @@ call plug#begin()
 " Install Material color theme
 Plug 'kaicataldo/material.vim', { 'branch': 'main' }
 " Statusline configuration
-Plug 'glepnir/galaxyline.nvim' , {'branch': 'main'}
+Plug 'hoob3rt/lualine.nvim'
 Plug 'kyazdani42/nvim-web-devicons'
 " Provides common configuration for various lsp servers
 Plug 'neovim/nvim-lsp'
 Plug 'neovim/nvim-lspconfig'
+Plug 'lspcontainers/lspcontainers.nvim'
 Plug 'glepnir/lspsaga.nvim'
 " Tree like structure to display symbols in file based on lsp
 Plug 'simrat39/symbols-outline.nvim'
+" Parser generator and parsing library
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'} 
+Plug 'romgrk/nvim-treesitter-context'
 " Comment multiple lines
 Plug 'tpope/vim-commentary'
 " Auto completion and snippets
 Plug 'hrsh7th/nvim-compe'
+Plug 'tzachar/compe-tabnine', { 'do': './install.sh' }
 Plug 'hrsh7th/vim-vsnip'
 Plug 'hrsh7th/vim-vsnip-integ'
 " Fuzzy finder over list
-Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-telescope/telescope-fzy-native.nvim'
-" File system explorer
-Plug 'preservim/nerdtree'
-Plug 'Xuyuanp/nerdtree-git-plugin'
+" Mark and easily navigate through files
+Plug 'ThePrimeagen/harpoon'
 " Formatter
 Plug 'sbdchd/neoformat'
 " Git management
@@ -66,8 +70,6 @@ Plug 'mbbill/undotree'
 Plug 'wakatime/vim-wakatime'
 call plug#end()
 
-let mapleader = " "
-
 " Colorscheme
 if (has('termguicolors'))
   set termguicolors
@@ -79,10 +81,5 @@ colorscheme material
 " Color line numbers
 hi LineNr ctermfg=0 guifg=#2196f3
 hi CursorLineNr ctermfg=0 guifg=#FBC02D
-
-augroup highlight_yank
-    autocmd!
-    autocmd TextYankPost * silent! lua require'vim.highlight'.on_yank({timeout = 60})
-augroup END
 
 lua init = require('init')
