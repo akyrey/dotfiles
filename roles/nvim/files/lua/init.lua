@@ -1,6 +1,6 @@
 require'vim'.init()
 require'akyrey.compe'.init()
--- require'akyrey.compe_tabnine'.init()
+require'akyrey.compe_tabnine'.init()
 require'akyrey.gitsigns'.init()
 require'akyrey.git_worktree'.init()
 require'akyrey.lsp-config'

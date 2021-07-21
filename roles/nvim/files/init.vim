@@ -46,7 +46,7 @@ Plug 'romgrk/nvim-treesitter-context'
 Plug 'tpope/vim-commentary'
 " Auto completion and snippets
 Plug 'hrsh7th/nvim-compe'
-Plug 'tzachar/compe-tabnine', { 'do': './install.sh' }
+Plug 'akyrey/compe-tabnine', { 'do': './install.sh' }
 Plug 'hrsh7th/vim-vsnip'
 Plug 'hrsh7th/vim-vsnip-integ'
 " Fuzzy finder over list
