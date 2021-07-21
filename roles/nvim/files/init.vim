@@ -44,6 +44,8 @@ Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'romgrk/nvim-treesitter-context'
 " Comment multiple lines
 Plug 'tpope/vim-commentary'
+" Highlight todos
+Plug 'folke/todo-comments.nvim'
 " Auto completion and snippets
 Plug 'hrsh7th/nvim-compe'
 Plug 'akyrey/compe-tabnine', { 'do': './install.sh' }

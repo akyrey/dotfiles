@@ -6,4 +6,5 @@ require'akyrey.git_worktree'.init()
 require'akyrey.lsp-config'
 require'akyrey.lualine'.init()
 require'akyrey.telescope'.init()
+require'akyrey.todo-comments'.init()
 require'akyrey.tree-sitter'.init()
