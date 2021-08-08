@@ -3,5 +3,5 @@ local function init()
 end
 
 return {
-  init = init
+  init = init,
 }

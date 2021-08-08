@@ -8,7 +8,7 @@ local function init()
       color_devicons = true,
 
       file_ignore_patterns = {
-        "node_modules",
+        "node_modules/.*",
         "documentation",
       },
     },
