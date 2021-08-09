@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/bin/bash
 set -e
 
 tags="$1"
@@ -8,7 +8,12 @@ if [ -z $tags ]; then
 fi
 
 if ! [ -x "$(command -v ansible)" ]; then
-  pacman -S ansible
+  if ! [ -x "$(command -v pip)" ]; then
+    curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+    python3 get-pip.py
+    rm get-pip.py
+  fi
+  pip install ansible
   ansible-galaxy collection install community.general
 fi
 
