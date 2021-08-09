@@ -13,13 +13,11 @@
   when: not oh_my_zsh_stat.stat.exists
 
 - name: Install zsh-completion plugin
-  when: not oh_my_zsh_stat.stat.exists
   ansible.builtin.git:
     repo: "https://github.com/zsh-users/zsh-completions"
     dest: "{{ dotfiles_user_home }}/.oh-my-zsh/custom/plugins/zsh-completions"
 
 - name: Install zsh-autosuggestions plugin
-  when: not oh_my_zsh_stat.stat.exists
   ansible.builtin.git:
     repo: "https://github.com/zsh-users/zsh-autosuggestions"
     dest: "{{ dotfiles_user_home }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
