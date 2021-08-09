@@ -254,6 +254,13 @@ local function packer_startup()
   use 'mbbill/undotree'
   -- Metrics, insights and time tracking
   use 'wakatime/vim-wakatime'
+  -- Display packages versions available for npm
+  use {
+    'vuki656/package-info.nvim',
+    config = function ()
+      require'akyrey.plugins.package-info'.init()
+    end
+  }
 end
 
 local function init()
