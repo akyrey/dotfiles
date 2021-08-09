@@ -1,0 +1,11 @@
+- name: Install required packages to build nvim on Arch Linux
+  become: yes
+  community.general.pacman:
+    name:
+      - base-devel
+      - cmake
+      - unzip
+      - ninja
+      - tree-sitter
+      - curl
+    state: present

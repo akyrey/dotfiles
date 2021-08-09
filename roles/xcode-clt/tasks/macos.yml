@@ -1,0 +1,29 @@
+- name: Check if Xcode Command Line Tools are installed
+  stat:
+    path: /Library/Developer/CommandLineTools/usr/bin/clang
+  register: xcode_clt_clang
+
+- name: Find XCode Command Line Tools installation package
+  shell: |
+    softwareupdate -l | grep -B 1 -E "Command Line (Developer|Tools)" | awk -F"*" '/^ +\*/ {print $2}' | sed 's/^ *//' | tail -n1
+  register: xcode_clt_package
+  when: not xcode_clt_clang.stat.exists
+  changed_when: false
+
+- name: Print xcode_clt_package results
+  debug:
+    var: xcode_clt_package
+
+- name: Create Xcode Command Line Tools progress placeholder file
+  file:
+    path: /tmp/.com.apple.dt.CommandLineTools.installondemand.in-progress
+    state: touch
+  when: xcode_clt_package is not skipped
+
+- name: Install XCode Command Line Tools installation package
+  become: yes
+  command: softwareupdate -i "{{ xcode_clt_package.stdout }}"
+  register: xcode_clt_installation
+  when: xcode_clt_package is not skipped
+  notify:
+    - "Delete Xcode Command Line Tools progress placeholder file"

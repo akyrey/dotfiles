@@ -1,0 +1,12 @@
+- name: Install required packages to build nvim on MacOS
+  community.general.homebrew:
+    name:
+      - ninja
+      - libtool
+      - automake
+      - cmake
+      - pkg-config
+      - gettext
+      - curl
+    state: present
+    update_homebrew: yes

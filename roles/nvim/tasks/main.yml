@@ -1,13 +1,30 @@
-- name: Install neovim
-  raw: curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz \;\
-       tar zxf nvim-linux64.tar.gz -C ~/
+- import_tasks: roles/nvim/tasks/arch-linux.yml
+  when: ansible_os_family == "Archlinux"
 
-- name: Symlink neovim file
+- import_tasks: roles/nvim/tasks/macos.yml
+  when: ansible_os_family == "Darwin"
+
+- name: Clone nvim repository
+  git:
+    repo: https://github.com/neovim/neovim.git
+    dest: "{{ dotfiles_user_home }}/.neovim"
+    version: stable
+    force: yes
+
+- name: Build nvim in build/bin folder
+  become: yes
+  community.general.make:
+    chdir: "{{ dotfiles_user_home }}/.neovim"
+    target: install
+    params:
+      CMAKE_BUILD_TYPE: Release
+
+- name: Symlink neovim files
+  become: yes
   file:
-    src: "{{ dotfiles_user_home }}/nvim-linux64/bin/nvim"
-    dest: "/usr/bin/nvim"
+    src: "{{ dotfiles_user_home }}/.neovim/build/bin/nvim"
+    dest: "/usr/local/bin/nvim"
     state: link
-    become: yes
 
 - name: Symlink neovim configurations
   file:

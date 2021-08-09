@@ -1,3 +1,30 @@
+local function unload_plugins()
+  local disabled_built_ins = {
+    -- "netrw",
+    -- "netrwPlugin",
+    -- "netrwSettings",
+    -- "netrwFileHandlers",
+    "gzip",
+    "zip",
+    "zipPlugin",
+    "tar",
+    "tarPlugin",
+    "getscript",
+    "getscriptPlugin",
+    "vimball",
+    "vimballPlugin",
+    "2html_plugin",
+    "logipat",
+    "rrhelper",
+    "spellfile_plugin",
+    "matchit"
+  }
+
+  for _, plugin in pairs(disabled_built_ins) do
+    vim.g["loaded_" .. plugin] = 1
+  end
+end
+
 local function set_vim_g()
   vim.g.mapleader = " "
 end
@@ -24,6 +51,8 @@ local function set_vim_o()
     cmdheight = 1,
     -- Columns to highlight
     colorcolumn = "120",
+    -- Encoding used internally
+    encoding = "UTF-8",
     -- Avoid making sounds on error
     errorbells = false,
     -- Use spaces when <Tab> is inserted
@@ -85,27 +114,50 @@ local function set_vim_o()
   vim.cmd('set guicursor+=i-ci:ver20-Cursor')
   vim.cmd('set guicursor+=r-cr:hor20-Cursor')
   vim.cmd('set guicursor+=sm:block-Cursor-blinkwait175-blinkoff150-blinkon175')
+
+  -- Nice menu when typings `:find *.py`
+  vim.cmd('set wildmode=longest,list,full')
+  vim.cmd('set wildmenu')
+  vim.cmd('set path+=**')
 end
 
 local function set_keymaps()
   local map = vim.api.nvim_set_keymap
-  local options = { noremap = false }
+  local options = { noremap = true }
+
+  -- Y will yank from cursor until the end of the line instead of entire line
+  map('n', 'Y', 'y$', options)
+  -- Keeping cursor centered on search operations
+  map('n', 'n', 'nzzzv', options)
+  map('n', 'N', 'Nzzzv', options)
+  map('n', 'J', 'mzJ`z', options)
+  -- Undo break points
+  map('i', ',', ',<c-g>u', options)
+  map('i', '.', '.<c-g>u', options)
+  map('i', '!', '!<c-g>u', options)
+  map('i', '?', '?<c-g>u', options)
+  -- Jumplist update on relative motions
+  map('n', 'k', '(v:count > 5 ? "m`" . v:count : "") . "k"', { noremap = true, expr = true, silent = true })
+  map('n', 'j', '(v:count > 5 ? "m`" . v:count : "") . "j"', { noremap = true, expr = true, silent = true })
+  -- Moving text
+  map('v', 'J', ':m \'>+1<CR>gv=gv', options)
+  map('v', 'K', ':m \'<-2<CR>gv=gv', options)
+  map('i', '<C-j>', '<esc>:m .+1<CR>V', options)
+  map('i', '<C-k>', '<esc>:m .-2<CR>V', options)
+  map('n', '<leader>j', ':m .+1<CR>==', options)
+  map('n', '<leader>k', ':m .-2<CR>==', options)
 
   -- ------------------- --
   --      Navigation     --
   -- ------------------- --
-  -- Go to next occurence in global quickfix list
-  map('n', '<leader><C-k>', '<CMD>cnext<CR>zz', options)
-  -- Go to previous occurence in global quickfix list
-  map('n', '<leader><C-j>', '<CMD>cprev<CR>zz', options)
   -- Go to next occurence in local quickfix list
-  map('n', '<leader>k', '<CMD>lnext<CR>zz', options)
+  map('n', '<leader>nk', "<CMD>lua require('akyrey.plugins.utils').navigate_QF(true)<CR>zz", options)
   -- Go to previous occurence in local quickfix list
-  map('n', '<leader>j', '<CMD>lprev<CR>zz', options)
+  map('n', '<leader>nj', "<CMD>lua require('akyrey.plugins.utils').navigate_QF(false)<CR>zz", options)
   -- Open global quickfix list
-  map('n', '<C-q>', '<CMD>call ToggleQFList(1)<CR>', options)
+  map('n', '<leader>nq', "<CMD>lua require('akyrey.plugins.utils').toggle_global_or_local_QF()<CR>", options)
   -- Open local quickfix list
-  map('n', '<leader>q', '<CMD>call ToggleQFList(0)<CR>', options)
+  map('n', '<leader>nt', "<CMD>lua require('akyrey.plugins.utils').toggle_QF()<CR>", options)
   -- ------------------- --
   --          LSP        --
   -- ------------------- --
@@ -128,33 +180,31 @@ local function set_keymaps()
   map('n', '<C-j>', "<CMD>lua require('harpoon.ui').nav_file(2)<CR>", options)
   map('n', '<C-k>', "<CMD>lua require('harpoon.ui').nav_file(3)<CR>", options)
   map('n', '<C-l>', "<CMD>lua require('harpoon.ui').nav_file(4)<CR>", options)
-  map('n', '<leader>ts', "<CMD>lua require('harpoon.term').gotoTerminal(1)<CR>", options)
-  map('n', '<leader>td', "<CMD>lua require('harpoon.term').gotoTerminal(2)<CR>", options)
-  map('n', '<leader>cs', "<CMD>lua require('harpoon.term').sendCommand(1, 1)<CR>", options)
-  map('n', '<leader>cd', "<CMD>lua require('harpoon.term').sendCommand(1, 2)<CR>", options)
   -- ------------------- --
-  --       NERDTree      --
+  --    File explorer    --
   -- ------------------- --
-  map('n', '<Alt-1>', '<CMD>NERDTreeToggle<CR>', options)
+  -- map('n', '¡', '<CMD>NERDTreeToggle<CR>', options)
+  map('n', '<leader>dc', '<CMD>Ex<CR>', options)
+  map('n', '<leader>dt', '<CMD>NvimTreeToggle<CR>', options)
   -- ------------------- --
   --      Telescope      --
   -- ------------------- --
-  -- Searches for the string under your cursor in your current working directory
-  map('n', '<leader>ps', "<CMD>lua require('telescope.builtin').grep_string({ search = vim.fn.input('Grep For > ')})<CR>", options)
+  -- Searches all project by a string
+  map('n', '<leader>fs', "<CMD>lua require('telescope.builtin').grep_string({ search = vim.fn.input('Grep For > ')})<CR>", options)
   -- Fuzzy search through the output of git ls-files command, respects .gitignore, optionally ignores untracked files
-  map('n', '<C-p>', "<CMD>lua require('telescope.builtin').git_files()<CR>", options)
+  map('n', '<C-f>', "<CMD>lua require('telescope.builtin').git_files()<CR>", options)
   -- Lists files in your current working directory, respects .gitignore
-  map('n', '<Leader>pf', "<CMD>lua require('telescope.builtin').find_files()<CR>", options)
+  map('n', '<Leader>ff', "<CMD>lua require('telescope.builtin').find_files()<CR>", options)
   -- Searches for the string under your cursor in your current working directory
-  map('n', '<leader>pw', "<CMD>lua require('telescope.builtin').grep_string { search = vim.fn.expand('<cword>') }<CR>", options)
+  map('n', '<leader>fw', "<CMD>lua require('telescope.builtin').grep_string { search = vim.fn.expand('<cword>') }<CR>", options)
   -- Lists open buffers in current neovim instance
-  map('n', '<leader>pb', "<CMD>lua require('telescope.builtin').buffers()<CR>", options)
+  map('n', '<leader>fb', "<CMD>lua require('telescope.builtin').buffers()<CR>", options)
   -- Lists available help tags and opens a new window with the relevant help info on <cr>
-  map('n', '<leader>vh', "<CMD>lua require('telescope.builtin').help_tags()<CR>", options)
+  map('n', '<leader>fh', "<CMD>lua require('telescope.builtin').help_tags()<CR>", options)
   -- Search by tree-sitter symbols
-  map('n', '<leader>pt', "<CMD>lua require('telescope.builtin').treesitter()<CR>", options)
+  map('n', '<leader>ft', "<CMD>lua require('telescope.builtin').treesitter()<CR>", options)
   -- List worktrees
-  map('n', '<leader>fw', '<CMD>lua require("telescope").extensions.git_worktree.git_worktrees()<CR>', options)
+  map('n', '<leader>fg', '<CMD>lua require("telescope").extensions.git_worktree.git_worktrees()<CR>', options)
   -- ------------------- --
   --    Git Worktree     --
   -- ------------------- --
@@ -163,12 +213,24 @@ local function set_keymaps()
   map('n', '<leader>wd', '<CMD>lua require("git-worktree").delete_worktree(vim.fn.input("Worktree name > "))<CR>', options)
 end
 
+local function set_ignored()
+  vim.cmd('set wildignore+=*.pyc')
+  vim.cmd('set wildignore+=*_build/*')
+  vim.cmd('set wildignore+=**/coverage/*')
+  vim.cmd('set wildignore+=**/node_modules/*')
+  vim.cmd('set wildignore+=**/android/*')
+  vim.cmd('set wildignore+=**/ios/*')
+  vim.cmd('set wildignore+=**/.git/*')
+end
+
 local function init()
-  set_augroup_to_wrap_markdown()
+  unload_plugins()
+  -- set_augroup_to_wrap_markdown()
   set_yank_highlight()
   set_vim_g()
   set_vim_o()
   set_keymaps()
+  set_ignored()
 end
 
 return {
