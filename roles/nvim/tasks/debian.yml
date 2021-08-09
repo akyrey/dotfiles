@@ -1,0 +1,17 @@
+- name: Install required packages to build nvim on Debian
+  become: yes
+  ansible.builtin.apt:
+    name:
+      - ninja-build
+      - gettext
+      - libtool
+      - libtool-bin
+      - autoconf
+      - automake 
+      - g++
+      - pkg-config
+      - cmake
+      - unzip
+      - curl
+    state: present
+

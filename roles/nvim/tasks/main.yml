@@ -1,3 +1,6 @@
+- import_tasks: roles/nvim/tasks/debian.yml
+  when: ansible_os_family == "Debian"
+
 - import_tasks: roles/nvim/tasks/arch-linux.yml
   when: ansible_os_family == "Archlinux"
 
@@ -29,5 +32,5 @@
 - name: Symlink neovim configurations
   file:
     src: "{{ dotfiles_home }}/roles/nvim/files"
-    dest: "~/.config/nvim"
+    dest: "{{ dotfiles_user_home }}/.config/nvim"
     state: link
