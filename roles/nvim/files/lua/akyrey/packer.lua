@@ -3,17 +3,45 @@ local fn = vim.fn
 local packer = nil
 
 local function packer_verify()
-  local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
+  vim.cmd("packadd packer.nvim")
+  local present, _ = pcall(require, "packer")
+  if not present then
+    local packer_path = vim.fn.stdpath("data") .. "/site/pack/packer/opt/packer.nvim"
 
-  if fn.empty(fn.glob(install_path)) > 0 then
-    fn.system({ 'git', 'clone', 'https://github.com/wbthomason/packer.nvim', install_path })
-    cmd 'packadd packer.nvim'
+    print("Cloning packer..")
+    -- remove the dir before cloning
+    vim.fn.delete(packer_path, "rf")
+    vim.fn.system(
+      {
+        "git",
+        "clone",
+        "https://github.com/wbthomason/packer.nvim",
+        "--depth",
+        "20",
+        packer_path
+      }
+    )
+
+    vim.cmd("packadd packer.nvim")
+    present, _ = pcall(require, "packer")
+
+    if present then
+      print("Packer cloned successfully.")
+    else
+      error("Couldn't clone packer !\nPacker path: " .. packer_path)
+    end
+  else
+    print("Packer already installed")
   end
 end
 
 local function packer_startup()
   if packer == nil then
-    packer = require'packer'
+    _, packer = pcall(require, "packer")
+    if packer == nil then
+      error("Packer not installed")
+      return false
+    end
     packer.init()
   end
 
@@ -23,7 +51,7 @@ local function packer_startup()
   -- Packer can manage itself
   use {
     'wbthomason/packer.nvim',
-    event = 'VimEnter'
+    event = 'VimEnter',
   }
   -- Install Material color theme
   use {
@@ -94,7 +122,7 @@ local function packer_startup()
   -- Parser generator and parsing library
   use {
     'nvim-treesitter/nvim-treesitter',
-    run = 'TSUpdate',
+    run = ':TSUpdate',
     event = 'BufRead',
     config = function ()
       require'akyrey.plugins.treesitter'.init()
@@ -182,7 +210,7 @@ local function packer_startup()
         end
       }
     },
-    module = {
+    module_pattern = {
       'telescope',
     },
     config = function ()
@@ -231,7 +259,7 @@ end
 local function init()
   packer_verify()
   packer_startup()
-  vim.cmd[[autocmd BufWritePost lua/akyrey/packer.lua source <afile> | PackerSync]]
+  vim.cmd[[autocmd BufWritePost lua/akyrey/packer.lua source <afile>]]
 end
 
 return {
