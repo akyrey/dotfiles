@@ -1,7 +1,4 @@
 - name: Install zsh with pacman
   community.general.pacman:
-    name:
-      - zsh
-      - zsh-completions
-      - zsh-autosuggestions
+    name: zsh
     state: present
