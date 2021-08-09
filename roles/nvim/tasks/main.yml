@@ -8,18 +8,23 @@
   git:
     repo: https://github.com/neovim/neovim.git
     dest: "{{ dotfiles_user_home }}/.neovim"
-    version: "stable"
+    version: stable
+    force: yes
 
 - name: Build nvim in build/bin folder
+  become: yes
   community.general.make:
     chdir: "{{ dotfiles_user_home }}/.neovim"
+    target: install
+    params:
+      CMAKE_BUILD_TYPE: Release
 
 - name: Symlink neovim files
+  become: yes
   file:
-    src: "{{ dotfiles_user_home }}/.neovim/build/bin"
-    dest: "/usr/bin/nvim"
+    src: "{{ dotfiles_user_home }}/.neovim/build/bin/nvim"
+    dest: "/usr/local/bin/nvim"
     state: link
-    become: yes
 
 - name: Symlink neovim configurations
   file:
