@@ -232,11 +232,6 @@ local function packer_startup()
       'harpoon',
     }
   }
-  -- Formatter
-  use {
-    'sbdchd/neoformat',
-    event = 'BufRead',
-  }
   -- Git management
   use {
     'tpope/vim-fugitive',
@@ -255,10 +250,6 @@ local function packer_startup()
       require'akyrey.plugins.gitsigns'.init()
     end
   }
-  -- Man page inside vim
-  use 'vim-utils/vim-man'
-  -- Visualize undo history
-  use 'mbbill/undotree'
   -- Metrics, insights and time tracking
   use 'wakatime/vim-wakatime'
   -- Display packages versions available for npm
