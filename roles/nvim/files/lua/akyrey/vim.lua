@@ -161,16 +161,7 @@ local function set_keymaps()
   -- ------------------- --
   --          LSP        --
   -- ------------------- --
-  map('n', '<leader>vd', "<CMD>lua vim.lsp.buf.definition()<CR>", options)
-  map('n', '<leader>vi', "<CMD>lua vim.lsp.buf.implementation()<CR>", options)
-  map('n', '<leader>vsh', "<CMD>lua vim.lsp.buf.signature_help()<CR>", options)
-  map('n', '<leader>vrr', "<CMD>lua vim.lsp.buf.references()<CR>", options)
-  map('n', '<leader>vrn', "<CMD>lua vim.lsp.buf.rename()<CR>", options)
-  map('n', '<leader>vh', "<CMD>lua vim.lsp.buf.hover()<CR>", options)
-  map('n', '<leader>vca', "<CMD>lua vim.lsp.buf.code_action()<CR>", options)
-  map('n', '<leader>vsd', "<CMD>lua vim.lsp.util.show_line_diagnostics(); vim.lsp.util.show_line_diagnostics()<CR>", options)
-  map('n', '<leader>vn', "<CMD>lua vim.lsp.diagnostic.goto_next()<CR>", options)
-  map('n', '<leader>vll', "<CMD>call LspLocationList()<CR>", options)
+  -- Moved to lspconfig.lua
   -- ------------------- --
   --        Harpoon      --
   -- ------------------- --

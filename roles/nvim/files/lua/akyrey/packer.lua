@@ -114,7 +114,7 @@ local function packer_startup()
       'kabouzeid/nvim-lspinstall',
     },
     config = function ()
-      require'akyrey.plugins.lspconfig'
+      require'akyrey.plugins.lspconfig'.init()
     end
   }
   -- Floating window with a lot of lsp functions (loaded only if required)
