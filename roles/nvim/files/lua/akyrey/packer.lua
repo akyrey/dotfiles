@@ -112,7 +112,7 @@ local function packer_startup()
       'simrat39/symbols-outline.nvim'
     },
     config = function ()
-      require'akyrey.plugins.lsp-config'
+      require'akyrey.plugins.lspconfig'
     end
   }
   use {
