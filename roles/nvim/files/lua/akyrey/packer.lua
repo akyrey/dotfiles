@@ -3,15 +3,15 @@ local fn = vim.fn
 local packer = nil
 
 local function packer_verify()
-  vim.cmd("packadd packer.nvim")
+  cmd("packadd packer.nvim")
   local present, _ = pcall(require, "packer")
   if not present then
-    local packer_path = vim.fn.stdpath("data") .. "/site/pack/packer/opt/packer.nvim"
+    local packer_path = fn.stdpath("data") .. "/site/pack/packer/opt/packer.nvim"
 
     print("Cloning packer..")
     -- remove the dir before cloning
-    vim.fn.delete(packer_path, "rf")
-    vim.fn.system(
+    fn.delete(packer_path, "rf")
+    fn.system(
       {
         "git",
         "clone",
@@ -22,7 +22,7 @@ local function packer_verify()
       }
     )
 
-    vim.cmd("packadd packer.nvim")
+    cmd("packadd packer.nvim")
     present, _ = pcall(require, "packer")
 
     if present then
@@ -274,7 +274,7 @@ end
 local function init()
   packer_verify()
   packer_startup()
-  vim.cmd[[autocmd BufWritePost lua/akyrey/packer.lua source <afile>]]
+  cmd[[autocmd BufWritePost lua/akyrey/packer.lua source <afile>]]
 end
 
 return {
