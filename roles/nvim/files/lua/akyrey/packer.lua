@@ -115,7 +115,16 @@ local function packer_startup()
   }
   use {
     'glepnir/lspsaga.nvim',
-    after = 'nvim-lspconfig',
+    requires = {
+      'neovim/nvim-lspconfig',
+    },
+    cmd = 'Lspsaga',
+    module_pattern = {
+      'lspsaga',
+    },
+    config = function ()
+      require 'akyrey.plugins.lspsaga'.init()
+    end
   }
   -- Parser generator and parsing library
   use {
