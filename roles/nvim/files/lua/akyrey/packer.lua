@@ -103,6 +103,7 @@ local function packer_startup()
   use {
     'kabouzeid/nvim-lspinstall',
   }
+  -- Need to load it right away or client don't attach correctly
   use {
     'neovim/nvim-lspconfig',
     requires = {
@@ -113,6 +114,7 @@ local function packer_startup()
       require'akyrey.plugins.lspconfig'
     end
   }
+  -- Floating window with a lot of lsp functions (loaded only if required)
   use {
     'glepnir/lspsaga.nvim',
     requires = {
@@ -149,7 +151,10 @@ local function packer_startup()
     end
   }
   -- Comment multiple lines
-  use 'tpope/vim-commentary'
+  use {
+    'tpope/vim-commentary',
+    event = 'BufRead',
+  }
   -- Highlight todos
   use {
     'folke/todo-comments.nvim',
@@ -246,15 +251,20 @@ local function packer_startup()
     requires = {
       'nvim-lua/plenary.nvim',
     },
+    event = 'BufRead',
     config = function ()
       require'akyrey.plugins.gitsigns'.init()
     end
   }
   -- Metrics, insights and time tracking
-  use 'wakatime/vim-wakatime'
+  use {
+    'wakatime/vim-wakatime',
+    after = 'material.vim',
+  }
   -- Display packages versions available for npm
   use {
     'vuki656/package-info.nvim',
+    after = 'material.vim',
     config = function ()
       require'akyrey.plugins.package-info'.init()
     end
@@ -268,6 +278,6 @@ local function init()
 end
 
 return {
-  init = init
+  init = init,
 }
 
