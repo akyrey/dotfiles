@@ -5,7 +5,7 @@
   when: ansible_os_family == "Debian"
 
 - name: Check for oh-my-zsh installation
-  stat: "path=~/.oh-my-zsh"
+  stat: "path={{ dotfiles_user_home }}/.oh-my-zsh"
   register: oh_my_zsh_stat
 
 - name: Install oh-my-zsh
@@ -26,17 +26,7 @@
   when: not oh_my_zsh_stat.stat.exists
   git:
     repo: https://github.com/romkatv/powerlevel10k.git
-    dest: "~/.oh-my-zsh/custom/themes/powerlevel10k"
-
-- name: Check for .zshrc
-  stat: path="{{dotfiles_user_home}}/.zshrc"
-  register: zshrc_stat
-
-- name: Back up .zshrc
-  command: mv ~/.zshrc ~/.zshrc.bak
-  args:
-    creates: "{{dotfiles_user_home}}/.zshrc.bak"
-  when: zshrc_stat.stat.exists
+    dest: "{{ dotfiles_user_home }}/.oh-my-zsh/custom/themes/powerlevel10k"
 
 - name: Symlink .zshrc
   file:
