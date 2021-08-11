@@ -33,3 +33,4 @@
     src: "{{ dotfiles_home}}/roles/zsh/files/zshrc"
     dest: "{{dotfiles_user_home}}/.zshrc"
     state: link 
+    force: yes
