@@ -115,3 +115,6 @@ DEFAULT_USER=$USER
 source $HOME/.dotfiles/roles/zsh/aliases.zsh
 source $HOME/.dotfiles/roles/zsh/env.zsh
 source $HOME/.dotfiles/roles/zsh/path.zsh
+
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+

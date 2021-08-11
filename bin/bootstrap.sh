@@ -8,12 +8,12 @@ if [ -z $tags ]; then
 fi
 
 if ! [ -x "$(command -v ansible)" ]; then
-  if ! [ -x "$(command -v pip)" ]; then
+  if ! [ -x "$(command -v python3 -m pip)" ]; then
     curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-    python3 get-pip.py
+    python3 get-pip.py --user
     rm get-pip.py
   fi
-  pip install ansible
+  python3 -m pip install --user ansible
   ansible-galaxy collection install community.general
 fi
 
