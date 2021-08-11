@@ -24,6 +24,15 @@ local function init()
   telescope.load_extension('git_worktree')
 end
 
+local function search_dotfiles()
+    require("telescope.builtin").find_files({
+        prompt_title = "< VimRC >",
+        cwd = vim.env.DOTFILES,
+        hidden = true,
+    })
+end
+
 return {
   init = init,
+  search_dotfiles = search_dotfiles,
 }

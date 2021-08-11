@@ -198,6 +198,8 @@ local function set_keymaps()
   map('n', '<leader>fg', '<CMD>lua require("telescope.builtin").git_branches()<CR>', options)
   -- List worktrees
   map('n', '<leader>fgw', '<CMD>lua require("telescope").extensions.git_worktree.git_worktrees()<CR>', options)
+  -- Search in vimrc configuration folder
+  map('n', '<leader>frc', "<CMD>lua require('akyrey.plugins.telescope').search_dotfiles()<CR>", options)
   -- ------------------- --
   --    Git Worktree     --
   -- ------------------- --
