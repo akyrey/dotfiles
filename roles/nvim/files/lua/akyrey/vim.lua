@@ -194,8 +194,10 @@ local function set_keymaps()
   map('n', '<leader>fh', "<CMD>lua require('telescope.builtin').help_tags()<CR>", options)
   -- Search by tree-sitter symbols
   map('n', '<leader>ft', "<CMD>lua require('telescope.builtin').treesitter()<CR>", options)
+  -- List git branches
+  map('n', '<leader>fg', '<CMD>lua require("telescope.builtin").git_branches()<CR>', options)
   -- List worktrees
-  map('n', '<leader>fg', '<CMD>lua require("telescope").extensions.git_worktree.git_worktrees()<CR>', options)
+  map('n', '<leader>fgw', '<CMD>lua require("telescope").extensions.git_worktree.git_worktrees()<CR>', options)
   -- ------------------- --
   --    Git Worktree     --
   -- ------------------- --
