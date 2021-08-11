@@ -16,6 +16,12 @@ local function init()
         "node_modules/.*",
         "documentation",
       },
+
+      mappings = {
+        i = {
+          ["<C-q>"] = actions.send_to_qflist,
+        },
+      },
     },
     extensions = {
       fzy_native = {
