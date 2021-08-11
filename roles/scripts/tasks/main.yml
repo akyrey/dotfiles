@@ -1,0 +1,7 @@
+- name: Create symlink to ~/.local/bin/tmux-sessionizer
+  file:
+    src: "{{ dotfiles_home }}/roles/scripts/files/tmux-sessionizer"
+    dest: "{{ dotfiles_user_home }}/.local/bin/tmux-sessionizer"
+    state: link
+    force: yes
+

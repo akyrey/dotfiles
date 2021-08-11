@@ -1,6 +1,9 @@
 - name: Set up local Arch Linux / Mac machine
   hosts: local
   roles:
+    - role: scripts
+      tags:
+        - scripts
     - role: xcode-clt
       tags:
         - xcode-clt
