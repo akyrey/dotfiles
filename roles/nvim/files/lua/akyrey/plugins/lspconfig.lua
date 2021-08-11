@@ -155,11 +155,11 @@ local function setup_servers(lspconfig, lspinstall)
         filetypes = filetypes,
         linters = linters,
         formatters = formatters,
-        formatFiletypes = formatFiletypes
+        formatFiletypes = formatFiletypes,
       }
     elseif server == 'angularls' then
         config.cmd = angularls_cmd
-        config.on_new_config = function(new_config, new_root_dir)
+        config.on_new_config = function(new_config)
           new_config.cmd = angularls_cmd
       end
     end
@@ -199,7 +199,7 @@ local function init()
   end
 
   -- Replace the default lsp diagnostic symbols
-  function lspSymbol(name, icon)
+  local function lspSymbol(name, icon)
     vim.fn.sign_define("LspDiagnosticsSign" .. name, {text = icon, numhl = "LspDiagnosticsDefaul" .. name})
   end
 
