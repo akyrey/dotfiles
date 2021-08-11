@@ -1,0 +1,7 @@
+- name: Install tmux on MacOS
+  community.general.homebrew:
+    name:
+      - tmux
+    state: present
+    update_homebrew: yes
+
