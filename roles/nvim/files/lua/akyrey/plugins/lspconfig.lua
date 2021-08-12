@@ -166,8 +166,6 @@ local function setup_servers(lspconfig, lspinstall)
 
     lspconfig[server].setup(config)
   end
-
-  vim.cmd('LspStart')
 end
 
 local function init()

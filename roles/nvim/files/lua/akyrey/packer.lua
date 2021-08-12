@@ -102,12 +102,10 @@ local function packer_startup()
   -- Provides common configuration for various lsp servers
   use {
     'kabouzeid/nvim-lspinstall',
-    event = 'BufRead',
   }
   -- Need to load it right away or client don't attach correctly
   use {
     'neovim/nvim-lspconfig',
-    after = 'nvim-lspinstall',
     requires = {
       -- Tree like structure to display symbols in file based on lsp
       'simrat39/symbols-outline.nvim',
