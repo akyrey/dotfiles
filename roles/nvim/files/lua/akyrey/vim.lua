@@ -206,6 +206,12 @@ local function set_keymaps()
   map('n', '<leader>wc', '<CMD>lua require("git-worktree").create_worktree(vim.fn.input("Worktree name > "), vim.fn.input("Worktree upstream > "))<CR>', options)
   map('n', '<leader>ws', '<CMD>lua require("git-worktree").switch_worktree(vim.fn.input("Worktree name > "))<CR>', options)
   map('n', '<leader>wd', '<CMD>lua require("git-worktree").delete_worktree(vim.fn.input("Worktree name > "))<CR>', options)
+  -- ------------------- --
+  --    Git Fugitive     --
+  -- ------------------- --
+  map('n', '<leader>gs', '<CMD>G<CR>', options)
+  map('n', '<leader>gg', '<CMD>diffget //2<CR>', options)
+  map('n', '<leader>gh', '<CMD>diffget //3<CR>', options)
 end
 
 local function set_ignored()
