@@ -104,7 +104,14 @@ local lua_settings = {
 }
 
 -- Configure angular language server for neovim development
-local angularls_cmd = {"ngserver", "--stdio", "--tsProbeLocations", "node_modules" , "--ngProbeLocations", "node_modules"}
+-- Angular requires a node_modules directory to probe for @angular/language-service and typescript
+-- in order to use your projects configured versions.
+-- This defaults to the vim cwd, but will get overwritten by the resolved root of the file.
+local function get_probe_dir(root_dir, lspconfigUtil)
+  local project_root = lspconfigUtil.find_node_modules_ancestor(root_dir)
+
+  return project_root and (project_root .. '/node_modules') or ''
+end
 
 -- Override default formatting with custom
 local format_async = function(err, _, result, _, bufnr)
@@ -132,7 +139,7 @@ local function make_config()
   }
 end
 
-local function setup_servers(lspconfig, lspinstall)
+local function setup_servers(lspconfig, lspinstall, lspconfigUtil)
   lspinstall.setup()
 
   -- get all installed servers
@@ -158,10 +165,34 @@ local function setup_servers(lspconfig, lspinstall)
         formatFiletypes = formatFiletypes,
       }
     elseif server == 'angularls' then
-        config.cmd = angularls_cmd
-        config.on_new_config = function(new_config)
-          new_config.cmd = angularls_cmd
+      local default_probe_dir = get_probe_dir(vim.fn.getcwd(), lspconfigUtil)
+
+      config.cmd = {
+       'ngserver',
+       '--stdio',
+       '--tsProbeLocations',
+       default_probe_dir,
+       '--ngProbeLocations',
+       default_probe_dir,
+      }
+      config.filetypes = { 'typescript', 'html', 'typescriptreact', 'typescript.tsx' }
+      config.on_new_config = function(new_config, new_root_dir)
+        local new_probe_dir = get_probe_dir(new_root_dir)
+
+        -- We need to check our probe directories because they may have changed.
+        new_config.cmd = {
+          'ngserver',
+          '--stdio',
+          '--tsProbeLocations',
+          new_probe_dir,
+          '--ngProbeLocations',
+          new_probe_dir,
+        }
       end
+      -- Check for angular.json or .git first since that is the root of the project.
+      -- Don't check for tsconfig.json or package.json since there are multiple of these
+      -- in an angular monorepo setup.
+      config.root_dir = lspconfigUtil.root_pattern('angular.json', '.git')
     end
 
     lspconfig[server].setup(config)
@@ -188,7 +219,7 @@ local function init()
     vim.lsp.buf.execute_command(params)
   end
 
-  setup_servers(lspconfig, lspinstall)
+  setup_servers(lspconfig, lspinstall, require('lspconfig.util'))
 
   -- Automatically reload after `:LspInstall <server>` so we don't have to restart neovim
   lspinstall.post_install_hook = function()
