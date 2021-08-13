@@ -209,9 +209,9 @@ local function set_keymaps()
   -- ------------------- --
   --    Git Fugitive     --
   -- ------------------- --
-  map('n', '<leader>gs', '<CMD>G<CR>', options)
-  map('n', '<leader>gg', '<CMD>diffget //2<CR>', options)
-  map('n', '<leader>gh', '<CMD>diffget //3<CR>', options)
+  map('n', '<leader>vs', '<CMD>G<CR>', options)
+  map('n', '<leader>vg', '<CMD>diffget //2<CR>', options)
+  map('n', '<leader>vh', '<CMD>diffget //3<CR>', options)
 end
 
 local function set_ignored()
