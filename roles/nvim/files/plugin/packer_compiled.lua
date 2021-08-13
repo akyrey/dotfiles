@@ -76,10 +76,6 @@ _G.packer_plugins = {
     path = "/Users/akyrey/.local/share/nvim/site/pack/packer/opt/LuaSnip",
     wants = { "friendly-snippets" }
   },
-  ["compe-tabnine"] = {
-    loaded = true,
-    path = "/Users/akyrey/.local/share/nvim/site/pack/packer/start/compe-tabnine"
-  },
   ["friendly-snippets"] = {
     loaded = false,
     needs_bufread = false,
@@ -110,17 +106,6 @@ _G.packer_plugins = {
     needs_bufread = false,
     path = "/Users/akyrey/.local/share/nvim/site/pack/packer/opt/harpoon"
   },
-  ["lspkind-nvim"] = {
-    loaded = true,
-    path = "/Users/akyrey/.local/share/nvim/site/pack/packer/start/lspkind-nvim"
-  },
-  ["lspsaga.nvim"] = {
-    commands = { "Lspsaga" },
-    config = { "\27LJ\2\nC\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\tinit\27akyrey.plugins.lspsaga\frequire\0" },
-    loaded = false,
-    needs_bufread = false,
-    path = "/Users/akyrey/.local/share/nvim/site/pack/packer/opt/lspsaga.nvim"
-  },
   ["lualine.nvim"] = {
     config = { "\27LJ\2\nC\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\tinit\27akyrey.plugins.lualine\frequire\0" },
     load_after = {
@@ -131,7 +116,7 @@ _G.packer_plugins = {
     path = "/Users/akyrey/.local/share/nvim/site/pack/packer/opt/lualine.nvim"
   },
   ["material.vim"] = {
-    after = { "nvim-bufferline.lua", "nvim-colorizer.lua", "lualine.nvim", "vim-wakatime", "package-info.nvim" },
+    after = { "nvim-colorizer.lua", "vim-wakatime", "lualine.nvim" },
     config = { "\27LJ\2\nD\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\tinit\28akyrey.plugins.material\frequire\0" },
     load_after = {
       ["packer.nvim"] = true
@@ -149,15 +134,6 @@ _G.packer_plugins = {
     needs_bufread = false,
     path = "/Users/akyrey/.local/share/nvim/site/pack/packer/opt/nvim-autopairs"
   },
-  ["nvim-bufferline.lua"] = {
-    config = { "\27LJ\2\nF\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\tinit\30akyrey.plugins.bufferline\frequire\0" },
-    load_after = {
-      ["material.vim"] = true
-    },
-    loaded = false,
-    needs_bufread = false,
-    path = "/Users/akyrey/.local/share/nvim/site/pack/packer/opt/nvim-bufferline.lua"
-  },
   ["nvim-colorizer.lua"] = {
     config = { "\27LJ\2\nE\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\tinit\29akyrey.plugins.colorizer\frequire\0" },
     load_after = {
@@ -170,7 +146,7 @@ _G.packer_plugins = {
   ["nvim-compe"] = {
     after = { "nvim-autopairs" },
     after_files = { "/Users/akyrey/.local/share/nvim/site/pack/packer/opt/nvim-compe/after/plugin/compe.vim" },
-    config = { "\27LJ\2\nù\1\0\0\3\0\5\0\0166\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\0016\0\0\0'\2\3\0B\0\2\0029\0\2\0B\0\1\0016\0\0\0'\2\4\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\27akyrey.plugins.lspkind!akyrey.plugins.compe_tabnine\tinit\25akyrey.plugins.compe\frequire\0" },
+    config = { "\27LJ\2\nA\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\tinit\25akyrey.plugins.compe\frequire\0" },
     loaded = false,
     needs_bufread = false,
     path = "/Users/akyrey/.local/share/nvim/site/pack/packer/opt/nvim-compe",
@@ -184,13 +160,6 @@ _G.packer_plugins = {
   ["nvim-lspinstall"] = {
     loaded = true,
     path = "/Users/akyrey/.local/share/nvim/site/pack/packer/start/nvim-lspinstall"
-  },
-  ["nvim-tree.lua"] = {
-    commands = { "NvimTreeToggle" },
-    config = { "\27LJ\2\nD\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\tinit\28akyrey.plugins.nvimtree\frequire\0" },
-    loaded = false,
-    needs_bufread = false,
-    path = "/Users/akyrey/.local/share/nvim/site/pack/packer/opt/nvim-tree.lua"
   },
   ["nvim-treesitter"] = {
     after = { "todo-comments.nvim" },
@@ -207,15 +176,6 @@ _G.packer_plugins = {
   ["nvim-web-devicons"] = {
     loaded = true,
     path = "/Users/akyrey/.local/share/nvim/site/pack/packer/start/nvim-web-devicons"
-  },
-  ["package-info.nvim"] = {
-    config = { "\27LJ\2\nH\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\tinit akyrey.plugins.package-info\frequire\0" },
-    load_after = {
-      ["material.vim"] = true
-    },
-    loaded = false,
-    needs_bufread = false,
-    path = "/Users/akyrey/.local/share/nvim/site/pack/packer/opt/package-info.nvim"
   },
   ["packer.nvim"] = {
     after = { "material.vim" },
@@ -280,7 +240,6 @@ _G.packer_plugins = {
 time([[Defining packer_plugins]], false)
 local module_lazy_loads = {
   ["^harpoon"] = "harpoon",
-  lspsaga = "lspsaga.nvim",
   telescope = "telescope.nvim"
 }
 local lazy_load_called = {['packer.load'] = true}
@@ -320,21 +279,14 @@ time([[Config for nvim-lspconfig]], false)
 time([[Sequenced loading]], true)
 vim.cmd [[ packadd popup.nvim ]]
 time([[Sequenced loading]], false)
-
--- Command lazy-loads
-time([[Defining lazy-load commands]], true)
-pcall(vim.cmd, [[command! -nargs=* -range -bang -complete=file Lspsaga lua require("packer.load")({'lspsaga.nvim'}, { cmd = "Lspsaga", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args> }, _G.packer_plugins)]])
-pcall(vim.cmd, [[command! -nargs=* -range -bang -complete=file NvimTreeToggle lua require("packer.load")({'nvim-tree.lua'}, { cmd = "NvimTreeToggle", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args> }, _G.packer_plugins)]])
-time([[Defining lazy-load commands]], false)
-
 vim.cmd [[augroup packer_load_aucmds]]
 vim.cmd [[au!]]
   -- Event lazy-loads
 time([[Defining lazy-load event autocommands]], true)
-vim.cmd [[au VimEnter * ++once lua require("packer.load")({'packer.nvim'}, { event = "VimEnter *" }, _G.packer_plugins)]]
+vim.cmd [[au InsertCharPre * ++once lua require("packer.load")({'LuaSnip', 'friendly-snippets'}, { event = "InsertCharPre *" }, _G.packer_plugins)]]
+vim.cmd [[au BufRead * ++once lua require("packer.load")({'vim-commentary', 'vim-fugitive', 'nvim-treesitter', 'nvim-treesitter-context', 'gitsigns.nvim'}, { event = "BufRead *" }, _G.packer_plugins)]]
 vim.cmd [[au InsertEnter * ++once lua require("packer.load")({'nvim-compe'}, { event = "InsertEnter *" }, _G.packer_plugins)]]
-vim.cmd [[au BufRead * ++once lua require("packer.load")({'vim-commentary', 'nvim-treesitter', 'gitsigns.nvim', 'nvim-treesitter-context', 'vim-fugitive'}, { event = "BufRead *" }, _G.packer_plugins)]]
-vim.cmd [[au InsertCharPre * ++once lua require("packer.load")({'friendly-snippets', 'LuaSnip'}, { event = "InsertCharPre *" }, _G.packer_plugins)]]
+vim.cmd [[au VimEnter * ++once lua require("packer.load")({'packer.nvim'}, { event = "VimEnter *" }, _G.packer_plugins)]]
 time([[Defining lazy-load event autocommands]], false)
 vim.cmd("augroup END")
 if should_profile then save_profiles() end

@@ -81,25 +81,25 @@ local function packer_startup()
       require'akyrey.plugins.lualine'.init()
     end
   }
-  use {
-    'akinsho/nvim-bufferline.lua',
-    after = 'material.vim',
-    config = function()
-      require 'akyrey.plugins.bufferline'.init()
-    end
-  }
-  -- Tree directory structure
-  use {
-    'kyazdani42/nvim-tree.lua',
-    requires = {
-      'kyazdani42/nvim-web-devicons'
-    },
-    cmd = 'NvimTreeToggle',
-    config = function()
-      require 'akyrey.plugins.nvimtree'.init()
-    end
-  }
-  -- Provides common configuration for various lsp servers
+  -- use {
+  --   'akinsho/nvim-bufferline.lua',
+  --   after = 'material.vim',
+  --   config = function()
+  --     require 'akyrey.plugins.bufferline'.init()
+  --   end
+  -- }
+  -- -- Tree directory structure
+  -- use {
+  --   'kyazdani42/nvim-tree.lua',
+  --   requires = {
+  --     'kyazdani42/nvim-web-devicons'
+  --   },
+  --   cmd = 'NvimTreeToggle',
+  --   config = function()
+  --     require 'akyrey.plugins.nvimtree'.init()
+  --   end
+  -- }
+  -- -- Provides common configuration for various lsp servers
   use {
     'kabouzeid/nvim-lspinstall',
   }
@@ -115,20 +115,20 @@ local function packer_startup()
       require'akyrey.plugins.lspconfig'.init()
     end
   }
-  -- Floating window with a lot of lsp functions (loaded only if required)
-  use {
-    'glepnir/lspsaga.nvim',
-    requires = {
-      'neovim/nvim-lspconfig',
-    },
-    cmd = 'Lspsaga',
-    module_pattern = {
-      'lspsaga',
-    },
-    config = function ()
-      require 'akyrey.plugins.lspsaga'.init()
-    end
-  }
+  -- -- Floating window with a lot of lsp functions (loaded only if required)
+  -- use {
+  --   'glepnir/lspsaga.nvim',
+  --   requires = {
+  --     'neovim/nvim-lspconfig',
+  --   },
+  --   cmd = 'Lspsaga',
+  --   module_pattern = {
+  --     'lspsaga',
+  --   },
+  --   config = function ()
+  --     require 'akyrey.plugins.lspsaga'.init()
+  --   end
+  -- }
   -- Parser generator and parsing library
   use {
     'nvim-treesitter/nvim-treesitter',
@@ -168,10 +168,10 @@ local function packer_startup()
   use {
     'hrsh7th/nvim-compe',
     requires = {
-      {
-        'erkrnt/compe-tabnine',
-        run = './install.sh',
-      },
+      --    {
+      --      'erkrnt/compe-tabnine',
+      --      run = './install.sh',
+      --    },
       {
         'L3MON4D3/LuaSnip',
         wants = 'friendly-snippets',
@@ -184,16 +184,16 @@ local function packer_startup()
         'rafamadriz/friendly-snippets',
         event = 'InsertCharPre'
       },
-      {
-        'onsails/lspkind-nvim',
-      }
+      --    {
+      --      'onsails/lspkind-nvim',
+      --    }
     },
     event = 'InsertEnter',
     wants = 'LuaSnip',
     config = function ()
       require'akyrey.plugins.compe'.init()
-      require'akyrey.plugins.compe_tabnine'.init()
-      require'akyrey.plugins.lspkind'.init()
+      --    require'akyrey.plugins.compe_tabnine'.init()
+      -- require'akyrey.plugins.lspkind'.init()
     end
   }
   -- Fuzzy finder over list
@@ -262,14 +262,14 @@ local function packer_startup()
     'wakatime/vim-wakatime',
     after = 'material.vim',
   }
-  -- Display packages versions available for npm
-  use {
-    'vuki656/package-info.nvim',
-    after = 'material.vim',
-    config = function ()
-      require'akyrey.plugins.package-info'.init()
-    end
-  }
+  -- -- Display packages versions available for npm
+  -- use {
+  --   'vuki656/package-info.nvim',
+  --   after = 'material.vim',
+  --   config = function ()
+  --     require'akyrey.plugins.package-info'.init()
+  --   end
+  -- }
 end
 
 local function init()
