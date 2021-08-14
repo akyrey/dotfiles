@@ -3,17 +3,17 @@
 if [[ $# -eq 1 ]]; then
     selected=$1
 else
-    items=`find ~/work -maxdepth 1 -mindepth 1 -type d`
-    items+=`find ~/personal -maxdepth 1 -mindepth 1 -type d`
-    items+=("$HOME/personal")
-    items+=("$HOME/work")
-    items+=("$HOME/.dotfiles")
+    items="`find ~/work -maxdepth 1 -mindepth 1 -type d`
+`find ~/personal -maxdepth 1 -mindepth 1 -type d`
+$HOME/personal
+$HOME/work
+$HOME/.dotfiles"
     selected=`echo "$items" | fzf`
 fi
 
-tmux_session_name=`basename $selected | tr . _`
+if [[ ! -z "$selected" ]]; then
+  tmux_session_name=`basename $selected | tr . _`
 
-if [[ ! -z "$tmux_session_name" ]]; then
   tmux switch-client -t $tmux_session_name
   if [[ $? -eq 0 ]]; then
       exit 0
