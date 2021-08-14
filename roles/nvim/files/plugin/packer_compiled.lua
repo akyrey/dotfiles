@@ -116,7 +116,7 @@ _G.packer_plugins = {
     path = "/Users/akyrey/.local/share/nvim/site/pack/packer/opt/lualine.nvim"
   },
   ["material.vim"] = {
-    after = { "nvim-colorizer.lua", "vim-wakatime", "lualine.nvim" },
+    after = { "lualine.nvim", "nvim-colorizer.lua", "vim-wakatime" },
     config = { "\27LJ\2\nD\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\tinit\28akyrey.plugins.material\frequire\0" },
     load_after = {
       ["packer.nvim"] = true
@@ -283,10 +283,10 @@ vim.cmd [[augroup packer_load_aucmds]]
 vim.cmd [[au!]]
   -- Event lazy-loads
 time([[Defining lazy-load event autocommands]], true)
-vim.cmd [[au InsertCharPre * ++once lua require("packer.load")({'LuaSnip', 'friendly-snippets'}, { event = "InsertCharPre *" }, _G.packer_plugins)]]
-vim.cmd [[au BufRead * ++once lua require("packer.load")({'vim-commentary', 'vim-fugitive', 'nvim-treesitter', 'nvim-treesitter-context', 'gitsigns.nvim'}, { event = "BufRead *" }, _G.packer_plugins)]]
 vim.cmd [[au InsertEnter * ++once lua require("packer.load")({'nvim-compe'}, { event = "InsertEnter *" }, _G.packer_plugins)]]
+vim.cmd [[au InsertCharPre * ++once lua require("packer.load")({'friendly-snippets', 'LuaSnip'}, { event = "InsertCharPre *" }, _G.packer_plugins)]]
 vim.cmd [[au VimEnter * ++once lua require("packer.load")({'packer.nvim'}, { event = "VimEnter *" }, _G.packer_plugins)]]
+vim.cmd [[au BufRead * ++once lua require("packer.load")({'nvim-treesitter', 'vim-commentary', 'nvim-treesitter-context', 'gitsigns.nvim', 'vim-fugitive'}, { event = "BufRead *" }, _G.packer_plugins)]]
 time([[Defining lazy-load event autocommands]], false)
 vim.cmd("augroup END")
 if should_profile then save_profiles() end

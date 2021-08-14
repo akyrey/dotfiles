@@ -132,6 +132,7 @@ local function packer_startup()
   -- Parser generator and parsing library
   use {
     'nvim-treesitter/nvim-treesitter',
+    branch = "0.5-compat",
     run = ':TSUpdate',
     event = 'BufRead',
     config = function ()
