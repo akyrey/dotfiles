@@ -20,6 +20,16 @@ local mode_adapters = {
   command_mode = "c",
 }
 
+-- Append key mappings to lunarvim's defaults for a given mode
+-- @param keymaps The table of key mappings containing a list per mode (normal_mode, insert_mode, ..)
+M.append_to_defaults = function(keymaps)
+  for mode, mappings in pairs(keymaps) do
+    for k, v in ipairs(mappings) do
+      akyrey.keys[mode][k] = v
+    end
+  end
+end
+
 -- Set key mappings individually
 -- @param mode The keymap mode, can be one of the keys of mode_adapters
 -- @param key The key of keymap
@@ -142,7 +152,7 @@ M.config = function()
       -- ------------------- --
       --    Git Fugitive     --
       -- ------------------- --
-      ["<leader>vs"] = "<CMD>G<CR>",
+      ["<leader>vl"] = "<CMD>G<CR>",
       ["<leader>vg"] = "<CMD>diffget //2<CR>",
       ["<leader>vh"] = "<CMD>diffget //3<CR>",
     },
