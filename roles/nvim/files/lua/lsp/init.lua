@@ -1,6 +1,16 @@
 local M = {}
 local Log = require "core.log"
 
+-- Global organize imports command
+_G.lsp_organize_imports = function()
+    local params = {
+        command = "_typescript.organizeImports",
+        arguments = {vim.api.nvim_buf_get_name(0)},
+        title = ""
+    }
+    vim.lsp.buf.execute_command(params)
+end
+
 M.config = function()
   vim.lsp.protocol.CompletionItemKind = akyrey.lsp.completion.item_kind
 
