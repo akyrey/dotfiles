@@ -65,8 +65,8 @@ local function add_lsp_buffer_keybindings(bufnr)
       "<cmd>lua vim.lsp.diagnostic.show_line_diagnostics({ show_header = false, border = 'single' })<CR>",
       "Show line diagnostics",
     },
-    ["<leader>go"] = { "<cmd>lua lsp_organize_imports()<CR>"},
-    ["<C-p>"] = { "<cmd>lua vim.lsp.buf.formatting()<CR>" }
+    ["<leader>go"] = { "<cmd>lua lsp_organize_imports()<CR>", "Organize imports" },
+    ["<C-p>"] = { "<cmd>lua vim.lsp.buf.formatting()<CR>", "Format code" }
   }
   wk.register(keys, { mode = "n", buffer = bufnr })
 end

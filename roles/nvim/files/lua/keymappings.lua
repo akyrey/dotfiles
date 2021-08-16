@@ -111,6 +111,7 @@ M.config = function()
       -- ------------------- --
       ["<leader>dc"] = "<CMD>Ex<CR>",
       ["<leader>dt"] = "<CMD>NvimTreeToggle<CR>",
+      ["<leader>u"] = "<CMD>UndotreeToggle<CR>",
       -- ------------------- --
       --        Harpoon      --
       -- ------------------- --

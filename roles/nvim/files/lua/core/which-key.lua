@@ -103,11 +103,11 @@ M.config = function()
       -- " Debug Adapter protocol:
       -- "   https://microsoft.github.io/debug-adapter-protocol/
       -- " Debugging
-      g = {
+      v = {
         name = "Git",
         j = { "<cmd>lua require 'gitsigns'.next_hunk()<cr>", "Next Hunk" },
         k = { "<cmd>lua require 'gitsigns'.prev_hunk()<cr>", "Prev Hunk" },
-        l = { "<cmd>lua require 'gitsigns'.blame_line()<cr>", "Blame" },
+        b = { "<cmd>lua require 'gitsigns'.blame_line()<cr>", "Blame" },
         p = { "<cmd>lua require 'gitsigns'.preview_hunk()<cr>", "Preview Hunk" },
         r = { "<cmd>lua require 'gitsigns'.reset_hunk()<cr>", "Reset Hunk" },
         R = { "<cmd>lua require 'gitsigns'.reset_buffer()<cr>", "Reset Buffer" },
@@ -117,15 +117,15 @@ M.config = function()
           "Undo Stage Hunk",
         },
         o = { "<cmd>Telescope git_status<cr>", "Open changed file" },
-        b = { "<cmd>Telescope git_branches<cr>", "Checkout branch" },
-        c = { "<cmd>Telescope git_commits<cr>", "Checkout commit" },
+        c = { "<cmd>Telescope git_branches<cr>", "Checkout branch" },
+        g = { "<cmd>Telescope git_commits<cr>", "Checkout commit" },
         C = {
           "<cmd>Telescope git_bcommits<cr>",
           "Checkout commit(for current file)",
         },
       },
 
-      l = {
+      g = {
         name = "LSP",
         a = { "<cmd>lua vim.lsp.buf.code_action()<cr>", "Code Action" },
         d = {
@@ -161,32 +161,32 @@ M.config = function()
           "Workspace Symbols",
         },
       },
-      L = {
-        name = "+LunarVim",
+      A = {
+        name = "+Akyrey",
         c = {
-          "<cmd>edit ~/.config/nvim/config.lua<cr>",
+          "<cmd>edit ~/.config/nvim/lua/config.lua<cr>",
           "Edit config.lua",
         },
         f = {
-          "<cmd>lua require('core.telescope').find_lunarvim_files()<cr>",
-          "Find LunarVim files",
+          "<cmd>lua require('core.telescope').find_config_files()<cr>",
+          "Find Config files",
         },
         g = {
-          "<cmd>lua require('core.telescope').grep_lunarvim_files()<cr>",
-          "Grep LunarVim files",
+          "<cmd>lua require('core.telescope').grep_config_files()<cr>",
+          "Grep Config files",
         },
-        k = { "<cmd>lua require('keymappings').print()<cr>", "View LunarVim's default keymappings" },
+        k = { "<cmd>lua require('keymappings').print()<cr>", "View Akyrey's default keymappings" },
         i = {
           "<cmd>lua require('core.info').toggle_popup(vim.bo.filetype)<cr>",
-          "Toggle LunarVim Info",
+          "Toggle Akyrey Info",
         },
         l = {
           name = "+logs",
           d = {
-            "<cmd>lua require('core.terminal').toggle_log_view('lunarvim')<cr>",
+            "<cmd>lua require('core.terminal').toggle_log_view('akyrey')<cr>",
             "view default log",
           },
-          D = { "<cmd>edit ~/.cache/nvim/lunarvim.log<cr>", "Open the default logfile" },
+          D = { "<cmd>edit ~/.cache/nvim/akyrey.log<cr>", "Open the default logfile" },
           n = { "<cmd>lua require('core.terminal').toggle_log_view('lsp')<cr>", "view lsp log" },
           N = { "<cmd>edit ~/.cache/nvim/log<cr>", "Open the Neovim logfile" },
           l = { "<cmd>lua require('core.terminal').toggle_log_view('nvim')<cr>", "view neovim log" },
