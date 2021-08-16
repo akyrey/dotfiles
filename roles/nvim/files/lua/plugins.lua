@@ -126,6 +126,18 @@ return {
       end
     end
   },
+  -- Bufferline
+  {
+    "romgrk/barbar.nvim",
+    config = function()
+      require("core.bufferline").setup()
+      if akyrey.builtin.bufferline.on_config_done then
+        akyrey.builtin.bufferline.on_config_done()
+      end
+    end,
+    event = "BufWinEnter",
+    disable = not akyrey.builtin.bufferline.active,
+  },
 
   -- Icons
   { "kyazdani42/nvim-web-devicons" },
@@ -140,6 +152,11 @@ return {
         akyrey.builtin.nvimtree.on_config_done(require "nvim-tree.config")
       end
     end,
+  },
+  -- Display undo history as a tree
+  {
+    "mbbill/undotree",
+    cmd = "UndotreeToggle",
   },
   -- Comment multiple lines
   {
