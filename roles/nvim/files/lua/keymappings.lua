@@ -156,6 +156,10 @@ M.config = function()
       ["<leader>vl"] = "<CMD>G<CR>",
       ["<leader>vg"] = "<CMD>diffget //2<CR>",
       ["<leader>vh"] = "<CMD>diffget //3<CR>",
+      -- ------------------- --
+      --     Refactoring     --
+      -- ------------------- --
+      ["<leader>r"] = "<CMD>lua require('core.refactoring').refactors()<CR>",
     },
 
     ---@usage change or add keymappings for terminal mode

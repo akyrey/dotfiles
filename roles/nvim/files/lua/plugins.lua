@@ -81,6 +81,17 @@ return {
   },
   { "romgrk/nvim-treesitter-context" },
 
+  {
+    "ThePrimeagen/refactoring.nvim",
+    event = "BufRead",
+    config = function ()
+      require("core.refactoring").setup()
+      if akyrey.builtin.refactoring.on_config_done then
+        akyrey.builtin.refactoring.on_config_done(require "refactoring")
+      end
+    end
+  },
+
   -- Git related
   { "tpope/vim-fugitive" },
   { "junegunn/gv.vim" },
