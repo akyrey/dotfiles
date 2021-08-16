@@ -29,19 +29,12 @@ akyrey.lang = {
     formatters = {
       {
         exe = "eslint_d",
+        args = { "-f", "json", "--stdin", "--stdin-filename", "$FILENAME" },
       },
       {
-        exe = "prettier",
-        args = {},
+        exe = "prettierd",
+        args = { "$FILENAME" },
       },
-      -- {
-      --   exe = "prettierd",
-      --   args = {},
-      -- },
-      -- {
-      --   exe = "prettier_d_slim",
-      --   args = {},
-      -- },
     },
     linters = {},
     lsp = {
@@ -160,13 +153,9 @@ akyrey.lang = {
   css = {
     formatters = {
       {
-        exe = "prettier",
-        args = {},
+        exe = "prettierd",
+        args = { "$FILENAME" },
       },
-      -- {
-      --   exe = "prettierd",
-      --   args = {},
-      -- },
     },
     linters = {},
     lsp = {
@@ -185,14 +174,10 @@ akyrey.lang = {
   },
   less = {
     formatters = {
-      -- {
-      --   exe = "prettier",
-      --   args = {},
-      -- },
-      -- {
-      --   exe = "prettierd",
-      --   args = {},
-      -- },
+      {
+        exe = "prettierd",
+        args = { "$FILENAME" },
+      },
     },
     linters = {},
     lsp = {
@@ -323,19 +308,17 @@ akyrey.lang = {
     formatters = {
       {
         exe = "eslint_d",
+        args = { "-f", "json", "--stdin", "--stdin-filename", "$FILENAME" },
       },
       {
-        exe = "prettier",
-        args = {},
+        exe = "prettierd",
+        args = { "$FILENAME" },
       },
-      -- {
-      --   exe = "prettierd",
-      --   args = {},
-      -- },
     },
     linters = {
       {
         exe = "eslint_d",
+        args = { "-f", "json", "--stdin", "--stdin-filename", "$FILENAME" },
       },
     },
     lsp = {
@@ -376,18 +359,10 @@ akyrey.lang = {
   },
   json = {
     formatters = {
-      -- {
-      --   exe = "json_tool",
-      --   args = {},
-      -- },
-      -- {
-      --   exe = "prettier",
-      --   args = {},
-      -- },
-      -- {
-      --   exe = "prettierd",
-      --   args = {},
-      -- },
+      {
+        exe = "prettierd",
+        args = { "$FILENAME" },
+      },
     },
     linters = {},
     lsp = {
@@ -562,24 +537,18 @@ akyrey.lang = {
     formatters = {
       {
         exe = "eslint_d",
+        args = { "-f", "json", "--stdin", "--stdin-filename", "$FILENAME" },
       },
       {
-        exe = "prettier",
-        args = {},
+        exe = "prettierd",
+        args = { "$FILENAME" },
       },
-      -- {
-      --   exe = "prettier_d_slim",
-      --   args = {},
-      -- },
-      -- {
-      --   exe = "prettierd",
-      --   args = {},
-      -- },
     },
     -- @usage can be {"eslint"} or {"eslint_d"}
     linters = {
       {
         exe = "eslint_d",
+        args = { "-f", "json", "--stdin", "--stdin-filename", "$FILENAME" },
       },
     },
     lsp = {
@@ -600,23 +569,17 @@ akyrey.lang = {
     formatters = {
       {
         exe = "eslint_d",
+        args = { "-f", "json", "--stdin", "--stdin-filename", "$FILENAME" },
       },
       {
-        exe = "prettier",
-        args = {},
+        exe = "prettierd",
+        args = { "$FILENAME" },
       },
-      -- {
-      --   exe = "prettier_d_slim",
-      --   args = {},
-      -- },
-      -- {
-      --   exe = "prettierd",
-      --   args = {},
-      -- },
     },
     linters = {
       {
         exe = "eslint_d",
+        args = { "-f", "json", "--stdin", "--stdin-filename", "$FILENAME" },
       },
     },
     lsp = {
@@ -736,22 +699,17 @@ akyrey.lang = {
     formatters = {
       {
         exe = "eslint_d",
+        args = { "-f", "json", "--stdin", "--stdin-filename", "$FILENAME" },
       },
       {
-        exe = "prettier",
+        exe = "prettierd",
+        args = { "$FILENAME" },
       },
-      -- {
-      --   exe = "prettierd",
-      --   args = {},
-      -- },
-      -- {
-      --   exe = "prettier_d_slim",
-      --   args = {},
-      -- },
     },
     linters = {
       {
         exe = "eslint_d",
+        args = { "-f", "json", "--stdin", "--stdin-filename", "$FILENAME" },
       },
     },
     lsp = {
@@ -772,24 +730,18 @@ akyrey.lang = {
     formatters = {
       {
         exe = "eslint_d",
+        args = { "-f", "json", "--stdin", "--stdin-filename", "$FILENAME" },
       },
       {
-        exe = "prettier",
-        args = {},
+        exe = "prettierd",
+        args = { "$FILENAME" },
       },
-      -- {
-      --   exe = "prettierd",
-      --   args = {},
-      -- },
-      -- {
-      --   exe = "prettier_d_slim",
-      --   args = {},
-      -- },
     },
     -- @usage can be {"eslint"} or {"eslint_d"}
     linters = {
       {
         exe = "eslint_d",
+        args = { "-f", "json", "--stdin", "--stdin-filename", "$FILENAME" },
       },
     },
     lsp = {
