@@ -84,17 +84,11 @@ end
 M.find_config_files = function(opts)
   opts = opts or {}
   local themes = require "telescope.themes"
-  local theme_opts = themes.get_ivy {
-    previewer = false,
+  local theme_opts = themes.get_dropdown {
     sorting_strategy = "ascending",
-    layout_strategy = "bottom_pane",
-    layout_config = {
-      height = 5,
-      width = 0.5,
-    },
     prompt = ">> ",
     prompt_title = "~ Config files ~",
-    cwd = CONFIG_PATH,
+    cwd = "~/.config/nvim",
     find_command = { "git", "ls-files" },
   }
   opts = vim.tbl_deep_extend("force", theme_opts, opts)
@@ -104,12 +98,11 @@ end
 M.grep_config_files = function(opts)
   opts = opts or {}
   local themes = require "telescope.themes"
-  local theme_opts = themes.get_ivy {
+  local theme_opts = themes.get_dropdown {
     sorting_strategy = "ascending",
-    layout_strategy = "bottom_pane",
     prompt = ">> ",
     prompt_title = "~ search Config ~",
-    cwd = CONFIG_PATH,
+    cwd = "~/.config/nvim",
   }
   opts = vim.tbl_deep_extend("force", theme_opts, opts)
   require("telescope.builtin").live_grep(opts)
