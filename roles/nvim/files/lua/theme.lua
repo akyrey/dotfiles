@@ -2,8 +2,7 @@ local M = {}
 
 M.setup = function()
   local cmd = vim.cmd
-  vim.g.material_style = 'darker'
-  cmd("colorscheme material")
+  cmd("colorscheme gruvbox")
   cmd("highlight Normal guibg=none")
   cmd("highlight NonText guibg=none")
 

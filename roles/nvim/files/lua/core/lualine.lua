@@ -5,7 +5,7 @@ M.config = function()
   akyrey.builtin.lualine = {
     options = {
       extensions = { 'fugitive', 'quickfix' },
-      theme = 'material-nvim'
+      theme = 'gruvbox',
     }
   }
 end

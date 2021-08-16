@@ -104,8 +104,8 @@ return {
     end
   },
 
-  -- Install Material color theme
-  { "marko-cerovac/material.nvim" },
+  -- Install Gruvbox color theme
+  { "morhetz/gruvbox" },
   -- Color highlighter
   {
     "norcalli/nvim-colorizer.lua",
