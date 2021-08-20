@@ -69,7 +69,8 @@ local function add_lsp_buffer_keybindings(bufnr)
     ["<leader>gD"] = { "<cmd>lua vim.lsp.buf.declaration()<CR>", "Goto declaration" },
     ["<leader>gr"] = { "<cmd>lua vim.lsp.buf.references()<CR>", "Goto references" },
     ["<leader>gi"] = { "<cmd>lua vim.lsp.buf.implementation()<CR>", "Goto implementation" },
-    ["<leader>gs"] = { "<cmd>lua vim.lsp.buf.signature_help()<CR>", "show signature help" },
+    ["<leader>gs"] = { "<cmd>lua vim.lsp.buf.signature_help()<CR>", "Show signature help" },
+    ["<leader>gc"] = { "<cmd>lua vim.lsp.buf.rename()<CR>", "Rename references" },
     ["<leader>gp"] = { "<cmd>lua require'lsp.peek'.Peek('definition')<CR>", "Peek definition" },
     ["<leader>gl"] = {
       "<cmd>lua vim.lsp.diagnostic.show_line_diagnostics({ show_header = false, border = 'single' })<CR>",
