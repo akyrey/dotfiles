@@ -98,6 +98,7 @@ M.config = function()
       -- ------------------- --
       --      Navigation     --
       -- ------------------- --
+      ["<C-q>"] = "<CMD>call QuickFixToggle()<CR>",
       -- Go to next occurence in local quickfix list
       ["<leader>nk"] = "<CMD>lua require('utils').navigate_QF(false)<CR>zz",
       -- Go to previous occurence in local quickfix list
