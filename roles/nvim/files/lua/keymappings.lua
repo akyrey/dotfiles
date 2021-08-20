@@ -99,9 +99,9 @@ M.config = function()
       --      Navigation     --
       -- ------------------- --
       -- Go to next occurence in local quickfix list
-      ["<leader>nk"] = "<CMD>lua require('utils').navigate_QF(true)<CR>zz",
+      ["<leader>nk"] = "<CMD>lua require('utils').navigate_QF(false)<CR>zz",
       -- Go to previous occurence in local quickfix list
-      ["<leader>nj"] = "<CMD>lua require('utils').navigate_QF(false)<CR>zz",
+      ["<leader>nj"] = "<CMD>lua require('utils').navigate_QF(true)<CR>zz",
       -- Open global quickfix list
       ["<leader>nq"] = "<CMD>lua require('utils').toggle_global_or_local_QF()<CR>",
       -- Open local quickfix list
