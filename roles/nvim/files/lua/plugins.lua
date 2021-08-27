@@ -38,19 +38,26 @@ return {
   -- Completions & Snippets
   -- Auto completion and snippets
   {
-    "hrsh7th/nvim-compe",
-    event = "InsertEnter",
+    "hrsh7th/nvim-cmp",
     config = function ()
-      require("core.compe").setup()
-      if akyrey.builtin.compe.on_config_done then
-        akyrey.builtin.compe.on_config_done(require "compe")
+      require("core.cmp").setup()
+      if akyrey.builtin.cmp.on_config_done then
+        akyrey.builtin.cmp.on_config_done(require "cmp")
       end
     end
   },
+  { "onsails/lspkind-nvim" },
+  { "hrsh7th/cmp-buffer" },
+  { "hrsh7th/cmp-nvim-lua" },
+  { "hrsh7th/cmp-nvim-lsp" },
+  { "hrsh7th/cmp-path" },
+  { "f3fora/cmp-spell" },
   {
-    "L3MON4D3/LuaSnip",
-    event = "InsertEnter",
+    "tzachar/cmp-tabnine",
+    run = "./install.sh",
   },
+  { "saadparwaiz1/cmp_luasnip" },
+  { "L3MON4D3/LuaSnip" },
   {
     "rafamadriz/friendly-snippets",
     event = "InsertCharPre"
@@ -58,9 +65,8 @@ return {
   -- Automatically insert pairs
   {
     "windwp/nvim-autopairs",
-    after = "nvim-compe",
     config = function ()
-      require "core.autopairs"
+      --require "core.autopairs"
       if akyrey.builtin.autopairs.on_config_done then
         akyrey.builtin.autopairs.on_config_done(require "nvim-autopairs")
       end

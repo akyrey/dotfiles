@@ -20,7 +20,7 @@ akyrey = {
     autopairs = {},
     bufferline = {},
     colorizer = {},
-    compe = {},
+    cmp = {},
     dap = {},
     git_worktree = {},
     gitsigns = {},
@@ -121,7 +121,7 @@ require("keymappings").config()
 require("core.which-key").config()
 require "core.status_colors"
 require("core.gitsigns").config()
-require("core.compe").config()
+require("core.cmp").config()
 require("core.colorizer").config()
 require("core.git-worktree").config()
 require("core.lualine").config()
