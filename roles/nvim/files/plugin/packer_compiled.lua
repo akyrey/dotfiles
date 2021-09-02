@@ -70,11 +70,42 @@ time([[try_loadstring definition]], false)
 time([[Defining packer_plugins]], true)
 _G.packer_plugins = {
   LuaSnip = {
-    config = { "\27LJ\2\nC\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\tinit\27akyrey.plugins.luasnip\frequire\0" },
+    loaded = true,
+    path = "/Users/akyrey/.local/share/nvim/site/pack/packer/start/LuaSnip"
+  },
+  ["barbar.nvim"] = {
+    config = { "\27LJ\2\ní\1\0\0\3\0\a\0\0176\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\0016\0\3\0009\0\4\0009\0\5\0009\0\6\0\15\0\0\0X\1\5Ä6\0\3\0009\0\4\0009\0\5\0009\0\6\0B\0\1\1K\0\1\0\19on_config_done\15bufferline\fbuiltin\vakyrey\nsetup\20core.bufferline\frequire\0" },
     loaded = false,
     needs_bufread = false,
-    path = "/Users/akyrey/.local/share/nvim/site/pack/packer/opt/LuaSnip",
-    wants = { "friendly-snippets" }
+    path = "/Users/akyrey/.local/share/nvim/site/pack/packer/opt/barbar.nvim"
+  },
+  ["cmp-buffer"] = {
+    loaded = true,
+    path = "/Users/akyrey/.local/share/nvim/site/pack/packer/start/cmp-buffer"
+  },
+  ["cmp-nvim-lsp"] = {
+    loaded = true,
+    path = "/Users/akyrey/.local/share/nvim/site/pack/packer/start/cmp-nvim-lsp"
+  },
+  ["cmp-nvim-lua"] = {
+    loaded = true,
+    path = "/Users/akyrey/.local/share/nvim/site/pack/packer/start/cmp-nvim-lua"
+  },
+  ["cmp-path"] = {
+    loaded = true,
+    path = "/Users/akyrey/.local/share/nvim/site/pack/packer/start/cmp-path"
+  },
+  ["cmp-spell"] = {
+    loaded = true,
+    path = "/Users/akyrey/.local/share/nvim/site/pack/packer/start/cmp-spell"
+  },
+  ["cmp-tabnine"] = {
+    loaded = true,
+    path = "/Users/akyrey/.local/share/nvim/site/pack/packer/start/cmp-tabnine"
+  },
+  cmp_luasnip = {
+    loaded = true,
+    path = "/Users/akyrey/.local/share/nvim/site/pack/packer/start/cmp_luasnip"
   },
   ["friendly-snippets"] = {
     loaded = false,
@@ -82,139 +113,127 @@ _G.packer_plugins = {
     path = "/Users/akyrey/.local/share/nvim/site/pack/packer/opt/friendly-snippets"
   },
   ["git-worktree.nvim"] = {
-    config = { "\27LJ\2\nH\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\tinit akyrey.plugins.git-worktree\frequire\0" },
+    config = { "\27LJ\2\nØ\1\0\0\5\0\b\0\0206\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\0016\0\3\0009\0\4\0009\0\5\0009\0\6\0\15\0\0\0X\1\bÄ6\0\3\0009\0\4\0009\0\5\0009\0\6\0006\2\0\0'\4\a\0B\2\2\0A\0\0\1K\0\1\0\17git-worktree\19on_config_done\17git_worktree\fbuiltin\vakyrey\nsetup\22core.git-worktree\frequire\0" },
     loaded = true,
     path = "/Users/akyrey/.local/share/nvim/site/pack/packer/start/git-worktree.nvim"
   },
   ["gitsigns.nvim"] = {
-    config = { "\27LJ\2\nD\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\tinit\28akyrey.plugins.gitsigns\frequire\0" },
+    config = { "\27LJ\2\nö\1\0\0\5\0\a\0\0206\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\0016\0\3\0009\0\4\0009\0\5\0009\0\6\0\15\0\0\0X\1\bÄ6\0\3\0009\0\4\0009\0\5\0009\0\6\0006\2\0\0'\4\5\0B\2\2\0A\0\0\1K\0\1\0\19on_config_done\rgitsigns\fbuiltin\vakyrey\nsetup\18core.gitsigns\frequire\0" },
     loaded = false,
     needs_bufread = false,
     path = "/Users/akyrey/.local/share/nvim/site/pack/packer/opt/gitsigns.nvim"
   },
+  gruvbox = {
+    loaded = true,
+    path = "/Users/akyrey/.local/share/nvim/site/pack/packer/start/gruvbox"
+  },
   ["gv.vim"] = {
-    load_after = {
-      ["vim-fugitive"] = true
-    },
-    loaded = false,
-    needs_bufread = false,
-    path = "/Users/akyrey/.local/share/nvim/site/pack/packer/opt/gv.vim"
+    loaded = true,
+    path = "/Users/akyrey/.local/share/nvim/site/pack/packer/start/gv.vim"
   },
   harpoon = {
-    load_after = {},
-    loaded = false,
-    needs_bufread = false,
-    path = "/Users/akyrey/.local/share/nvim/site/pack/packer/opt/harpoon"
+    loaded = true,
+    path = "/Users/akyrey/.local/share/nvim/site/pack/packer/start/harpoon"
+  },
+  ["lspkind-nvim"] = {
+    loaded = true,
+    path = "/Users/akyrey/.local/share/nvim/site/pack/packer/start/lspkind-nvim"
   },
   ["lualine.nvim"] = {
-    config = { "\27LJ\2\nC\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\tinit\27akyrey.plugins.lualine\frequire\0" },
-    load_after = {
-      ["material.vim"] = true
-    },
-    loaded = false,
-    needs_bufread = false,
-    path = "/Users/akyrey/.local/share/nvim/site/pack/packer/opt/lualine.nvim"
+    config = { "\27LJ\2\nò\1\0\0\5\0\a\0\0206\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\0016\0\3\0009\0\4\0009\0\5\0009\0\6\0\15\0\0\0X\1\bÄ6\0\3\0009\0\4\0009\0\5\0009\0\6\0006\2\0\0'\4\5\0B\2\2\0A\0\0\1K\0\1\0\19on_config_done\flualine\fbuiltin\vakyrey\nsetup\17core.lualine\frequire\0" },
+    loaded = true,
+    path = "/Users/akyrey/.local/share/nvim/site/pack/packer/start/lualine.nvim"
   },
-  ["material.vim"] = {
-    after = { "lualine.nvim", "nvim-colorizer.lua", "vim-wakatime" },
-    config = { "\27LJ\2\nD\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\tinit\28akyrey.plugins.material\frequire\0" },
-    load_after = {
-      ["packer.nvim"] = true
-    },
-    loaded = false,
-    needs_bufread = false,
-    path = "/Users/akyrey/.local/share/nvim/site/pack/packer/opt/material.vim"
+  ["nlsp-settings.nvim"] = {
+    loaded = true,
+    path = "/Users/akyrey/.local/share/nvim/site/pack/packer/start/nlsp-settings.nvim"
+  },
+  ["null-ls.nvim"] = {
+    loaded = true,
+    path = "/Users/akyrey/.local/share/nvim/site/pack/packer/start/null-ls.nvim"
   },
   ["nvim-autopairs"] = {
-    config = { "\27LJ\2\nE\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\tinit\29akyrey.plugins.autopairs\frequire\0" },
-    load_after = {
-      ["nvim-compe"] = true
-    },
-    loaded = false,
-    needs_bufread = false,
-    path = "/Users/akyrey/.local/share/nvim/site/pack/packer/opt/nvim-autopairs"
+    config = { "\27LJ\2\nÇ\1\0\0\5\0\6\0\0156\0\0\0009\0\1\0009\0\2\0009\0\3\0\15\0\0\0X\1\bÄ6\0\0\0009\0\1\0009\0\2\0009\0\3\0006\2\4\0'\4\5\0B\2\2\0A\0\0\1K\0\1\0\19nvim-autopairs\frequire\19on_config_done\14autopairs\fbuiltin\vakyrey\0" },
+    loaded = true,
+    path = "/Users/akyrey/.local/share/nvim/site/pack/packer/start/nvim-autopairs"
+  },
+  ["nvim-cmp"] = {
+    config = { "\27LJ\2\nê\1\0\0\5\0\a\0\0206\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\0016\0\3\0009\0\4\0009\0\5\0009\0\6\0\15\0\0\0X\1\bÄ6\0\3\0009\0\4\0009\0\5\0009\0\6\0006\2\0\0'\4\5\0B\2\2\0A\0\0\1K\0\1\0\19on_config_done\bcmp\fbuiltin\vakyrey\nsetup\rcore.cmp\frequire\0" },
+    loaded = true,
+    path = "/Users/akyrey/.local/share/nvim/site/pack/packer/start/nvim-cmp"
   },
   ["nvim-colorizer.lua"] = {
-    config = { "\27LJ\2\nE\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\tinit\29akyrey.plugins.colorizer\frequire\0" },
-    load_after = {
-      ["material.vim"] = true
-    },
-    loaded = false,
-    needs_bufread = false,
-    path = "/Users/akyrey/.local/share/nvim/site/pack/packer/opt/nvim-colorizer.lua"
-  },
-  ["nvim-compe"] = {
-    after = { "nvim-autopairs" },
-    after_files = { "/Users/akyrey/.local/share/nvim/site/pack/packer/opt/nvim-compe/after/plugin/compe.vim" },
-    config = { "\27LJ\2\nA\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\tinit\25akyrey.plugins.compe\frequire\0" },
-    loaded = false,
-    needs_bufread = false,
-    path = "/Users/akyrey/.local/share/nvim/site/pack/packer/opt/nvim-compe",
-    wants = { "LuaSnip" }
+    config = { "\27LJ\2\nú\1\0\0\5\0\a\0\0206\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\0016\0\3\0009\0\4\0009\0\5\0009\0\6\0\15\0\0\0X\1\bÄ6\0\3\0009\0\4\0009\0\5\0009\0\6\0006\2\0\0'\4\5\0B\2\2\0A\0\0\1K\0\1\0\19on_config_done\14colorizer\fbuiltin\vakyrey\nsetup\19core.colorizer\frequire\0" },
+    loaded = true,
+    path = "/Users/akyrey/.local/share/nvim/site/pack/packer/start/nvim-colorizer.lua"
   },
   ["nvim-lspconfig"] = {
-    config = { "\27LJ\2\nE\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\tinit\29akyrey.plugins.lspconfig\frequire\0" },
     loaded = true,
     path = "/Users/akyrey/.local/share/nvim/site/pack/packer/start/nvim-lspconfig"
   },
   ["nvim-lspinstall"] = {
-    loaded = true,
-    path = "/Users/akyrey/.local/share/nvim/site/pack/packer/start/nvim-lspinstall"
-  },
-  ["nvim-treesitter"] = {
-    after = { "todo-comments.nvim" },
-    config = { "\27LJ\2\nF\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\tinit\30akyrey.plugins.treesitter\frequire\0" },
-    loaded = false,
-    needs_bufread = true,
-    path = "/Users/akyrey/.local/share/nvim/site/pack/packer/opt/nvim-treesitter"
-  },
-  ["nvim-treesitter-context"] = {
+    config = { "\27LJ\2\nÜ\1\0\0\4\0\6\0\0186\0\0\0'\2\1\0B\0\2\0029\1\2\0B\1\1\0016\1\3\0009\1\4\0019\1\1\0019\1\5\1\15\0\1\0X\2\6Ä6\1\3\0009\1\4\0019\1\1\0019\1\5\1\18\3\0\0B\1\2\1K\0\1\0\19on_config_done\fbuiltin\vakyrey\nsetup\15lspinstall\frequire\0" },
     loaded = false,
     needs_bufread = false,
-    path = "/Users/akyrey/.local/share/nvim/site/pack/packer/opt/nvim-treesitter-context"
+    path = "/Users/akyrey/.local/share/nvim/site/pack/packer/opt/nvim-lspinstall"
+  },
+  ["nvim-tree.lua"] = {
+    commands = { "NvimTreeToggle" },
+    config = { "\27LJ\2\n´\1\0\0\5\0\b\0\0206\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\0016\0\3\0009\0\4\0009\0\5\0009\0\6\0\15\0\0\0X\1\bÄ6\0\3\0009\0\4\0009\0\5\0009\0\6\0006\2\0\0'\4\a\0B\2\2\0A\0\0\1K\0\1\0\21nvim-tree.config\19on_config_done\rnvimtree\fbuiltin\vakyrey\nsetup\18core.nvimtree\frequire\0" },
+    loaded = false,
+    needs_bufread = false,
+    path = "/Users/akyrey/.local/share/nvim/site/pack/packer/opt/nvim-tree.lua"
+  },
+  ["nvim-treesitter"] = {
+    config = { "\27LJ\2\n∂\1\0\0\5\0\b\0\0206\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\0016\0\3\0009\0\4\0009\0\5\0009\0\6\0\15\0\0\0X\1\bÄ6\0\3\0009\0\4\0009\0\5\0009\0\6\0006\2\0\0'\4\a\0B\2\2\0A\0\0\1K\0\1\0\28nvim-treesitter.configs\19on_config_done\15treesitter\fbuiltin\vakyrey\nsetup\20core.treesitter\frequire\0" },
+    loaded = true,
+    path = "/Users/akyrey/.local/share/nvim/site/pack/packer/start/nvim-treesitter"
+  },
+  ["nvim-treesitter-context"] = {
+    loaded = true,
+    path = "/Users/akyrey/.local/share/nvim/site/pack/packer/start/nvim-treesitter-context"
   },
   ["nvim-web-devicons"] = {
     loaded = true,
     path = "/Users/akyrey/.local/share/nvim/site/pack/packer/start/nvim-web-devicons"
   },
   ["packer.nvim"] = {
-    after = { "material.vim" },
-    loaded = false,
-    needs_bufread = false,
-    path = "/Users/akyrey/.local/share/nvim/site/pack/packer/opt/packer.nvim"
+    loaded = true,
+    path = "/Users/akyrey/.local/share/nvim/site/pack/packer/start/packer.nvim"
   },
   ["plenary.nvim"] = {
     loaded = true,
     path = "/Users/akyrey/.local/share/nvim/site/pack/packer/start/plenary.nvim"
   },
   ["popup.nvim"] = {
-    after = { "harpoon" },
     loaded = true,
-    needs_bufread = false,
-    path = "/Users/akyrey/.local/share/nvim/site/pack/packer/opt/popup.nvim"
+    path = "/Users/akyrey/.local/share/nvim/site/pack/packer/start/popup.nvim"
   },
-  ["symbols-outline.nvim"] = {
-    loaded = true,
-    path = "/Users/akyrey/.local/share/nvim/site/pack/packer/start/symbols-outline.nvim"
+  ["refactoring.nvim"] = {
+    config = { "\27LJ\2\n†\1\0\0\5\0\a\0\0206\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\0016\0\3\0009\0\4\0009\0\5\0009\0\6\0\15\0\0\0X\1\bÄ6\0\3\0009\0\4\0009\0\5\0009\0\6\0006\2\0\0'\4\5\0B\2\2\0A\0\0\1K\0\1\0\19on_config_done\16refactoring\fbuiltin\vakyrey\nsetup\21core.refactoring\frequire\0" },
+    loaded = false,
+    needs_bufread = false,
+    path = "/Users/akyrey/.local/share/nvim/site/pack/packer/opt/refactoring.nvim"
   },
   ["telescope-fzy-native.nvim"] = {
     loaded = true,
     path = "/Users/akyrey/.local/share/nvim/site/pack/packer/start/telescope-fzy-native.nvim"
   },
   ["telescope.nvim"] = {
-    config = { "\27LJ\2\nE\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\tinit\29akyrey.plugins.telescope\frequire\0" },
-    loaded = false,
-    needs_bufread = false,
-    path = "/Users/akyrey/.local/share/nvim/site/pack/packer/opt/telescope.nvim"
+    config = { "\27LJ\2\nú\1\0\0\5\0\a\0\0206\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\0016\0\3\0009\0\4\0009\0\5\0009\0\6\0\15\0\0\0X\1\bÄ6\0\3\0009\0\4\0009\0\5\0009\0\6\0006\2\0\0'\4\5\0B\2\2\0A\0\0\1K\0\1\0\19on_config_done\14telescope\fbuiltin\vakyrey\nsetup\19core.telescope\frequire\0" },
+    loaded = true,
+    path = "/Users/akyrey/.local/share/nvim/site/pack/packer/start/telescope.nvim"
   },
   ["todo-comments.nvim"] = {
-    config = { "\27LJ\2\nI\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\tinit!akyrey.plugins.todo-comments\frequire\0" },
-    load_after = {
-      ["nvim-treesitter"] = true
-    },
+    config = { "\27LJ\2\n≤\1\0\0\5\0\b\0\0206\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\0016\0\3\0009\0\4\0009\0\5\0009\0\6\0\15\0\0\0X\1\bÄ6\0\3\0009\0\4\0009\0\5\0009\0\6\0006\2\0\0'\4\a\0B\2\2\0A\0\0\1K\0\1\0\18todo-comments\19on_config_done\18todo_comments\fbuiltin\vakyrey\nsetup\23core.todo-comments\frequire\0" },
+    loaded = true,
+    path = "/Users/akyrey/.local/share/nvim/site/pack/packer/start/todo-comments.nvim"
+  },
+  undotree = {
+    commands = { "UndotreeToggle" },
     loaded = false,
     needs_bufread = false,
-    path = "/Users/akyrey/.local/share/nvim/site/pack/packer/opt/todo-comments.nvim"
+    path = "/Users/akyrey/.local/share/nvim/site/pack/packer/opt/undotree"
   },
   ["vim-commentary"] = {
     loaded = false,
@@ -222,71 +241,78 @@ _G.packer_plugins = {
     path = "/Users/akyrey/.local/share/nvim/site/pack/packer/opt/vim-commentary"
   },
   ["vim-fugitive"] = {
-    after = { "gv.vim" },
-    loaded = false,
-    needs_bufread = true,
-    path = "/Users/akyrey/.local/share/nvim/site/pack/packer/opt/vim-fugitive"
+    loaded = true,
+    path = "/Users/akyrey/.local/share/nvim/site/pack/packer/start/vim-fugitive"
+  },
+  ["vim-rooter"] = {
+    config = { "\27LJ\2\nä\1\0\0\3\0\a\0\0176\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\0016\0\3\0009\0\4\0009\0\5\0009\0\6\0\15\0\0\0X\1\5Ä6\0\3\0009\0\4\0009\0\5\0009\0\6\0B\0\1\1K\0\1\0\19on_config_done\vrooter\fbuiltin\vakyrey\nsetup\16core.rooter\frequire\0" },
+    loaded = true,
+    path = "/Users/akyrey/.local/share/nvim/site/pack/packer/start/vim-rooter"
   },
   ["vim-wakatime"] = {
-    load_after = {
-      ["material.vim"] = true
-    },
+    loaded = true,
+    path = "/Users/akyrey/.local/share/nvim/site/pack/packer/start/vim-wakatime"
+  },
+  ["which-key.nvim"] = {
+    config = { "\27LJ\2\n¶\1\0\0\5\0\b\0\0206\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\0016\0\3\0009\0\4\0009\0\5\0009\0\6\0\15\0\0\0X\1\bÄ6\0\3\0009\0\4\0009\0\5\0009\0\6\0006\2\0\0'\4\a\0B\2\2\0A\0\0\1K\0\1\0\14which-key\19on_config_done\14which_key\fbuiltin\vakyrey\nsetup\19core.which-key\frequire\0" },
     loaded = false,
     needs_bufread = false,
-    path = "/Users/akyrey/.local/share/nvim/site/pack/packer/opt/vim-wakatime"
+    path = "/Users/akyrey/.local/share/nvim/site/pack/packer/opt/which-key.nvim"
   }
 }
 
 time([[Defining packer_plugins]], false)
-local module_lazy_loads = {
-  ["^harpoon"] = "harpoon",
-  telescope = "telescope.nvim"
-}
-local lazy_load_called = {['packer.load'] = true}
-local function lazy_load_module(module_name)
-  local to_load = {}
-  if lazy_load_called[module_name] then return nil end
-  lazy_load_called[module_name] = true
-  for module_pat, plugin_name in pairs(module_lazy_loads) do
-    if not _G.packer_plugins[plugin_name].loaded and string.match(module_name, module_pat) then
-      to_load[#to_load + 1] = plugin_name
-    end
-  end
-
-  if #to_load > 0 then
-    require('packer.load')(to_load, {module = module_name}, _G.packer_plugins)
-    local loaded_mod = package.loaded[module_name]
-    if loaded_mod then
-      return function(modname) return loaded_mod end
-    end
-  end
-end
-
-if not vim.g.packer_custom_loader_enabled then
-  table.insert(package.loaders, 1, lazy_load_module)
-  vim.g.packer_custom_loader_enabled = true
-end
-
+-- Config for: lualine.nvim
+time([[Config for lualine.nvim]], true)
+try_loadstring("\27LJ\2\nò\1\0\0\5\0\a\0\0206\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\0016\0\3\0009\0\4\0009\0\5\0009\0\6\0\15\0\0\0X\1\bÄ6\0\3\0009\0\4\0009\0\5\0009\0\6\0006\2\0\0'\4\5\0B\2\2\0A\0\0\1K\0\1\0\19on_config_done\flualine\fbuiltin\vakyrey\nsetup\17core.lualine\frequire\0", "config", "lualine.nvim")
+time([[Config for lualine.nvim]], false)
+-- Config for: vim-rooter
+time([[Config for vim-rooter]], true)
+try_loadstring("\27LJ\2\nä\1\0\0\3\0\a\0\0176\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\0016\0\3\0009\0\4\0009\0\5\0009\0\6\0\15\0\0\0X\1\5Ä6\0\3\0009\0\4\0009\0\5\0009\0\6\0B\0\1\1K\0\1\0\19on_config_done\vrooter\fbuiltin\vakyrey\nsetup\16core.rooter\frequire\0", "config", "vim-rooter")
+time([[Config for vim-rooter]], false)
 -- Config for: git-worktree.nvim
 time([[Config for git-worktree.nvim]], true)
-try_loadstring("\27LJ\2\nH\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\tinit akyrey.plugins.git-worktree\frequire\0", "config", "git-worktree.nvim")
+try_loadstring("\27LJ\2\nØ\1\0\0\5\0\b\0\0206\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\0016\0\3\0009\0\4\0009\0\5\0009\0\6\0\15\0\0\0X\1\bÄ6\0\3\0009\0\4\0009\0\5\0009\0\6\0006\2\0\0'\4\a\0B\2\2\0A\0\0\1K\0\1\0\17git-worktree\19on_config_done\17git_worktree\fbuiltin\vakyrey\nsetup\22core.git-worktree\frequire\0", "config", "git-worktree.nvim")
 time([[Config for git-worktree.nvim]], false)
--- Config for: nvim-lspconfig
-time([[Config for nvim-lspconfig]], true)
-try_loadstring("\27LJ\2\nE\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\tinit\29akyrey.plugins.lspconfig\frequire\0", "config", "nvim-lspconfig")
-time([[Config for nvim-lspconfig]], false)
--- Load plugins in order defined by `after`
-time([[Sequenced loading]], true)
-vim.cmd [[ packadd popup.nvim ]]
-time([[Sequenced loading]], false)
+-- Config for: telescope.nvim
+time([[Config for telescope.nvim]], true)
+try_loadstring("\27LJ\2\nú\1\0\0\5\0\a\0\0206\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\0016\0\3\0009\0\4\0009\0\5\0009\0\6\0\15\0\0\0X\1\bÄ6\0\3\0009\0\4\0009\0\5\0009\0\6\0006\2\0\0'\4\5\0B\2\2\0A\0\0\1K\0\1\0\19on_config_done\14telescope\fbuiltin\vakyrey\nsetup\19core.telescope\frequire\0", "config", "telescope.nvim")
+time([[Config for telescope.nvim]], false)
+-- Config for: nvim-treesitter
+time([[Config for nvim-treesitter]], true)
+try_loadstring("\27LJ\2\n∂\1\0\0\5\0\b\0\0206\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\0016\0\3\0009\0\4\0009\0\5\0009\0\6\0\15\0\0\0X\1\bÄ6\0\3\0009\0\4\0009\0\5\0009\0\6\0006\2\0\0'\4\a\0B\2\2\0A\0\0\1K\0\1\0\28nvim-treesitter.configs\19on_config_done\15treesitter\fbuiltin\vakyrey\nsetup\20core.treesitter\frequire\0", "config", "nvim-treesitter")
+time([[Config for nvim-treesitter]], false)
+-- Config for: todo-comments.nvim
+time([[Config for todo-comments.nvim]], true)
+try_loadstring("\27LJ\2\n≤\1\0\0\5\0\b\0\0206\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\0016\0\3\0009\0\4\0009\0\5\0009\0\6\0\15\0\0\0X\1\bÄ6\0\3\0009\0\4\0009\0\5\0009\0\6\0006\2\0\0'\4\a\0B\2\2\0A\0\0\1K\0\1\0\18todo-comments\19on_config_done\18todo_comments\fbuiltin\vakyrey\nsetup\23core.todo-comments\frequire\0", "config", "todo-comments.nvim")
+time([[Config for todo-comments.nvim]], false)
+-- Config for: nvim-cmp
+time([[Config for nvim-cmp]], true)
+try_loadstring("\27LJ\2\nê\1\0\0\5\0\a\0\0206\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\0016\0\3\0009\0\4\0009\0\5\0009\0\6\0\15\0\0\0X\1\bÄ6\0\3\0009\0\4\0009\0\5\0009\0\6\0006\2\0\0'\4\5\0B\2\2\0A\0\0\1K\0\1\0\19on_config_done\bcmp\fbuiltin\vakyrey\nsetup\rcore.cmp\frequire\0", "config", "nvim-cmp")
+time([[Config for nvim-cmp]], false)
+-- Config for: nvim-colorizer.lua
+time([[Config for nvim-colorizer.lua]], true)
+try_loadstring("\27LJ\2\nú\1\0\0\5\0\a\0\0206\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\0016\0\3\0009\0\4\0009\0\5\0009\0\6\0\15\0\0\0X\1\bÄ6\0\3\0009\0\4\0009\0\5\0009\0\6\0006\2\0\0'\4\5\0B\2\2\0A\0\0\1K\0\1\0\19on_config_done\14colorizer\fbuiltin\vakyrey\nsetup\19core.colorizer\frequire\0", "config", "nvim-colorizer.lua")
+time([[Config for nvim-colorizer.lua]], false)
+-- Config for: nvim-autopairs
+time([[Config for nvim-autopairs]], true)
+try_loadstring("\27LJ\2\nÇ\1\0\0\5\0\6\0\0156\0\0\0009\0\1\0009\0\2\0009\0\3\0\15\0\0\0X\1\bÄ6\0\0\0009\0\1\0009\0\2\0009\0\3\0006\2\4\0'\4\5\0B\2\2\0A\0\0\1K\0\1\0\19nvim-autopairs\frequire\19on_config_done\14autopairs\fbuiltin\vakyrey\0", "config", "nvim-autopairs")
+time([[Config for nvim-autopairs]], false)
+
+-- Command lazy-loads
+time([[Defining lazy-load commands]], true)
+pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file UndotreeToggle lua require("packer.load")({'undotree'}, { cmd = "UndotreeToggle", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args> }, _G.packer_plugins)]])
+pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file NvimTreeToggle lua require("packer.load")({'nvim-tree.lua'}, { cmd = "NvimTreeToggle", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args> }, _G.packer_plugins)]])
+time([[Defining lazy-load commands]], false)
+
 vim.cmd [[augroup packer_load_aucmds]]
 vim.cmd [[au!]]
   -- Event lazy-loads
 time([[Defining lazy-load event autocommands]], true)
-vim.cmd [[au InsertEnter * ++once lua require("packer.load")({'nvim-compe'}, { event = "InsertEnter *" }, _G.packer_plugins)]]
-vim.cmd [[au InsertCharPre * ++once lua require("packer.load")({'friendly-snippets', 'LuaSnip'}, { event = "InsertCharPre *" }, _G.packer_plugins)]]
-vim.cmd [[au VimEnter * ++once lua require("packer.load")({'packer.nvim'}, { event = "VimEnter *" }, _G.packer_plugins)]]
-vim.cmd [[au BufRead * ++once lua require("packer.load")({'nvim-treesitter', 'vim-commentary', 'nvim-treesitter-context', 'gitsigns.nvim', 'vim-fugitive'}, { event = "BufRead *" }, _G.packer_plugins)]]
+vim.cmd [[au BufRead * ++once lua require("packer.load")({'refactoring.nvim', 'vim-commentary', 'gitsigns.nvim'}, { event = "BufRead *" }, _G.packer_plugins)]]
+vim.cmd [[au InsertCharPre * ++once lua require("packer.load")({'friendly-snippets'}, { event = "InsertCharPre *" }, _G.packer_plugins)]]
+vim.cmd [[au VimEnter * ++once lua require("packer.load")({'nvim-lspinstall'}, { event = "VimEnter *" }, _G.packer_plugins)]]
+vim.cmd [[au BufWinEnter * ++once lua require("packer.load")({'barbar.nvim', 'which-key.nvim'}, { event = "BufWinEnter *" }, _G.packer_plugins)]]
 time([[Defining lazy-load event autocommands]], false)
 vim.cmd("augroup END")
 if should_profile then save_profiles() end
