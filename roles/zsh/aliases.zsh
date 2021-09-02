@@ -12,3 +12,6 @@ alias vi="nvim"
 alias v="nvim"
 
 alias timezsh="time zsh -i -c echo"
+
+alias dk="docker"
+alias dkc="docker-compose"
