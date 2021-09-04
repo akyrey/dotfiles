@@ -51,6 +51,10 @@ local vim_item_symbol = {
 
 M.config = function()
   akyrey.builtin.cmp = {
+    completion = {
+      completeopt = "menu,menuone,noinsert",
+    },
+
     documentation = {
       border = "single",
       winhighlight = "NormalFloat:CmpDocumentation,FloatBorder:CmpDocumentationBorder",
