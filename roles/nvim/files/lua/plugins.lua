@@ -65,11 +65,9 @@ return {
   -- Automatically insert pairs
   {
     "windwp/nvim-autopairs",
+    after = "nvim-cmp",
     config = function ()
-      --require "core.autopairs"
-      if akyrey.builtin.autopairs.on_config_done then
-        akyrey.builtin.autopairs.on_config_done(require "nvim-autopairs")
-      end
+      require "core.autopairs"
     end
   },
 
