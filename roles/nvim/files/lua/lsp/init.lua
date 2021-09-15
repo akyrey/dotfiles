@@ -173,9 +173,16 @@ M.setup = function(lang)
     end
   end
 
+  local status_coq, coq = pcall(require, "coq")
+
   if lsp.provider ~= nil and lsp.provider ~= "" then
     local lspconfig = require "lspconfig"
-    lspconfig[lsp.provider].setup(lsp.setup)
+    if status_coq then
+      Log:get_default().info "coq enabled"
+      lspconfig[lsp.provider].setup(coq.lsp_ensure_capabilities(lsp.setup))
+    else
+      lspconfig[lsp.provider].setup(lsp.setup)
+    end
   end
 end
 
