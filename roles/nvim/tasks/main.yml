@@ -28,11 +28,9 @@
     src: "{{ dotfiles_user_home }}/.neovim/build/bin/nvim"
     dest: "/usr/local/bin/nvim"
     state: link
-    force: yes
 
 - name: Symlink neovim configurations
   file:
     src: "{{ dotfiles_home }}/roles/nvim/files"
     dest: "{{ dotfiles_user_home }}/.config/nvim"
     state: link
-    force: yes
