@@ -52,7 +52,7 @@ return {
   -- Automatically insert pairs
   {
     "windwp/nvim-autopairs",
-    after = "nvim-cmp",
+    after = "coq_nvim",
     config = function ()
       require "core.autopairs"
     end
