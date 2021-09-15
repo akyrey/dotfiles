@@ -684,7 +684,7 @@ akyrey.lang = {
     },
   },
   tailwindcss = {
-    active = false,
+    active = true,
     filetypes = {
       "html",
       "css",
@@ -694,6 +694,12 @@ akyrey.lang = {
       "typescript",
       "typescriptreact",
     },
+    formatters = {
+      {
+        exe = "prettierd",
+        args = { "$FILENAME" },
+      },
+    }
   },
   typescript = {
     formatters = {
