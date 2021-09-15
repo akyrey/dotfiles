@@ -3,5 +3,9 @@
     src: "{{ dotfiles_home }}/roles/scripts/files/tmux-sessionizer"
     dest: "{{ dotfiles_user_home }}/.local/bin/tmux-sessionizer"
     state: link
-    force: yes
 
+- name: Create symlink to ~/.local/bin/cht.sh
+  file:
+    src: "{{ dotfiles_home }}/roles/scripts/files/cht.sh"
+    dest: "{{ dotfiles_user_home }}/.local/bin/cht.sh"
+    state: link
