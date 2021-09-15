@@ -38,25 +38,12 @@ return {
   -- Completions & Snippets
   -- Auto completion and snippets
   {
-    "hrsh7th/nvim-cmp",
-    config = function ()
-      require("core.cmp").setup()
-      if akyrey.builtin.cmp.on_config_done then
-        akyrey.builtin.cmp.on_config_done(require "cmp")
-      end
-    end
+    "ms-jpq/coq_nvim",
+    branch = "coq",
+    requires = {
+      { "ms-jpq/coq.artifacts", branch = "artifacts" },
+    },
   },
-  { "onsails/lspkind-nvim" },
-  { "hrsh7th/cmp-buffer" },
-  { "hrsh7th/cmp-nvim-lua" },
-  { "hrsh7th/cmp-nvim-lsp" },
-  { "hrsh7th/cmp-path" },
-  { "f3fora/cmp-spell" },
-  {
-    "tzachar/cmp-tabnine",
-    run = "./install.sh",
-  },
-  { "saadparwaiz1/cmp_luasnip" },
   { "L3MON4D3/LuaSnip" },
   {
     "rafamadriz/friendly-snippets",
