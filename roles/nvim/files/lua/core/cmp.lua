@@ -1,10 +1,4 @@
 local M = {}
-local Log = require "core.log"
-local status_ok, cmp = pcall(require, "cmp")
-if not status_ok then
-  Log:get_default().error "failed to load cmp"
-  return
-end
 
 local t = function(str)
   return vim.api.nvim_replace_termcodes(str, true, true, true)
@@ -13,12 +7,6 @@ end
 local check_back_space = function()
   local col = vim.fn.col '.' - 1
   return col == 0 or vim.fn.getline('.'):sub(col, col):match '%s' ~= nil
-end
-
-local status_luasnip, luasnip = pcall(require, "luasnip")
-if not status_luasnip then
-  Log:get_default().error "failed to load luasnip"
-  return
 end
 
 local vim_item_symbol = {
@@ -50,6 +38,19 @@ local vim_item_symbol = {
 }
 
 M.config = function()
+  local Log = require "core.log"
+  local status_ok, cmp = pcall(require, "cmp")
+  if not status_ok then
+    Log:get_default().error "failed to load cmp"
+    return
+  end
+
+  local status_luasnip, luasnip = pcall(require, "luasnip")
+  if not status_luasnip then
+    Log:get_default().error "failed to load luasnip"
+    return
+  end
+
   akyrey.builtin.cmp = {
     completion = {
       completeopt = "menu,menuone,noinsert",
@@ -140,6 +141,13 @@ M.config = function()
 end
 
 M.setup = function()
+  local Log = require "core.log"
+  local status_ok, cmp = pcall(require, "cmp")
+  if not status_ok then
+    Log:get_default().error "failed to load cmp"
+    return
+  end
+
   cmp.setup(akyrey.builtin.cmp)
 end
 
