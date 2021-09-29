@@ -41,13 +41,11 @@ M.config = function()
   local Log = require "core.log"
   local status_ok, cmp = pcall(require, "cmp")
   if not status_ok then
-    Log:get_default().error "failed to load cmp"
     return
   end
 
   local status_luasnip, luasnip = pcall(require, "luasnip")
   if not status_luasnip then
-    Log:get_default().error "failed to load luasnip"
     return
   end
 

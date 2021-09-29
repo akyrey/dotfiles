@@ -1,15 +1,18 @@
 local schemas = nil
-local lsp = require "lsp"
+local lsp_ok, lsp = pcall(require, "lsp")
+if not lsp_ok then
+  return
+end
 local common_on_attach = lsp.common_on_attach
 local common_capabilities = lsp.common_capabilities()
 local common_on_init = lsp.common_on_init
 local status_ok, jsonls_settings = pcall(require, "nlspsettings.jsonls")
-if status_ok then
-  schemas = jsonls_settings.get_default_schemas()
+if not status_ok then
+  return
 end
+schemas = jsonls_settings.get_default_schemas()
 local utils_ok, util = pcall(require, "lspconfig/util")
 if not utils_ok then
-  error("Unable to load lspconfig/util")
   return
 end
 
