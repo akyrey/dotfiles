@@ -1,30 +1,30 @@
 - name: Set up local Arch Linux / Mac machine
   hosts: local
   roles:
-    - role: scripts
-      tags:
-        - scripts
-    - role: xcode-clt
-      tags:
-        - xcode-clt
-    - role: homebrew
-      tags:
-        - homebrew
-    - role: pacaur
-      tags:
-        - pacaur
-    - role: git
-      tags:
-        - git
-    - role: zsh
-      tags:
-        - zsh
-    - role: nvim
-      tags:
-        - nvim
-    - role: tmux
-      tags:
-        - tmux
     - role: asdf
       tags:
         - asdf
+    - role: git
+      tags:
+        - git
+    - role: homebrew
+      tags:
+        - homebrew
+    - role: nvim
+      tags:
+        - nvim
+    - role: scripts
+      tags:
+        - scripts
+    - role: tmux
+      tags:
+        - tmux
+    - role: xcode-clt
+      tags:
+        - xcode-clt
+    - role: yay
+      tags:
+        - yay
+    - role: zsh
+      tags:
+        - zsh

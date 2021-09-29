@@ -1,0 +1,16 @@
+- name: Download yay
+  git:
+    repo: https://aur.archlinux.org/yay.git
+    dest: "~/.yay"
+      
+- name: Install yay
+  raw: "~/.yay/makepkg -si"
+
+- name: Generate a development package database for *-git packages that were installed without yay. This command should only be run once.
+  raw: "yay -Y --gendb"
+
+- name: Check for development package updates
+  raw: "yay -Syu --devel"
+
+- name: Make development package updates permanently enabled (yay and yay -Syu will then always check dev packages)
+  raw: "yay -Y --devel --save"
