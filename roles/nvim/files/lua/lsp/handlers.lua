@@ -9,7 +9,7 @@ M.setup = function()
     underline = akyrey.lsp.document_highlight,
   })
 
-  vim.lsp.handlers["textDocument/publishDiagnostics"] = function(_, _, params, client_id, _)
+  vim.lsp.handlers["textDocument/publishDiagnostics"] = function(_, params, ctx, _)
     local config = { -- your config
       virtual_text = akyrey.lsp.diagnostics.virtual_text,
       signs = akyrey.lsp.diagnostics.signs,
@@ -42,13 +42,13 @@ M.setup = function()
       end
     end
 
-    vim.lsp.diagnostic.save(diagnostics, bufnr, client_id)
+    vim.lsp.diagnostic.save(diagnostics, bufnr, ctx.client_id)
 
     if not vim.api.nvim_buf_is_loaded(bufnr) then
       return
     end
 
-    vim.lsp.diagnostic.display(diagnostics, bufnr, client_id, config)
+    vim.lsp.diagnostic.display(diagnostics, bufnr, ctx.client_id, config)
   end
 
   vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
