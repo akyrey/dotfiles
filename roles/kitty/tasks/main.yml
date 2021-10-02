@@ -1,0 +1,6 @@
+- name: Symlink kitty configurations
+  file:
+    src: "{{ dotfiles_home }}/roles/kitty/files/kitty.conf"
+    dest: "{{ dotfiles_user_home }}/.config/kitty/kitty.conf"
+    state: link
+
