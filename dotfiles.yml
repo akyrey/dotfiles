@@ -19,6 +19,9 @@
     - role: scripts
       tags:
         - scripts
+    - role: ssh
+      tags:
+        - ssh
     - role: tmux
       tags:
         - tmux

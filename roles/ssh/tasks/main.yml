@@ -1,0 +1,51 @@
+- name: Ensure .ssh directory exists.
+  file:
+    dest: "{{ dotfiles_user_home }}/.ssh"
+    mode: 0700
+    state: directory
+  tags:
+    - dotfiles
+    - install
+    - ssh
+
+- name: Install default ssh key
+  copy:
+    src: "{{ dotfiles_home }}/roles/ssh/files/id_rsa"
+    dest: "{{ dotfiles_user_home }}/.ssh/id_rsa"
+    mode: 0600
+  tags:
+    - dotfiles
+    - install
+    - ssh
+
+- name: Install codecommit ssh key
+  copy:
+    src: "{{ dotfiles_home }}/roles/ssh/files/codecommit_rsa"
+    dest: "{{ dotfiles_user_home }}/.ssh/codecommit_rsa"
+    mode: 0600
+  tags:
+    - dotfiles
+    - install
+    - ssh
+
+- name: Set authorized default key took from file
+  authorized_key:
+    user: "{{ lookup('env', 'USER') }}"
+    state: present
+    key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+
+- name: Set authorized codecommit key took from file
+  authorized_key:
+    user: "{{ lookup('env', 'USER') }}"
+    state: present
+    key: "{{ lookup('file', '~/.ssh/codecommit_rsa.pub') }}"
+
+- name: Copy config
+  copy:
+    src: "{{ dotfiles_home }}/roles/ssh/files/config"
+    dest: "{{ dotfiles_user_home }}/.ssh/config"
+    mode: 0700
+  tags:
+    - dotfiles
+    - install
+    - ssh
