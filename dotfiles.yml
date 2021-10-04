@@ -13,6 +13,9 @@
     - role: kitty
       tags:
         - kitty
+    - role: ideavim
+      tags:
+        - ideavim
     - role: nvim
       tags:
         - nvim

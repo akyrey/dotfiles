@@ -1,0 +1,5 @@
+- name: Symlink ideavimrc
+  file:
+    src: "{{ dotfiles_home }}/roles/ideavim/files/ideavimrc"
+    dest: "{{ dotfiles_user_home }}/.ideavimrc"
+    state: link

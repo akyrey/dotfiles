@@ -1,0 +1,77 @@
+let mapleader=" "
+
+""" Don't keep backup file after overwriting a file
+set backup = false
+""" Number of lines to use for the command-line
+set cmdheight = 2
+""" Options for Insert mode completion
+""" Required by auto completion plugin hrsh7th/nvim-compe
+set completeopt = { "menuone", "noselect" }
+""" so that `` is visible in markdown files
+set conceallevel = 0
+""" Encoding used internally
+set encoding = "UTF-8",
+""" Avoid making sounds on error
+set errorbells = false
+""" Use spaces when <Tab> is inserted
+set expandtab = true
+""" the encoding written to a file
+set fileencoding = "utf-8",
+""" Don't unload buffer when it is abandoned
+set hidden = true
+""" Don't highlight matches with last search pattern
+set hlsearch = false
+""" ignore case in search patterns
+set ignorecase = true
+""" Highlight match while typing search pattern
+set incsearch = true
+""" Print the line number in front of each line
+set nu = true
+""" pop up menu height
+set pumheight = 10
+""" Show relative line number in front of each line
+set relativenumber = true
+""" Minimum nr. of lines above and below cursor
+set scrolloff = 8
+""" Number of spaces to use for (auto)indent step
+set shiftwidth = 2
+""" always show tabs
+set showtabline = 2
+""" Message on status line to show current mode
+set showmode = false
+""" When and how to display the sign column
+set signcolumn = "yes"
+""" smart case
+set smartcase = true
+""" Put cursor at the right indentation after creating a new line
+set smartindent = true
+""" Number of spaces that <Tab> uses while editing
+set softtabstop = 2
+""" force all horizontal splits to go below current window
+set splitbelow = true
+""" force all vertical splits to go to the right of current window
+set splitright = true
+""" Don't use a swapfile for a buffer
+set swapfile = false
+""" Number of spaces that <Tab> in file uses
+set tabstop = 2
+""" set term gui colors (most terminals support this)
+set termguicolors = true
+""" time to wait for a mapped sequence to complete (in milliseconds)
+set timeoutlen = 500
+""" set the title of window to the value of the titlestring
+set title = true
+""" Where to store undo files
+set undodir = "~/.ideavim/undodir"
+""" Save undo information in a file
+set undofile = true
+""" After this many milliseconds flush swap file
+set updatetime = 300
+""" Avoid wrapping long lines
+set wrap = false
+""" if a file is being edited by another program (or was written to file while editing with another program), it is not allowed to be edited
+set writebackup = false
+""" Nice menu when typings `:find *.py`
+set wildmode=longest,list,full
+set wildmenu
+set path+=**
