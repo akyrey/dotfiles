@@ -93,12 +93,8 @@ M.config = function()
         select = true,
       }),
       ["<tab>"] = cmp.mapping(function(fallback)
-        if vim.fn.pumvisible() == 1 then
-          vim.fn.feedkeys(t("<C-n>"), "n")
-        elseif luasnip.expand_or_jumpable() then
-          vim.fn.feedkeys(t("<Plug>luasnip-expand-or-jump"), "")
-        elseif check_back_space() then
-          vim.fn.feedkeys(t("<tab>"), "n")
+        if cmp.visible() then
+          cmp.select_next_item()
         else
           fallback()
         end
@@ -107,10 +103,8 @@ M.config = function()
           "s",
         }),
       ["<S-tab>"] = cmp.mapping(function(fallback)
-        if vim.fn.pumvisible() == 1 then
-          vim.fn.feedkeys(t("<C-p>"), "n")
-        elseif luasnip.jumpable(-1) then
-          vim.fn.feedkeys(t("<Plug>luasnip-jump-prev"), "")
+        if cmp.visible() then
+          cmp.select_prev_item()
         else
           fallback()
         end
