@@ -1,14 +1,5 @@
 local M = {}
 
-local t = function(str)
-  return vim.api.nvim_replace_termcodes(str, true, true, true)
-end
-
-local check_back_space = function()
-  local col = vim.fn.col '.' - 1
-  return col == 0 or vim.fn.getline('.'):sub(col, col):match '%s' ~= nil
-end
-
 local vim_item_symbol = {
   Text = "",
   Method = "",
@@ -38,14 +29,8 @@ local vim_item_symbol = {
 }
 
 M.config = function()
-  local Log = require "core.log"
   local status_ok, cmp = pcall(require, "cmp")
   if not status_ok then
-    return
-  end
-
-  local status_luasnip, luasnip = pcall(require, "luasnip")
-  if not status_luasnip then
     return
   end
 
@@ -142,6 +127,20 @@ M.setup = function()
   end
 
   cmp.setup(akyrey.builtin.cmp)
+
+  local cmp_autopairs_ok, cmp_autopairs = pcall(require, "nvim-autopairs.completion.cmp")
+  if cmp_autopairs_ok then
+    cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done({
+      map_cr = true, --  map <CR> on insert mode
+      map_complete = true, -- it will auto insert `(` after select function or method item
+      auto_select = true, -- automatically select the first item
+      insert = false, -- use insert confirm behavior instead of replace
+      map_char = { -- modifies the function or method delimiter by filetypes
+        all = '(',
+        tex = '{'
+      }
+    }))
+  end
 end
 
 return M
