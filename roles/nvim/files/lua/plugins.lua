@@ -56,6 +56,7 @@ return {
     "tzachar/cmp-tabnine",
     run = "./install.sh",
   },
+  { "David-Kunz/cmp-npm" },
   { "saadparwaiz1/cmp_luasnip" },
   { "L3MON4D3/LuaSnip" },
   {

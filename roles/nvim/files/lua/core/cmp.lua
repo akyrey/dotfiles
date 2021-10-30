@@ -128,6 +128,7 @@ M.config = function()
       { name = "luasnip" },
       { name = "path" },
       { name = "spell" },
+      { name = 'npm', keyword_length = 4 },
     },
   }
 end
