@@ -80,6 +80,9 @@ M.load_options = function()
     smartindent = true,
     -- Number of spaces that <Tab> uses while editing
     softtabstop = 2,
+    -- Setting spell (and spelllang) is mandatory to use spellsuggest
+    spell = true,
+    spelllang = { "en_us",  "it" },
     -- force all horizontal splits to go below current window
     splitbelow = true,
     -- force all vertical splits to go to the right of current window
