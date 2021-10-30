@@ -134,7 +134,7 @@ return {
   },
   -- Statusline configuration
   {
-    "hoob3rt/lualine.nvim",
+    "nvim-lualine/lualine.nvim",
     config = function ()
       require("core.lualine").setup()
       if akyrey.builtin.lualine.on_config_done then
