@@ -1,41 +1,25 @@
-require "config"
-local autocmds = require "core.autocmds"
-require("settings").unload_default_plugins()
-require("settings").load_options()
-require("settings").load_commands()
-autocmds.define_augroups(akyrey.autocommands)
+local init_path = debug.getinfo(1, "S").source:sub(2)
+local base_dir = init_path:match("(.*[/\\])"):sub(1, -2)
 
-local plugins = require "plugins"
-local plugin_loader = require("plugin-loader").init()
-plugin_loader:load { plugins, akyrey.plugins }
-require("theme").setup()
+if not vim.tbl_contains(vim.opt.rtp:get(), base_dir) then
+  vim.opt.rtp:append(base_dir)
+end
 
-local utils = require "utils"
-utils.toggle_autoformat()
-local commands = require "core.commands"
+require("akyrey.bootstrap"):init(base_dir)
+
+require("akyrey.config"):load()
+
+local plugins = require "akyrey.plugins"
+require("akyrey.plugin-loader"):load { plugins, akyrey.plugins }
+
+local Log = require "akyrey.core.log"
+Log:debug "Starting Aky NeoVim"
+
+require("akyrey.theme").setup() -- Colorscheme must get called after plugins are loaded or it will break new installs.
+
+local commands = require "akyrey.core.commands"
 commands.load(commands.defaults)
 
-require("lsp").config()
+require("akyrey.keymappings").setup()
 
-local null_status_ok, null_ls = pcall(require, "null-ls")
-if null_status_ok then
-  null_ls.config {}
-  require("lspconfig")["null-ls"].setup {}
-end
-
-local lsp_settings_status_ok, lsp_settings = pcall(require, "nlspsettings")
-if lsp_settings_status_ok then
-  lsp_settings.setup {
-    config_home = os.getenv "HOME" .. "/.config/nvim/lsp-settings",
-  }
-end
-
-require("keymappings").setup()
-
--- TODO: these guys need to be in language files
--- if nvim.lang.emmet.active then
---   require "lsp.emmet-ls"
--- end
--- if nvim.lang.tailwindcss.active then
---   require "lsp.tailwind
-
+require("akyrey.lsp").setup()
