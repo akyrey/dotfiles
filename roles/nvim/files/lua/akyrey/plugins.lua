@@ -136,7 +136,6 @@ return {
   -- NvimTree
   {
     "kyazdani42/nvim-tree.lua",
-    commit = "f92b7e7627c5a36f4af6814c408211539882c4f3",
     config = function()
       require("akyrey.core.nvimtree").setup()
     end,
