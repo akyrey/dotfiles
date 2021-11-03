@@ -5,17 +5,7 @@ return {
   { "neovim/nvim-lspconfig" },
   { "tamago324/nlsp-settings.nvim" },
   { "jose-elias-alvarez/null-ls.nvim" },
-  {
-    "kabouzeid/nvim-lspinstall",
-    event = "VimEnter",
-    config = function()
-      local lspinstall = require "lspinstall"
-      lspinstall.setup()
-      if akyrey.builtin.lspinstall.on_config_done then
-        akyrey.builtin.lspinstall.on_config_done(lspinstall)
-      end
-    end,
-  },
+  { "williamboman/nvim-lsp-installer" },
 
   { "nvim-lua/popup.nvim" },
   { "nvim-lua/plenary.nvim" },
