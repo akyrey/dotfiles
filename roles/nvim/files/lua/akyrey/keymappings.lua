@@ -110,8 +110,7 @@ M.config = function()
       -- ------------------- --
       --    File explorer    --
       -- ------------------- --
-      ["<leader>dc"] = "<CMD>Ex<CR>",
-      ["<leader>dt"] = "<CMD>NvimTreeToggle<CR>",
+      -- nvimtree mapped in its own file as <leader>e
       ["<leader>u"] = "<CMD>UndotreeToggle<CR>",
       -- ------------------- --
       --        Harpoon      --
@@ -154,7 +153,7 @@ M.config = function()
       -- ------------------- --
       --    Git Fugitive     --
       -- ------------------- --
-      ["<leader>vl"] = "<CMD>G<CR>",
+      ["<leader>vL"] = "<CMD>G<CR>",
       ["<leader>vg"] = "<CMD>diffget //2<CR>",
       ["<leader>vh"] = "<CMD>diffget //3<CR>",
       -- ------------------- --
