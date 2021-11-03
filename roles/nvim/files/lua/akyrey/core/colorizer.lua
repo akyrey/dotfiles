@@ -15,7 +15,7 @@ M.setup = function()
     return
   end
 
-  colorizer.setup(akyrey.builtin.colorizer)
+  colorizer.setup()
 end
 
 return M

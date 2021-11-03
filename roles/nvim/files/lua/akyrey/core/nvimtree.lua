@@ -9,6 +9,8 @@ M.config = function()
       open_on_setup = false,
       auto_close = true,
       open_on_tab = false,
+      ignore = { ".git", "node_modules", ".cache" },
+      hide_dotfiles = 1,
       update_focused_file = {
         enable = true,
       },
@@ -24,7 +26,7 @@ M.config = function()
       view = {
         width = 30,
         side = "left",
-        auto_resize = false,
+        auto_resize = true,
         mappings = {
           custom_only = false,
         },
@@ -37,9 +39,7 @@ M.config = function()
       folder_arrows = 1,
       tree_width = 30,
     },
-    ignore = { ".git", "node_modules", ".cache" },
     quit_on_open = 0,
-    hide_dotfiles = 1,
     git_hl = 1,
     root_folder_modifier = ":t",
     allow_resize = 1,
