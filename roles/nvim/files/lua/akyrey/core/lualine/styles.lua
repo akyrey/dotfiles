@@ -67,14 +67,12 @@ styles.akyrey = {
   style = "akyrey",
   options = {
     icons_enabled = true,
-    component_separators = { left = "", right = "" },
-    section_separators = { left = "", right = "" },
+    component_separators = { left = "", right = "" },
+    section_separators = { left = "", right = "" },
     disabled_filetypes = { "dashboard", "NvimTree", "Outline" },
   },
   sections = {
-    lualine_a = {
-      components.mode,
-    },
+    lualine_a = { "mode" },
     lualine_b = {
       components.branch,
       components.filename,
