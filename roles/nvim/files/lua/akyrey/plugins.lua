@@ -87,6 +87,8 @@ return {
     end
   },
 
+  { "github/copilot.vim" },
+
   -- Git related
   { "tpope/vim-fugitive" },
   { "junegunn/gv.vim" },
