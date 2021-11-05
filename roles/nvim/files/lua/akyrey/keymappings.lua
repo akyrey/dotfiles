@@ -100,13 +100,13 @@ M.config = function()
       -- ------------------- --
       ["<C-q>"] = "<CMD>call QuickFixToggle()<CR>",
       -- Go to next occurence in local quickfix list
-      ["<leader>nk"] = "<CMD>lua require('utils').navigate_QF(false)<CR>zz",
+      ["<leader>nk"] = "<CMD>lua require('akyrey.utils').navigate_QF(false)<CR>zz",
       -- Go to previous occurence in local quickfix list
-      ["<leader>nj"] = "<CMD>lua require('utils').navigate_QF(true)<CR>zz",
+      ["<leader>nj"] = "<CMD>lua require('akyrey.utils').navigate_QF(true)<CR>zz",
       -- Open global quickfix list
-      ["<leader>nq"] = "<CMD>lua require('utils').toggle_global_or_local_QF()<CR>",
+      ["<leader>nq"] = "<CMD>lua require('akyrey.utils').toggle_global_or_local_QF()<CR>",
       -- Open local quickfix list
-      ["<leader>nt"] = "<CMD>lua require('utils').toggle_QF()<CR>",
+      ["<leader>nt"] = "<CMD>lua require('akyrey.utils').toggle_QF()<CR>",
       -- ------------------- --
       --    File explorer    --
       -- ------------------- --

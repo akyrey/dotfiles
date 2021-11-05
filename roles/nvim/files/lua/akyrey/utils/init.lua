@@ -200,6 +200,56 @@ function utils.log_contains(query)
   return false
 end
 
+-- Quickfix navigation
+local use_global_quick_list = true
+local open_QF = false
+
+utils.toggle_global_or_local_QF = function()
+  if use_global_quick_list then
+    use_global_quick_list = false
+    print('Using local quickfix list')
+  else
+    use_global_quick_list = true
+    print('Using global quickfix list')
+  end
+end
+
+utils.toggle_QF = function()
+  if use_global_quick_list then
+    if open_QF then
+      vim.cmd([[cclose]])
+      open_QF = false
+    else
+      vim.cmd([[copen]])
+      open_QF = true
+    end
+  else
+    if open_QF then
+      vim.cmd([[lclose]])
+      open_QF = false
+    else
+      vim.cmd([[lopen]])
+      open_QF = true
+    end
+  end
+end
+
+utils.navigate_QF = function(next)
+  if use_global_quick_list then
+    if next then
+      vim.cmd([[cnext]])
+    else
+      vim.cmd([[cprev]])
+    end
+  else
+    if next then
+      vim.cmd([[lnext]])
+    else
+      vim.cmd([[lprev]])
+    end
+  end
+end
+
 return utils
 
 -- TODO: find a new home for these autocommands
