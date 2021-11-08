@@ -4,8 +4,7 @@ M.setup = function()
   local cmd = vim.cmd
   vim.g.colors_name = akyrey.colorscheme -- Colorscheme must get called after plugins are loaded or it will break new installs.
   cmd("colorscheme " .. akyrey.colorscheme)
-  cmd("highlight Normal guibg=none")
-  cmd("highlight NonText guibg=none")
+  cmd("highlight NonText guifg='#2196f3'")
 
   -- Color line numbers
   cmd("hi LineNr ctermfg=0 guifg='#2196f3'")
