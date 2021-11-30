@@ -129,7 +129,7 @@ M.config = function()
       -- Fuzzy search through the output of git ls-files command, respects .gitignore, optionally ignores untracked files
       ["<C-f>"] = "<CMD>lua require('telescope.builtin').git_files()<CR>",
       -- Lists files in your current working directory, respects .gitignore
-      ["<Leader>ff"] = "<CMD>lua require('telescope.builtin').find_files()<CR>",
+      ["<leader>ff"] = "<CMD>lua require('telescope.builtin').find_files()<CR>",
       -- Searches for the string under your cursor in your current working directory
       ["<leader>fw"] = "<CMD>lua require('telescope.builtin').grep_string { search = vim.fn.expand('<cword>') }<CR>",
       -- Lists open buffers in current neovim instance
