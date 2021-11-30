@@ -5,6 +5,7 @@ M.config = function ()
   akyrey.builtin.refactoring = {
     active = true,
     on_config_done = nil,
+    setup = {},
   }
 end
 
@@ -15,7 +16,7 @@ M.setup = function()
     return
   end
 
-  refactoring.setup(akyrey.builtin.refactoring)
+  refactoring.setup(akyrey.builtin.refactoring.setup)
 end
 
 -- TODO: move to telescop/custom
