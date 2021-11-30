@@ -35,9 +35,41 @@ set idearefactormode="keep"
 set ideajoin
 
 """ Mappings --------------------------------
+""" Insert mode
+""" 'jk' for quitting insert mode
+imap jk <ESC>
+""" 'kj' for quitting insert mode
+imap kj <ESC>
+""" 'jj' for quitting insert mode
+imap jj <ESC>
+""" Moving text
+imap <C-j> <esc>:m .+1<CR>V
+imap <C-k> <esc>:m .-2<CR>V
+
+""" Normal mode
 """ Y will yank from cursor until the end of the line instead of entire line
-map Y y$
+nmap Y y$
 """ Keeping cursor centered on search operations
-map n nzzzv
-map N Nzzzv
-map J mzJ`z
+nmap n nzzzv
+nmap N Nzzzv
+nmap J mzJ`z
+""" Moving text
+nmap <leader>j :m .+1<CR>==
+nmap <leader>k :m .-2<CR>==
+""" Related to navigation
+nmap <leader>ff <Action>(GotoFile)
+nmap <leader>fc <Action>(GotoClass)
+nmap <leader>fs <Action>(GotoSymbol)
+nmap <leader>fr <Action>(RecentFiles)
+nmap <leader>lf <Action>(ReformatCode)
+nmap <leader>lg <Action>(GotoDeclaration)
+nmap <leader>lj <Action>(GotoNextError)
+nmap <leader>lk <Action>(GotoPreviousError)
+nmap <leader>rv <Action>(RenameElement)
+nmap <leader>rm <Action>(ExtractMethod)
+nmap <leader>rs <Action>(ChangeSignature)
+
+""" Visual mode
+""" Moving text
+vmap J :m '>+1<CR>gv=gv
+vmap K :m '<-2<CR>gv=gv
