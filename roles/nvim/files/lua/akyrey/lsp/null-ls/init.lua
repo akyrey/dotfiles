@@ -11,14 +11,14 @@ function M:setup()
     return
   end
 
-  null_ls.config()
+  null_ls.setup()
   local default_opts = require("akyrey.lsp").get_common_opts()
 
   if vim.tbl_isempty(akyrey.lsp.null_ls.setup or {}) then
     akyrey.lsp.null_ls.setup = default_opts
   end
 
-  require("lspconfig")["null-ls"].setup(akyrey.lsp.null_ls.setup)
+  require("null-ls").setup(akyrey.lsp.null_ls.setup)
   for filetype, config in pairs(akyrey.lang) do
     if not vim.tbl_isempty(config.formatters) then
       vim.tbl_map(function(c)
