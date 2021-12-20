@@ -121,7 +121,6 @@ fpath=($HOME/.oh-my-zsh/custom/plugins/zsh-completions/src $fpath)
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
-
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 bindkey -s ^f "tmux-sessionizer\n"
