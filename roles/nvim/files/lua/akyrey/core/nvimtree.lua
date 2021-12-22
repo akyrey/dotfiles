@@ -5,6 +5,48 @@ M.config = function()
   akyrey.builtin.nvimtree = {
     active = true,
     on_config_done = nil,
+    before_setup = {
+      quit_on_open = 0,
+      indent_markers = 1,
+      git_hl = 1,
+      highlight_opened_files = 1,
+      root_folder_modifier = ":t",
+      add_trailing = 1,
+      group_empty = 0,
+      disable_window_picker = 0,
+      icon_padding = ' ',
+      symlink_arrow = ' ➛ ',
+      respect_buf_cwd = 0,
+      create_in_closed_folder = 1,
+      refresh_wait = 1000,
+      show_icons = {
+        git = 1,
+        folders = 1,
+        files = 1,
+        folder_arrows = 1,
+        tree_width = 30,
+      },
+      icons = {
+        default = "",
+        symlink = "",
+        git = {
+          unstaged = "",
+          staged = "S",
+          unmerged = "",
+          renamed = "➜",
+          deleted = "",
+          untracked = "U",
+          ignored = "◌",
+        },
+        folder = {
+          default = "",
+          open = "",
+          empty = "",
+          empty_open = "",
+          symlink = "",
+        },
+      },
+    },
     setup = {
       open_on_setup = false,
       auto_close = false,
@@ -32,38 +74,6 @@ M.config = function()
         },
       },
     },
-    show_icons = {
-      git = 1,
-      folders = 1,
-      files = 1,
-      folder_arrows = 1,
-      tree_width = 30,
-    },
-    quit_on_open = 0,
-    git_hl = 1,
-    root_folder_modifier = ":t",
-    allow_resize = 1,
-    auto_ignore_ft = { "startify", "dashboard" },
-    icons = {
-      default = "",
-      symlink = "",
-      git = {
-        unstaged = "",
-        staged = "S",
-        unmerged = "",
-        renamed = "➜",
-        deleted = "",
-        untracked = "U",
-        ignored = "◌",
-      },
-      folder = {
-        default = "",
-        open = "",
-        empty = "",
-        empty_open = "",
-        symlink = "",
-      },
-    },
   }
 end
 
@@ -75,7 +85,7 @@ M.setup = function()
   end
   local g = vim.g
 
-  for opt, val in pairs(akyrey.builtin.nvimtree) do
+  for opt, val in pairs(akyrey.builtin.nvimtree.before_setup) do
     g["nvim_tree_" .. opt] = val
   end
 
