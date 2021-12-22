@@ -158,11 +158,6 @@ end
 function M.setup()
   Log:debug "Setting up LSP support"
 
-  local lsp_status_ok, _ = pcall(require, "lspconfig")
-  if not lsp_status_ok then
-    return
-  end
-
   for _, sign in ipairs(akyrey.lsp.diagnostics.signs.values) do
     vim.fn.sign_define(sign.name, { texthl = sign.name, text = sign.text, numhl = sign.name })
   end
