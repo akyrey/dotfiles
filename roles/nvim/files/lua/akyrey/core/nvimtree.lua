@@ -71,7 +71,7 @@ M.config = function()
         custom = { ".git", "node_modules", ".cache" },
       },
       view = {
-        width = "30",
+        width = 30,
         side = "left",
         auto_resize = true,
         mappings = {
