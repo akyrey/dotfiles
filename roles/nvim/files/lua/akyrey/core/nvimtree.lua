@@ -49,15 +49,14 @@ M.config = function()
     },
     setup = {
       open_on_setup = false,
-      auto_close = false,
+      auto_close = true,
       open_on_tab = false,
-      ignore = { ".git", "node_modules", ".cache" },
       hide_dotfiles = 1,
       update_focused_file = {
         enable = true,
       },
       diagnostics = {
-        enable = false,
+        enable = true,
         icons = {
           hint = "",
           info = "",
@@ -65,8 +64,14 @@ M.config = function()
           error = "",
         },
       },
+      git = {
+        enable = true,
+      },
+      filters = {
+        custom = { ".git", "node_modules", ".cache" },
+      },
       view = {
-        width = 30,
+        width = "30",
         side = "left",
         auto_resize = true,
         mappings = {
