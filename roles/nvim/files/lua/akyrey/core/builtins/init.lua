@@ -10,6 +10,7 @@ local builtins = {
   "akyrey.core.git-worktree",
   "akyrey.core.gitsigns",
   "akyrey.core.lualine",
+  "akyrey.core.lightspeed",
   "akyrey.core.notify",
   "akyrey.core.nvimtree",
   "akyrey.core.refactoring",

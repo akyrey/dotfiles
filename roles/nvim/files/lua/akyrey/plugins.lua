@@ -27,6 +27,17 @@ return {
   -- Mark and easily navigate through files
   { "ThePrimeagen/harpoon" },
 
+  -- Movement
+  { 
+    "ggandor/lightspeed.nvim",
+    config = function ()
+      require("akyrey.core.lightspeed").setup()
+    end,
+    requires = {
+      "tpope/vim-repeat"
+    },
+  },
+
   -- Completions & Snippets
   -- Auto completion and snippets
   {
