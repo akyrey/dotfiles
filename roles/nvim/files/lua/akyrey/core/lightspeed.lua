@@ -36,7 +36,7 @@ function M.setup()
     return
   end
 
-  lightspeed.setup(akyrey.builtin.lightspeed)
+  lightspeed.setup(akyrey.builtin.lightspeed.config)
 
   if akyrey.builtin.lightspeed.on_config_done then
     akyrey.builtin.lightspeed.on_config_done(lightspeed)
@@ -44,5 +44,3 @@ function M.setup()
 end
 
 return M
-
-
