@@ -31,6 +31,7 @@ end
 function M.setup()
   local status_ok, lightspeed = pcall(require, "lightspeed")
   if not status_ok then
+    local Log = require "akyrey.core.log"
     Log:error "Failed to load lightspeed"
     return
   end
