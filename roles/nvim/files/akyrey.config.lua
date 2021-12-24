@@ -29,7 +29,7 @@ linters.setup {
   {
     exe = "eslint_d",
     ---@usage specify which filetypes to enable. By default a providers will attach to all the filetypes it supports.
-    filetypes = { "css", "html", "javascript", "javascriptreact", "json", "scss", "tailwindcss", "typescript", "typescriptreact" },
+    filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
   },
 }
 
