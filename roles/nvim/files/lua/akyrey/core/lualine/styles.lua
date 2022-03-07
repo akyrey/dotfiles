@@ -69,7 +69,7 @@ styles.akyrey = {
     icons_enabled = true,
     component_separators = { left = "", right = "" },
     section_separators = { left = "", right = "" },
-    disabled_filetypes = { "dashboard", "NvimTree", "Outline" },
+    disabled_filetypes = { "dashboard", "Outline" },
   },
   sections = {
     lualine_a = { "mode" },

@@ -1,5 +1,4 @@
 akyrey.builtin.terminal.active = true
-akyrey.builtin.nvimtree.setup.view.side = "left"
 akyrey.builtin.treesitter.ensure_installed = {
   'bash',
   'css',

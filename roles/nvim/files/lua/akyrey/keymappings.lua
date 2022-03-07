@@ -110,7 +110,7 @@ M.config = function()
       -- ------------------- --
       --    File explorer    --
       -- ------------------- --
-      -- nvimtree mapped in its own file as <leader>e
+      ["<leader>e"] = "<CMD>Ex<CR>",
       ["<leader>u"] = "<CMD>UndotreeToggle<CR>",
       -- ------------------- --
       --        Harpoon      --

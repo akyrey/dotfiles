@@ -146,14 +146,6 @@ return {
   -- Icons
   { "kyazdani42/nvim-web-devicons" },
 
-  -- NvimTree
-  {
-    "kyazdani42/nvim-tree.lua",
-    config = function()
-      require("akyrey.core.nvimtree").setup()
-    end,
-    disable = not akyrey.builtin.nvimtree.active,
-  },
   -- Display undo history as a tree
   {
     "mbbill/undotree",
