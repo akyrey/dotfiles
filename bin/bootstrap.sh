@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-tags="$1"
+tags="$@"
 
 if [ -z $tags ]; then
   tags="all"
