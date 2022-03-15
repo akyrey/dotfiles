@@ -37,10 +37,10 @@ M.config = function()
       -- Actions
       map({ "n", "v" }, "<leader>vs", "<cmd>GitSigns stage_hunk<CR>")
       map({ "n", "v" }, "<leader>vr", "<cmd>GitSigns reset_hunk<CR>")
-      map("n", "<leader>vu", "<cmd>GitSigns undo_stage_hunk<CR>")
-      map("n", "<leader>vR", "<cmd>GitSigns reset_buffer<CR>")
-      map("n", "<leader>vp", "<cmd>GitSigns preview_hunk<CR>")
-      map("n", "<leader>vb", '<cmd>lua require"gitsigns".blame_line{full=true}<CR>')
+      map("n", "<leader>vu", gs.undo_stage_hunk)
+      map("n", "<leader>vR", gs.reset_buffer)
+      map("n", "<leader>vp", gs.preview_hunk)
+      map("n", "<leader>vb", function() gs.blame_line{full=true} end)
 
       -- Text objects
       map({ "o", "x" }, "ih", ":<C-U>GitSigns select_hunk()<CR>")
