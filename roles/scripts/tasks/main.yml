@@ -1,3 +1,8 @@
+- name: Creates directory ~/.local/bin
+  file:
+    path: "{{ dotfiles_user_home }}/.local/bin"
+    state: directory
+
 - name: Create symlink to ~/.local/bin/tmux-sessionizer
   file:
     src: "{{ dotfiles_home }}/roles/scripts/files/tmux-sessionizer"
