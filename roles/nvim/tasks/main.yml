@@ -11,7 +11,7 @@
   git:
     repo: https://github.com/neovim/neovim.git
     dest: "{{ dotfiles_user_home }}/.neovim"
-    # version: stable
+    version: tags/nightly
     force: yes
 
 - name: Build nvim in build/bin folder
@@ -20,7 +20,7 @@
     chdir: "{{ dotfiles_user_home }}/.neovim"
     target: install
     params:
-      CMAKE_BUILD_TYPE: Release
+      CMAKE_BUILD_TYPE: RelWithDebInfo
 
 - name: Symlink neovim files
   become: yes
