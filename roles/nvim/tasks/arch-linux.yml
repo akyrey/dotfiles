@@ -8,4 +8,5 @@
       - ninja
       - tree-sitter
       - curl
+      - ripgrep
     state: present

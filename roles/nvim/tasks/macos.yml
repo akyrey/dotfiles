@@ -8,5 +8,6 @@
       - pkg-config
       - gettext
       - curl
+      - ripgrep
     state: present
     update_homebrew: yes

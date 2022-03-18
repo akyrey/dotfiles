@@ -13,5 +13,6 @@
       - cmake
       - unzip
       - curl
+      - ripgrep
     state: present
 
