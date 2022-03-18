@@ -1,32 +1,60 @@
 - import_tasks: roles/zsh/tasks/arch-linux.yml
   when: ansible_os_family == "Archlinux"
+  tags:
+    - dotfiles
+    - install
+    - zsh
 
 - import_tasks: roles/zsh/tasks/debian.yml
   when: ansible_os_family == "Debian"
+  tags:
+    - dotfiles
+    - install
+    - zsh
 
 - name: Check for oh-my-zsh installation
   stat: "path={{ dotfiles_user_home }}/.oh-my-zsh"
   register: oh_my_zsh_stat
+  tags:
+    - dotfiles
+    - install
+    - zsh
 
 - name: Install oh-my-zsh
   raw: "sh -c \"$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)\""
   when: not oh_my_zsh_stat.stat.exists
+  tags:
+    - dotfiles
+    - install
+    - zsh
 
 - name: Install zsh-completion plugin
   ansible.builtin.git:
     repo: "https://github.com/zsh-users/zsh-completions"
     dest: "{{ dotfiles_user_home }}/.oh-my-zsh/custom/plugins/zsh-completions"
+  tags:
+    - dotfiles
+    - install
+    - zsh
 
 - name: Install zsh-autosuggestions plugin
   ansible.builtin.git:
     repo: "https://github.com/zsh-users/zsh-autosuggestions"
     dest: "{{ dotfiles_user_home }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
+  tags:
+    - dotfiles
+    - install
+    - zsh
 
 - name: Install powerlevel10k theme
   when: not oh_my_zsh_stat.stat.exists
   git:
     repo: https://github.com/romkatv/powerlevel10k.git
     dest: "{{ dotfiles_user_home }}/.oh-my-zsh/custom/themes/powerlevel10k"
+  tags:
+    - dotfiles
+    - install
+    - zsh
 
 - name: Symlink .zshrc
   file:
@@ -34,3 +62,7 @@
     dest: "{{dotfiles_user_home}}/.zshrc"
     state: link 
     force: yes
+  tags:
+    - dotfiles
+    - install
+    - zsh
