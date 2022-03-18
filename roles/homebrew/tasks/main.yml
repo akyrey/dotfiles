@@ -1,2 +1,5 @@
 - include: macos.yml
   when: ansible_os_family == 'Darwin'
+  tags:
+    - install
+    - homebrew
