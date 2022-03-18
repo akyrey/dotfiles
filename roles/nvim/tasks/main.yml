@@ -14,6 +14,18 @@
     version: tags/nightly
     force: yes
 
+- name: Check if ~/.neovim/build folder already exists
+  stat:
+    path: "{{ dotfiles_user_home }}/.neovim/build"
+  register: nvim_build_folder
+
+- name: Remove current nvim build folder
+  become: yes
+  when: nvim_build_folder.stat.exists
+  file:
+    path: "{{ dotfiles_user_home }}/.neovim/build"
+    state: absent
+
 - name: Build nvim in build/bin folder
   become: yes
   community.general.make:
@@ -22,14 +34,26 @@
     params:
       CMAKE_BUILD_TYPE: RelWithDebInfo
 
+- name: Check if link to /usr/local/bin/nvim folder already exists
+  stat:
+    path: /usr/local/bin/nvim
+  register: nvim_folder
+
 - name: Symlink neovim files
   become: yes
+  when: not nvim_folder.stat.exists
   file:
     src: "{{ dotfiles_user_home }}/.neovim/build/bin/nvim"
     dest: "/usr/local/bin/nvim"
     state: link
 
+- name: Check if link to ~/.config/nvim folder already exists
+  stat:
+    path: "{{ dotfiles_user_home }}/.config/nvim"
+  register: nvim_config_folder
+
 - name: Symlink neovim configurations
+  when: not nvim_config_folder.stat.exists
   file:
     src: "{{ dotfiles_home }}/roles/nvim/files"
     dest: "{{ dotfiles_user_home }}/.config/nvim"
