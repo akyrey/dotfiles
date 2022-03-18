@@ -1,11 +1,20 @@
 - import_tasks: roles/nvim/tasks/debian.yml
   when: ansible_os_family == "Debian"
+  tags:
+    - install
+    - nvim
 
 - import_tasks: roles/nvim/tasks/arch-linux.yml
   when: ansible_os_family == "Archlinux"
+  tags:
+    - install
+    - nvim
 
 - import_tasks: roles/nvim/tasks/macos.yml
   when: ansible_os_family == "Darwin"
+  tags:
+    - install
+    - nvim
 
 - name: Clone nvim repository
   git:
@@ -13,11 +22,17 @@
     dest: "{{ dotfiles_user_home }}/.neovim"
     version: tags/nightly
     force: yes
+  tags:
+    - install
+    - nvim
 
 - name: Check if ~/.neovim/build folder already exists
   stat:
     path: "{{ dotfiles_user_home }}/.neovim/build"
   register: nvim_build_folder
+  tags:
+    - install
+    - nvim
 
 - name: Remove current nvim build folder
   become: yes
@@ -25,6 +40,9 @@
   file:
     path: "{{ dotfiles_user_home }}/.neovim/build"
     state: absent
+  tags:
+    - install
+    - nvim
 
 - name: Build nvim in build/bin folder
   become: yes
@@ -33,11 +51,17 @@
     target: install
     params:
       CMAKE_BUILD_TYPE: RelWithDebInfo
+  tags:
+    - install
+    - nvim
 
 - name: Check if link to /usr/local/bin/nvim folder already exists
   stat:
     path: /usr/local/bin/nvim
   register: nvim_folder
+  tags:
+    - install
+    - nvim
 
 - name: Symlink neovim files
   become: yes
@@ -46,11 +70,17 @@
     src: "{{ dotfiles_user_home }}/.neovim/build/bin/nvim"
     dest: "/usr/local/bin/nvim"
     state: link
+  tags:
+    - install
+    - nvim
 
 - name: Check if link to ~/.config/nvim folder already exists
   stat:
     path: "{{ dotfiles_user_home }}/.config/nvim"
   register: nvim_config_folder
+  tags:
+    - install
+    - nvim
 
 - name: Symlink neovim configurations
   when: not nvim_config_folder.stat.exists
@@ -58,3 +88,6 @@
     src: "{{ dotfiles_home }}/roles/nvim/files"
     dest: "{{ dotfiles_user_home }}/.config/nvim"
     state: link
+  tags:
+    - install
+    - nvim
