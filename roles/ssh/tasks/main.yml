@@ -18,6 +18,16 @@
     - install
     - ssh
 
+- name: Install default ssh public key
+  copy:
+    src: "{{ dotfiles_home }}/roles/ssh/files/id_rsa.pub"
+    dest: "{{ dotfiles_user_home }}/.ssh/id_rsa.pub"
+    mode: 0644
+  tags:
+    - dotfiles
+    - install
+    - ssh
+
 - name: Install codecommit ssh key
   copy:
     src: "{{ dotfiles_home }}/roles/ssh/files/codecommit_rsa"
@@ -28,19 +38,17 @@
     - install
     - ssh
 
-- name: Set authorized default key took from file
-  authorized_key:
-    user: "{{ lookup('env', 'USER') }}"
-    state: present
-    key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+- name: Install codecommit ssh public key
+  copy:
+    src: "{{ dotfiles_home }}/roles/ssh/files/codecommit_rsa.pub"
+    dest: "{{ dotfiles_user_home }}/.ssh/codecommit_rsa.pub"
+    mode: 0644
+  tags:
+    - dotfiles
+    - install
+    - ssh
 
-- name: Set authorized codecommit key took from file
-  authorized_key:
-    user: "{{ lookup('env', 'USER') }}"
-    state: present
-    key: "{{ lookup('file', '~/.ssh/codecommit_rsa.pub') }}"
-
-- name: Copy config
+- name: Install ssh config
   copy:
     src: "{{ dotfiles_home }}/roles/ssh/files/config"
     dest: "{{ dotfiles_user_home }}/.ssh/config"
