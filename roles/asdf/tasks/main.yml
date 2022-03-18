@@ -2,3 +2,24 @@
   git:
     repo: https://github.com/asdf-vm/asdf.git
     dest: "~/.asdf"
+  tags:
+    - install
+    - asdf
+
+- name: Install asdf nodejs plugin
+  shell: asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git
+  tags:
+    - install
+    - asdf
+
+- name: Install asdf nodejs lts version
+  shell: asdf install nodejs lts
+  tags:
+    - install
+    - asdf
+
+- name: Set global nodejs version to lts
+  shell: asdf global nodejs lts
+  tags:
+    - install
+    - asdf
