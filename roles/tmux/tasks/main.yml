@@ -1,11 +1,20 @@
 - import_tasks: roles/tmux/tasks/arch-linux.yml
   when: ansible_os_family == "Archlinux"
+  tags:
+    - install
+    - tmux
 
 - import_tasks: roles/tmux/tasks/debian.yml
   when: ansible_os_family == "Debian"
+  tags:
+    - install
+    - tmux
 
 - import_tasks: roles/tmux/tasks/macos.yml
   when: ansible_os_family == "Darwin"
+  tags:
+    - install
+    - tmux
 
 - name: Symlink .tmux.conf
   file:
@@ -13,3 +22,6 @@
     dest: "{{dotfiles_user_home}}/.tmux.conf"
     state: link
     force: yes
+  tags:
+    - install
+    - tmux
