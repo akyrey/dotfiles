@@ -4,6 +4,9 @@
     - role: asdf
       tags:
         - asdf
+    - role: aws
+      tags:
+        - aws
     - role: git
       tags:
         - git
