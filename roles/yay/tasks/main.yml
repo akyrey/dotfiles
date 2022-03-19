@@ -1,16 +1,36 @@
 - name: Download yay
+  when: ansible_os_family == "Archlinux"
   git:
     repo: https://aur.archlinux.org/yay.git
     dest: "~/.yay"
+  tags:
+    - install
+    - yay
       
 - name: Install yay
+  when: ansible_os_family == "Archlinux"
   raw: "~/.yay/makepkg -si"
+  tags:
+    - install
+    - yay
 
 - name: Generate a development package database for *-git packages that were installed without yay. This command should only be run once.
+  when: ansible_os_family == "Archlinux"
   raw: "yay -Y --gendb"
+  tags:
+    - install
+    - yay
 
 - name: Check for development package updates
+  when: ansible_os_family == "Archlinux"
   raw: "yay -Syu --devel"
+  tags:
+    - install
+    - yay
 
 - name: Make development package updates permanently enabled (yay and yay -Syu will then always check dev packages)
+  when: ansible_os_family == "Archlinux"
   raw: "yay -Y --devel --save"
+  tags:
+    - install
+    - yay
