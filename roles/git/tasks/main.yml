@@ -1,27 +1,69 @@
 - import_tasks: roles/git/tasks/arch-linux.yml
   when: ansible_os_family == "Archlinux"
+  tags:
+    - install
+    - git-personal
+    - git-euronovate
 
 - import_tasks: roles/git/tasks/debian.yml
   when: ansible_os_family == "Debian"
+  tags:
+    - install
+    - git-personal
+    - git-euronovate
 
 - name: Link global gitignore file
   file:
-    src: "{{ dotfiles_home }}/roles/git/files/gitignore_global.link"
+    src: "{{ dotfiles_home }}/roles/git/files/gitignore_global"
     dest: "{{ dotfiles_user_home }}/.gitignore_global"
     state: link
     force: yes
+  tags:
+    - install
+    - git-personal
+    - git-euronovate
 
-- name: Check if gitconfig exists
-  stat: path="{{dotfiles_user_home}}/.gitconfig"
-  register: gitconfig_stat
+- name: Symlink gitconfig file
+  file:
+    src: "{{ dotfiles_home }}/roles/git/files/gitconfig"
+    dest: "{{ dotfiles_user_home }}/.gitconfig"
+    state: link
+    force: yes
+  tags:
+    - install
 
-- name: Back up gitconfig
-  command: mv ~/.gitconfig ~/.gitconfig.bak
-  args:
-    creates: "{{dotfiles_user_home}}/.gitconfig.bak"
-  when: gitconfig_stat.stat.exists
+- name: Git personal setup email
+  git_config:
+    name: user.email
+    scope: global
+    value: "stein.dario@gmail.com"
+  tags:
+    - install
+    - git-personal
 
-- name: Make sure gitconfig is up to date
-  template:
-    src: "gitconfig.j2"
-    dest: "{{dotfiles_user_home}}/.gitconfig"
+- name: Git personal setup name
+  git_config:
+    name: user.name
+    scope: global
+    value: "akyrey"
+  tags:
+    - install
+    - git-personal
+
+- name: Git Euronovate setup email
+  git_config:
+    name: user.email
+    scope: global
+    value: "dario.vogogna@euronovate.com"
+  tags:
+    - install
+    - git-euronovate
+
+- name: Git Euronovate setup name
+  git_config:
+    name: user.name
+    scope: global
+    value: "Dario Vogogna"
+  tags:
+    - install
+    - git-euronovate

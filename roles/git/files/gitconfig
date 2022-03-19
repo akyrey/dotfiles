@@ -1,8 +1,8 @@
 [hub]
         protocol = https
 [user]
-        name = {{ full_name }}
-        email = {{ git_email }}
+	name = Dario Vogogna
+	email = dario.vogogna@euronovate.com
 [alias]
         a = add
         st = status
@@ -36,6 +36,7 @@
 
         l = log --graph --decorate --oneline --abbrev-commit --all
         h = log --graph --decorate --oneline --abbrev-commit
+        lgb = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset%n' --abbrev-commit --date=relative --branches
 
         issues = !hub browse -- issues
         url = "!f() { sha=$(git rev-parse ${1:-HEAD}); hub browse -u -- commit/$sha; }; f"
@@ -65,4 +66,4 @@
         default = simple
         followTags = true
 [github]
-        user = {{ git_user }}
+        user = akyrey
