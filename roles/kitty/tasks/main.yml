@@ -1,4 +1,5 @@
 - name: Symlink kitty configurations
+  when: ansible_os_family == "Archlinux" or ansible_os_family == "Debian"
   file:
     src: "{{ dotfiles_home }}/roles/kitty/files/kitty.conf"
     dest: "{{ dotfiles_user_home }}/.config/kitty/kitty.conf"
@@ -8,6 +9,7 @@
     - kitty
 
 - name: Symlink kitty background
+  when: ansible_os_family == "Archlinux" or ansible_os_family == "Debian"
   file:
     src: "{{ dotfiles_home }}/roles/kitty/files/background.png"
     dest: "{{ dotfiles_user_home }}/.config/kitty/background.png"
@@ -17,6 +19,7 @@
     - kitty
 
 - name: Symlink kitty gruvbox theme
+  when: ansible_os_family == "Archlinux" or ansible_os_family == "Debian"
   file:
     src: "{{ dotfiles_home }}/roles/kitty/files/gruvbox_dark.conf"
     dest: "{{ dotfiles_user_home }}/.config/kitty/gruvbox_dark.conf"
