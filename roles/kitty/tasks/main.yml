@@ -3,16 +3,25 @@
     src: "{{ dotfiles_home }}/roles/kitty/files/kitty.conf"
     dest: "{{ dotfiles_user_home }}/.config/kitty/kitty.conf"
     state: link
+  tags:
+    - install
+    - kitty
 
 - name: Symlink kitty background
   file:
     src: "{{ dotfiles_home }}/roles/kitty/files/background.png"
     dest: "{{ dotfiles_user_home }}/.config/kitty/background.png"
     state: link
+  tags:
+    - install
+    - kitty
 
 - name: Symlink kitty gruvbox theme
   file:
     src: "{{ dotfiles_home }}/roles/kitty/files/gruvbox_dark.conf"
     dest: "{{ dotfiles_user_home }}/.config/kitty/gruvbox_dark.conf"
     state: link
+  tags:
+    - install
+    - kitty
 
