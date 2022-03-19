@@ -2,15 +2,24 @@
   file:
     path: "{{ dotfiles_user_home }}/.local/bin"
     state: directory
+  tags:
+    - install
+    - scripts
 
 - name: Create symlink to ~/.local/bin/tmux-sessionizer
   file:
     src: "{{ dotfiles_home }}/roles/scripts/files/tmux-sessionizer"
     dest: "{{ dotfiles_user_home }}/.local/bin/tmux-sessionizer"
     state: link
+  tags:
+    - install
+    - scripts
 
 - name: Create symlink to ~/.local/bin/cht.sh
   file:
     src: "{{ dotfiles_home }}/roles/scripts/files/cht.sh"
     dest: "{{ dotfiles_user_home }}/.local/bin/cht.sh"
     state: link
+  tags:
+    - install
+    - scripts
