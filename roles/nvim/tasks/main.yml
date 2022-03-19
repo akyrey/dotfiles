@@ -50,7 +50,7 @@
     chdir: "{{ dotfiles_user_home }}/.neovim"
     target: install
     params:
-      CMAKE_BUILD_TYPE: RelWithDebInfo
+      CMAKE_BUILD_TYPE: Release
   tags:
     - install
     - nvim
