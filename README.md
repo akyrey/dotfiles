@@ -1,10 +1,10 @@
 # Aky dotfiles
-Configure Arch Linux using Ansible.  
+Configure Arch Linux, Ubuntu and macOS using Ansible.  
 Inspired by [this](https://medium.com/espinola-designs/manage-your-dotfiles-with-ansible-6dbedd5532bb) medium post and related [GitHub repository](https://github.com/kespinola/dotfiles)
 
 ## Bootstrap
-Firt setup installation run the dot-bootstrap command.
-> `$ ./bin/dot-bootstrap.sh`
+Run the bootstrap script passing up to one tag. 
+> `$ ./bin/bootstrap.sh` 
+If no tag is given, all roles are performed. 
 
-After that you can run any scripts defined in the `$DOTFILES_PATH/bin`
-> `$ dot-bootstrap.sh`
+The bootstrap script will install `pip` and `ansible` if they are not found. 
