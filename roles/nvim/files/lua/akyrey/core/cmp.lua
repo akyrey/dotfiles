@@ -193,8 +193,10 @@ M.config = function()
       select = false,
     },
 
-    documentation = {
-      border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+    window = {
+      documentation = {
+        border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+      },
     },
 
     formatting = {
