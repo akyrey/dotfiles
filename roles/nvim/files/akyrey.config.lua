@@ -11,6 +11,7 @@ akyrey.builtin.treesitter.ensure_installed = {
   'scss',
   'tsx',
   'typescript',
+  'yaml',
 }
 
 local formatters = require "akyrey.lsp.null-ls.formatters"
