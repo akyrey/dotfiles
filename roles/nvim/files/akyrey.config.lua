@@ -21,6 +21,10 @@ formatters.setup {
     ---@usage specify which filetypes to enable. By default a providers will attach to all the filetypes it supports.
     filetypes = { "css", "html", "javascript", "javascriptreact", "json", "scss", "tailwindcss", "typescript", "typescriptreact" },
   },
+  {
+    exe = "gofmt",
+    filetypes = { "go" }
+  }
 }
 
 -- set additional linters
