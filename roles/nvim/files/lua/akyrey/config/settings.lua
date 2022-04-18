@@ -67,9 +67,9 @@ M.load_options = function()
     -- Minimum nr. of lines above and below cursor
     scrolloff = 8,
     -- Number of spaces to use for (auto)indent step
-    shiftwidth = 2,
+    shiftwidth = 4,
     -- always show tabs
-    showtabline = 2,
+    showtabline = 4,
     -- Message on status line to show current mode
     showmode = false,
     -- When and how to display the sign column
@@ -79,7 +79,7 @@ M.load_options = function()
     -- Put cursor at the right indentation after creating a new line
     smartindent = true,
     -- Number of spaces that <Tab> uses while editing
-    softtabstop = 2,
+    softtabstop = 4,
     -- Setting spell (and spelllang) is mandatory to use spellsuggest
     spell = true,
     spelllang = { "en_us",  "it" },
@@ -90,7 +90,7 @@ M.load_options = function()
     -- Don't use a swapfile for a buffer
     swapfile = false,
     -- Number of spaces that <Tab> in file uses
-    tabstop = 2,
+    tabstop = 4,
     -- set term gui colors (most terminals support this)
     termguicolors = true,
     -- time to wait for a mapped sequence to complete (in milliseconds)
