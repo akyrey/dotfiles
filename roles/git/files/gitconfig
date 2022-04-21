@@ -67,3 +67,5 @@
         followTags = true
 [github]
         user = akyrey
+[pull]
+	rebase = true
