@@ -28,7 +28,7 @@ return {
   { "ThePrimeagen/harpoon" },
 
   -- Movement
-  { 
+  {
     "ggandor/lightspeed.nvim",
     config = function ()
       require("akyrey.core.lightspeed").setup()
@@ -150,6 +150,14 @@ return {
   {
     "mbbill/undotree",
     cmd = "UndotreeToggle",
+  },
+  {
+    "vuki656/package-info.nvim",
+    event = "BufRead",
+    requires = "MunifTanjim/nui.nvim",
+    config = function()
+      require("akyrey.core.package-info").setup()
+    end,
   },
   -- Comment multiple lines
   {
