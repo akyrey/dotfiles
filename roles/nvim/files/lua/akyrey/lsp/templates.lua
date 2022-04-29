@@ -15,17 +15,22 @@ function M.remove_template_files()
   end
 end
 
+local skipped_filetypes = akyrey.lsp.automatic_configuration.skipped_filetypes
+local skipped_servers = akyrey.lsp.automatic_configuration.skipped_servers
+
 ---Generates an ftplugin file based on the server_name in the selected directory
 ---@param server_name string name of a valid language server, e.g. pyright, gopls, tsserver, etc.
 ---@param dir string the full path to the desired directory
 function M.generate_ftplugin(server_name, dir)
-  local has_custom_provider, _ = pcall(require, "akyrey/lsp/providers/" .. server_name)
-  if vim.tbl_contains(akyrey.lsp.override, server_name) and not has_custom_provider then
+  if vim.tbl_contains(skipped_servers, server_name) then
     return
   end
 
-  -- we need to go through lspconfig to get the corresponding filetypes currently
-  local filetypes = akyrey_lsp_utils.get_supported_filetypes(server_name) or {}
+  -- get the supported filetypes and remove any ignored ones
+  local filetypes = vim.tbl_filter(function(ft)
+    return not vim.tbl_contains(skipped_filetypes, ft)
+  end, akyrey_lsp_utils.get_supported_filetypes(server_name) or {})
+
   if not filetypes then
     return
   end
@@ -40,8 +45,8 @@ function M.generate_ftplugin(server_name, dir)
 end
 
 ---Generates ftplugin files based on a list of server_names
----The files are generated to a runtimepath: "$AKYREYVIM_RUNTIME_DIR/site/after/ftplugin/template.lua"
----@param servers_names table list of servers to be enabled. Will add all by default
+---The files are generated to a runtimepath: "$LUNARVIM_RUNTIME_DIR/site/after/ftplugin/template.lua"
+---@param servers_names? table list of servers to be enabled. Will add all by default
 function M.generate_templates(servers_names)
   servers_names = servers_names or {}
 
@@ -54,6 +59,7 @@ function M.generate_templates(servers_names)
 
     for _, server in pairs(available_servers) do
       table.insert(servers_names, server.name)
+      table.sort(servers_names)
     end
   end
 

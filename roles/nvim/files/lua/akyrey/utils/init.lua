@@ -58,31 +58,6 @@ function utils.generate_settings()
   io.close(file)
 end
 
--- autoformat
-function utils.toggle_autoformat()
-  if akyrey.format_on_save then
-    require("akyrey.core.autocmds").define_augroups {
-      autoformat = {
-        {
-          "BufWritePre",
-          "*",
-          ":silent lua vim.lsp.buf.formatting_sync()",
-        },
-      },
-    }
-    Log:debug "Format on save active"
-  end
-
-  if not akyrey.format_on_save then
-    vim.cmd [[
-      if exists('#autoformat#BufWritePre')
-        :autocmd! autoformat
-      endif
-    ]]
-    Log:debug "Format on save off"
-  end
-end
-
 function utils.unrequire(m)
   package.loaded[m] = nil
   _G[m] = nil

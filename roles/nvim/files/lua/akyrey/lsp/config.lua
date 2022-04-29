@@ -1,3 +1,38 @@
+local skipped_servers = {
+  "ccls",
+  "csharp_ls",
+  "cssmodules_ls",
+  "denols",
+  "ember",
+  "emmet_ls",
+  "eslintls",
+  "golangci_lint_ls",
+  "jedi_language_server",
+  "ltex",
+  "ocamlls",
+  "phpactor",
+  "psalm",
+  "pylsp",
+  "quick_lint_js",
+  "rome",
+  "reason_ls",
+  "scry",
+  "solang",
+  "solidity_ls",
+  "sorbet",
+  "sourcekit",
+  "sourcery",
+  "spectral",
+  "sqlls",
+  "sqls",
+  "stylelint_lsp",
+  "tflint",
+  "verible",
+  "vuels",
+}
+
+local skipped_filetypes = { "markdown", "rst", "plaintext" }
+
 -- Global organize imports command
 _G.lsp_organize_imports = function()
     local params = {
@@ -14,23 +49,54 @@ return {
     signs = {
       active = true,
       values = {
-        { name = "LspDiagnosticsSignError", text = "" },
-        { name = "LspDiagnosticsSignWarning", text = "" },
-        { name = "LspDiagnosticsSignHint", text = "" },
-        { name = "LspDiagnosticsSignInformation", text = "" },
+        { name = "DiagnosticSignError", text = "" },
+        { name = "DiagnosticSignWarn", text = "" },
+        { name = "DiagnosticSignHint", text = "" },
+        { name = "DiagnosticSignInfo", text = "" },
       },
     },
     virtual_text = true,
     update_in_insert = false,
     underline = true,
     severity_sort = true,
+    float = {
+      focusable = false,
+      style = "minimal",
+      border = "rounded",
+      source = "always",
+      header = "",
+      prefix = "",
+      format = function(d)
+        local t = vim.deepcopy(d)
+        local code = d.code or (d.user_data and d.user_data.lsp.code)
+        if code then
+          t.message = string.format("%s [%s]", t.message, code):gsub("1. ", "")
+        end
+        return t.message
+      end,
+    },
   },
   document_highlight = true,
   code_lens_refresh = true,
-  popup_border = "single",
+  float = {
+    focusable = true,
+    style = "minimal",
+    border = "rounded",
+  },
+  peek = {
+    max_height = 15,
+    max_width = 30,
+    context = 10,
+  },
   on_attach_callback = nil,
   on_init_callback = nil,
   automatic_servers_installation = true,
+  automatic_configuration = {
+    ---@usage list of servers that the automatic installer will skip
+    skipped_servers = skipped_servers,
+    ---@usage list of filetypes that the automatic installer will skip
+    skipped_filetypes = skipped_filetypes,
+  },
   buffer_mappings = {
     normal_mode = {
       ["<leader>gh"] = { "<cmd>lua vim.lsp.buf.hover()<CR>", "Show hover" },
@@ -53,26 +119,8 @@ return {
   },
   null_ls = {
     setup = {},
+    config = {},
   },
-  override = {
-    "angularls",
-    "ansiblels",
-    "denols",
-    "ember",
-    "emmet_ls",
-    "eslint",
-    "eslintls",
-    "graphql",
-    "jedi_language_server",
-    "ltex",
-    "phpactor",
-    "pylsp",
-    "rome",
-    "sqlls",
-    "sqls",
-    "stylelint_lsp",
-    "tailwindcss",
-    "tflint",
-    "volar",
-  },
+  ---@deprecated use automatic_configuration.skipped_servers instead
+  override = {},
 }

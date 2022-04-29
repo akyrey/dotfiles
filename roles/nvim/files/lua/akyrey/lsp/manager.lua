@@ -4,6 +4,7 @@ local Log = require "akyrey.core.log"
 local akyrey_lsp_utils = require "akyrey.lsp.utils"
 
 function M.init_defaults(languages)
+  languages = languages or akyrey_lsp_utils.get_all_supported_filetypes()
   for _, entry in ipairs(languages) do
     if not akyrey.lang[entry] then
       akyrey.lang[entry] = {
@@ -23,6 +24,7 @@ local function resolve_config(name, user_config)
   local config = {
     on_attach = require("akyrey.lsp").common_on_attach,
     on_init = require("akyrey.lsp").common_on_init,
+    on_exit = require("akyrey.lsp").common_on_exit,
     capabilities = require("akyrey.lsp").common_capabilities(),
   }
 
@@ -45,48 +47,68 @@ local function buf_try_add(server_name, bufnr)
   require("lspconfig")[server_name].manager.try_add_wrapper(bufnr)
 end
 
+-- check if the manager autocomd has already been configured since some servers can take a while to initialize
+-- this helps guarding against a data-race condition where a server can get configured twice
+-- which seems to occur only when attaching to single-files
+local function client_is_configured(server_name, ft)
+  ft = ft or vim.bo.filetype
+  local active_autocmds = vim.split(vim.fn.execute("autocmd FileType " .. ft), "\n")
+  for _, result in ipairs(active_autocmds) do
+    if result:match(server_name) then
+      Log:debug(string.format("[%q] is already configured", server_name))
+      return true
+    end
+  end
+  return false
+end
+
+local function launch_server(server_name, config)
+  pcall(function()
+    require("lspconfig")[server_name].setup(config)
+    buf_try_add(server_name)
+  end)
+end
+
 ---Setup a language server by providing a name
 ---@param server_name string name of the language server
 ---@param user_config table [optional] when available it will take predence over any default configurations
 function M.setup(server_name, user_config)
   vim.validate { name = { server_name, "string" } }
+  user_config = user_config or {}
 
-  if akyrey_lsp_utils.is_client_active(server_name) then
+  if akyrey_lsp_utils.is_client_active(server_name) or client_is_configured(server_name) then
     return
   end
+
   local servers = require "nvim-lsp-installer.servers"
+  local server_available, server = servers.get_server(server_name)
 
-  local config = resolve_config(server_name, user_config)
-  local server_available, requested_server = servers.get_server(server_name)
+  if not server_available then
+    local config = resolve_config(server_name, user_config)
+    launch_server(server_name, config)
+    return
+  end
 
-  if server_available then
-    local install_notification = false
+  local install_in_progress = false
 
-    if not requested_server:is_installed() then
-      if akyrey.lsp.automatic_servers_installation then
-        Log:debug "Automatic server installation detected"
-        requested_server:install()
-        install_notification = true
-      else
-        Log:debug(requested_server.name .. " is not managed by the automatic installer")
-      end
-    end
-
-    requested_server:on_ready(function()
-      if install_notification then
-        vim.notify(string.format("Installation complete for [%s] server", requested_server.name), vim.log.levels.INFO)
-      end
-      install_notification = false
-      requested_server:setup(config)
-    end)
-  else
-    -- since it may not be installed, don't attempt to configure the LSP unless there is a custom provider
-    local has_custom_provider, _ = pcall(require, "akyrey/lsp/providers/" .. server_name)
-    if has_custom_provider then
-      require("lspconfig")[server_name].setup(config)
-      buf_try_add(server_name)
+  if not server:is_installed() then
+    if akyrey.lsp.automatic_servers_installation then
+      Log:debug "Automatic server installation detected"
+      server:install()
+      install_in_progress = true
+    else
+      Log:debug(server.name .. " is not managed by the automatic installer")
     end
   end
+
+  server:on_ready(function()
+    if install_in_progress then
+      vim.notify(string.format("Installation complete for [%s] server", server.name), vim.log.levels.INFO)
+    end
+    install_in_progress = false
+    local config = resolve_config(server_name, server:get_default_options(), user_config)
+    launch_server(server_name, config)
+  end)
 end
 
 return M

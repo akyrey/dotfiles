@@ -1,5 +1,6 @@
 local utils = require "akyrey.utils"
 local Log = require "akyrey.core.log"
+local autocmds = require "akyrey.core.autocmds"
 
 local M = {}
 local user_config_dir = get_config_dir()
@@ -73,7 +74,7 @@ function M:reload()
 
   require("akyrey.keymappings").setup() -- this should be done before loading the plugins
   local plugins = require "akyrey.plugins"
-  utils.toggle_autoformat()
+  autocmds.toggle_autoformat()
   local plugin_loader = require "akyrey.plugin-loader"
   plugin_loader:cache_reset()
   plugin_loader:load { plugins, akyrey.plugins }
