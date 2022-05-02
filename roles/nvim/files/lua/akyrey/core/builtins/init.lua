@@ -12,6 +12,7 @@ local builtins = {
   "akyrey.core.lualine",
   "akyrey.core.lightspeed",
   "akyrey.core.notify",
+  "akyrey.core.package-info",
   "akyrey.core.refactoring",
   "akyrey.core.telescope",
   "akyrey.core.terminal",
