@@ -29,12 +29,28 @@ function M.config()
 end
 
 function M.setup()
-  local package_info = require "package-info"
+    local package_info = require "package-info"
 
-  package_info.setup(akyrey.builtin.package_info.options)
-  if akyrey.builtin.package_info.on_config_done then
-    akyrey.builtin.package_info.on_config_done(package_info)
-  end
+    package_info.setup(akyrey.builtin.package_info.options)
+
+    -- Show package versions
+    vim.api.nvim_set_keymap("n", "<leader>is", ":lua require('package-info').show()<CR>", { silent = true, noremap = true })
+    -- Hide package versionj
+    vim.api.nvim_set_keymap("n", "<leader>ic", ":lua require('package-info').hide()<CR>", { silent = true, noremap = true })
+    -- Update package on line
+    vim.api.nvim_set_keymap("n", "<leader>iu", ":lua require('package-info').update()<CR>", { silent = true, noremap = true })
+    -- Delete package on line
+    vim.api.nvim_set_keymap("n", "<leader>id", ":lua require('package-info').delete()<CR>", { silent = true, noremap = true })
+    -- Install a new package
+    vim.api.nvim_set_keymap("n", "<leader>ii", ":lua require('package-info').install()<CR>", { silent = true, noremap = true })
+    -- Reinstall dependencies
+    vim.api.nvim_set_keymap("n", "<leader>ir", ":lua require('package-info').reinstall()<CR>", { silent = true, noremap = true })
+    -- Install a different package version
+    vim.api.nvim_set_keymap("n", "<leader>ip", ":lua require('package-info').change_version()<CR>", { silent = true, noremap = true })
+
+    if akyrey.builtin.package_info.on_config_done then
+        akyrey.builtin.package_info.on_config_done(package_info)
+    end
 end
 
 return M
