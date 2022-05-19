@@ -85,11 +85,16 @@ local get_format_on_save_opts = function()
   }
 end
 
-function M.enable_format_on_save(opts)
-  local fmd_cmd = string.format(":silent lua vim.lsp.buf.formatting_sync({}, %s)", opts.timeout)
-  M.define_augroups {
-    format_on_save = { { "BufWritePre", opts.pattern, fmd_cmd } },
-  }
+function M.enable_format_on_save()
+  local opts = get_format_on_save_opts()
+  vim.api.nvim_create_augroup("lsp_format_on_save", {})
+  vim.api.nvim_create_autocmd("BufWritePre", {
+    group = "lsp_format_on_save",
+    pattern = opts.pattern,
+    callback = function()
+      require("akyrey.lsp.utils").format { timeout_ms = opts.timeout, filter = opts.filter }
+    end,
+  })
   Log:debug "enabled format-on-save"
 end
 
@@ -100,8 +105,7 @@ end
 
 function M.configure_format_on_save()
   if akyrey.format_on_save then
-    local opts = get_format_on_save_opts()
-    M.enable_format_on_save(opts)
+    M.enable_format_on_save()
   else
     M.disable_format_on_save()
   end
@@ -109,8 +113,7 @@ end
 
 function M.toggle_format_on_save()
   if vim.fn.exists "#format_on_save#BufWritePre" == 0 then
-    local opts = get_format_on_save_opts()
-    M.enable_format_on_save(opts)
+    M.enable_format_on_save()
   else
     M.disable_format_on_save()
   end

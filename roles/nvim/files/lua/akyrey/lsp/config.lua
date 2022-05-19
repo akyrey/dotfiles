@@ -112,7 +112,7 @@ return {
         "Show line diagnostics",
       },
       ["<leader>go"] = { "<cmd>lua lsp_organize_imports()<CR>", "Organize imports" },
-      ["<C-p>"] = { "<cmd>lua vim.lsp.buf.formatting()<CR>", "Format code" }
+      ["<C-p>"] = { require("akyrey.lsp.utils").format, "Format code" }
     },
     insert_mode = {},
     visual_mode = {},

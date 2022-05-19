@@ -15,7 +15,7 @@ local function add_lsp_helper_commands()
   local cmd = vim.cmd
   cmd("command! LspDec lua vim.lsp.buf.declaration()")
   cmd("command! LspDef lua vim.lsp.buf.definition()")
-  cmd("command! LspFormatting lua vim.lsp.buf.formatting()")
+  cmd("command! LspFormat require('akyrey.lsp.utils').format")
   cmd("command! LspCodeAction lua vim.lsp.buf.code_action()")
   cmd("command! LspHover lua vim.lsp.buf.hover()")
   cmd("command! LspRename lua vim.lsp.buf.rename()")
