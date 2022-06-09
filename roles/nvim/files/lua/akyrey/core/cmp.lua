@@ -210,7 +210,7 @@ M.config = function()
           nvim_lsp = "   (LSP)",
           luasnip = "   (Snippet)",
           nvim_lua = "   (Lua)",
-          cmp_tabnine = " ♖  (T9)",
+          cmp_tabnine = "   (T9)",
           path = "   (Path)",
           spell = "   (Spell)",
           calc = "   (Calc)",
@@ -295,6 +295,14 @@ end
 
 M.setup = function()
   require("luasnip/loaders/from_vscode").lazy_load()
+  local tabnine = require("cmp_tabnine.config")
+  tabnine:setup({
+	max_lines = 1000,
+	max_num_results = 20,
+	sort = true,
+	run_on_every_keystroke = true,
+	snippet_placeholder = "..",
+  })
   require("cmp").setup(akyrey.builtin.cmp)
 end
 
