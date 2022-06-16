@@ -139,7 +139,7 @@ M.config = function()
 
       l = {
         name = "LSP",
-        a = { "<cmd>lua require('akyrey.core.telescope').code_actions()<cr>", "Code Action" },
+        a = { "<cmd>lua vim.lsp.buf.code_action()<cr>", "Code Action" },
         d = {
           "<cmd>Telescope lsp_document_diagnostics<cr>",
           "Document Diagnostics",
@@ -152,11 +152,11 @@ M.config = function()
         i = { "<cmd>LspInfo<cr>", "Info" },
         I = { "<cmd>LspInstallInfo<cr>", "Installer Info" },
         j = {
-          "<cmd>lua vim.lsp.diagnostic.goto_next({popup_opts = {border = akyrey.lsp.popup_border}})<cr>",
+          "<cmd>lua vim.diagnostic.goto_next({popup_opts = {border = akyrey.lsp.popup_border}})<cr>",
           "Next Diagnostic",
         },
         k = {
-          "<cmd>lua vim.lsp.diagnostic.goto_prev({popup_opts = {border = akyrey.lsp.popup_border}})<cr>",
+          "<cmd>lua vim.diagnostic.goto_prev({popup_opts = {border = akyrey.lsp.popup_border}})<cr>",
           "Prev Diagnostic",
         },
         l = { "<cmd>lua vim.lsp.codelens.run()<cr>", "CodeLens Action" },
@@ -166,7 +166,7 @@ M.config = function()
           t = { "<cmd>lua require('akyrey.lsp.peek').Peek('typeDefinition')<cr>", "Type Definition" },
           i = { "<cmd>lua require('akyrey.lsp.peek').Peek('implementation')<cr>", "Implementation" },
         },
-        q = { "<cmd>lua vim.lsp.diagnostic.set_loclist()<cr>", "Quickfix" },
+        q = { "<cmd>lua vim.diagnostic.setloclist()<cr>", "Quickfix" },
         r = { "<cmd>lua vim.lsp.buf.rename()<cr>", "Rename" },
         s = { "<cmd>Telescope lsp_document_symbols<cr>", "Document Symbols" },
         S = {
@@ -216,7 +216,7 @@ M.config = function()
           },
           P = { "<cmd>exe 'edit '.stdpath('cache').'/packer.nvim.log'<cr>", "Open the Packer logfile" },
         },
-        r = { "<cmd>akyreyReload<cr>", "Reload Akyrey's configuration" },
+        r = { "<cmd>lua require('akyrey.config.init').reload()<cr>", "Reload Akyrey's configuration" },
       },
       s = {
         name = "Search",

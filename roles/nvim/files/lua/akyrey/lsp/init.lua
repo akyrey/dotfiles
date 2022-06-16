@@ -25,7 +25,7 @@ local function add_lsp_helper_commands()
   cmd("command! LspImplementation lua vim.lsp.buf.implementation()")
   cmd("command! LspDiagPrev lua vim.lsp.diagnostic.goto_prev()")
   cmd("command! LspDiagNext lua vim.lsp.diagnostic.goto_next()")
-  cmd("command! LspDiagLine lua vim.lsp.diagnostic.show_line_diagnostics()")
+  cmd("command! LspDiagLine lua require('akyrey.lsp.handlers').show_line_diagnostics()")
   cmd("command! LspSignatureHelp lua vim.lsp.buf.signature_help()")
 end
 

@@ -74,7 +74,7 @@ function M:reload()
 
   require("akyrey.keymappings").setup() -- this should be done before loading the plugins
   local plugins = require "akyrey.plugins"
-  autocmds.toggle_autoformat()
+  autocmds.configure_format_on_save()
   local plugin_loader = require "akyrey.plugin-loader"
   plugin_loader:cache_reset()
   plugin_loader:load { plugins, akyrey.plugins }

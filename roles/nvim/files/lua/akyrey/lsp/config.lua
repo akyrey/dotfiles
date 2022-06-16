@@ -108,7 +108,7 @@ return {
       ["<leader>gc"] = { "<cmd>lua vim.lsp.buf.rename()<CR>", "Rename references" },
       ["<leader>gp"] = { "<cmd>lua require'akyrey.lsp.peek'.Peek('definition')<CR>", "Peek definition" },
       ["<leader>gl"] = {
-        "<cmd>lua vim.lsp.diagnostic.show_line_diagnostics({ show_header = false, border = 'single' })<CR>",
+        "<cmd>lua require('akyrey.lsp.handlers').show_line_diagnostics()<CR>",
         "Show line diagnostics",
       },
       ["<leader>go"] = { "<cmd>lua lsp_organize_imports()<CR>", "Organize imports" },
