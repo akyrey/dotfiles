@@ -3,7 +3,6 @@ local M = {}
 local builtins = {
   "akyrey.keymappings",
   "akyrey.core.autopairs",
-  "akyrey.core.bufferline",
   "akyrey.core.cmp",
   "akyrey.core.colorizer",
   "akyrey.core.dap",

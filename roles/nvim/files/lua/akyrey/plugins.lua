@@ -133,15 +133,6 @@ return {
       require("akyrey.core.lualine").setup()
     end
   },
-  -- Bufferline
-  {
-    "romgrk/barbar.nvim",
-    config = function()
-      require("akyrey.core.bufferline").setup()
-    end,
-    event = "BufWinEnter",
-    disable = not akyrey.builtin.bufferline.active,
-  },
 
   -- Icons
   { "kyazdani42/nvim-web-devicons" },
