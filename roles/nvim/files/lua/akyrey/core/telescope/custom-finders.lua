@@ -1,19 +1,16 @@
 local M = {}
 
-local _, builtin = pcall(require, "telescope.builtin")
-local _, finders = pcall(require, "telescope.finders")
-local _, pickers = pcall(require, "telescope.pickers")
-local _, sorters = pcall(require, "telescope.sorters")
+-- local _, builtin = pcall(require, "telescope.builtin")
+-- local _, finders = pcall(require, "telescope.finders")
+-- local _, pickers = pcall(require, "telescope.pickers")
+-- local _, sorters = pcall(require, "telescope.sorters")
 local _, themes = pcall(require, "telescope.themes")
-local _, actions = pcall(require, "telescope.actions")
-local _, previewers = pcall(require, "telescope.previewers")
-local _, make_entry = pcall(require, "telescope.make_entry")
-
-local utils = require "akyrey.utils"
+-- local _, actions = pcall(require, "telescope.actions")
+-- local _, previewers = pcall(require, "telescope.previewers")
+-- local _, make_entry = pcall(require, "telescope.make_entry")
 
 M.find_config_files = function(opts)
   opts = opts or {}
-  local themes = require "telescope.themes"
   local theme_opts = themes.get_dropdown {
     sorting_strategy = "ascending",
     prompt = ">> ",
@@ -27,7 +24,6 @@ end
 
 M.grep_config_files = function(opts)
   opts = opts or {}
-  local themes = require "telescope.themes"
   local theme_opts = themes.get_dropdown {
     sorting_strategy = "ascending",
     prompt = ">> ",
