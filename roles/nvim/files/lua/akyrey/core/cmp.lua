@@ -206,6 +206,7 @@ M.config = function()
           .. vim_item.kind
         -- set a name for each source
         vim_item.menu = ({
+          copilot = "   (Copilot)",
           buffer = "   (Buffer)",
           nvim_lsp = "   (LSP)",
           luasnip = "   (Snippet)",
@@ -281,6 +282,7 @@ M.config = function()
 
     sources = {
       { name = "nvim_lsp" },
+      { name = "copilot" },
       { name = "buffer" },
       { name = "nvim_lua" },
       { name = "cmp_tabnine" },
