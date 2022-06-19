@@ -40,7 +40,7 @@ M.config = function()
     -- akyrey.builtin.terminal.execs = {{}} to overwrite
     -- akyrey.builtin.terminal.execs[#akyrey.builtin.terminal.execs+1] = {"gdb", "tg", "GNU Debugger"}
     execs = {
-      { "lazygit", "gg", "LazyGit" },
+      { "lazygit", "vL", "LazyGit" },
     },
   }
 end

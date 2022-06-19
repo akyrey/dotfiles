@@ -61,56 +61,19 @@ M.config = function()
     -- NOTE: Prefer using : over <cmd> as the latter avoids going back in normal-mode.
     -- see https://neovim.io/doc/user/map.html#:map-cmd
     vmappings = {
-      ["/"] = { "<ESC><CMD>lua ___comment_gc(vim.fn.visualmode())<CR>", "Comment" },
     },
     mappings = {
-      ["w"] = { "<cmd>w!<CR>", "Save" },
-      ["q"] = { "<cmd>q!<CR>", "Quit" },
-      ["/"] = { "<cmd>lua require('Comment').toggle()<CR>", "Comment" },
-      ["c"] = { "<cmd>BufferClose!<CR>", "Close Buffer" },
-      ["f"] = { "<cmd>Telescope find_files<CR>", "Find File" },
-      -- ["h"] = { "<cmd>nohlsearch<CR>", "No Highlight" },
       b = {
         name = "Buffers",
-        j = { "<cmd>BufferPick<cr>", "Jump" },
-        f = { "<cmd>Telescope buffers<cr>", "Find" },
         b = { "<cmd>b#<cr>", "Previous" },
-        w = { "<cmd>BufferWipeout<cr>", "Wipeout" },
         e = {
           "<cmd>BufferCloseAllButCurrent<cr>",
           "Close all but current",
         },
-        h = { "<cmd>BufferCloseBuffersLeft<cr>", "Close all to the left" },
-        l = {
-          "<cmd>BufferCloseBuffersRight<cr>",
-          "Close all to the right",
-        },
-        D = {
-          "<cmd>BufferOrderByDirectory<cr>",
-          "Sort by directory",
-        },
-        L = {
-          "<cmd>BufferOrderByLanguage<cr>",
-          "Sort by language",
-        },
-      },
-      p = {
-        name = "Packer",
-        c = { "<cmd>PackerCompile<cr>", "Compile" },
-        i = { "<cmd>PackerInstall<cr>", "Install" },
-        r = { "<cmd>lua require('akyrey.plugin-loader').cache_reset()<cr>", "Re-compile" },
-        s = { "<cmd>PackerSync<cr>", "Sync" },
-        S = { "<cmd>PackerStatus<cr>", "Status" },
-        u = { "<cmd>PackerUpdate<cr>", "Update" },
+        -- Lists open buffers in current neovim instance
+        f = { "<cmd>Telescope buffers<cr>", "Find" },
       },
 
-      -- " Available Debug Adapters:
-      -- "   https://microsoft.github.io/debug-adapter-protocol/implementors/adapters/
-      -- " Adapter configuration and installation instructions:
-      -- "   https://github.com/mfussenegger/nvim-dap/wiki/Debug-Adapter-installation
-      -- " Debug Adapter protocol:
-      -- "   https://microsoft.github.io/debug-adapter-protocol/
-      -- " Debugging
       v = {
         name = "Git",
         j = { "<cmd>lua require 'gitsigns'.next_hunk()<cr>", "Next Hunk" },
@@ -124,6 +87,7 @@ M.config = function()
           "<cmd>lua require 'gitsigns'.undo_stage_hunk()<cr>",
           "Undo Stage Hunk",
         },
+        -- Telescope related
         o = { "<cmd>Telescope git_status<cr>", "Open changed file" },
         b = { "<cmd>Telescope git_branches<cr>", "Checkout branch" },
         c = { "<cmd>Telescope git_commits<cr>", "Checkout commit" },
@@ -135,17 +99,45 @@ M.config = function()
           "<cmd>Gitsigns diffthis HEAD<cr>",
           "Git Diff",
         },
+        -- ------------------- --
+        --    Git Fugitive     --
+        -- ------------------- --
+        G = { "<CMD>G<CR>", "Fugitive" },
+        g = { "<CMD>diffget //2<CR>", "Get left chunk" },
+        h = { "<CMD>diffget //3<CR>", "Get right chunk" },
+        -- ------------------- --
+        --    Git Worktree     --
+        -- ------------------- --
+        w = {
+          name = "+Worktree",
+          l = {
+            "<CMD>lua require('telescope').extensions.git_worktree.git_worktrees()<CR>",
+            "List worktrees"
+          },
+          c = {
+            "<CMD>lua require('git-worktree').create_worktree(vim.fn.input('Worktree name > '), vim.fn.input('Worktree upstream > '))<CR>",
+            "Create worktree"
+          },
+          s = {
+            "<CMD>lua require('git-worktree').switch_worktree(vim.fn.input('Worktree name > '))<CR>",
+            "Switch worktree"
+          },
+          d = {
+            "<CMD>lua require('git-worktree').delete_worktree(vim.fn.input('Worktree name > '))<CR>",
+            "Delete worktree"
+          },
+        }
       },
 
       l = {
         name = "LSP",
         a = { "<cmd>lua vim.lsp.buf.code_action()<cr>", "Code Action" },
         d = {
-          "<cmd>Telescope lsp_document_diagnostics<cr>",
+          "<cmd>Telescope diagnostics bufnr=0<cr>",
           "Document Diagnostics",
         },
         w = {
-          "<cmd>Telescope lsp_workspace_diagnostics<cr>",
+          "<cmd>Telescope diagnostics<cr>",
           "Workspace Diagnostics",
         },
         f = { require("akyrey.lsp.utils").format, "Format" },
@@ -167,17 +159,19 @@ M.config = function()
           i = { "<cmd>lua require('akyrey.lsp.peek').Peek('implementation')<cr>", "Implementation" },
         },
         q = { "<cmd>lua vim.diagnostic.setloclist()<cr>", "Quickfix" },
-        r = { "<cmd>lua vim.lsp.buf.rename()<cr>", "Rename" },
+        r = { "<CMD>lua require('akyrey.core.refactoring').refactors()<CR>", "Refactors" },
+        c = { "<cmd>lua vim.lsp.buf.rename()<cr>", "Rename" },
         s = { "<cmd>Telescope lsp_document_symbols<cr>", "Document Symbols" },
         S = {
           "<cmd>Telescope lsp_dynamic_workspace_symbols<cr>",
           "Workspace Symbols",
         },
       },
+
       A = {
         name = "+Akyrey",
         c = {
-          "<cmd>edit " .. get_config_dir() .. "/config.lua<cr>",
+          "<cmd>edit " .. get_config_dir() .. "/akyrey.config.lua<cr>",
           "Edit config.lua",
         },
         f = {
@@ -189,10 +183,6 @@ M.config = function()
           "Grep config files",
         },
         k = { "<cmd>lua require('akyrey.keymappings').print()<cr>", "View Akyrey's default keymappings" },
-        i = {
-          "<cmd>lua require('akyrey.core.info').toggle_popup(vim.bo.filetype)<cr>",
-          "Toggle Akyrey Info",
-        },
         l = {
           name = "+logs",
           d = {
@@ -218,23 +208,69 @@ M.config = function()
         },
         r = { "<cmd>lua require('akyrey.config.init').reload()<cr>", "Reload Akyrey's configuration" },
       },
+
+      -- ------------------- --
+      --      Telescope      --
+      -- ------------------- --
       s = {
         name = "Search",
         b = { "<cmd>Telescope git_branches<cr>", "Checkout branch" },
         c = { "<cmd>Telescope colorscheme<cr>", "Colorscheme" },
+        -- Lists files in your current working directory, respects .gitignore
         f = { "<cmd>Telescope find_files<cr>", "Find File" },
+        -- Lists available help tags and opens a new window with the relevant help info on <cr>
         h = { "<cmd>Telescope help_tags<cr>", "Find Help" },
         M = { "<cmd>Telescope man_pages<cr>", "Man Pages" },
         r = { "<cmd>Telescope oldfiles<cr>", "Open Recent File" },
         R = { "<cmd>Telescope registers<cr>", "Registers" },
         t = { "<cmd>Telescope live_grep<cr>", "Text" },
+        -- Searches all project by a string
+        s = {
+          "<CMD>lua require('telescope.builtin').grep_string({ search = vim.fn.input('Grep For > ')})<CR>",
+          "Search by string",
+        },
         k = { "<cmd>Telescope keymaps<cr>", "Keymaps" },
         C = { "<cmd>Telescope commands<cr>", "Commands" },
         p = {
           "<cmd>lua require('telescope.builtin.internal').colorscheme({enable_preview = true})<cr>",
           "Colorscheme with Preview",
         },
+        T = { "<CMD>lua require('telescope.builtin').treesitter()<CR>", "Treesitter symbols" },
+        -- Searches for the string under your cursor in your current working directory
+        w = {
+          "<CMD>lua require('telescope.builtin').grep_string { search = vim.fn.expand('<cword>') }<CR>",
+          "Search string under your cursor",
+        },
       },
+
+      -- ------------------- --
+      --        Harpoon      --
+      -- ------------------- --
+      h = {
+        name = "+Harpoon",
+        a = { "<CMD>lua require('harpoon.mark').add_file()<CR>", "Add file" },
+        t = { "<CMD>lua require('harpoon.ui').toggle_quick_menu()<CR>", "Toggle quick menu" },
+        h = { "<CMD>lua require('harpoon.ui').nav_file(1)<CR>", "Navigate to #1" },
+        j = { "<CMD>lua require('harpoon.ui').nav_file(2)<CR>", "Navigate to #2" },
+        k = { "<CMD>lua require('harpoon.ui').nav_file(3)<CR>", "Navigate to #3" },
+        l = { "<CMD>lua require('harpoon.ui').nav_file(4)<CR>", "Navigate to #4" },
+      },
+
+      -- ------------------- --
+      --      Navigation     --
+      -- ------------------- --
+      n = {
+        name = "+Navigation",
+        -- Go to next occurence in local quickfix list
+        k = { "<CMD>lua require('akyrey.utils').navigate_QF(false)<CR>zz", "Next QF list" },
+        -- Go to previous occurence in local quickfix list
+        j = { "<CMD>lua require('akyrey.utils').navigate_QF(true)<CR>zz", "Prev QF list" },
+        -- Open global quickfix list
+        q = { "<CMD>lua require('akyrey.utils').toggle_global_or_local_QF()<CR>", "Toggle global or local QF list" },
+        -- Open local quickfix list
+        t = { "<CMD>lua require('akyrey.utils').toggle_QF()<CR>", "Toggle QF list" },
+      },
+
       T = {
         name = "Treesitter",
         i = { ":TSConfigInfo<cr>", "Info" },

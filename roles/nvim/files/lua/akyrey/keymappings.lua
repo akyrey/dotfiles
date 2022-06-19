@@ -99,67 +99,16 @@ M.config = function()
       --      Navigation     --
       -- ------------------- --
       ["<C-q>"] = "<CMD>call QuickFixToggle()<CR>",
-      -- Go to next occurence in local quickfix list
-      ["<leader>nk"] = "<CMD>lua require('akyrey.utils').navigate_QF(false)<CR>zz",
-      -- Go to previous occurence in local quickfix list
-      ["<leader>nj"] = "<CMD>lua require('akyrey.utils').navigate_QF(true)<CR>zz",
-      -- Open global quickfix list
-      ["<leader>nq"] = "<CMD>lua require('akyrey.utils').toggle_global_or_local_QF()<CR>",
-      -- Open local quickfix list
-      ["<leader>nt"] = "<CMD>lua require('akyrey.utils').toggle_QF()<CR>",
       -- ------------------- --
       --    File explorer    --
       -- ------------------- --
       ["<leader>e"] = "<CMD>Ex<CR>",
       ["<leader>u"] = "<CMD>UndotreeToggle<CR>",
       -- ------------------- --
-      --        Harpoon      --
-      -- ------------------- --
-      ["<leader>ha"] = "<CMD>lua require('harpoon.mark').add_file()<CR>",
-      ["<leader>ht"] = "<CMD>lua require('harpoon.ui').toggle_quick_menu()<CR>",
-      ["<leader>hh"] = "<CMD>lua require('harpoon.ui').nav_file(1)<CR>",
-      ["<leader>hj"] = "<CMD>lua require('harpoon.ui').nav_file(2)<CR>",
-      ["<leader>hk"] = "<CMD>lua require('harpoon.ui').nav_file(3)<CR>",
-      ["<leader>hl"] = "<CMD>lua require('harpoon.ui').nav_file(4)<CR>",
-      -- ------------------- --
       --      Telescope      --
       -- ------------------- --
-      -- Searches all project by a string
-      ["<leader>fs"] = "<CMD>lua require('telescope.builtin').grep_string({ search = vim.fn.input('Grep For > ')})<CR>",
       -- Fuzzy search through the output of git ls-files command, respects .gitignore, optionally ignores untracked files
       ["<C-f>"] = "<CMD>lua require('telescope.builtin').git_files()<CR>",
-      -- Lists files in your current working directory, respects .gitignore
-      ["<leader>ff"] = "<CMD>lua require('telescope.builtin').find_files()<CR>",
-      -- Searches for the string under your cursor in your current working directory
-      ["<leader>fw"] = "<CMD>lua require('telescope.builtin').grep_string { search = vim.fn.expand('<cword>') }<CR>",
-      -- Lists open buffers in current neovim instance
-      ["<leader>fb"] = "<CMD>lua require('telescope.builtin').buffers()<CR>",
-      -- Lists available help tags and opens a new window with the relevant help info on <cr>
-      ["<leader>fh"] = "<CMD>lua require('telescope.builtin').help_tags()<CR>",
-      -- Search by tree-sitter symbols
-      ["<leader>ft"] = "<CMD>lua require('telescope.builtin').treesitter()<CR>",
-      -- List git branches
-      ["<leader>fg"] = "<CMD>lua require('telescope.builtin').git_branches()<CR>",
-      -- List worktrees
-      ["<leader>fgw"] = "<CMD>lua require('telescope').extensions.git_worktree.git_worktrees()<CR>",
-      -- Search in vimrc configuration folder
-      ["<leader>frc"] = "<CMD>lua require('core.telescope').find_config_files()<CR>",
-      -- ------------------- --
-      --    Git Worktree     --
-      -- ------------------- --
-      ["<leader>wc"] = "<CMD>lua require('git-worktree').create_worktree(vim.fn.input('Worktree name > '), vim.fn.input('Worktree upstream > '))<CR>",
-      ["<leader>ws"] = "<CMD>lua require('git-worktree').switch_worktree(vim.fn.input('Worktree name > '))<CR>",
-      ["<leader>wd"] = "<CMD>lua require('git-worktree').delete_worktree(vim.fn.input('Worktree name > '))<CR>",
-      -- ------------------- --
-      --    Git Fugitive     --
-      -- ------------------- --
-      ["<leader>vL"] = "<CMD>G<CR>",
-      ["<leader>vg"] = "<CMD>diffget //2<CR>",
-      ["<leader>vh"] = "<CMD>diffget //3<CR>",
-      -- ------------------- --
-      --     Refactoring     --
-      -- ------------------- --
-      ["<leader>r"] = "<CMD>lua require('akyrey.core.refactoring').refactors()<CR>",
     },
 
     ---@usage change or add keymappings for terminal mode
