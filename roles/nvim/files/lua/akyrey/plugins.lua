@@ -195,9 +195,16 @@ return {
     end,
     disable = not akyrey.builtin.dap.active,
   },
+  {
+    "rcarriga/nvim-dap-ui",
+    requires = {
+      { "mfussenegger/nvim-dap" },
+    },
+  },
   -- Debugger management
   {
-    "Pocco81/DAPInstall.nvim",
+    "Pocco81/dap-buddy.nvim",
+    branch = "dev",
     -- event = "BufWinEnter",
     -- event = "BufRead",
     disable = not akyrey.builtin.dap.active,

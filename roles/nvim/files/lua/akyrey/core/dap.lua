@@ -3,7 +3,7 @@ local Log = require "akyrey.core.log"
 
 M.config = function()
   akyrey.builtin.dap = {
-    active = false,
+    active = true,
     on_config_done = nil,
     breakpoint = {
       text = "",
@@ -32,6 +32,17 @@ M.setup = function()
     Log:error "Failed to load dap"
     return
   end
+  local dapui_status_ok, dapui = pcall(require, "dapui")
+  if not dapui_status_ok then
+    Log:error "Failed to load dapui"
+    return
+  end
+  local dap_install_status_ok, dap_install = pcall(require, "dap-install")
+  if not dap_install_status_ok then
+    Log:error "Failed to load dap_install"
+    return
+  end
+  local dbg_list = require("dap-install.api.debuggers").get_installed_debuggers()
 
   vim.fn.sign_define("DapBreakpoint", akyrey.builtin.dap.breakpoint)
   vim.fn.sign_define("DapBreakpointRejected", akyrey.builtin.dap.breakpoint_rejected)
@@ -39,22 +50,35 @@ M.setup = function()
 
   dap.defaults.fallback.terminal_win_cmd = "50vsplit new"
 
-  akyrey.builtin.which_key.mappings["d"] = {
-    name = "Debug",
-    t = { "<cmd>lua require'dap'.toggle_breakpoint()<cr>", "Toggle Breakpoint" },
-    b = { "<cmd>lua require'dap'.step_back()<cr>", "Step Back" },
-    c = { "<cmd>lua require'dap'.continue()<cr>", "Continue" },
-    C = { "<cmd>lua require'dap'.run_to_cursor()<cr>", "Run To Cursor" },
-    d = { "<cmd>lua require'dap'.disconnect()<cr>", "Disconnect" },
-    g = { "<cmd>lua require'dap'.session()<cr>", "Get Session" },
-    i = { "<cmd>lua require'dap'.step_into()<cr>", "Step Into" },
-    o = { "<cmd>lua require'dap'.step_over()<cr>", "Step Over" },
-    u = { "<cmd>lua require'dap'.step_out()<cr>", "Step Out" },
-    p = { "<cmd>lua require'dap'.pause.toggle()<cr>", "Pause" },
-    r = { "<cmd>lua require'dap'.repl.toggle()<cr>", "Toggle Repl" },
-    s = { "<cmd>lua require'dap'.continue()<cr>", "Start" },
-    q = { "<cmd>lua require'dap'.close()<cr>", "Quit" },
+
+  for _, debugger in ipairs(dbg_list) do
+	dap_install.config(debugger)
+  end
+
+  dap.configurations.typescript = {
+    {
+      type = "chrome",
+      request = "attach",
+      program = "${file}",
+      debugServer = 45635,
+      cwd = vim.fn.getcwd(),
+      sourceMaps = true,
+      protocol = "inspector",
+      port = 9222,
+      webRoot = "${workspaceFolder}",
+    }
   }
+
+  dapui.setup()
+  dap.listeners.after.event_initialized["dapui_config"] = function()
+    dapui.open()
+  end
+  dap.listeners.before.event_terminated["dapui_config"] = function()
+    dapui.close()
+  end
+  dap.listeners.before.event_exited["dapui_config"] = function()
+    dapui.close()
+  end
 
   if akyrey.builtin.dap.on_config_done then
     akyrey.builtin.dap.on_config_done(dap)
