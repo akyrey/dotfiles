@@ -48,7 +48,6 @@ return {
     requires = {
       { "L3MON4D3/LuaSnip" },
       { "saadparwaiz1/cmp_luasnip" },
-      { "hrsh7th/cmp-copilot" },
       { "hrsh7th/cmp-buffer" },
       { "hrsh7th/cmp-nvim-lsp" },
       { "hrsh7th/cmp-path" },
@@ -99,7 +98,19 @@ return {
     end
   },
 
-  { "github/copilot.vim" },
+  {
+    "zbirenbaum/copilot.lua",
+    event = "VimEnter",
+    requires = {
+      {
+        "zbirenbaum/copilot-cmp",
+         module = "copilot_cmp",
+      },
+    },
+    config = function ()
+      require("akyrey.core.copilot").setup()
+    end
+  },
 
   -- Git related
   { "tpope/vim-fugitive" },
