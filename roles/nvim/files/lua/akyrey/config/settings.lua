@@ -33,7 +33,7 @@ M.load_options = function()
   local settings = {
     -- Don't keep backup file after overwriting a file
     backup = false,
-    clipboard = { "unnamedplus", "unnamed" },
+    clipboard = { "unnamed" },
     -- Number of lines to use for the command-line
     cmdheight = 2,
     -- Columns to highlight
