@@ -5,7 +5,6 @@ local builtins = {
   "akyrey.core.autopairs",
   "akyrey.core.cmp",
   "akyrey.core.colorizer",
-  "akyrey.core.copilot",
   "akyrey.core.dap",
   "akyrey.core.git-worktree",
   "akyrey.core.gitsigns",

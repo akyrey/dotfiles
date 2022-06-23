@@ -105,20 +105,6 @@ return {
     end
   },
 
-  {
-    "zbirenbaum/copilot.lua",
-    event = "VimEnter",
-    requires = {
-      {
-        "zbirenbaum/copilot-cmp",
-         module = "copilot_cmp",
-      },
-    },
-    config = function ()
-      require("akyrey.core.copilot").setup()
-    end
-  },
-
   -- Git related
   { "tpope/vim-fugitive" },
   { "junegunn/gv.vim" },
@@ -183,6 +169,14 @@ return {
     config = function ()
       require("akyrey.core.todo-comments").setup()
     end
+  },
+  {
+    "iamcco/markdown-preview.nvim",
+    run = "cd app && npm install",
+    setup = function()
+      vim.g.mkdp_filetypes = { "markdown" }
+    end,
+    ft = { "markdown" },
   },
   -- Whichkey
   {

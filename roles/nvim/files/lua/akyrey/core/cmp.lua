@@ -282,7 +282,6 @@ M.config = function()
 
     sources = {
       { name = "nvim_lsp" },
-      { name = "copilot" },
       { name = "buffer" },
       { name = "nvim_lua" },
       { name = "cmp_tabnine" },
