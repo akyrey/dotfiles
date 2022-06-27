@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+# -x includes class names in the window list for wmctrl -a activates the application if it is already running (raising it)
+wmctrl -x -a "$1" || $2

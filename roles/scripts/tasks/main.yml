@@ -23,3 +23,12 @@
   tags:
     - install
     - scripts
+
+- name: Create symlink to ~/.local/bin/run-or-raise
+  file:
+    src: "{{ dotfiles_home }}/roles/scripts/files/run-or-raise"
+    dest: "{{ dotfiles_user_home }}/.local/bin/run-or-raise"
+    state: link
+  tags:
+    - install
+    - scripts
