@@ -39,10 +39,10 @@ linters.setup {
 
 -- Load angularls if we are in an Angular project
 if require("akyrey.utils").is_in_package_json("@angular/core") == true then
-  require("akyrey.lsp.manager").setup("angularls", {})
+  require("akyrey.lsp.manager").setup "angularls"
 end
 
 -- Load tailwindcss if we are in a project with tailwindcss installed
 if require("akyrey.utils").is_in_package_json("tailwindcss") == true then
-  require("akyrey.lsp.manager").setup("tailwindcss", {})
+  require("akyrey.lsp.manager").setup "tailwindcss"
 end
