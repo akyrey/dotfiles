@@ -117,14 +117,10 @@ M.config = function()
           "Git Diff",
         },
         -- ------------------- --
-        --       Neogit        --
+        --         Git         --
         -- ------------------- --
         G = { "<CMD>lua require('neogit').open({ kind = 'split' })<CR>", "Neogit" },
-        g = { "<CMD>diffget //2<CR>", "Get left chunk" },
-        h = { "<CMD>diffget //3<CR>", "Get right chunk" },
-        -- ------------------- --
-        --    Git Worktree     --
-        -- ------------------- --
+        h = { "<CMD>DiffviewFileHistory %<CR>", "Current file history" },
         w = {
           name = "+Worktree",
           l = {
