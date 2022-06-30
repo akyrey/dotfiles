@@ -106,7 +106,15 @@ return {
   },
 
   -- Git related
-  { "tpope/vim-fugitive" },
+  {
+    "TimUntersberger/neogit",
+    requires = {
+      "nvim-lua/plenary.nvim",
+    },
+    config = function ()
+      require("akyrey.core.neogit").setup()
+    end
+  },
   { "junegunn/gv.vim" },
   {
     "lewis6991/gitsigns.nvim",

@@ -117,9 +117,9 @@ M.config = function()
           "Git Diff",
         },
         -- ------------------- --
-        --    Git Fugitive     --
+        --       Neogit        --
         -- ------------------- --
-        G = { "<CMD>G<CR>", "Fugitive" },
+        G = { "<CMD>lua require('neogit').open({ kind = 'split' })<CR>", "Neogit" },
         g = { "<CMD>diffget //2<CR>", "Get left chunk" },
         h = { "<CMD>diffget //3<CR>", "Get right chunk" },
         -- ------------------- --
