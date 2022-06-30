@@ -2,7 +2,6 @@ local M = {}
 
 local plugin_loader = require "akyrey.plugin-loader"
 local Log = require "akyrey.core.log"
-local in_headless = #vim.api.nvim_list_uis() == 0
 
 ---Reset any startup cache files used by Packer and Impatient
 ---It also forces regenerating any template ftplugin files

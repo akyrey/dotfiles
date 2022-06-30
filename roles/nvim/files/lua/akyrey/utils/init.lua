@@ -1,5 +1,4 @@
 local utils = {}
-local Log = require "akyrey.core.log"
 local uv = vim.loop
 
 -- recursive Print (structure, limit, separator)
