@@ -115,6 +115,7 @@ return {
       require("akyrey.core.neogit").setup()
     end
   },
+  { 'sindrets/diffview.nvim', requires = 'nvim-lua/plenary.nvim' },
   { "junegunn/gv.vim" },
   {
     "lewis6991/gitsigns.nvim",
