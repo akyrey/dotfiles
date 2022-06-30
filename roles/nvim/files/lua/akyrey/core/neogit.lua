@@ -23,8 +23,8 @@ function M.config()
             -- customize displayed signs
             signs = {
                 -- { CLOSED, OPENED }
-                section = { "契", "▎" },
-                item = { "契", "▎" },
+                section = { "契", "▼" },
+                item = { "契", "▼" },
                 hunk = { "", "" },
             },
             integrations = {
@@ -40,7 +40,7 @@ function M.config()
                 --   }
                 -- }
                 --
-                diffview = false
+                diffview = true
             },
             -- Setting any section to `false` will make the section not render at all
             sections = {
@@ -80,7 +80,7 @@ function M.setup()
         return
     end
 
-    neogit.setup(akyrey.builtin.neogit)
+    neogit.setup(akyrey.builtin.neogit.setup)
 end
 
 return M
