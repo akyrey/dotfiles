@@ -13,9 +13,12 @@ M.config = function()
       'jsdoc',
       'json',
       'lua',
+      'markdown',
+      'rust',
       'scss',
       'tsx',
       'typescript',
+      'yaml',
     }, -- one of "all", "maintained" (parsers with maintainers), or a list of languages
     ignore_install = {},
     matchup = {

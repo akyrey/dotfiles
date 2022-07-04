@@ -95,7 +95,13 @@ return {
       require("akyrey.core.treesitter").setup()
     end
   },
-  { "romgrk/nvim-treesitter-context" },
+  {
+    "nvim-treesitter/nvim-treesitter-context",
+    config = function ()
+      require("akyrey.core.treesitter-context").setup()
+    end,
+    disable = not akyrey.builtin.treesitter_context.active,
+  },
 
   {
     "ThePrimeagen/refactoring.nvim",

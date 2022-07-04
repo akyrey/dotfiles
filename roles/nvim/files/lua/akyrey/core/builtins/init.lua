@@ -18,6 +18,7 @@ local builtins = {
   "akyrey.core.terminal",
   "akyrey.core.todo-comments",
   "akyrey.core.treesitter",
+  "akyrey.core.treesitter-context",
   "akyrey.core.which-key",
   "akyrey.core.comment",
 }
