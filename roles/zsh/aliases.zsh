@@ -20,4 +20,9 @@ alias dkc="docker compose"
 alias aws-login="aws ecr get-login-password --region eu-south-1 | docker login --username AWS --password-stdin 422393141836.dkr.ecr.eu-south-1.amazonaws.com"
 
 # Install globally required packages
-alias npm-global="npm i -g eslint eslint_d prettier @fsouza/prettierd npx"
+alias npm-global="npm i --location=global npmrc eslint eslint_d prettier @fsouza/prettierd npx"
+
+# Logitech headset requires these inputs
+alias fix-headset="headsetcontrol -l 0 && headsetcontrol -s 128"
+
+alias mount-gdrive="rclone mount --daemon --daemon-timeout=5m --buffer-size=64M --dir-cache-time=64h --vfs-cache-mode=full  --vfs-read-chunk-size 100M  --vfs-read-chunk-size-limit 0 --vfs-cache-max-age=6h GDrive: ~/GDrive"
