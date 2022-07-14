@@ -69,3 +69,5 @@
         user = akyrey
 [pull]
 	rebase = true
+[fetch]
+	prune = true
