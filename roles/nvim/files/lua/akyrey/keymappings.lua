@@ -131,6 +131,7 @@ M.config = function()
 
     ---@usage change or add keymappings for command mode
     command_mode = {
+      ['%%'] = { "getcmdtype() == ':' ? expand('%:h').'/' : '%%'", { noremap = true, expr = true }},
     },
   }
 end
