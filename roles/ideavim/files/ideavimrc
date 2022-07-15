@@ -57,17 +57,19 @@ nmap J mzJ`z
 nmap <leader>j :m .+1<CR>==
 nmap <leader>k :m .-2<CR>==
 """ Related to navigation
-nmap <leader>ff <Action>(GotoFile)
-nmap <leader>fc <Action>(GotoClass)
-nmap <leader>fs <Action>(GotoSymbol)
-nmap <leader>fr <Action>(RecentFiles)
+nmap <leader>sf <Action>(GotoFile)
+nmap <leader>sc <Action>(GotoClass)
+nmap <leader>ss <Action>(GotoSymbol)
+nmap <leader>sr <Action>(RecentFiles)
 nmap <leader>lf <Action>(ReformatCode)
-nmap <leader>lg <Action>(GotoDeclaration)
+nmap <leader>gd <Action>(GotoDeclaration)
 nmap <leader>lj <Action>(GotoNextError)
 nmap <leader>lk <Action>(GotoPreviousError)
-nmap <leader>rv <Action>(RenameElement)
+nmap <leader>gc <Action>(RenameElement)
 nmap <leader>rm <Action>(ExtractMethod)
 nmap <leader>rs <Action>(ChangeSignature)
+nmap <leader>gl <Action>(ShowErrorDescription)
+nmap <leader>la <Action>(ShowIntentionActions)
 
 """ Visual mode
 """ Moving text
