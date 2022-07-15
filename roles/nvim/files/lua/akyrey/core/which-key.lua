@@ -119,7 +119,8 @@ M.config = function()
         -- ------------------- --
         --         Git         --
         -- ------------------- --
-        G = { "<CMD>lua require('neogit').open({ kind = 'split' })<CR>", "Neogit" },
+        G = { "<CMD>G<CR>", "Fugitive" },
+        n = { "<CMD>lua require('neogit').open({ kind = 'split' })<CR>", "Neogit" },
         h = { "<CMD>DiffviewFileHistory %<CR>", "Current file history" },
         w = {
           name = "+Worktree",

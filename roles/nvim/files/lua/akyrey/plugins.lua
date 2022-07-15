@@ -112,6 +112,7 @@ return {
   },
 
   -- Git related
+  { "tpope/vim-fugitive" },
   {
     "TimUntersberger/neogit",
     requires = {
