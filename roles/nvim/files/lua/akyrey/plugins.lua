@@ -172,7 +172,6 @@ return {
   },
   {
     "vuki656/package-info.nvim",
-    event = "BufRead",
     requires = "MunifTanjim/nui.nvim",
     config = function()
       require("akyrey.core.package-info").setup()
