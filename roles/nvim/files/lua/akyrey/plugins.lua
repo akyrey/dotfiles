@@ -144,7 +144,9 @@ return {
   },
 
   -- Install Gruvbox color theme
-  { "morhetz/gruvbox" },
+  -- { "morhetz/gruvbox" },
+  -- Install Tokyo Night theme
+  { "folke/tokyonight.nvim" },
   -- Color highlighter
   {
     "norcalli/nvim-colorizer.lua",

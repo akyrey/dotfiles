@@ -1,6 +1,6 @@
 return {
   leader = " ",
-  colorscheme = "gruvbox",
+  colorscheme = "tokyonight",
   line_wrap_cursor_movement = false,
   transparent_window = true,
   format_on_save = false,
