@@ -89,7 +89,9 @@ return {
   -- Parser generator and parsing library
   {
     "nvim-treesitter/nvim-treesitter",
-    -- branch = "0.5-compat",
+    requires = {
+      { "windwp/nvim-ts-autotag" },
+    },
     run = ":TSUpdate",
     config = function ()
       require("akyrey.core.treesitter").setup()
