@@ -19,6 +19,9 @@
     - role: ideavim
       tags:
         - ideavim
+    - role: kde
+      tags:
+        - kde
     - role: nvim
       tags:
         - nvim

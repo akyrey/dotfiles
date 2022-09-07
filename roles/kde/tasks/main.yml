@@ -1,0 +1,30 @@
+- name: Symlink kde plasma themes folder
+  when: ansible_os_family == "Archlinux"
+  file:
+    src: "{{ dotfiles_home }}/roles/kde/files/theme/plasma"
+    dest: "{{ dotfiles_user_home }}/.local/share/plasma"
+    state: link
+  tags:
+    - install
+    - kde
+
+- name: Symlink kde plasma wallpapers folder
+  when: ansible_os_family == "Archlinux"
+  file:
+    src: "{{ dotfiles_home }}/roles/kde/files/theme/wallpapers"
+    dest: "{{ dotfiles_user_home }}/.local/share/wallpapers"
+    state: link
+  tags:
+    - install
+    - kde
+
+- name: Symlink kde configs
+  when: ansible_os_family == "Archlinux"
+  file:
+    src: "{{ dotfiles_home }}/roles/kde/files/config/"
+    dest: "{{ dotfiles_user_home }}/.config/"
+    state: link
+  tags:
+    - install
+    - kde
+
