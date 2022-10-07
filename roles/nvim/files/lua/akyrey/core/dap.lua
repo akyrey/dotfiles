@@ -57,6 +57,7 @@ M.setup = function()
 
   dap.configurations.typescript = {
     {
+      name = "Debug (Attach) - Remote",
       type = "chrome",
       request = "attach",
       program = "${file}",

@@ -246,6 +246,14 @@ return {
     disable = not akyrey.builtin.dap.active,
   },
 
+  -- Database
+  {
+    "kristijanhusak/vim-dadbod-ui",
+    requires = {
+      { "tpope/vim-dadbod" },
+    }
+  },
+
 
   -- Terminal
   {
