@@ -148,7 +148,18 @@ return {
   -- Install Gruvbox color theme
   -- { "morhetz/gruvbox" },
   -- Install Tokyo Night theme
-  { "folke/tokyonight.nvim" },
+  -- { "folke/tokyonight.nvim" },
+  {
+    "catppuccin/nvim",
+    as = 'catppuccin',
+    config = function ()
+      local ok, catppuccin = pcall(require, "catppuccin")
+      if not ok then return end
+
+      vim.g.catppuccin_flavour = "macchiato" -- latte, frappe, macchiato, mocha
+      catppuccin.setup {}
+    end
+  },
   -- Color highlighter
   {
     "norcalli/nvim-colorizer.lua",

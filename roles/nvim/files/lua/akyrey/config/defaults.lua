@@ -1,6 +1,6 @@
 return {
   leader = " ",
-  colorscheme = "tokyonight",
+  colorscheme = "catppuccin",
   line_wrap_cursor_movement = false,
   transparent_window = true,
   format_on_save = false,

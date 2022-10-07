@@ -2,6 +2,7 @@ local M = {}
 
 M.setup = function()
   local cmd = vim.cmd
+  vim.g.catppuccin_flavour = "macchiato" -- latte, frappe, macchiato, mocha
   vim.g.colors_name = akyrey.colorscheme -- Colorscheme must get called after plugins are loaded or it will break new installs.
   cmd("colorscheme " .. akyrey.colorscheme)
   cmd("highlight NonText guifg='#2196f3'")
