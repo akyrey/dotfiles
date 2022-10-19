@@ -48,6 +48,26 @@
     - install
     - ssh
 
+- name: Install BitBucket ssh key
+  copy:
+    src: "{{ dotfiles_home }}/roles/ssh/files/bitbucket_rsa"
+    dest: "{{ dotfiles_user_home }}/.ssh/bitbucket_rsa"
+    mode: 0600
+  tags:
+    - dotfiles
+    - install
+    - ssh
+
+- name: Install BitBucket ssh public key
+  copy:
+    src: "{{ dotfiles_home }}/roles/ssh/files/bitbucket_rsa.pub"
+    dest: "{{ dotfiles_user_home }}/.ssh/bitbucket_rsa.pub"
+    mode: 0644
+  tags:
+    - dotfiles
+    - install
+    - ssh
+
 - name: Install ssh config
   copy:
     src: "{{ dotfiles_home }}/roles/ssh/files/config"
