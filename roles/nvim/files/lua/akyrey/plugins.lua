@@ -44,6 +44,11 @@ return {
     },
   },
 
+  {
+    "weilbith/nvim-code-action-menu",
+    cmd = "CodeActionMenu",
+  },
+
   -- Completions & Snippets
   -- Auto completion and snippets
   {

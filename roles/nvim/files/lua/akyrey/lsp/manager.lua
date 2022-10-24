@@ -33,8 +33,7 @@ local function resolve_mason_config(server_name)
 end
 
 ---Resolve the configuration for a server based on both common and user configuration
----@param name string
----@param user_config table [optional]
+---@param server_name string
 ---@return table
 local function resolve_config(server_name, ...)
   local config = {
