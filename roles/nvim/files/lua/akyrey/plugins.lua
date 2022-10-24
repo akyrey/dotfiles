@@ -6,7 +6,13 @@ return {
   { "tamago324/nlsp-settings.nvim" },
   { "jose-elias-alvarez/null-ls.nvim" },
   { "antoinemadec/FixCursorHold.nvim" }, -- Needed while issue https://github.com/neovim/neovim/issues/12587 is still open
-  { "williamboman/nvim-lsp-installer" },
+  { "williamboman/mason-lspconfig.nvim" },
+  {
+    "williamboman/mason.nvim",
+    config = function()
+      require("akyrey.core.mason").setup()
+    end,
+  },
   { "rcarriga/nvim-notify" },
   { "Tastyep/structlog.nvim" },
 

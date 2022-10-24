@@ -1,6 +1,7 @@
 local M = {}
 
 local Log = require "akyrey.core.log"
+local fmt = string.format
 local akyrey_lsp_utils = require "akyrey.lsp.utils"
 
 function M.init_defaults(languages)
@@ -16,11 +17,26 @@ function M.init_defaults(languages)
   end
 end
 
+local function resolve_mason_config(server_name)
+  local found, mason_config = pcall(require, "mason-lspconfig.server_configurations." .. server_name)
+  if not found then
+    Log:debug(fmt("mason configuration not found for %s", server_name))
+    return {}
+  end
+  local server_mapping = require "mason-lspconfig.mappings.server"
+  local path = require "mason-core.path"
+  local pkg_name = server_mapping.lspconfig_to_package[server_name]
+  local install_dir = path.package_prefix(pkg_name)
+  local conf = mason_config(install_dir)
+  Log:debug(fmt("resolved mason configuration for %s, got %s", server_name, vim.inspect(conf)))
+  return conf or {}
+end
+
 ---Resolve the configuration for a server based on both common and user configuration
 ---@param name string
 ---@param user_config table [optional]
 ---@return table
-local function resolve_config(name, user_config)
+local function resolve_config(server_name, ...)
   local config = {
     on_attach = require("akyrey.lsp").common_on_attach,
     on_init = require("akyrey.lsp").common_on_init,
@@ -28,15 +44,13 @@ local function resolve_config(name, user_config)
     capabilities = require("akyrey.lsp").common_capabilities(),
   }
 
-  local has_custom_provider, custom_config = pcall(require, "akyrey/lsp/providers/" .. name)
+  local has_custom_provider, custom_config = pcall(require, "akyrey/lsp/providers/" .. server_name)
   if has_custom_provider then
-    Log:debug("Using custom configuration for requested server: " .. name)
+    Log:debug("Using custom configuration for requested server: " .. server_name)
     config = vim.tbl_deep_extend("force", config, custom_config)
   end
 
-  if user_config then
-    config = vim.tbl_deep_extend("force", config, user_config)
-  end
+  config = vim.tbl_deep_extend("force", config, ...)
 
   return config
 end
@@ -52,9 +66,9 @@ end
 -- which seems to occur only when attaching to single-files
 local function client_is_configured(server_name, ft)
   ft = ft or vim.bo.filetype
-  local active_autocmds = vim.split(vim.fn.execute("autocmd FileType " .. ft), "\n")
+  local active_autocmds = vim.api.nvim_get_autocmds { event = "FileType", pattern = ft }
   for _, result in ipairs(active_autocmds) do
-    if result:match(server_name) then
+    if result.command:match(server_name) then
       Log:debug(string.format("[%q] is already configured", server_name))
       return true
     end
@@ -80,35 +94,45 @@ function M.setup(server_name, user_config)
     return
   end
 
-  local servers = require "nvim-lsp-installer.servers"
-  local server_available, server = servers.get_server(server_name)
+  local server_mapping = require "mason-lspconfig.mappings.server"
+  local registry = require "mason-registry"
 
-  if not server_available then
+  local pkg_name = server_mapping.lspconfig_to_package[server_name]
+  if not pkg_name then
     local config = resolve_config(server_name, user_config)
     launch_server(server_name, config)
     return
   end
 
-  local install_in_progress = false
+  local should_auto_install = function(name)
+    local installer_settings = akyrey.lsp.installer.setup
+    return installer_settings.automatic_installation
+      and not vim.tbl_contains(installer_settings.automatic_installation.exclude, name)
+  end
 
-  if not server:is_installed() then
-    if akyrey.lsp.automatic_servers_installation then
+  if not registry.is_installed(pkg_name) then
+    if should_auto_install(server_name) then
       Log:debug "Automatic server installation detected"
-      server:install()
-      install_in_progress = true
+      vim.notify_once(string.format("Installation in progress for [%s]", server_name), vim.log.levels.INFO)
+      local pkg = registry.get_package(pkg_name)
+      pkg:install():once("closed", function()
+        if pkg:is_installed() then
+          vim.schedule(function()
+            vim.notify_once(string.format("Installation complete for [%s]", server_name), vim.log.levels.INFO)
+            -- mason config is only available once the server has been installed
+            local config = resolve_config(server_name, resolve_mason_config(server_name), user_config)
+            launch_server(server_name, config)
+          end)
+        end
+      end)
+      return
     else
-      Log:debug(server.name .. " is not managed by the automatic installer")
+      Log:debug(server_name .. " is not managed by the automatic installer")
     end
   end
 
-  server:on_ready(function()
-    if install_in_progress then
-      vim.notify(string.format("Installation complete for [%s] server", server.name), vim.log.levels.INFO)
-    end
-    install_in_progress = false
-    local config = resolve_config(server_name, server:get_default_options(), user_config)
-    launch_server(server_name, config)
-  end)
+  local config = resolve_config(server_name, resolve_mason_config(server_name), user_config)
+  launch_server(server_name, config)
 end
 
 return M

@@ -3,14 +3,6 @@ local Log = require "akyrey.core.log"
 local utils = require "akyrey.utils"
 local autocmds = require "akyrey.core.autocmds"
 
-local function lsp_highlight_document(client)
-  if akyrey.lsp.document_highlight == false then
-    return -- we don't need further
-  end
-  -- Set autocommands conditional on server_capabilities
-  autocmds.enable_lsp_document_highlight(client.id)
-end
-
 local function add_lsp_helper_commands()
   local cmd = vim.cmd
   cmd("command! LspDec lua vim.lsp.buf.declaration()")
@@ -29,13 +21,9 @@ local function add_lsp_helper_commands()
   cmd("command! LspSignatureHelp lua vim.lsp.buf.signature_help()")
 end
 
-local function lsp_code_lens_refresh(client)
-  if akyrey.lsp.code_lens_refresh == false then
-    return
-  end
-
-  if client.server_capabilities.code_lens then
-    autocmds.enable_code_lens_refresh()
+local function add_lsp_buffer_options(bufnr)
+  for k, v in pairs(akyrey.lsp.buffer_options) do
+    vim.api.nvim_buf_set_option(bufnr, k, v)
   end
 end
 
@@ -66,6 +54,11 @@ local function add_lsp_buffer_keybindings(bufnr)
 end
 
 function M.common_capabilities()
+  local status_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
+  if status_ok then
+    return cmp_nvim_lsp.default_capabilities()
+  end
+
   local capabilities = vim.lsp.protocol.make_client_capabilities()
   capabilities.textDocument.completion.completionItem.snippetSupport = true
   capabilities.textDocument.completion.completionItem.resolveSupport = {
@@ -76,36 +69,15 @@ function M.common_capabilities()
     },
   }
 
-  local status_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
-  if status_ok then
-    capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
-  end
-
   return capabilities
-end
-
-local function select_default_formater(client)
-  if client.name == "null-ls" or not client.server_capabilities.document_formatting then
-    return
-  end
-  Log:debug("Checking for formatter overriding for " .. client.name)
-  local formatters = require "akyrey.lsp.null-ls.formatters"
-  local client_filetypes = client.config.filetypes or {}
-  for _, filetype in ipairs(client_filetypes) do
-    if #vim.tbl_keys(formatters.list_registered_providers(filetype)) > 0 then
-      Log:debug("Formatter overriding detected. Disabling formatting capabilities for " .. client.name)
-      client.server_capabilities.document_formatting = false
-      client.server_capabilities.document_range_formatting = false
-    end
-  end
 end
 
 function M.common_on_exit(_, _)
   if akyrey.lsp.document_highlight then
-    autocmds.disable_lsp_document_highlight()
+    autocmds.clear_augroup "lsp_document_highlight"
   end
   if akyrey.lsp.code_lens_refresh then
-    autocmds.disable_code_lens_refresh()
+    autocmds.clear_augroup "lsp_code_lens_refresh"
   end
 end
 
@@ -115,7 +87,6 @@ function M.common_on_init(client, bufnr)
     Log:debug "Called lsp.on_init_callback"
     return
   end
-  select_default_formater(client)
 end
 
 function M.common_on_attach(client, bufnr)
@@ -123,18 +94,17 @@ function M.common_on_attach(client, bufnr)
     akyrey.lsp.on_attach_callback(client, bufnr)
     Log:debug "Called lsp.on_attach_callback"
   end
-  lsp_highlight_document(client)
-  add_lsp_helper_commands()
-  lsp_code_lens_refresh(client)
-  add_lsp_buffer_keybindings(bufnr)
-end
-
-local function bootstrap_nlsp(opts)
-  opts = opts or {}
-  local lsp_settings_status_ok, lsp_settings = pcall(require, "nlspsettings")
-  if lsp_settings_status_ok then
-    lsp_settings.setup(opts)
+  local lu = require "akyrey.lsp.utils"
+  if akyrey.lsp.document_highlight then
+    lu.setup_document_highlight(client, bufnr)
   end
+  if akyrey.lsp.code_lens_refresh then
+    lu.setup_codelens_refresh(client, bufnr)
+  end
+  add_lsp_helper_commands()
+  add_lsp_buffer_keybindings(bufnr)
+  add_lsp_buffer_options(bufnr)
+  lu.setup_document_symbols(client, bufnr)
 end
 
 function M.get_common_opts()
@@ -149,6 +119,11 @@ end
 function M.setup()
   Log:debug "Setting up LSP support"
 
+  local lsp_status_ok, _ = pcall(require, "lspconfig")
+  if not lsp_status_ok then
+    return
+  end
+
   for _, sign in ipairs(akyrey.lsp.diagnostics.signs.values) do
     vim.fn.sign_define(sign.name, { texthl = sign.name, text = sign.text, numhl = sign.name })
   end
@@ -159,15 +134,16 @@ function M.setup()
     require("akyrey.lsp.templates").generate_templates()
   end
 
-  bootstrap_nlsp {
-    config_home = utils.join_paths(get_config_dir(), "lsp-settings"),
-    append_default_schemas = true,
-  }
+  pcall(function()
+    require("nlspsettings").setup(akyrey.lsp.nlsp_settings.setup)
+  end)
 
-  require("nvim-lsp-installer").setup {
-    -- use the default nvim_data_dir, since the server binaries are independent
-    install_root_dir = utils.join_paths(vim.call("stdpath", "data"), "lsp_servers"),
-  }
+  pcall(function()
+    require("mason-lspconfig").setup(akyrey.lsp.installer.setup)
+    local util = require "lspconfig.util"
+    -- automatic_installation is handled by lsp-manager
+    util.on_setup = nil
+  end)
 
   require("akyrey.lsp.null-ls").setup()
 

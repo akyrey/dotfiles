@@ -1,5 +1,6 @@
 local M = {}
 
+local Log = require "akyrey.core.log"
 local tbl = require "akyrey.utils.table"
 
 function M.is_client_active(name)
@@ -50,37 +51,34 @@ end
 
 ---Get supported filetypes per server
 ---@param server_name string can be any server supported by nvim-lsp-installer
----@return table supported filestypes as a list of strings
+---@return string[] supported filestypes as a list of strings
 function M.get_supported_filetypes(server_name)
-  local status_ok, lsp_installer_servers = pcall(require, "nvim-lsp-installer.servers")
+  local status_ok, config = pcall(require, ("lspconfig.server_configurations.%s"):format(server_name))
   if not status_ok then
     return {}
   end
 
-  local server_available, requested_server = lsp_installer_servers.get_server(server_name)
-  if not server_available then
-    return {}
-  end
-
-  return requested_server:get_supported_filetypes()
+  return config.default_config.filetypes or {}
 end
 
 ---Get supported servers per filetype
----@param filetype string
----@return table list of names of supported servers
-function M.get_supported_servers_per_filetype(filetype)
-  local filetype_server_map = require "nvim-lsp-installer._generated.filetype_map"
-  return filetype_server_map[filetype]
+---@param filter { filetype: string | string[] }?: (optional) Used to filter the list of server names.
+---@return string[] list of names of supported servers
+function M.get_supported_servers(filter)
+  local _, supported_servers = pcall(function()
+    return require("mason-lspconfig").get_available_servers(filter)
+  end)
+  return supported_servers or {}
 end
 
----Get all supported filetypes by nvim-lsp-installer
----@return table supported filestypes as a list of strings
+---Get all supported filetypes by mason-lspconfig
+---@return string[] supported filestypes as a list of strings
 function M.get_all_supported_filetypes()
-  local status_ok, lsp_installer_filetypes = pcall(require, "nvim-lsp-installer._generated.filetype_map")
+  local status_ok, filetype_server_map = pcall(require, "mason-lspconfig.mappings.filetype")
   if not status_ok then
     return {}
   end
-  return vim.tbl_keys(lsp_installer_filetypes or {})
+  return vim.tbl_keys(filetype_server_map or {})
 end
 
 function M.conditional_document_highlight(id)
@@ -93,63 +91,109 @@ function M.conditional_document_highlight(id)
   vim.lsp.buf.document_highlight()
 end
 
+function M.setup_document_highlight(client, bufnr)
+  -- if akyrey.builtin.illuminate.active then
+  --   Log:debug "skipping setup for document_highlight, illuminate already active"
+  --   return
+  -- end
+  local status_ok, highlight_supported = pcall(function()
+    return client.supports_method "textDocument/documentHighlight"
+  end)
+  if not status_ok or not highlight_supported then
+    return
+  end
+  local group = "lsp_document_highlight"
+  local hl_events = { "CursorHold", "CursorHoldI" }
+
+  local ok, hl_autocmds = pcall(vim.api.nvim_get_autocmds, {
+    group = group,
+    buffer = bufnr,
+    event = hl_events,
+  })
+
+  if ok and #hl_autocmds > 0 then
+    return
+  end
+
+  vim.api.nvim_create_augroup(group, { clear = false })
+  vim.api.nvim_create_autocmd(hl_events, {
+    group = group,
+    buffer = bufnr,
+    callback = vim.lsp.buf.document_highlight,
+  })
+  vim.api.nvim_create_autocmd("CursorMoved", {
+    group = group,
+    buffer = bufnr,
+    callback = vim.lsp.buf.clear_references,
+  })
+end
+
+function M.setup_document_symbols(client, bufnr)
+  vim.g.navic_silence = false -- can be set to true to suppress error
+  local symbols_supported = client.supports_method "textDocument/documentSymbol"
+  if not symbols_supported then
+    Log:debug("skipping setup for document_symbols, method not supported by " .. client.name)
+    return
+  end
+  local status_ok, navic = pcall(require, "nvim-navic")
+  if status_ok then
+    navic.attach(client, bufnr)
+  end
+end
+
+function M.setup_codelens_refresh(client, bufnr)
+  local status_ok, codelens_supported = pcall(function()
+    return client.supports_method "textDocument/codeLens"
+  end)
+  if not status_ok or not codelens_supported then
+    return
+  end
+  local group = "lsp_code_lens_refresh"
+  local cl_events = { "BufEnter", "InsertLeave" }
+  local ok, cl_autocmds = pcall(vim.api.nvim_get_autocmds, {
+    group = group,
+    buffer = bufnr,
+    event = cl_events,
+  })
+
+  if ok and #cl_autocmds > 0 then
+    return
+  end
+  vim.api.nvim_create_augroup(group, { clear = false })
+  vim.api.nvim_create_autocmd(cl_events, {
+    group = group,
+    buffer = bufnr,
+    callback = vim.lsp.codelens.refresh,
+  })
+end
+
 ---filter passed to vim.lsp.buf.format
 ---always selects null-ls if it's available and caches the value per buffer
 ---@param client table client attached to a buffer
----@return table chosen clients
+---@return boolean if client matches
 function M.format_filter(client)
   local filetype = vim.bo.filetype
   local n = require "null-ls"
   local s = require "null-ls.sources"
   local method = n.methods.FORMATTING
-  local avalable_sources = s.get_available(filetype, method)
+  local available_formatters = s.get_available(filetype, method)
 
-  if #avalable_sources > 0 then
+  if #available_formatters > 0 then
     return client.name == "null-ls"
-  else
+  elseif client.supports_method "textDocument/formatting" then
     return true
+  else
+    return false
   end
 end
 
----Provide vim.lsp.buf.format for nvim <0.8
----@param opts table
+---Simple wrapper for vim.lsp.buf.format() to provide defaults
+---@param opts table|nil
 function M.format(opts)
   opts = opts or {}
   opts.filter = opts.filter or M.format_filter
 
-  if vim.lsp.buf.format then
-    return vim.lsp.buf.format(opts)
-  end
-
-  local bufnr = opts.bufnr or vim.api.nvim_get_current_buf()
-  local clients = vim.lsp.get_active_clients {
-    id = opts.id,
-    bufnr = bufnr,
-    name = opts.name,
-  }
-
-  if opts.filter then
-    clients = vim.tbl_filter(opts.filter, clients)
-  end
-
-  clients = vim.tbl_filter(function(client)
-    return client.supports_method "textDocument/formatting"
-  end, clients)
-
-  if #clients == 0 then
-    vim.notify "[LSP] Format request failed, no matching language servers."
-  end
-
-  local timeout_ms = opts.timeout_ms or 1000
-  for _, client in pairs(clients) do
-    local params = vim.lsp.util.make_formatting_params(opts.formatting_options)
-    local result, err = client.request_sync("textDocument/formatting", params, timeout_ms, bufnr)
-    if result and result.result then
-      vim.lsp.util.apply_text_edits(result.result, bufnr, client.offset_encoding)
-    elseif err then
-      vim.notify(string.format("[LSP][%s] %s", client.name, err), vim.log.levels.WARN)
-    end
-  end
+  return vim.lsp.buf.format(opts)
 end
 
 return M

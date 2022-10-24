@@ -17,7 +17,7 @@ akyrey.builtin.treesitter.ensure_installed = {
 local formatters = require "akyrey.lsp.null-ls.formatters"
 formatters.setup {
   {
-    exe = "prettierd",
+    exe = "prettier",
     ---@usage specify which filetypes to enable. By default a providers will attach to all the filetypes it supports.
     filetypes = { "css", "html", "javascript", "javascriptreact", "json", "scss", "tailwindcss", "typescript", "typescriptreact" },
   },
