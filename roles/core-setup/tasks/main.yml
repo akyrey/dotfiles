@@ -9,3 +9,21 @@
     - install
     - core
 
+- name: Clone Nerd Fonts repo
+  git:
+    repo: https://github.com/ryanoasis/nerd-fonts.git
+    depth: 1
+    dest: "{{ dotfiles_user_home }}/.nerd-fonts"
+  register: nerd_fonts_repo_clone
+  tags:
+    - install
+    - core
+
+- name: Install Caskaydia Cove Nerd Font
+  when: nerd_fonts_repo_clone.changed
+  ansible.builtin.shell: ./install.sh CascadiaCode
+  args:
+    chdir: "{{ dotfiles_user_home }}/.nerd-fonts"
+  tags:
+    - install
+    - core
