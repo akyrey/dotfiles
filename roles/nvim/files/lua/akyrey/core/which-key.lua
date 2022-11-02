@@ -285,6 +285,13 @@ M.config = function()
         t = { "<CMD>lua require('akyrey.utils').toggle_QF()<CR>", "Toggle QF list" },
       },
 
+      t = {
+        name = "+Jest",
+        a = { ":Jest<cr>", "Run all" },
+        f = { ":JestFile<cr>", "Run current files" },
+        s = { ":JestSingle<cr>", "Run current test" },
+      },
+
       T = {
         name = "Treesitter",
         i = { ":TSConfigInfo<cr>", "Info" },

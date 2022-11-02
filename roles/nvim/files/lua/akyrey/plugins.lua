@@ -48,6 +48,7 @@ return {
     "weilbith/nvim-code-action-menu",
     cmd = "CodeActionMenu",
   },
+  { "mattkubej/jest.nvim" },
 
   -- Completions & Snippets
   -- Auto completion and snippets
