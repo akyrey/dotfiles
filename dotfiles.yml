@@ -7,6 +7,9 @@
     - role: aws
       tags:
         - aws
+    - role: core-setup
+      tags:
+        - core-setup
     - role: git
       tags:
         - git

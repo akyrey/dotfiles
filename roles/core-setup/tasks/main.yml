@@ -1,0 +1,11 @@
+- name: Install system packages
+  when: ansible_os_family == "Archlinux"
+  community.general.pacman:
+    name:
+      - noto-fonts
+      - noto-fonts-emoji
+    state: present
+  tags:
+    - install
+    - core
+
