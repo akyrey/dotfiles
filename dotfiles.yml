@@ -37,6 +37,9 @@
     - role: tmux
       tags:
         - tmux
+    - role: wakatime
+      tags:
+        - wakatime
     - role: xcode-clt
       tags:
         - xcode-clt

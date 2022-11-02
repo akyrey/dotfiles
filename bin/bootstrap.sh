@@ -18,7 +18,7 @@ if ! [ -x "$(command -v ansible)" ]; then
   ansible-galaxy collection install ansible.posix
 fi
 
-ansible-playbook -i ~/.dotfiles/hosts ~/.dotfiles/dotfiles.yml --vault-id ssh@prompt --ask-become-pass --tags $tags
+ansible-playbook -i ~/.dotfiles/hosts ~/.dotfiles/dotfiles.yml --vault-id ssh@prompt --vault-id wakatime@prompt --ask-become-pass --tags $tags
 
 if command -v terminal-notifier 1>/dev/null 2>&1; then
   terminal-notifier -title "dotfiles: Bootstrap complete" -message "Successfully set up dev environment."

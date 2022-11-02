@@ -1,0 +1,9 @@
+- name: Decrypt and copy ~/.wakatime.cfg
+  copy:
+    src: "{{ dotfiles_home }}/roles/wakatime/files/wakatime.cfg"
+    dest: "{{ dotfiles_user_home }}/.wakatime.cfg"
+    mode: 0644
+  tags:
+    - install
+    - wakatime
+
