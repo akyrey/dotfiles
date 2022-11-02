@@ -1,4 +1,45 @@
-- name: Symlink kitty configurations
+- name: Download kitty
+  when: ansible_os_family == "Archlinux" or ansible_os_family == "Debian"
+  uri:
+    url: 'https://sw.kovidgoyal.net/kitty/installer.sh'
+    method: GET
+    dest: /tmp/kitty-installer.sh
+    mode: 'u+rwx'
+  register: kitty_download
+  tags:
+    - install
+    - kitty
+
+- name: Check if ~/.local/kitty.app folder already exists
+  stat:
+    path: "{{ dotfiles_user_home }}/.local/kitty.app"
+  register: kitty_installation_folder
+  tags:
+    - install
+    - kitty
+
+- name: Remove current installation folder
+  when: kitty_download.status == 200 and kitty_installation_folder.stat.exists
+  file:
+    path: "{{ dotfiles_user_home }}/.local/kitty.app"
+    state: absent
+  tags:
+    - install
+    - kitty
+
+- name: Install downloaded version
+  when: kitty_download.status == 200
+  ansible.builtin.shell: /tmp/kitty-installer.sh launch=n
+  tags:
+    - install
+    - kitty
+
+- name: Remove kitty-installer.sh
+  file:
+    path: /tmp/kitty-installer.sh
+    state: absent
+
+- name: Symlink configurations
   when: ansible_os_family == "Archlinux" or ansible_os_family == "Debian"
   file:
     src: "{{ dotfiles_home }}/roles/kitty/files/kitty.conf"
@@ -8,7 +49,7 @@
     - install
     - kitty
 
-- name: Symlink kitty background
+- name: Symlink background
   when: ansible_os_family == "Archlinux" or ansible_os_family == "Debian"
   file:
     src: "{{ dotfiles_home }}/roles/kitty/files/background.png"
@@ -18,7 +59,7 @@
     - install
     - kitty
 
-- name: Symlink kitty gruvbox theme
+- name: Symlink gruvbox theme
   when: ansible_os_family == "Archlinux" or ansible_os_family == "Debian"
   file:
     src: "{{ dotfiles_home }}/roles/kitty/files/gruvbox_dark.conf"
