@@ -69,3 +69,12 @@
     - install
     - kitty
 
+- name: Symlink catppuccin theme
+  when: ansible_os_family == "Archlinux" or ansible_os_family == "Debian"
+  file:
+    src: "{{ dotfiles_home }}/roles/kitty/files/catppuccin_macchiato.conf"
+    dest: "{{ dotfiles_user_home }}/.config/kitty/catppuccin_macchiato.conf"
+    state: link
+  tags:
+    - install
+    - kitty
