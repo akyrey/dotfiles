@@ -21,32 +21,106 @@ plugin=org.kde.plasma.digitalclock
 [Containments][2][Applets][19][Configuration]
 PreloadWeight=0
 
-[Containments][2][Applets][3]
+[Containments][2][Applets][28]
 immutability=1
-plugin=org.kde.plasma.kickoff
+plugin=org.kde.plasma.panelspacer
 
-[Containments][2][Applets][3][Configuration]
-PreloadWeight=0
-
-[Containments][2][Applets][3][Configuration][General]
-favorites=preferred://browser,org.kde.dolphin.desktop,org.kde.elisa.desktop,org.kde.konsole.desktop,org.manjaro.pamac.manager.desktop,systemsettings.desktop
-favoritesPortedToKAstats=true
-
-[Containments][2][Applets][3][Configuration][Shortcuts]
-global=Alt+F1
-
-[Containments][2][Applets][3][Shortcuts]
-global=Alt+F1
-
-[Containments][2][Applets][4]
+[Containments][2][Applets][31]
 immutability=1
-plugin=org.kde.plasma.icontasks
+plugin=org.kde.plasma.pager
 
-[Containments][2][Applets][4][Configuration]
-PreloadWeight=0
+[Containments][2][Applets][33]
+immutability=1
+plugin=org.kde.plasma.pager
 
-[Containments][2][Applets][4][Configuration][General]
-launchers=preferred://filemanager,preferred://browser
+[Containments][2][Applets][34]
+immutability=1
+plugin=org.kde.plasma.systemmonitor
+
+[Containments][2][Applets][34][Configuration][Appearance]
+chartFace=org.kde.ksysguard.piechart
+title=Utilizzo memoria
+
+[Containments][2][Applets][34][Configuration][SensorColors]
+memory/physical/used=86,87,245
+
+[Containments][2][Applets][34][Configuration][Sensors]
+highPrioritySensorIds=["memory/physical/used"]
+lowPrioritySensorIds=["memory/physical/total"]
+totalSensors=["memory/physical/usedPercent"]
+
+[Containments][2][Applets][35]
+immutability=1
+plugin=org.kde.plasma.systemmonitor
+
+[Containments][2][Applets][35][Configuration][Appearance]
+chartFace=org.kde.ksysguard.piechart
+title=Utilizzo totale CPU
+
+[Containments][2][Applets][35][Configuration][SensorColors]
+cpu/all/usage=86,87,245
+
+[Containments][2][Applets][35][Configuration][Sensors]
+highPrioritySensorIds=["cpu/all/usage"]
+lowPrioritySensorIds=["cpu/all/cpuCount","cpu/all/coreCount"]
+totalSensors=["cpu/all/usage"]
+
+[Containments][2][Applets][36]
+immutability=1
+plugin=org.kde.plasma.systemmonitor
+
+[Containments][2][Applets][36][Configuration][Appearance]
+chartFace=org.kde.ksysguard.horizontalbars
+title=Utilizzo disco
+
+[Containments][2][Applets][36][Configuration][SensorColors]
+disk/.*/usedPercent=86,87,245
+disk/6ec6a8cd-eac1-4dd0-a3c8-b7088883acc6/usedPercent=245,86,87
+disk/all/usedPercent=87,245,86
+disk/c1b6c0ac-63a6-459b-8e50-eee4c076915e/usedPercent=86,87,245
+
+[Containments][2][Applets][36][Configuration][Sensors]
+highPrioritySensorIds=["disk/.*/usedPercent"]
+lowPrioritySensorIds=["disk/all/total"]
+totalSensors=["disk/all/usedPercent"]
+
+[Containments][2][Applets][37]
+immutability=1
+plugin=org.kde.plasma.systemmonitor
+
+[Containments][2][Applets][37][Configuration][Appearance]
+chartFace=org.kde.ksysguard.barchart
+title=Utilizzo del singolo core
+
+[Containments][2][Applets][37][Configuration][SensorColors]
+cpu/cpu.*/usage=86,87,245
+cpu/cpu0/usage=86,87,245
+cpu/cpu1/usage=204,86,245
+cpu/cpu2/usage=245,86,167
+cpu/cpu3/usage=245,125,86
+cpu/cpu4/usage=245,244,86
+cpu/cpu5/usage=127,245,86
+cpu/cpu6/usage=86,245,164
+cpu/cpu7/usage=86,206,245
+
+[Containments][2][Applets][37][Configuration][Sensors]
+highPrioritySensorIds=["cpu/cpu.*/usage"]
+totalSensors=["cpu/all/usage"]
+
+[Containments][2][Applets][38]
+immutability=1
+plugin=org.kde.plasma.systemmonitor
+
+[Containments][2][Applets][38][Configuration][Appearance]
+chartFace=org.kde.ksysguard.linechart
+title=Velocità di rete
+
+[Containments][2][Applets][38][Configuration][SensorColors]
+network/all/download=86,87,245
+network/all/upload=245,244,86
+
+[Containments][2][Applets][38][Configuration][Sensors]
+highPrioritySensorIds=["network/all/download","network/all/upload"]
 
 [Containments][2][Applets][5]
 immutability=1
@@ -74,7 +148,7 @@ immutability=1
 plugin=org.kde.plasma.systemtray
 
 [Containments][2][Applets][8][Configuration]
-PreloadWeight=0
+PreloadWeight=15
 SystrayContainmentId=9
 
 [Containments][2][ConfigDialog]
@@ -85,7 +159,7 @@ DialogWidth=1920
 PreloadWeight=0
 
 [Containments][2][General]
-AppletOrder=3;4;5;6;7;8;19
+AppletOrder=37;35;34;36;38;28;33;31;5;6;7;8;19
 
 [Containments][27]
 ItemGeometries-1920x1080=
@@ -98,6 +172,11 @@ location=0
 plugin=org.kde.plasma.folder
 wallpaperplugin=org.kde.image
 
+[Containments][27][General]
+ToolBoxButtonState=topcenter
+ToolBoxButtonX=442
+ToolBoxButtonY=30
+
 [Containments][9]
 activityId=
 formfactor=2
@@ -105,6 +184,8 @@ immutability=1
 lastScreen=0
 location=3
 plugin=org.kde.plasma.private.systemtray
+popupHeight=432
+popupWidth=432
 wallpaperplugin=org.kde.image
 
 [Containments][9][Applets][10]
@@ -140,7 +221,7 @@ immutability=1
 plugin=org.kde.plasma.notifications
 
 [Containments][9][Applets][14][Configuration]
-PreloadWeight=0
+PreloadWeight=5
 
 [Containments][9][Applets][15]
 immutability=1
@@ -161,7 +242,7 @@ immutability=1
 plugin=org.kde.plasma.volume
 
 [Containments][9][Applets][17][Configuration]
-PreloadWeight=0
+PreloadWeight=10
 
 [Containments][9][Applets][17][Configuration][ConfigDialog]
 DialogHeight=540
