@@ -16,6 +16,7 @@ if ! [ -x "$(command -v ansible)" ]; then
   python3 -m pip install --user ansible
   ansible-galaxy collection install community.general
   ansible-galaxy collection install ansible.posix
+  ansible-galaxy collection install kewlfft.aur
 fi
 
 ansible-playbook -i ~/.dotfiles/hosts ~/.dotfiles/dotfiles.yml --vault-id ssh@prompt --vault-id wakatime@prompt --ask-become-pass --tags $tags
