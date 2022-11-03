@@ -3,8 +3,21 @@
   become: yes
   community.general.pacman:
     name:
+      - firefox
       - noto-fonts
       - noto-fonts-emoji
+    state: present
+  tags:
+    - install
+    - core
+
+- name: Install aur system packages
+  when: ansible_os_family == "Archlinux"
+  kewlfft.aur.aur:
+    name:
+      - brave-bin
+      - latte-dock
+      - postman-bin
     state: present
   tags:
     - install
