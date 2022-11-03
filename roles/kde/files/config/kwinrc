@@ -6,9 +6,8 @@ OpenGLIsUnsafe=false
 
 [Desktops]
 Id_1=99e8a117-ab50-4c33-8197-7a2aa9e9a6f6
-Id_2=d1e977ef-0530-45c6-bc8e-f67f10627e73
-Name_2=Chats
-Rows=2
+Number=1
+Rows=1
 
 [Effect-PresentWindows]
 BorderActivateAll=9

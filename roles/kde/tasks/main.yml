@@ -18,12 +18,18 @@
     - install
     - kde
 
-- name: Symlink kde configs
+- name: Find all files in kde/files/config
+  find:
+    paths: "{{ dotfiles_home }}/roles/kde/files/config"
+  register: find
+
+- name: Create symlinks to kde config
   when: ansible_os_family == "Archlinux"
   file:
-    src: "{{ dotfiles_home }}/roles/kde/files/config/"
-    dest: "{{ dotfiles_user_home }}/.config/"
+    src: "{{ item.path }}"
+    path: "{{ dotfiles_user_home }}/.config/{{ item.path | basename }}"
     state: link
+  with_items: "{{ find.files }}"
   tags:
     - install
     - kde

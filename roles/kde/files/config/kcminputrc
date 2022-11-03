@@ -6,6 +6,7 @@ RepeatDelay=400
 RepeatRate=30
 
 [Mouse]
+X11LibInputXAccelProfileFlat=true
 XLbInptPointerAcceleration=-0.2
 cursorTheme=Layan-border-cursors
 
