@@ -1,5 +1,6 @@
 - name: Install system packages
   when: ansible_os_family == "Archlinux"
+  become: yes
   community.general.pacman:
     name:
       - noto-fonts
