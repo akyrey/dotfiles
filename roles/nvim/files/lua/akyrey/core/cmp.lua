@@ -294,18 +294,22 @@ M.config = function()
       end
     },
 
-    sources = {
-      { name = "nvim_lsp" },
-      { name = 'nvim_lsp_signature_help' },
-      { name = "buffer" },
-      { name = "nvim_lua" },
-      { name = "cmp_tabnine" },
-      { name = "luasnip" },
-      { name = "path" },
-      { name = "spell" },
-      { name = 'npm', keyword_length = 4 },
-      { name = "treesitter" },
-    },
+    sources = cmp.config.sources(
+      {
+        { name = "cmp_tabnine" },
+        { name = "nvim_lsp" },
+        { name = "luasnip" },
+        { name = 'nvim_lsp_signature_help' },
+        { name = "nvim_lua" },
+        { name = "path" },
+        { name = "treesitter" },
+        { name = 'npm', keyword_length = 4 },
+      },
+      {
+        { name = "buffer" },
+        { name = "spell" },
+      }
+    ),
   }
 end
 
