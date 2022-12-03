@@ -16,6 +16,7 @@ local skipped_servers = {
   "quick_lint_js",
   "rome",
   "reason_ls",
+  "rust_analyer",
   "scry",
   "solang",
   "solidity_ls",
