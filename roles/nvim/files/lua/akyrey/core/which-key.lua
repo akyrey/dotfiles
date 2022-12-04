@@ -249,7 +249,7 @@ M.config = function()
           "<cmd>lua require('telescope.builtin.internal').colorscheme({enable_preview = true})<cr>",
           "Colorscheme with Preview",
         },
-        T = { "<CMD>lua require('telescope.builtin').treesitter()<CR>", "Treesitter symbols" },
+        T = { "<CMD>TodoTelescope<CR>", "TODO" },
         -- Searches for the string under your cursor in your current working directory
         w = {
           "<CMD>lua require('telescope.builtin').grep_string { search = vim.fn.expand('<cword>') }<CR>",
