@@ -296,8 +296,8 @@ M.config = function()
 
     sources = cmp.config.sources(
       {
-        { name = "cmp_tabnine" },
         { name = "nvim_lsp" },
+        { name = "cmp_tabnine" },
         { name = "luasnip" },
         { name = 'nvim_lsp_signature_help' },
         { name = "nvim_lua" },
