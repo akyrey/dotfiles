@@ -6,6 +6,7 @@
       - firefox
       - noto-fonts
       - noto-fonts-emoji
+      - ripgrep
     state: present
   tags:
     - install
