@@ -17,8 +17,8 @@
   kewlfft.aur.aur:
     name:
       - brave-bin
-      - latte-dock
       - postman-bin
+      - latte-dock-git
     state: present
   tags:
     - install
