@@ -250,4 +250,25 @@ cmp.setup({
             { name = "spell" },
         }
     ),
+
+    formatting = {
+        format = function(entry, vim_item)
+            vim_item.kind = vim_item_symbol[vim_item.kind]
+            .. " "
+            .. vim_item.kind
+            -- set a name for each source
+            vim_item.menu = ({
+                copilot = "   (Copilot)",
+                buffer = "   (Buffer)",
+                nvim_lsp = "   (LSP)",
+                luasnip = "   (Snippet)",
+                nvim_lua = "   (Lua)",
+                cmp_tabnine = "   (T9)",
+                path = "   (Path)",
+                spell = "   (Spell)",
+                calc = "   (Calc)",
+            })[entry.source.name]
+            return vim_item;
+        end
+    },
 })
