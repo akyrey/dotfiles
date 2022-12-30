@@ -91,6 +91,11 @@ return {
       require("akyrey.core.autopairs").setup()
     end
   },
+  { "kylechui/nvim-surround",
+    config = function()
+      require('nvim-surround').setup({})
+    end
+  },
 
   {
     "simrat39/rust-tools.nvim",
