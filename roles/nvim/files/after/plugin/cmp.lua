@@ -137,6 +137,11 @@ local vim_item_symbol = {
     Variable = " ",
 }
 
+local has_words_before = function()
+    local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+    return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+end
+
 tabnine:setup({
     max_lines = 1000,
     max_num_results = 20,
@@ -181,10 +186,6 @@ cmp.setup({
             end,
         },
         ["<C-Space>"] = cmp.mapping.complete(),
-        ["<CR>"] = cmp.mapping.confirm {
-            behavior = cmp.ConfirmBehavior.Replace,
-            select = true,
-        },
         ["<Tab>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
                 cmp.select_next_item()
@@ -239,11 +240,11 @@ cmp.setup({
             { name = "nvim_lsp" },
             { name = "cmp_tabnine" },
             { name = "luasnip" },
-            { name = 'nvim_lsp_signature_help' },
+            { name = "nvim_lsp_signature_help" },
             { name = "nvim_lua" },
             { name = "path" },
             { name = "treesitter" },
-            { name = 'npm', keyword_length = 4 },
+            { name = "npm", keyword_length = 4 },
         },
         {
             { name = "buffer" },
