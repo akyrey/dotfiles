@@ -1,151 +1,107 @@
-local skipped_servers = {
-  "ccls",
-  "csharp_ls",
-  "cssmodules_ls",
-  "denols",
-  "ember",
-  "emmet_ls",
-  "eslintls",
-  "golangci_lint_ls",
-  "jedi_language_server",
-  "ltex",
-  "ocamlls",
-  "phpactor",
-  "psalm",
-  "pylsp",
-  "quick_lint_js",
-  "rome",
-  "reason_ls",
-  "rust_analyer",
-  "scry",
-  "solang",
-  "solidity_ls",
-  "sorbet",
-  "sourcekit",
-  "sourcery",
-  "spectral",
-  "sqlls",
-  "sqls",
-  "stylelint_lsp",
-  "tflint",
-  "verible",
-  "vuels",
-}
+local M = {}
 
-local skipped_filetypes = { "markdown", "rst", "plaintext" }
+-- LSP settings.
+--  This function gets run when an LSP connects to a particular buffer.
+local on_attach = function(_, bufnr)
+    local nmap = function(keys, func, desc)
+        if desc then
+            desc = "LSP: " .. desc
+        end
 
--- Global organize imports command
-_G.lsp_organize_imports = function()
-    local params = {
-        command = "_typescript.organizeImports",
-        arguments = {vim.api.nvim_buf_get_name(0)},
-        title = ""
-    }
-    vim.lsp.buf.execute_command(params)
+        vim.keymap.set("n", keys, func, { buffer = bufnr, desc = desc })
+    end
+
+    nmap("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
+    nmap("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
+
+    nmap("gd", vim.lsp.buf.definition, "[G]oto [D]efinition")
+    nmap("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
+    nmap("gI", vim.lsp.buf.implementation, "[G]oto [I]mplementation")
+    nmap("<leader>D", vim.lsp.buf.type_definition, "Type [D]efinition")
+    nmap("<leader>ds", require("telescope.builtin").lsp_document_symbols, "[D]ocument [S]ymbols")
+    nmap("<leader>ws", require("telescope.builtin").lsp_dynamic_workspace_symbols, "[W]orkspace [S]ymbols")
+
+    -- See `:help K` for why this keymap
+    nmap("K", vim.lsp.buf.hover, "Hover Documentation")
+    nmap("<C-k>", vim.lsp.buf.signature_help, "Signature Documentation")
+
+    -- Lesser used LSP functionality
+    nmap("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
+    nmap("<leader>wa", vim.lsp.buf.add_workspace_folder, "[W]orkspace [A]dd Folder")
+    nmap("<leader>wr", vim.lsp.buf.remove_workspace_folder, "[W]orkspace [R]emove Folder")
+    nmap("<leader>wl", function()
+        print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+    end, "[W]orkspace [L]ist Folders")
+
+    -- Create a command `:Format` local to the LSP buffer
+    vim.api.nvim_buf_create_user_command(bufnr, "Format", function(_)
+        vim.lsp.buf.format()
+    end, { desc = "Format current buffer with LSP" })
 end
 
-return {
-  templates_dir = join_paths(get_runtime_dir(), "site", "after", "ftplugin"),
-  diagnostics = {
-    signs = {
-      active = true,
-      values = {
-        { name = "DiagnosticSignError", text = "" },
-        { name = "DiagnosticSignWarn", text = "" },
-        { name = "DiagnosticSignHint", text = "" },
-        { name = "DiagnosticSignInfo", text = "" },
-      },
+-- nvim-cmp supports additional completion capabilities, so broadcast that to servers
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
+
+-- Enable the following language servers
+--  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
+--
+--  Add any additional override configuration in the following tables. They will be passed to
+--  the `settings` field of the server config. You must look up that documentation yourself.
+-- If additional configuration must be performed, use the extra_handlers below
+M.servers = {
+    angularls = {},
+    ansiblels = {},
+    bashls = {},
+    dockerls = {},
+    gopls = {},
+    jsonls = {},
+    rust_analyzer = {},
+    sumneko_lua = {
+        Lua = {
+            workspace = { checkThirdParty = false },
+            telemetry = { enable = false },
+        },
     },
-    virtual_text = true,
-    update_in_insert = false,
-    underline = true,
-    severity_sort = true,
-    float = {
-      focusable = false,
-      style = "minimal",
-      border = "rounded",
-      source = "always",
-      header = "",
-      prefix = "",
-      format = function(d)
-        local t = vim.deepcopy(d)
-        local code = d.code or (d.user_data and d.user_data.lsp.code)
-        if code then
-          t.message = string.format("%s [%s]", t.message, code):gsub("1. ", "")
-        end
-        return t.message
-      end,
+    tailwindcss = {
+        tailwindCSS = {
+            lint = {
+                cssConflict = "warning",
+                invalidApply = "error",
+                invalidConfigPath = "error",
+                invalidScreen = "error",
+                invalidTailwindDirective = "error",
+                invalidVariant = "error",
+                recommendedVariantOrder = "warning"
+            },
+            validate = true,
+        },
     },
-  },
-  document_highlight = true,
-  code_lens_refresh = true,
-  float = {
-    focusable = true,
-    style = "minimal",
-    border = "rounded",
-  },
-  peek = {
-    max_height = 15,
-    max_width = 30,
-    context = 10,
-  },
-  on_attach_callback = nil,
-  on_init_callback = nil,
-  automatic_servers_installation = true,
-  automatic_configuration = {
-    ---@usage list of servers that the automatic installer will skip
-    skipped_servers = skipped_servers,
-    ---@usage list of filetypes that the automatic installer will skip
-    skipped_filetypes = skipped_filetypes,
-  },
-  buffer_mappings = {
-    normal_mode = {
-      ["<leader>gh"] = { "<cmd>lua vim.lsp.buf.hover()<CR>", "Show hover" },
-      ["<leader>gd"] = { "<cmd>lua vim.lsp.buf.definition()<CR>", "Goto Definition" },
-      ["<leader>gD"] = { "<cmd>lua vim.lsp.buf.declaration()<CR>", "Goto declaration" },
-      ["<leader>gr"] = { "<cmd>lua vim.lsp.buf.references()<CR>", "Goto references" },
-      ["<leader>gi"] = { "<cmd>lua vim.lsp.buf.implementation()<CR>", "Goto Implementation" },
-      ["<leader>gs"] = { "<cmd>lua vim.lsp.buf.signature_help()<CR>", "show signature help" },
-      ["<leader>gc"] = { "<cmd>lua vim.lsp.buf.rename()<CR>", "Rename references" },
-      ["<leader>gp"] = { "<cmd>lua require'akyrey.lsp.peek'.Peek('definition')<CR>", "Peek definition" },
-      ["<leader>gl"] = {
-        "<cmd>lua require('akyrey.lsp.handlers').show_line_diagnostics()<CR>",
-        "Show line diagnostics",
-      },
-      ["<leader>go"] = { "<cmd>lua lsp_organize_imports()<CR>", "Organize imports" },
-      ["<C-p>"] = { require("akyrey.lsp.utils").format, "Format code" }
-    },
-    insert_mode = {},
-    visual_mode = {},
-  },
-  buffer_options = {
-    --- enable completion triggered by <c-x><c-o>
-    omnifunc = "v:lua.vim.lsp.omnifunc",
-    --- use gq for formatting
-    formatexpr = "v:lua.vim.lsp.formatexpr(#{timeout_ms:500})",
-  },
-  ---@usage list of settings of mason.nvim
-  installer = {
-    setup = {
-      ensure_installed = {},
-      automatic_installation = {
-        exclude = {},
-      },
-    },
-  },
-  nlsp_settings = {
-    setup = {
-      config_home = join_paths(get_config_dir(), "lsp-settings"),
-      -- set to false to overwrite schemastore.nvim
-      append_default_schemas = true,
-      ignored_servers = {},
-      loader = "json",
-    },
-  },
-  null_ls = {
-    setup = {},
-    config = {},
-  },
-  ---@deprecated use automatic_configuration.skipped_servers instead
-  override = {},
+    tsserver = {},
+    yamlls = {},
 }
+
+-- You can provide a dedicated handler for specific servers.
+local extra_handlers = {
+    ["rust_analyzer"] = function ()
+        require("rust-tools").setup({})
+    end
+}
+
+local default_handler = {
+    -- The first entry (without a key) will be the default handler
+    -- and will be called for each installed server that doesn't have
+    -- a dedicated handler.
+    function(server_name) -- default handler
+        require("lspconfig")[server_name].setup {
+            capabilities = capabilities,
+            on_attach = on_attach,
+            settings = M.servers[server_name],
+        }
+    end,
+}
+
+M.handlers = vim.tbl_deep_extend("force", default_handler, extra_handlers)
+
+return M
+
