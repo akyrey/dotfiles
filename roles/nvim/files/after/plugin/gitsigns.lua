@@ -68,8 +68,8 @@ gitsigns.setup({
         end, { expr=true })
 
         -- Actions
-        map({ "n", "v" }, "<leader>vs", "<cmd>GitSigns stage_hunk<CR>")
-        map({ "n", "v" }, "<leader>vr", "<cmd>GitSigns reset_hunk<CR>")
+        map({ "n", "v" }, "<leader>vs", "<cmd>Gitsigns stage_hunk<CR>")
+        map({ "n", "v" }, "<leader>vr", "<cmd>Gitsigns reset_hunk<CR>")
         map('n', '<leader>vS', gs.stage_buffer)
         map("n", "<leader>vu", gs.undo_stage_hunk)
         map("n", "<leader>vR", gs.reset_buffer)
@@ -80,6 +80,6 @@ gitsigns.setup({
         map("n", "<leader>vd", gs.toggle_deleted)
 
         -- Text objects
-        map({ "o", "x" }, "ih", ":<C-U>GitSigns select_hunk()<CR>")
+        map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk()<CR>")
     end
 })
