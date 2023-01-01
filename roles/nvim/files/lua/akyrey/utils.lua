@@ -1,5 +1,7 @@
 local M = {}
 
+local path_sep = vim.loop.os_uname().version:match "Windows" and "\\" or "/"
+
 -- Checks if file package.json exists and contains given field
 -- @param field (string) field to search for
 -- @returns (bool)
@@ -18,7 +20,20 @@ function M.is_in_package_json(field)
       return true
     end
   end
-  return false
+    return false
+end
+
+--- Checks whether a given path exists and is a directory
+--@param path (string) path to check
+--@returns (bool)
+function M.is_directory(path)
+    local stat = vim.loop.fs_stat(path)
+    return stat and stat.type == "directory" or false
+end
+
+function M.join_paths(...)
+    local result = table.concat({ ... }, path_sep)
+    return result
 end
 
 return M
