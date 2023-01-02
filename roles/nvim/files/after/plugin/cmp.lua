@@ -269,6 +269,8 @@ cmp.setup({
                 path = "   (Path)",
                 spell = "   (Spell)",
                 calc = "   (Calc)",
+                conventionalcommits = "   (CC)",
+                treesitter = " 🌲  (TS)",
             })[entry.source.name]
             return vim_item;
         end

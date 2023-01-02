@@ -135,6 +135,11 @@ _G.packer_plugins = {
     path = "/home/akyrey/.local/share/nvim/site/pack/packer/start/cmp-tabnine",
     url = "https://github.com/tzachar/cmp-tabnine"
   },
+  ["cmp-treesitter"] = {
+    loaded = true,
+    path = "/home/akyrey/.local/share/nvim/site/pack/packer/start/cmp-treesitter",
+    url = "https://github.com/ray-x/cmp-treesitter"
+  },
   cmp_luasnip = {
     loaded = true,
     path = "/home/akyrey/.local/share/nvim/site/pack/packer/start/cmp_luasnip",

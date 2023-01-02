@@ -56,6 +56,7 @@ return packer.startup(function(use)
             },
             { "David-Kunz/cmp-npm" },
             { "davidsierradz/cmp-conventionalcommits" },
+            { "ray-x/cmp-treesitter" },
         },
     }
     use {
