@@ -245,6 +245,7 @@ cmp.setup({
             { name = "path" },
             { name = "treesitter" },
             { name = "npm", keyword_length = 4 },
+            { name = 'conventionalcommits' },
         },
         {
             { name = "buffer" },

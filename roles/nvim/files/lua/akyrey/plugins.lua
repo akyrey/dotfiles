@@ -55,6 +55,7 @@ return packer.startup(function(use)
                 run = "./install.sh",
             },
             { "David-Kunz/cmp-npm" },
+            { "davidsierradz/cmp-conventionalcommits" },
         },
     }
     use {
