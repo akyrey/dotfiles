@@ -43,3 +43,14 @@ set_cursorline("FileType", false, "TelescopePrompt")
 --     group = format_on_save_group,
 --     pattern = "*",
 -- })
+
+-- Toggle quickfix listb
+vim.cmd [[
+  function! QuickFixToggle()
+    if empty(filter(getwininfo(), 'v:val.quickfix'))
+      copen
+    else
+      cclose
+    endif
+  endfunction
+]]
