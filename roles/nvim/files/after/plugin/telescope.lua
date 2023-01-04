@@ -88,6 +88,7 @@ telescope.setup({
 
 telescope.load_extension("fzf")
 telescope.load_extension("refactoring")
+telescope.load_extension("git_worktree")
 
 -- Custom finders
 local find_config_files = function(opts)
