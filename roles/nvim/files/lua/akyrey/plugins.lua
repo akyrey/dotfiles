@@ -99,6 +99,15 @@ return packer.startup(function(use)
 
     use { "wakatime/vim-wakatime" }
 
+    -- Whichkey
+    use {
+        "folke/which-key.nvim",
+        event = "BufWinEnter",
+        config = function()
+            require("akyrey.core.which-key").setup()
+        end,
+    }
+
     -- Telescope
     use {
         "nvim-telescope/telescope.nvim",
