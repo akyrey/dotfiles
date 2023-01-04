@@ -14,7 +14,7 @@ local packer_group = vim.api.nvim_create_augroup("Packer", { clear = true })
 vim.api.nvim_create_autocmd("BufWritePost", {
     command = "source <afile> | PackerSync",
     group = packer_group,
-    pattern = vim.fn.expand("~") .. "/.config/nvim/lua/akyrey/plugins.lua",
+    pattern = "*/lua/akyrey/plugins.lua",
 })
 
 -- Cursorline highlighting control
