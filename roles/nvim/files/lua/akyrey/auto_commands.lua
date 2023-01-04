@@ -33,16 +33,15 @@ set_cursorline("WinLeave", false)
 set_cursorline("WinEnter", true)
 set_cursorline("FileType", false, "TelescopePrompt")
 
--- Format on save
--- local format_on_save_group = vim.api.nvim_create_augroup("FormatOnSave", {})
--- vim.api.nvim_create_autocmd("BufWritePre", {
---     callback = function()
---         local utils = require("akyrey.lsp.utils")
---         utils.format({ timeout_ms = 1000 })
---     end,
---     group = format_on_save_group,
---     pattern = "*",
--- })
+local git_group = vim.api.nvim_create_augroup("GitGroup", { clear = true })
+vim.api.nvim_create_autocmd("FileType", {
+    group = git_group,
+    pattern = "gitcommit,markdown",
+    callback = function()
+        vim.cmd "setlocal wrap"
+        vim.cmd "setlocal spell"
+    end,
+})
 
 -- Toggle quickfix listb
 vim.cmd [[
