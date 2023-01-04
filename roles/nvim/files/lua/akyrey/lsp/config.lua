@@ -27,8 +27,9 @@ M.servers = {
     rust_analyzer = {},
     sumneko_lua = {
         Lua = {
-            workspace = { checkThirdParty = false },
+            diagnostics = { globals = { 'vim' } },
             telemetry = { enable = false },
+            workspace = { checkThirdParty = false },
         },
     },
     tailwindcss = {
