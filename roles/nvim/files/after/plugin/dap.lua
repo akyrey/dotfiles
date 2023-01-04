@@ -56,3 +56,4 @@ vim.keymap.set("n", "<leader>dp", function() dap.pause.toggle() end, { desc = "P
 vim.keymap.set("n", "<leader>dr", function() dap.repl.toggle() end, { desc = "Toggle Repl" })
 vim.keymap.set("n", "<leader>ds", function() dap.continue() end, { desc = "Start" })
 vim.keymap.set("n", "<leader>dq", function() dap.close() end, { desc = "Quit" })
+vim.keymap.set("n", "<leader>dU", function() ui.toggle({ reset = true }) end, { desc = "Toggle UI" })

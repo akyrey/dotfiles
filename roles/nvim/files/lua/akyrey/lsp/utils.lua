@@ -11,6 +11,7 @@ function M.add_lsp_buffer_keybindings(bufnr)
 
     nmap("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
     nmap("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
+    nmap("<leader>cl", vim.lsp.codelens.run, "[C]ode[L]ens Actions")
 
     nmap("gd", vim.lsp.buf.definition, "[G]oto [D]efinition")
     nmap("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
@@ -36,6 +37,7 @@ function M.add_lsp_buffer_keybindings(bufnr)
         require("akyrey.lsp.utils").format()
     end, { desc = "Format current buffer with LSP" })
     nmap("<leader>lf", function() vim.cmd "Format" end, "[L]SP [F]ormat")
+    nmap("<leader>go", function() M.organize_imports() end, "Or[g]anize Imp[o]rts")
 end
 
 function M.add_lsp_buffer_options(bufnr)
