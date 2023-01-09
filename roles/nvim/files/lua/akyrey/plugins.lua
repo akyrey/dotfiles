@@ -98,6 +98,13 @@ return packer.startup(function(use)
     use { "norcalli/nvim-colorizer.lua" }
 
     use { "wakatime/vim-wakatime" }
+    use {
+        "akinsho/toggleterm.nvim",
+        tag = "*",
+        config = function()
+            require("akyrey.core.toggleterm").setup()
+        end,
+    }
 
     -- Whichkey
     use {
