@@ -40,7 +40,6 @@ local function diff_source()
     end
 end
 
-
 local components = {
     mode = {
         function()
@@ -179,7 +178,7 @@ lualine.setup({
         lualine_a = { "mode" },
         lualine_b = {
             components.branch,
-            components.filetype,
+            components.filename,
         },
         lualine_c = {
             components.diff,
