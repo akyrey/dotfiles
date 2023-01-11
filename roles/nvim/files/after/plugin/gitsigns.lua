@@ -59,29 +59,28 @@ gitsigns.setup({
             if vim.wo.diff then return "]c" end
             vim.schedule(function() gs.next_hunk() end)
             return "<Ignore>"
-        end, { expr=true })
+        end, { expr = true, desc = "Next hunk" })
 
         map("n", "[c", function()
             if vim.wo.diff then return "[c" end
             vim.schedule(function() gs.prev_hunk() end)
             return "<Ignore>"
-        end, { expr=true })
+        end, { expr = true, desc = "Previous hunk" })
 
         -- Actions
-        map({ "n", "v" }, "<leader>vs", "<cmd>Gitsigns stage_hunk<CR>")
-        map({ "n", "v" }, "<leader>vr", "<cmd>Gitsigns reset_hunk<CR>")
-        map('n', '<leader>vS', gs.stage_buffer)
-        map("n", "<leader>vu", gs.undo_stage_hunk)
-        map("n", "<leader>vR", gs.reset_buffer)
-        map("n", "<leader>vp", gs.preview_hunk)
-        map("n", "<leader>vb", function() gs.blame_line{ full = true } end)
-        map("n", "<leader>vd", gs.diffthis)
-        map("n", "<leader>vD", function() gs.diffthis("~") end)
-        map("n", "<leader>vd", gs.toggle_deleted)
+        map({ "n", "v" }, "<leader>vs", "<cmd>Gitsigns stage_hunk<CR>", { desc = "Stage current hunk" })
+        map({ "n", "v" }, "<leader>vr", "<cmd>Gitsigns reset_hunk<CR>", { desc = "Reset current hunk" })
+        map('n', '<leader>vS', gs.stage_buffer, { desc = "Stage current buffer" })
+        map("n", "<leader>vu", gs.undo_stage_hunk, { desc = "Unstage current hunk" })
+        map("n", "<leader>vR", gs.reset_buffer, { desc = "Reset current buffer" })
+        map("n", "<leader>vp", gs.preview_hunk, { desc = "Preview hunk" })
+        map("n", "<leader>vb", function() gs.blame_line{ full = true } end, { desc = "Git blame" })
+        map("n", "<leader>vd", gs.diffthis, { desc = "Show hunk diff" })
+        map("n", "<leader>vD", function() gs.diffthis("~") end, { desc = "Show buffer diff" })
+        map("n", "<leader>vd", gs.toggle_deleted, { desc = "Toggle deleted hunks" })
 
         -- Text objects
-        map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk()<CR>")
+        map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk()<CR>", { desc = "Select hunk" })
     end
 })
 
-vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
