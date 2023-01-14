@@ -245,7 +245,6 @@ cmp.setup({
             { name = "path" },
             { name = "treesitter" },
             { name = "npm", keyword_length = 4 },
-            { name = 'conventionalcommits' },
         },
         {
             { name = "buffer" },
@@ -274,5 +273,32 @@ cmp.setup({
             })[entry.source.name]
             return vim_item;
         end
+    },
+})
+
+-- Set configuration for specific filetype.
+cmp.setup.filetype("gitcommit", {
+    sources = cmp.config.sources({
+        { name = "conventionalcommits" },
+    }, {
+        { name = "buffer" },
+    })
+})
+
+-- Use cmdline & path source for ':'
+cmp.setup.cmdline(":", {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = cmp.config.sources({
+        { name = "path" }
+    }, {
+        { name = "cmdline" }
+    }),
+})
+
+-- Use buffer source for `/` and `?`
+cmp.setup.cmdline({ "/", "?" }, {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = {
+        { name = "buffer" },
     },
 })
