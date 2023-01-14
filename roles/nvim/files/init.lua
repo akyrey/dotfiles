@@ -1,25 +1,38 @@
-local init_path = debug.getinfo(1, "S").source:sub(2)
-local base_dir = init_path:match("(.*[/\\])"):sub(1, -2)
-
-if not vim.tbl_contains(vim.opt.rtp:get(), base_dir) then
-  vim.opt.rtp:append(base_dir)
+--        _
+--   __ _| | ___   _ _ __ ___ _   _ 
+--  / _` | |/ / | | | '__/ _ \ | | |
+-- | (_| |   <| |_| | | |  __/ |_| |
+--  \__,_|_|\_\\__, |_|  \___|\__, |
+--             |___/          |___/ 
+-- 
+-- Inspired by https://github.com/tjdevries and https://github.com/ThePrimeagen
+--
+-- Packer installation if required
+if require "akyrey.first_load"() then
+  return
 end
 
-require("akyrey.bootstrap"):init(base_dir)
+-- Speed up loading Lua modules in Neovim to improve startup time
+--  using pcall here to avoid errors when no plugin is installed
+pcall(require, "impatient")
 
-require("akyrey.config"):load()
+-- General keymaps not related to a single plugin
+require("akyrey.keymaps")
 
-local plugins = require "akyrey.plugins"
-require("akyrey.plugin-loader"):load { plugins, akyrey.plugins }
+-- General settings
+require("akyrey.settings")()
 
-local Log = require "akyrey.core.log"
-Log:debug "Starting Aky NeoVim"
+-- Must be called after plugin installations
+require("akyrey.theme")()
 
-require("akyrey.theme").setup() -- Colorscheme must get called after plugins are loaded or it will break new installs.
+-- Turn off builtin plugins I do not use.
+require("akyrey.disable_builtin")()
 
-local commands = require "akyrey.core.commands"
-commands.load(commands.defaults)
+-- Manage plugins with Packer
+require("akyrey.plugins")
 
-require("akyrey.keymappings").setup()
+-- Setup auto commands
+require("akyrey.auto_commands")
 
-require("akyrey.lsp").setup()
+-- Setup lsp
+require("akyrey.lsp")

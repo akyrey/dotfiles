@@ -1,151 +1,89 @@
-local skipped_servers = {
-  "ccls",
-  "csharp_ls",
-  "cssmodules_ls",
-  "denols",
-  "ember",
-  "emmet_ls",
-  "eslintls",
-  "golangci_lint_ls",
-  "jedi_language_server",
-  "ltex",
-  "ocamlls",
-  "phpactor",
-  "psalm",
-  "pylsp",
-  "quick_lint_js",
-  "rome",
-  "reason_ls",
-  "rust_analyer",
-  "scry",
-  "solang",
-  "solidity_ls",
-  "sorbet",
-  "sourcekit",
-  "sourcery",
-  "spectral",
-  "sqlls",
-  "sqls",
-  "stylelint_lsp",
-  "tflint",
-  "verible",
-  "vuels",
-}
+local utils = require("akyrey.lsp.utils")
 
-local skipped_filetypes = { "markdown", "rst", "plaintext" }
+local M = {}
 
--- Global organize imports command
-_G.lsp_organize_imports = function()
-    local params = {
-        command = "_typescript.organizeImports",
-        arguments = {vim.api.nvim_buf_get_name(0)},
-        title = ""
-    }
-    vim.lsp.buf.execute_command(params)
+--  This function gets run when an LSP connects to a particular buffer.
+local function common_on_attach(client, bufnr)
+    utils.setup_document_highlight(client, bufnr)
+    utils.setup_codelens_refresh(client, bufnr)
+    utils.add_lsp_buffer_keybindings(bufnr)
+    utils.add_lsp_buffer_options(bufnr)
+    utils.setup_document_symbols(client, bufnr)
 end
 
-return {
-  templates_dir = join_paths(get_runtime_dir(), "site", "after", "ftplugin"),
-  diagnostics = {
-    signs = {
-      active = true,
-      values = {
-        { name = "DiagnosticSignError", text = "" },
-        { name = "DiagnosticSignWarn", text = "" },
-        { name = "DiagnosticSignHint", text = "" },
-        { name = "DiagnosticSignInfo", text = "" },
-      },
+-- Enable the following language servers
+--  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
+--
+--  Add any additional override configuration in the following tables. They will be passed to
+--  the `settings` field of the server config. You must look up that documentation yourself.
+-- If additional configuration must be performed, use the extra_handlers below
+M.servers = {
+    angularls = {},
+    ansiblels = {},
+    bashls = {},
+    dockerls = {},
+    gopls = {},
+    jsonls = {},
+    rust_analyzer = {},
+    sumneko_lua = {
+        Lua = {
+            diagnostics = { globals = { 'vim' } },
+            telemetry = { enable = false },
+            workspace = { checkThirdParty = false },
+        },
     },
-    virtual_text = true,
-    update_in_insert = false,
-    underline = true,
-    severity_sort = true,
-    float = {
-      focusable = false,
-      style = "minimal",
-      border = "rounded",
-      source = "always",
-      header = "",
-      prefix = "",
-      format = function(d)
-        local t = vim.deepcopy(d)
-        local code = d.code or (d.user_data and d.user_data.lsp.code)
-        if code then
-          t.message = string.format("%s [%s]", t.message, code):gsub("1. ", "")
-        end
-        return t.message
-      end,
+    tailwindcss = {
+        tailwindCSS = {
+            lint = {
+                cssConflict = "warning",
+                invalidApply = "error",
+                invalidConfigPath = "error",
+                invalidScreen = "error",
+                invalidTailwindDirective = "error",
+                invalidVariant = "error",
+                recommendedVariantOrder = "warning"
+            },
+            validate = true,
+        },
     },
-  },
-  document_highlight = true,
-  code_lens_refresh = true,
-  float = {
-    focusable = true,
-    style = "minimal",
-    border = "rounded",
-  },
-  peek = {
-    max_height = 15,
-    max_width = 30,
-    context = 10,
-  },
-  on_attach_callback = nil,
-  on_init_callback = nil,
-  automatic_servers_installation = true,
-  automatic_configuration = {
-    ---@usage list of servers that the automatic installer will skip
-    skipped_servers = skipped_servers,
-    ---@usage list of filetypes that the automatic installer will skip
-    skipped_filetypes = skipped_filetypes,
-  },
-  buffer_mappings = {
-    normal_mode = {
-      ["<leader>gh"] = { "<cmd>lua vim.lsp.buf.hover()<CR>", "Show hover" },
-      ["<leader>gd"] = { "<cmd>lua vim.lsp.buf.definition()<CR>", "Goto Definition" },
-      ["<leader>gD"] = { "<cmd>lua vim.lsp.buf.declaration()<CR>", "Goto declaration" },
-      ["<leader>gr"] = { "<cmd>lua vim.lsp.buf.references()<CR>", "Goto references" },
-      ["<leader>gi"] = { "<cmd>lua vim.lsp.buf.implementation()<CR>", "Goto Implementation" },
-      ["<leader>gs"] = { "<cmd>lua vim.lsp.buf.signature_help()<CR>", "show signature help" },
-      ["<leader>gc"] = { "<cmd>lua vim.lsp.buf.rename()<CR>", "Rename references" },
-      ["<leader>gp"] = { "<cmd>lua require'akyrey.lsp.peek'.Peek('definition')<CR>", "Peek definition" },
-      ["<leader>gl"] = {
-        "<cmd>lua require('akyrey.lsp.handlers').show_line_diagnostics()<CR>",
-        "Show line diagnostics",
-      },
-      ["<leader>go"] = { "<cmd>lua lsp_organize_imports()<CR>", "Organize imports" },
-      ["<C-p>"] = { require("akyrey.lsp.utils").format, "Format code" }
-    },
-    insert_mode = {},
-    visual_mode = {},
-  },
-  buffer_options = {
-    --- enable completion triggered by <c-x><c-o>
-    omnifunc = "v:lua.vim.lsp.omnifunc",
-    --- use gq for formatting
-    formatexpr = "v:lua.vim.lsp.formatexpr(#{timeout_ms:500})",
-  },
-  ---@usage list of settings of mason.nvim
-  installer = {
-    setup = {
-      ensure_installed = {},
-      automatic_installation = {
-        exclude = {},
-      },
-    },
-  },
-  nlsp_settings = {
-    setup = {
-      config_home = join_paths(get_config_dir(), "lsp-settings"),
-      -- set to false to overwrite schemastore.nvim
-      append_default_schemas = true,
-      ignored_servers = {},
-      loader = "json",
-    },
-  },
-  null_ls = {
-    setup = {},
-    config = {},
-  },
-  ---@deprecated use automatic_configuration.skipped_servers instead
-  override = {},
+    tsserver = {},
+    yamlls = {},
 }
+
+-- You can provide a dedicated handler for specific servers.
+local extra_handlers = {
+    ["rust_analyzer"] = function ()
+        require("rust-tools").setup({})
+    end,
+    tsserver = function()
+        require("lspconfig").tsserver.setup {
+            capabilities = utils.common_capabilities(),
+            on_attach = common_on_attach,
+            settings = M.servers.tsserver,
+            commands = {
+                OrganizeImports = {
+                    utils.organize_imports,
+                    description = "Organize imports",
+                },
+            },
+        }
+    end,
+}
+
+local default_handler = {
+    -- The first entry (without a key) will be the default handler
+    -- and will be called for each installed server that doesn't have
+    -- a dedicated handler.
+    function(server_name) -- default handler
+        require("lspconfig")[server_name].setup {
+            capabilities = utils.common_capabilities(),
+            on_attach = common_on_attach,
+            settings = M.servers[server_name],
+        }
+    end,
+}
+
+M.handlers = vim.tbl_deep_extend("force", default_handler, extra_handlers)
+
+return M
+
