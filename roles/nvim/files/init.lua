@@ -7,10 +7,6 @@
 -- 
 -- Inspired by https://github.com/tjdevries and https://github.com/ThePrimeagen
 --
--- Packer installation if required
-if require "akyrey.first_load"() then
-  return
-end
 
 -- Speed up loading Lua modules in Neovim to improve startup time
 --  using pcall here to avoid errors when no plugin is installed
@@ -22,14 +18,43 @@ require("akyrey.keymaps")
 -- General settings
 require("akyrey.settings")()
 
--- Must be called after plugin installations
-require("akyrey.theme")()
-
 -- Turn off builtin plugins I do not use.
 require("akyrey.disable_builtin")()
 
--- Manage plugins with Packer
-require("akyrey.plugins")
+-- Manage plugins with Lazy.nvim
+local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system {
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "--single-branch",
+    "https://github.com/folke/lazy.nvim.git",
+    lazypath,
+  }
+end
+vim.opt.runtimepath:prepend(lazypath)
+
+require("lazy").setup("akyrey.plugins", {
+  ui = {
+    icons = {
+      cmd = "⌘",
+      config = "🛠",
+      event = "📅",
+      ft = "📂",
+      init = "⚙",
+      keys = "🗝",
+      plugin = "🔌",
+      runtime = "💻",
+      source = "📄",
+      start = "🚀",
+      task = "📌",
+    },
+  },
+})
+
+-- Must be called after plugin installations
+require("akyrey.theme")()
 
 -- Setup auto commands
 require("akyrey.auto_commands")
