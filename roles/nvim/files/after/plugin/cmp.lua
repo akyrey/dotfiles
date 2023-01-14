@@ -289,3 +289,10 @@ cmp.setup.cmdline({ "/", "?" }, {
         { name = "buffer" },
     },
 })
+
+-- Automatically insert parentheses after selecting a method/function
+local autopairs_ok, cmp_autopairs = pcall(require, "nvim-autopairs.completion.cmp")
+if not autopairs_ok then
+    return
+end
+cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
