@@ -95,6 +95,11 @@ _G.packer_plugins = {
     path = "/home/akyrey/.local/share/nvim/site/pack/packer/start/cmp-buffer",
     url = "https://github.com/hrsh7th/cmp-buffer"
   },
+  ["cmp-cmdline"] = {
+    loaded = true,
+    path = "/home/akyrey/.local/share/nvim/site/pack/packer/start/cmp-cmdline",
+    url = "https://github.com/hrsh7th/cmp-cmdline"
+  },
   ["cmp-conventionalcommits"] = {
     loaded = true,
     path = "/home/akyrey/.local/share/nvim/site/pack/packer/start/cmp-conventionalcommits",
