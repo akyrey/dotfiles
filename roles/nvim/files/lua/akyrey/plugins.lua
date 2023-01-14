@@ -94,6 +94,13 @@ return packer.startup(function(use)
             { "kyazdani42/nvim-web-devicons" },
         },
     }
+    use {
+        "akinsho/bufferline.nvim",
+        config = function()
+            require("akyrey.core.bufferline").setup()
+        end,
+        branch = "main",
+    }
     use { "stevearc/dressing.nvim" }
     -- Color highlighter
     use { "norcalli/nvim-colorizer.lua" }
