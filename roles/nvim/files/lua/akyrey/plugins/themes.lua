@@ -4,13 +4,17 @@ return {
         "catppuccin/nvim",
         name = "catppuccin",
     },
-    "lukas-reineke/indent-blankline.nvim",
+    {
+        "lukas-reineke/indent-blankline.nvim",
+        config = function()
+            require("akyrey.config.indent-blankline").setup()
+        end,
+    },
     {
         "nvim-lualine/lualine.nvim",
-        -- TODO: add configuration
-        -- config = function()
-        --     require("akyrey.config.lualine").setup()
-        -- end,
+        config = function()
+            require("akyrey.config.lualine").setup()
+        end,
         dependencies = {
             "nvim-web-devicons",
         },
@@ -26,6 +30,9 @@ return {
     -- Color highlighter
     {
         "norcalli/nvim-colorizer.lua",
+        config = function()
+            require("akyrey.config.colorizer").setup()
+        end,
         event = "BufRead",
     },
 }

@@ -2,10 +2,9 @@ return {
     {
         "nvim-telescope/telescope.nvim",
         cmd = "Telescope",
-        -- TODO: add configuration
-        -- config = function()
-        --     require("akyrey.config.telescope").setup()
-        -- end,
+        config = function()
+            require("akyrey.config.telescope").setup()
+        end,
         dependencies = {
             "plenary.nvim",
             "telescope-fzf-native.nvim",

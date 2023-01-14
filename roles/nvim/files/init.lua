@@ -7,13 +7,19 @@
 -- 
 -- Inspired by https://github.com/tjdevries and https://github.com/ThePrimeagen
 --
+--
+-- Leader key -> " "
+--
+-- In general, it's a good idea to set this early in your config, because otherwise
+-- if you have any mappings you set BEFORE doing this, they will be set to the OLD
+-- leader.
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
+
 
 -- Speed up loading Lua modules in Neovim to improve startup time
 --  using pcall here to avoid errors when no plugin is installed
 pcall(require, "impatient")
-
--- General keymaps not related to a single plugin
-require("akyrey.keymaps")
 
 -- General settings
 require("akyrey.settings")()
@@ -55,6 +61,8 @@ require("lazy").setup("akyrey.plugins", {
 
 -- Must be called after plugin installations
 require("akyrey.theme")()
+
+require("akyrey.keymaps")
 
 -- Setup auto commands
 require("akyrey.auto_commands")

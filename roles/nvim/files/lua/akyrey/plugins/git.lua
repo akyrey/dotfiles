@@ -6,10 +6,9 @@ return {
     },
     {
         "lewis6991/gitsigns.nvim",
-        -- TODO: add configuration
-        -- config = function()
-        --     require("akyrey.config.gitsigns").setup()
-        -- end,
+        config = function()
+            require("akyrey.config.gitsigns").setup()
+        end,
         event = "BufRead",
     },
     {

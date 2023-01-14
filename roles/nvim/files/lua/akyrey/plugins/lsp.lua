@@ -10,10 +10,9 @@ return {
     -- Automatically install LSPs to stdpath for neovim
     {
         "williamboman/mason.nvim",
-        -- TODO: move configuration
-        -- config = function()
-        --     require("akyrey.config.mason").setup()
-        -- end,
+        config = function()
+            require("akyrey.config.mason").setup()
+        end,
     },
     { "williamboman/mason-lspconfig.nvim", lazy = true },
     {
@@ -28,11 +27,13 @@ return {
 
     {
         "ThePrimeagen/refactoring.nvim",
+        config = function()
+            require("akyrey.config.refactoring").setup()
+        end,
         dependencies = {
             "plenary.nvim",
             "nvim-treesitter",
         },
-        lazy = true,
     },
 
     -- Useful status updates for LSP

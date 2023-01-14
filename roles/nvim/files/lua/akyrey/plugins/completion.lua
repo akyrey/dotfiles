@@ -1,10 +1,9 @@
 return {
     {
         "hrsh7th/nvim-cmp",
-        -- TODO: add configuration
-        -- config = function()
-        --     require("akyrey.config.cmp").setup()
-        -- end
+        config = function()
+            require("akyrey.config.cmp").setup()
+        end,
         dependencies = {
             "cmp_luasnip",
             "cmp-buffer",
@@ -62,15 +61,17 @@ return {
     -- Automatically insert pairs
     {
         "windwp/nvim-autopairs",
-        -- TODO: add configuration
-        -- config = function()
-        --     require("akyrey.config.autopairs").setup()
-        -- end,
+        config = function()
+            require("akyrey.config.autopairs").setup()
+        end,
         event = "InsertEnter",
     },
     -- Insert char surround targets
     {
         "kylechui/nvim-surround",
+        config = function()
+            require("akyrey.config.nvim-surround").setup()
+        end,
         event = "VeryLazy",
     },
 }

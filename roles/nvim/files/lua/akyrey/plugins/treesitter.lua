@@ -3,10 +3,9 @@ return {
     {
         "nvim-treesitter/nvim-treesitter",
         build = ":TSUpdate",
-        -- TODO: add configuration
-        -- config = function()
-        --     require("akyrey.config.treesitter").setup()
-        -- end,
+        config = function()
+            require("akyrey.config.treesitter").setup()
+        end,
     },
     { "p00f/nvim-ts-rainbow", lazy = true },
     { "windwp/nvim-ts-autotag", lazy = true },
@@ -16,6 +15,9 @@ return {
     },
     {
         "nvim-treesitter/nvim-treesitter-context",
+        config = function()
+            require("akyrey.config.treesitter-context").setup()
+        end,
         event = "VeryLazy",
     },
     {

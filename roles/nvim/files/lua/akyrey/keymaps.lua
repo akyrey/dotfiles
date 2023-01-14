@@ -1,12 +1,3 @@
-local M = {}
--- Leader key -> " "
---
--- In general, it's a good idea to set this early in your config, because otherwise
--- if you have any mappings you set BEFORE doing this, they will be set to the OLD
--- leader.
-vim.g.mapleader = " "
-vim.g.maplocalleader = " "
-
 -- This is where most of my basic keymapping goes.
 --
 --   Plugin keymaps will all be found in `./after/plugin/*`
@@ -111,4 +102,58 @@ vim.keymap.set("x", "<A-k>", ":move '<-2<CR>gv-gv")
 
 vim.keymap.set("c", "%%", "getcmdtype() == ':' ? expand('%:h').'/' : '%%'", { noremap = true, expr = true })
 
-return M
+-- Telescope
+vim.keymap.set("n", "<leader>?", require("telescope.builtin").oldfiles, { desc = "[?] Find recently opened files" })
+vim.keymap.set("n", "<leader><space>", require("telescope.builtin").buffers, { desc = "[ ] Find existing buffers" })
+vim.keymap.set("n", "<leader>/", function()
+    require("telescope.builtin").current_buffer_fuzzy_find()
+end, { desc = "[/] Fuzzily search in current buffer]" })
+
+vim.keymap.set("n", "<leader>sf", require("telescope.builtin").find_files, { desc = "[S]earch [F]iles" })
+vim.keymap.set("n", "<leader>sh", require("telescope.builtin").help_tags, { desc = "[S]earch [H]elp" })
+vim.keymap.set("n", "<leader>sw", require("telescope.builtin").grep_string, { desc = "[S]earch current [W]ord" })
+vim.keymap.set("n", "<leader>sg", require("telescope.builtin").live_grep, { desc = "[S]earch by [G]rep" })
+vim.keymap.set("n", "<leader>sd", require("telescope.builtin").diagnostics, { desc = "[S]earch [D]iagnostics" })
+vim.keymap.set("n", "<leader>sD", ":Telescope diagnostics bufnr=0 theme=get_ivy<cr>", { desc = "[S]earch Buffer [D]iagnostics" })
+vim.keymap.set("n", "<leader>sc", function() require("akyrey.config.telescope").find_config_files() end, { desc = "[S]earch [C]onfig" })
+vim.keymap.set("n", "<leader>sC", function() require("akyrey.config.telescope").grep_config_files() end, { desc = "Grep [C]onfig" })
+
+vim.keymap.set("n", "<leader>sW", function() require("telescope").extensions.git_worktree.git_worktrees() end, { desc = "[S]earch [W]orktrees" })
+vim.keymap.set("n", "<leader>wc", function() require("telescope").extensions.git_worktree.create_git_worktree() end, { desc = "[W]orktree [C]reate" })
+vim.keymap.set("v", "<leader>rr", function() require("telescope").extensions.refactoring.refactors() end, { desc = "Open [R]efacto[r]ing Menu" })
+
+vim.keymap.set("n", "<leader>ss", ":Telescope git_status<cr>", { desc = "[S]earch Git [S]tatus" })
+vim.keymap.set("n", "<leader>sb", ":Telescope git_branches<cr>", { desc = "[S]earch [B]ranch" })
+vim.keymap.set("n", "<leader>sv", ":Telescope git_commits<cr>", { desc = "[S]earch Commits" })
+vim.keymap.set("n", "<leader>sV", ":Telescope git_bcommits<cr>", { desc = "[S]earch Commits for current file" })
+vim.keymap.set("n", "<leader>sH", ":Telescope highlights<cr>", { desc = "[S]earch [H]ighlight gruops" })
+vim.keymap.set("n", "<leader>sM", ":Telescope man_pages<cr>", { desc = "[S]earch [M]an Pages" })
+vim.keymap.set("n", "<leader>sR", ":Telescope registers<cr>", { desc = "[S]earch [R]egisters" })
+vim.keymap.set("n", "<leader>sk", ":Telescope keymaps<cr>", { desc = "[S]earch [K]eymaps" })
+vim.keymap.set("n", "<leader>sC", ":Telescope commands<cr>", { desc = "[S]earch [C]ommands" })
+vim.keymap.set("n", "<leader>sq", ":Telescope quickfix<cr>", { desc = "[S]earch [Q]uickfix list" })
+vim.keymap.set("n", "<leader>st", ":TodoTelescope<cr>", { desc = "[S]earch [T]odo" })
+
+-- Harpoon
+vim.keymap.set("n", "<leader>ha", require("harpoon.mark").add_file, { desc = "[H]arpoon [A]dd File" })
+vim.keymap.set("n", "<leader>ht", require("harpoon.ui").toggle_quick_menu, { desc = "[H]arpoon [T]oggle Quick Menu" })
+vim.keymap.set("n", "<C-h>", function() require("harpoon.ui").nav_file(1) end, { desc = "Harpoon file #1" })
+vim.keymap.set("n", "<C-j>", function() require("harpoon.ui").nav_file(2) end, { desc = "Harpoon file #2" })
+vim.keymap.set("n", "<C-k>", function() require("harpoon.ui").nav_file(3) end, { desc = "Harpoon file #3" })
+vim.keymap.set("n", "<C-l>", function() require("harpoon.ui").nav_file(4) end, { desc = "Harpoon file #4" })
+
+-- Debugger
+vim.keymap.set("n", "<leader>dt", function() require("dap").toggle_breakpoint() end, { desc = "Toggle Breakpoint" })
+vim.keymap.set("n", "<leader>db", function() require("dap").step_back() end, { desc = "Step Back" })
+vim.keymap.set("n", "<leader>dc", function() require("dap").continue() end, { desc = "Continue" })
+vim.keymap.set("n", "<leader>dC", function() require("dap").run_to_cursor() end, { desc = "Run To Cursor" })
+vim.keymap.set("n", "<leader>dd", function() require("dap").disconnect() end, { desc = "Disconnect" })
+vim.keymap.set("n", "<leader>dg", function() require("dap").session() end, { desc = "Get Session" })
+vim.keymap.set("n", "<leader>di", function() require("dap").step_into() end, { desc = "Step Into" })
+vim.keymap.set("n", "<leader>do", function() require("dap").step_over() end, { desc = "Step Over" })
+vim.keymap.set("n", "<leader>du", function() require("dap").step_out() end, { desc = "Step Out" })
+vim.keymap.set("n", "<leader>dp", function() require("dap").pause.toggle() end, { desc = "Pause" })
+vim.keymap.set("n", "<leader>dr", function() require("dap").repl.toggle() end, { desc = "Toggle Repl" })
+vim.keymap.set("n", "<leader>ds", function() require("dap").continue() end, { desc = "Start" })
+vim.keymap.set("n", "<leader>dq", function() require("dap").close() end, { desc = "Quit" })
+vim.keymap.set("n", "<leader>dU", function() require("dapui").toggle({ reset = true }) end, { desc = "Toggle UI" })
