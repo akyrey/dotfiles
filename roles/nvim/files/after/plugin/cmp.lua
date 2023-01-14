@@ -169,8 +169,8 @@ cmp.setup({
     },
 
     mapping = cmp.mapping.preset.insert {
-        ["<C-k>"] = cmp.mapping.select_prev_item(),
-        ["<C-j>"] = cmp.mapping.select_next_item(),
+        ["<C-k>"] = cmp.mapping(cmp.mapping.select_prev_item(), { "i", "c" }),
+        ["<C-j>"] = cmp.mapping(cmp.mapping.select_next_item(), { "i", "c" }),
         ["<Down>"] = cmp.mapping(cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Select }, { "i" }),
         ["<Up>"] = cmp.mapping(cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Select }, { "i" }),
         ["<C-u>"] = cmp.mapping.scroll_docs(-4),
@@ -226,7 +226,7 @@ cmp.setup({
                     return -- success, exit early
                 end
             end
-            
+
             if jumpable(1) and luasnip.jump(1) then
                 return -- success, exit early
             end
