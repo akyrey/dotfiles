@@ -34,6 +34,7 @@ return {
             "plenary.nvim",
             "nvim-treesitter",
         },
+        lazy = true,
     },
 
     -- Useful status updates for LSP

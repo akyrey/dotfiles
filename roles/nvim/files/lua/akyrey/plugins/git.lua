@@ -21,5 +21,6 @@ return {
     {
         "ThePrimeagen/git-worktree.nvim",
         event = "VeryLazy",
+        lazy = true,
     },
 }
