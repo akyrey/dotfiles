@@ -120,7 +120,7 @@ vim.keymap.set("n", "<leader>sC", function() require("akyrey.config.telescope").
 
 vim.keymap.set("n", "<leader>sW", function() require("telescope").extensions.git_worktree.git_worktrees() end, { desc = "[S]earch [W]orktrees" })
 vim.keymap.set("n", "<leader>wc", function() require("telescope").extensions.git_worktree.create_git_worktree() end, { desc = "[W]orktree [C]reate" })
-vim.keymap.set("v", "<leader>rr", function() require("telescope").extensions.refactoring.refactors() end, { desc = "Open [R]efacto[r]ing Menu" })
+vim.keymap.set({ "n", "v" }, "<leader>rr", function() require("telescope").extensions.refactoring.refactors() end, { desc = "Open [R]efacto[r]ing Menu" })
 
 vim.keymap.set("n", "<leader>ss", ":Telescope git_status<cr>", { desc = "[S]earch Git [S]tatus" })
 vim.keymap.set("n", "<leader>sb", ":Telescope git_branches<cr>", { desc = "[S]earch [B]ranch" })
