@@ -23,7 +23,12 @@ M.servers = {
     bashls = {},
     dockerls = {},
     gopls = {},
-    jsonls = {},
+    jsonls = {
+        schemas = require("schemastore").json.schemas(),
+        validate = {
+            enable = true,
+        },
+    },
     rust_analyzer = {},
     sumneko_lua = {
         Lua = {
@@ -47,7 +52,30 @@ M.servers = {
         },
     },
     tsserver = {},
-    yamlls = {},
+    yamlls = {
+        hover = true,
+        completion = true,
+        validate = true,
+        schemaStore = {
+            enable = true,
+            url = "https://www.schemastore.org/api/json/catalog.json",
+        },
+        schemas = {
+            kubernetes = {
+                "daemon.{yml,yaml}",
+                "manager.{yml,yaml}",
+                "restapi.{yml,yaml}",
+                "role.{yml,yaml}",
+                "role_binding.{yml,yaml}",
+                "*onfigma*.{yml,yaml}",
+                "*ngres*.{yml,yaml}",
+                "*ecre*.{yml,yaml}",
+                "*eployment*.{yml,yaml}",
+                "*ervic*.{yml,yaml}",
+                "kubectl-edit*.yaml",
+            },
+        },
+    },
 }
 
 -- You can provide a dedicated handler for specific servers.

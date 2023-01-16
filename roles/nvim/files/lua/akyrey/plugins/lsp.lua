@@ -44,4 +44,6 @@ return {
     { "folke/neodev.nvim", lazy = true },
 
     { "simrat39/rust-tools.nvim", lazy = true },
+
+    { "b0o/schemastore.nvim", lazy = true },
 }
