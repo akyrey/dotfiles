@@ -74,4 +74,16 @@ return {
         end,
         event = "VeryLazy",
     },
+    {
+        "vuki656/package-info.nvim",
+        config = function()
+            require("akyrey.config.package-info").setup()
+        end,
+        dependencies = {
+            "nui.nvim",
+        },
+        ft = "json",
+        lazy = true,
+    },
+    { "MunifTanjim/nui.nvim", lazy = true },
 }

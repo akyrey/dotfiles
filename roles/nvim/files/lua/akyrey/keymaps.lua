@@ -46,7 +46,7 @@ vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
 vim.keymap.set("n", "Q", "<Nop>", { silent = true })
 
 -- Copy to system clipboard
-vim.keymap.set({ "n" , "v" }, "<leader>y", "\"+y", { desc = "Copy to system clipboard" })
+vim.keymap.set({ "n", "v" }, "<leader>y", "\"+y", { desc = "Copy to system clipboard" })
 vim.keymap.set("n", "<leader>Y", "\"+Y", { desc = "Copy until end of line to system clipboard" })
 
 -- Delete to void register
@@ -157,3 +157,12 @@ vim.keymap.set("n", "<leader>dr", function() require("dap").repl.toggle() end, {
 vim.keymap.set("n", "<leader>ds", function() require("dap").continue() end, { desc = "Start" })
 vim.keymap.set("n", "<leader>dq", function() require("dap").close() end, { desc = "Quit" })
 vim.keymap.set("n", "<leader>dU", function() require("dapui").toggle({ reset = true }) end, { desc = "Toggle UI" })
+
+-- Package-info
+vim.keymap.set("n", "<leader>is", function() require('package-info').show() end, { desc = "Show package versions" })
+vim.keymap.set("n", "<leader>ic", function() require('package-info').hide() end, { desc = "Hide package versions" })
+vim.keymap.set("n", "<leader>iu", function() require('package-info').update() end, { desc = "Update package on line" })
+vim.keymap.set("n", "<leader>id", function() require('package-info').delete() end, { desc = "Delete package on line" })
+vim.keymap.set("n", "<leader>ii", function() require('package-info').install() end, { desc = "Install a new package" })
+vim.keymap.set("n", "<leader>ir", function() require('package-info').reinstall() end, { desc = "Reinstall dependencies" })
+vim.keymap.set("n", "<leader>ip", function() require('package-info').change_version() end, { desc = "Install a different package version" })

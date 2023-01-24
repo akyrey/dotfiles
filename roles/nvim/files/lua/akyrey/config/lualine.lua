@@ -30,6 +30,9 @@ M.setup = function()
         hide_in_width = function()
             return vim.fn.winwidth(0) > window_width_limit
         end,
+        package_json = function ()
+            return vim.fn.expand "%:." == "package.json"
+        end,
     }
 
     local function diff_source()
@@ -155,6 +158,7 @@ M.setup = function()
             cond = conditions.hide_in_width,
         },
         filetype = { "filetype", cond = conditions.hide_in_width, color = {} },
+        package_info = { cond = conditions.package_json, function() return require("package-info").get_status() end },
         scrollbar = {
             function()
                 local current_line = vim.fn.line "."
@@ -188,6 +192,7 @@ M.setup = function()
             },
             lualine_x = {
                 components.diagnostics,
+                components.package_info,
                 components.treesitter,
                 components.lsp,
                 components.filetype,
