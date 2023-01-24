@@ -9,7 +9,7 @@ M.setup = function()
     package_info.setup({
         colors = {
             up_to_date = "#3C4048", -- Text color for up to date package virtual text
-            outdated = "#D19A66", -- Text color for outdated package virtual text
+            outdated = "#F69697", -- Text color for outdated package virtual text
         },
         icons = {
             enable = true, -- Whether to display icons
@@ -27,6 +27,9 @@ M.setup = function()
         -- provided one, if nothing is provided it will use `yarn`
         package_manager = "npm"
     })
+
+    vim.api.nvim_set_hl(0, "PackageInfoOutdatedVersion", { fg = "#F69697" })
+    vim.api.nvim_set_hl(0, "PackageInfoUpToDateVersion", { fg = "#3C4048" })
 end
 
 return M
