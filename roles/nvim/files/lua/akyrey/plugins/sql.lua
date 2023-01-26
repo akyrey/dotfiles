@@ -1,7 +1,7 @@
 return {
     {
         "tpope/vim-dadbod",
-        cmd = "DB",
+        cmd = { "DB", "DBUI", "DBUIToggle" },
         dependencies = {
             "vim-dadbod-completion",
             "vim-dadbod-ui",
