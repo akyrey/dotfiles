@@ -26,3 +26,6 @@ alias npm-global="npm i -g npmrc eslint eslint_d prettier @fsouza/prettierd npx"
 alias fix-headset="headsetcontrol -l 0 && headsetcontrol -s 128"
 
 alias mount-gdrive="rclone mount --daemon --daemon-timeout=5m --buffer-size=64M --dir-cache-time=64h --vfs-cache-mode=full  --vfs-read-chunk-size 100M  --vfs-read-chunk-size-limit 0 --vfs-cache-max-age=6h GDrive: ~/GDrive"
+
+alias work="timer 25m && notify-send 'Pomodoro' 'Work Timer is up! Take a Break \U0001F600' -i '~/Pictures/clock.png'"
+alias rest="timer 10m && notify-send 'Pomodoro' 'Break is over! Get back to work \U0001F62C' -i '~/Pictures/clock.png'"
