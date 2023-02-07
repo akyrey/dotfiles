@@ -1,7 +1,7 @@
 locales/!
 AWS/!
 if/!
-M/!
+#/!
 const/!
 this/!
 detail/!
@@ -11,3 +11,14 @@ private/!
 button/!
 body/!
 enableCamera/!
+docker/!
+rounded/!
+#/!
+el/!
+converter/!
+AbortWithError/!
+M/!
+toggleExpandRow/!
+ID/!
+DB/!
+primaryKey/!
