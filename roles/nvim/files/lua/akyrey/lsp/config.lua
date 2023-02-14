@@ -29,14 +29,14 @@ M.servers = {
             enable = true,
         },
     },
-    rust_analyzer = {},
-    sumneko_lua = {
+    lua_ls = {
         Lua = {
             diagnostics = { globals = { 'vim' } },
             telemetry = { enable = false },
             workspace = { checkThirdParty = false },
         },
     },
+    rust_analyzer = {},
     tailwindcss = {
         tailwindCSS = {
             lint = {
