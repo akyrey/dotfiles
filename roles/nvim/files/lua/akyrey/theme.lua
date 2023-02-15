@@ -14,6 +14,8 @@ return function()
 
     cmd("set termguicolors")
 
+    cmd("hi LspInlayHint guifg=#D8D8D8 guibg=none")
+
     -- Change cursor shape for all modes
     cmd("set guicursor=n-v-c:block-Cursor-blinkon0")
     cmd("set guicursor+=ve:ver35-Cursor")

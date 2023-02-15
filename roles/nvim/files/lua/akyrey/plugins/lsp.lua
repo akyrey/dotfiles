@@ -46,4 +46,12 @@ return {
     { "simrat39/rust-tools.nvim", lazy = true },
 
     { "b0o/schemastore.nvim", lazy = true },
+
+    {
+        "lvimuser/lsp-inlayhints.nvim",
+        config = function()
+            require("akyrey.config.inlay-hints").setup()
+        end,
+        lazy = true,
+    }
 }

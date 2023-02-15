@@ -32,6 +32,9 @@ M.servers = {
     lua_ls = {
         Lua = {
             diagnostics = { globals = { 'vim' } },
+            hint = {
+                enable = true,
+            },
             telemetry = { enable = false },
             workspace = { checkThirdParty = false },
         },
@@ -51,7 +54,30 @@ M.servers = {
             validate = true,
         },
     },
-    tsserver = {},
+    tsserver = {
+        javascript = {
+            inlayHints = {
+                includeInlayEnumMemberValueHints = true,
+                includeInlayFunctionLikeReturnTypeHints = true,
+                includeInlayFunctionParameterTypeHints = true,
+                includeInlayParameterNameHints = "all", -- 'none' | 'literals' | 'all';
+                includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+                includeInlayPropertyDeclarationTypeHints = true,
+                includeInlayVariableTypeHints = true,
+            },
+        },
+        typescript = {
+            inlayHints = {
+                includeInlayEnumMemberValueHints = true,
+                includeInlayFunctionLikeReturnTypeHints = true,
+                includeInlayFunctionParameterTypeHints = true,
+                includeInlayParameterNameHints = "all", -- 'none' | 'literals' | 'all';
+                includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+                includeInlayPropertyDeclarationTypeHints = true,
+                includeInlayVariableTypeHints = true,
+            },
+        },
+    },
     yamlls = {
         hover = true,
         completion = true,
@@ -114,4 +140,3 @@ local default_handler = {
 M.handlers = vim.tbl_deep_extend("force", default_handler, extra_handlers)
 
 return M
-
