@@ -107,7 +107,13 @@ M.servers = {
 -- You can provide a dedicated handler for specific servers.
 local extra_handlers = {
     ["rust_analyzer"] = function ()
-        require("rust-tools").setup({})
+        require("rust-tools").setup({
+            server = {
+                on_attach = function(_, bufnr)
+                    utils.add_lsp_buffer_keybindings(bufnr)
+                end,
+            },
+        })
     end,
     tsserver = function()
         require("lspconfig").tsserver.setup {
