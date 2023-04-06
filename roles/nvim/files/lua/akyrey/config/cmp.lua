@@ -145,19 +145,16 @@ M.setup = function()
             behavior = cmp.ConfirmBehavior.Replace,
             select = false,
         },
-
         window = {
             documentation = {
                 border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
             },
         },
-
         snippet = {
             expand = function(args)
                 luasnip.lsp_expand(args.body)
             end,
         },
-
         mapping = cmp.mapping.preset.insert {
             ["<C-k>"] = cmp.mapping(cmp.mapping.select_prev_item(), { "i", "c" }),
             ["<C-j>"] = cmp.mapping(cmp.mapping.select_next_item(), { "i", "c" }),
@@ -224,7 +221,6 @@ M.setup = function()
                 fallback() -- if not exited early, always fallback
             end),
         },
-
         sources = cmp.config.sources(
             {
                 { name = "nvim_lsp" },
@@ -234,19 +230,16 @@ M.setup = function()
                 { name = "nvim_lua" },
                 { name = "path" },
                 { name = "treesitter" },
-                { name = "npm", keyword_length = 4 },
+                { name = "npm",                    keyword_length = 4 },
             },
             {
                 { name = "buffer" },
                 { name = "spell" },
             }
         ),
-
         formatting = {
             format = function(entry, vim_item)
-                vim_item.kind = vim_item_symbol[vim_item.kind]
-                    .. " "
-                    .. vim_item.kind
+                vim_item.kind = string.format("%s %s", vim_item_symbol[vim_item.kind], vim_item.kind)
                 -- set a name for each source
                 vim_item.menu = ({
                     copilot = "   (Copilot)",
