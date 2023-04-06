@@ -27,6 +27,10 @@ return function()
         expandtab = true,
         -- the encoding written to a file
         fileencoding = "utf-8",
+        -- Enable folding using treesitter
+        foldenable = false,
+        foldexpr = "nvim_treesitter#foldexpr()",
+        foldmethod = "expr",
         -- Don't unload buffer when it is abandoned
         hidden = true,
         -- Don't highlight matches with last search pattern
