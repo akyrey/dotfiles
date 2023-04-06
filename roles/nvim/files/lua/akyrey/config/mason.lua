@@ -7,7 +7,6 @@ M.setup = function()
     local m_n_ok, mason_null_ls = pcall(require, "mason-null-ls")
     local m_d_ok, mason_dap = pcall(require, "mason-nvim-dap")
     local ne_ok, neodev = pcall(require, "neodev")
-    local d_ok, dap = pcall(require, "dap")
 
     if not f_ok or not n_ok or not m_ok or not m_n_ok or not m_d_ok or not ne_ok then
         return
@@ -86,22 +85,6 @@ M.setup = function()
             -- all sources with no handler get passed here
             -- Keep original functionality of `automatic_setup = true`
             require('mason-nvim-dap.automatic_setup')(source_name)
-        end,
-        chrome = function(source_name)
-            dap.configurations.typescript = {
-                {
-                    name = "Debug (Attach) - Remote",
-                    type = "chrome",
-                    request = "attach",
-                    program = "${file}",
-                    debugServer = 45635,
-                    cwd = vim.fn.getcwd(),
-                    sourceMaps = true,
-                    protocol = "inspector",
-                    port = 9222,
-                    webRoot = "${workspaceFolder}",
-                }
-            }
         end,
     })
 
