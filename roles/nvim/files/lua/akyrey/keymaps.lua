@@ -8,6 +8,8 @@ vim.keymap.set("n", "<leader>u", vim.cmd.UndotreeToggle)
 
 vim.keymap.set("n", "<leader>vG", vim.cmd.G, { desc = "Fugitive" })
 vim.keymap.set("n", "<leader>vh", "<cmd>DiffviewFileHistory %<cr>", { desc = "Current file history" })
+vim.keymap.set("n", "<leader>vb", "<cmd>diffget //2<cr>", { desc = "Accept left conflict" })
+vim.keymap.set("n", "<leader>vn", "<cmd>diffget //3<cr>", { desc = "Accept right conflict" })
 
 vim.keymap.set("n", "<leader>b", "<cmd>b#<cr>", { desc = "Goto previous buffer" })
 
