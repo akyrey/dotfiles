@@ -3,7 +3,8 @@
 --   Plugin keymaps will all be found in `./after/plugin/*`
 --   Also check which-key.lua file
 
-vim.keymap.set("n", "<leader>e", vim.cmd.Ex)
+-- vim.keymap.set("n", "<leader>e", vim.cmd.Ex)
+vim.keymap.set("n", "<leader>e", "<cmd>NvimTreeFindFileToggle<cr>", { desc = "Toggle NvimTree", silent = true, noremap = true })
 vim.keymap.set("n", "<leader>u", vim.cmd.UndotreeToggle)
 
 vim.keymap.set("n", "<leader>vG", vim.cmd.G, { desc = "Fugitive" })
@@ -116,13 +117,19 @@ vim.keymap.set("n", "<leader>sh", require("telescope.builtin").help_tags, { desc
 vim.keymap.set("n", "<leader>sw", require("telescope.builtin").grep_string, { desc = "[S]earch current [W]ord" })
 vim.keymap.set("n", "<leader>sg", require("telescope.builtin").live_grep, { desc = "[S]earch by [G]rep" })
 vim.keymap.set("n", "<leader>sd", require("telescope.builtin").diagnostics, { desc = "[S]earch [D]iagnostics" })
-vim.keymap.set("n", "<leader>sD", ":Telescope diagnostics bufnr=0 theme=get_ivy<cr>", { desc = "[S]earch Buffer [D]iagnostics" })
-vim.keymap.set("n", "<leader>sc", function() require("akyrey.config.telescope").find_config_files() end, { desc = "[S]earch [C]onfig" })
-vim.keymap.set("n", "<leader>sC", function() require("akyrey.config.telescope").grep_config_files() end, { desc = "Grep [C]onfig" })
+vim.keymap.set("n", "<leader>sD", ":Telescope diagnostics bufnr=0 theme=get_ivy<cr>",
+{ desc = "[S]earch Buffer [D]iagnostics" })
+vim.keymap.set("n", "<leader>sc", function() require("akyrey.config.telescope").find_config_files() end,
+{ desc = "[S]earch [C]onfig" })
+vim.keymap.set("n", "<leader>sC", function() require("akyrey.config.telescope").grep_config_files() end,
+{ desc = "Grep [C]onfig" })
 
-vim.keymap.set("n", "<leader>sW", function() require("telescope").extensions.git_worktree.git_worktrees() end, { desc = "[S]earch [W]orktrees" })
-vim.keymap.set("n", "<leader>wc", function() require("telescope").extensions.git_worktree.create_git_worktree() end, { desc = "[W]orktree [C]reate" })
-vim.keymap.set({ "n", "v" }, "<leader>rr", function() require("telescope").extensions.refactoring.refactors() end, { desc = "Open [R]efacto[r]ing Menu" })
+vim.keymap.set("n", "<leader>sW", function() require("telescope").extensions.git_worktree.git_worktrees() end,
+{ desc = "[S]earch [W]orktrees" })
+vim.keymap.set("n", "<leader>wc", function() require("telescope").extensions.git_worktree.create_git_worktree() end,
+{ desc = "[W]orktree [C]reate" })
+vim.keymap.set({ "n", "v" }, "<leader>rr", function() require("telescope").extensions.refactoring.refactors() end,
+{ desc = "Open [R]efacto[r]ing Menu" })
 
 vim.keymap.set("n", "<leader>ss", ":Telescope git_status<cr>", { desc = "[S]earch Git [S]tatus" })
 vim.keymap.set("n", "<leader>sb", ":Telescope git_branches<cr>", { desc = "[S]earch [B]ranch" })
@@ -167,4 +174,5 @@ vim.keymap.set("n", "<leader>iu", function() require('package-info').update() en
 vim.keymap.set("n", "<leader>id", function() require('package-info').delete() end, { desc = "Delete package on line" })
 vim.keymap.set("n", "<leader>ii", function() require('package-info').install() end, { desc = "Install a new package" })
 vim.keymap.set("n", "<leader>ir", function() require('package-info').reinstall() end, { desc = "Reinstall dependencies" })
-vim.keymap.set("n", "<leader>ip", function() require('package-info').change_version() end, { desc = "Install a different package version" })
+vim.keymap.set("n", "<leader>ip", function() require('package-info').change_version() end,
+{ desc = "Install a different package version" })

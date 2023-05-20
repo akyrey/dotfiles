@@ -1,5 +1,16 @@
 return {
     {
+        "kyazdani42/nvim-tree.lua",
+        cmd = { "NvimTreeToggle", "NvimTreeOpen", "NvimTreeFocus", "NvimTreeFindFileToggle" },
+        config = function()
+            require("akyrey.config.nvimtree").setup()
+        end,
+        dependencies = {
+            "antosha417/nvim-lsp-file-operations",
+        },
+        event = "User DirOpened",
+    },
+    {
         "nvim-telescope/telescope.nvim",
         cmd = "Telescope",
         config = function()
