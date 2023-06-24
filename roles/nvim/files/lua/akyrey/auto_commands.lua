@@ -89,8 +89,8 @@ vim.api.nvim_create_autocmd("BufRead", {
 -- Automatically open Telescope when nvim is opened on a directory
 -- Set current folder as prompt title
 local dropdown = require('telescope.themes').get_dropdown({
-    hidden = true,
-    no_ignore = true,
+    hidden = false,
+    no_ignore = false,
     previewer = false,
     prompt_title = '',
     preview_title = '',
