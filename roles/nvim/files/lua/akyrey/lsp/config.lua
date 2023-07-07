@@ -22,7 +22,18 @@ M.servers = {
     ansiblels = {},
     bashls = {},
     dockerls = {},
-    gopls = {},
+    gopls = {
+        gopls = {
+            hints = {
+                assignVariableTypes = true,
+                compositeLiteralFields = true,
+                constantValues = true,
+                functionTypeParameters = true,
+                parameterNames = true,
+                rangeVariableTypes = true
+            },
+        },
+    },
     jsonls = {
         schemas = require("schemastore").json.schemas(),
         validate = {
@@ -106,7 +117,7 @@ M.servers = {
 
 -- You can provide a dedicated handler for specific servers.
 local extra_handlers = {
-    ["rust_analyzer"] = function ()
+    ["rust_analyzer"] = function()
         require("rust-tools").setup({
             server = {
                 on_attach = function(_, bufnr)
