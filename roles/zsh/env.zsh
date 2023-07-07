@@ -17,4 +17,5 @@ export WSIGN_DOCKER_DEV_PATH=~/work/wsign/docker/
 export WID_FRONTEND_DEV_PATH=~/work/wid/frontend/
 export WID_BACKEND_DEV_PATH=~/work/wid/backend/
 export WID_BACKEND_CONAD_DEV_PATH=~/work/wid/backend-conad/
+export WID_BACKEND_ZAIN_DEV_PATH=~/work/wid/backend-zain/
 export WID_DOCKER_DEV_PATH=~/work/wid/docker/

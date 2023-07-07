@@ -15,6 +15,7 @@ alias timezsh="time zsh -i -c echo"
 
 alias dk="docker"
 alias dkc="docker compose"
+alias dkc-zain="docker compose -f docker-compose.yml -f docker-compose.zain.yml"
 
 alias dkrmi="docker rmi $(docker images --filter "dangling=true" -q --no-trunc)"
 
