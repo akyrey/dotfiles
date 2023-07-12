@@ -10,6 +10,7 @@ return {
     -- Automatically install LSPs to stdpath for neovim
     {
         "williamboman/mason.nvim",
+        build = ":MasonUpdate", -- :MasonUpdate updates registry contents
         config = function()
             require("akyrey.config.mason").setup()
         end,
