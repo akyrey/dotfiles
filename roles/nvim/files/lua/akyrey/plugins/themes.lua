@@ -9,6 +9,7 @@ return {
         config = function()
             require("akyrey.config.indent-blankline").setup()
         end,
+        event = { "BufReadPost", "BufNewFile" },
     },
     {
         "nvim-lualine/lualine.nvim",
