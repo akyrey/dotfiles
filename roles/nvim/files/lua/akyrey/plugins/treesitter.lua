@@ -3,9 +3,11 @@ return {
     {
         "nvim-treesitter/nvim-treesitter",
         build = ":TSUpdate",
+        cmd = { "TSUpdateSync" },
         config = function()
             require("akyrey.config.treesitter").setup()
         end,
+        event = { "BufReadPost", "BufNewFile" },
     },
     { "p00f/nvim-ts-rainbow", lazy = true },
     { "windwp/nvim-ts-autotag", lazy = true },

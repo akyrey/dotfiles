@@ -46,7 +46,7 @@ M.setup = function()
             disable = { "latex" },
         },
         -- Indentation based on treesitter for the = operator. NOTE: This is an experimental feature.
-        indent = { enable = true, disable = { "yaml" } },
+        indent = { enable = true },
         incremental_selection = {
             enable = true,
             keymaps = {
