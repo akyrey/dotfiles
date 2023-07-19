@@ -24,6 +24,10 @@ return function()
     cmd("set guicursor+=r-cr:hor20-Cursor")
     cmd("set guicursor+=sm:block-Cursor-blinkwait175-blinkoff150-blinkon175")
 
+    -- Fidget related colors
+    cmd("highlight FidgetTitle guifg='#6cb6eb'")
+    cmd("highlight FidgetTask guifg='#6cb6eb'")
+
     -- Set transparent window
     vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
     vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })

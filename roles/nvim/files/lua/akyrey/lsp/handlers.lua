@@ -7,12 +7,19 @@ local diagnostics = {
         active = true,
         values = {
             { name = "DiagnosticSignError", text = "" },
-            { name = "DiagnosticSignWarn", text = "" },
-            { name = "DiagnosticSignHint", text = "" },
-            { name = "DiagnosticSignInfo", text = "" },
+            { name = "DiagnosticSignWarn",  text = "" },
+            { name = "DiagnosticSignHint",  text = "" },
+            { name = "DiagnosticSignInfo",  text = "" },
         },
     },
-    virtual_text = true,
+    virtual_text = {
+        spacing = 4,
+        source = "if_many",
+        prefix = "●",
+        -- this will set set the prefix to a function that returns the diagnostics icon based on the severity
+        -- this only works on a recent 0.10.0 build. Will be set to "●" when not supported
+        -- prefix = "icons",
+    },
     update_in_insert = false,
     underline = true,
     severity_sort = true,
@@ -40,23 +47,23 @@ local float = {
 }
 
 function M.setup()
-  local config = { -- your config
-    virtual_text = diagnostics.virtual_text,
-    signs = diagnostics.signs,
-    underline = diagnostics.underline,
-    update_in_insert = diagnostics.update_in_insert,
-    severity_sort = diagnostics.severity_sort,
-    float = diagnostics.float,
-  }
-  vim.diagnostic.config(config)
-  vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, float)
-  vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, float)
+    local config = { -- your config
+        virtual_text = diagnostics.virtual_text,
+        signs = diagnostics.signs,
+        underline = diagnostics.underline,
+        update_in_insert = diagnostics.update_in_insert,
+        severity_sort = diagnostics.severity_sort,
+        float = diagnostics.float,
+    }
+    vim.diagnostic.config(config)
+    vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, float)
+    vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, float)
 end
 
 function M.show_line_diagnostics()
-  local config = diagnostics.float
-  config.scope = "line"
-  return vim.diagnostic.open_float(0, config)
+    local config = diagnostics.float
+    config.scope = "line"
+    return vim.diagnostic.open_float(0, config)
 end
 
 return M
