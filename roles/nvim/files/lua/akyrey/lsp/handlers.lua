@@ -53,10 +53,4 @@ function M.setup()
     vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, float)
 end
 
-function M.show_line_diagnostics()
-    local config = diagnostics.float
-    config.scope = "line"
-    return vim.diagnostic.open_float(0, config)
-end
-
 return M
