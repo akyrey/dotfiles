@@ -14,13 +14,13 @@ function M.has(buffer, method)
 end
 
 function M.add_lsp_buffer_keybindings(bufnr)
-    local nmap = function(keys, func, desc, has)
+    local nmap = function(keys, func, desc, has, mode)
         if not has or M.has(bufnr, has) then
             if desc then
                 desc = "LSP: " .. desc
             end
 
-            vim.keymap.set("n", keys, func, { buffer = bufnr, desc = desc })
+            vim.keymap.set(mode or "n", keys, func, { buffer = bufnr, desc = desc })
         end
     end
 
@@ -51,11 +51,9 @@ function M.add_lsp_buffer_keybindings(bufnr)
         print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
     end, "[W]orkspace [L]ist Folders")
 
-    -- Create a command `:Format` local to the LSP buffer
-    vim.api.nvim_buf_create_user_command(bufnr, "Format", function(_)
-        require("akyrey.lsp.utils").format()
-    end, { desc = "Format current buffer with LSP" })
-    nmap("<leader>lf", function() vim.cmd "Format" end, "[L]SP [F]ormat")
+    -- Format code
+    nmap("<leader>lf", function() require("akyrey.lsp.format").format() end, "[F]ormat", "formatting")
+    nmap("<leader>lf", function() require("akyrey.lsp.format").format() end, "[F]ormat Range", "rangeFormatting", "v")
     nmap("<leader>go", function() M.organize_imports() end, "Or[g]anize Imp[o]rts")
 end
 
@@ -155,35 +153,6 @@ function M.enable_inlay_hints(client, buffer)
             inlay_hint(buffer, true)
         end
     end
-end
-
----filter passed to vim.lsp.buf.format
----always selects null-ls if it's available and caches the value per buffer
----@param client table client attached to a buffer
----@return boolean if client matches
-function M.format_filter(client)
-    local filetype = vim.bo.filetype
-    local n = require "null-ls"
-    local s = require "null-ls.sources"
-    local method = n.methods.FORMATTING
-    local available_formatters = s.get_available(filetype, method)
-
-    if #available_formatters > 0 then
-        return client.name == "null-ls"
-    elseif client.supports_method "textDocument/formatting" then
-        return true
-    else
-        return false
-    end
-end
-
----Simple wrapper for vim.lsp.buf.format() to provide defaults
----@param opts table|nil
-function M.format(opts)
-    opts = opts or {}
-    opts.filter = opts.filter or M.format_filter
-
-    return vim.lsp.buf.format(opts)
 end
 
 return M
