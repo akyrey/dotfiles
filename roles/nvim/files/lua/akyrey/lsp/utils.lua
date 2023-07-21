@@ -1,29 +1,47 @@
 local M = {}
 
-function M.add_lsp_buffer_keybindings(bufnr)
-    local nmap = function(keys, func, desc)
-        if desc then
-            desc = "LSP: " .. desc
+---Test if current LSP client supports the given method
+---@param method string
+function M.has(buffer, method)
+    method = method:find("/") and method or "textDocument/" .. method
+    local clients = vim.lsp.get_clients({ bufnr = buffer })
+    for _, client in ipairs(clients) do
+        if client.supports_method(method) then
+            return true
         end
+    end
+    return false
+end
 
-        vim.keymap.set("n", keys, func, { buffer = bufnr, desc = desc })
+function M.add_lsp_buffer_keybindings(bufnr)
+    local nmap = function(keys, func, desc, has)
+        if not has or M.has(bufnr, has) then
+            if desc then
+                desc = "LSP: " .. desc
+            end
+
+            vim.keymap.set("n", keys, func, { buffer = bufnr, desc = desc })
+        end
     end
 
-    nmap("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
-    nmap("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
-    nmap("<leader>cl", vim.lsp.codelens.run, "[C]ode[L]ens Actions")
+    nmap("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame", "rename")
+    nmap("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction", "codeAction")
+    nmap("<leader>cl", vim.lsp.codelens.run, "[C]ode[L]ens Actions", "codeLens")
 
-    nmap("gd", vim.lsp.buf.definition, "[G]oto [D]efinition")
+    nmap("gd", function() require("telescope.builtin").lsp_definitions({ reuse_win = true }) end, "[G]oto [D]efinition",
+        "definition")
     nmap("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
-    nmap("gI", vim.lsp.buf.implementation, "[G]oto [I]mplementation")
-    nmap("gl", "<cmd>lua require('akyrey.lsp.handlers').show_line_diagnostics()<CR>", "Show line diagnostics")
-    nmap("<leader>D", vim.lsp.buf.type_definition, "Type [D]efinition")
+    nmap("gI", function() require("telescope.builtin").lsp_implementations({ reuse_win = true }) end,
+        "[G]oto [I]mplementation")
+    nmap("gl", vim.diagnostic.open_float, "[L]ine Diagnostics")
+    nmap("<leader>D", function() require("telescope.builtin").lsp_type_definitions({ reuse_win = true }) end,
+        "Type [D]efinition")
     nmap("<leader>sds", require("telescope.builtin").lsp_document_symbols, "[D]ocument [S]ymbols")
     nmap("<leader>ws", require("telescope.builtin").lsp_dynamic_workspace_symbols, "[W]orkspace [S]ymbols")
 
     -- See `:help K` for why this keymap
     nmap("K", vim.lsp.buf.hover, "Hover Documentation")
-    nmap("<C-k>", vim.lsp.buf.signature_help, "Signature Documentation")
+    nmap("<C-k>", vim.lsp.buf.signature_help, "Signature Documentation", "signatureHelp")
 
     -- Lesser used LSP functionality
     nmap("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
