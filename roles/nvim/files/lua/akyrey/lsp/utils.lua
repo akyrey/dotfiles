@@ -147,6 +147,16 @@ function M.common_capabilities()
     return capabilities
 end
 
+function M.enable_inlay_hints(client, buffer)
+    local inlay_hint = vim.lsp.buf.inlay_hint or vim.lsp.inlay_hint
+
+    if inlay_hint then
+        if client.server_capabilities.inlayHintProvider then
+            inlay_hint(buffer, true)
+        end
+    end
+end
+
 ---filter passed to vim.lsp.buf.format
 ---always selects null-ls if it's available and caches the value per buffer
 ---@param client table client attached to a buffer

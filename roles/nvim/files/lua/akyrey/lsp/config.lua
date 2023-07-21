@@ -7,6 +7,7 @@ local function common_on_attach(client, bufnr)
     utils.setup_document_highlight(client, bufnr)
     utils.setup_codelens_refresh(client, bufnr)
     utils.add_lsp_buffer_keybindings(bufnr)
+    utils.enable_inlay_hints(client, bufnr)
 end
 
 -- Enable the following language servers
