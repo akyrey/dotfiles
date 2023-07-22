@@ -120,6 +120,7 @@ return {
             -- Additional lua configuration, makes nvim stuff amazing
             { "folke/neodev.nvim", opts = {} },
             "hrsh7th/cmp-nvim-lsp",
+            "jose-elias-alvarez/typescript.nvim",
             "williamboman/mason.nvim",
             "williamboman/mason-lspconfig.nvim",
         },
@@ -171,6 +172,10 @@ return {
             setup = {
                 rust_analyzer = function(_, opts)
                     require("rust-tools").setup({ server = opts })
+                    return true
+                end,
+                tsserver = function(_, opts)
+                    require("typescript").setup({ server = opts })
                     return true
                 end,
                 -- example to setup with typescript.nvim

@@ -66,7 +66,13 @@ function M.add_lsp_buffer_keybindings(client, buffer)
     -- Format code
     nmap("<leader>lf", function() require("akyrey.lsp.format").format() end, "[F]ormat", "formatting")
     nmap("<leader>lf", function() require("akyrey.lsp.format").format() end, "[F]ormat Range", "rangeFormatting", "v")
-    nmap("<leader>go", function() M.organize_imports() end, "Or[g]anize Imp[o]rts")
+
+    -- Client specific keymaps
+    local servers = require("akyrey.lsp.config").server
+    local maps = servers[client.name] and servers[client.name].keys or {}
+    for _, keymap in ipairs(maps) do
+        nmap(keymap.keys, keymap.func, keymap.desc, keymap.has, keymap.mode)
+    end
 end
 
 function M.organize_imports()

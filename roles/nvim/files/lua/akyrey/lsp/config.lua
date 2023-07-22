@@ -62,8 +62,10 @@ M.server = {
     },
     tsserver = {
         -- Use this to add any additional keymaps for specific lsp servers
-        ---@type LazyKeys[]
-        -- keys = {},
+        ---@type Keymaps[]
+        keys = {
+            { keys = "<leader>go", func = "<cmd>TypescriptOrganizeImports<CR>", desc = "Or[g]anize Imp[o]rts" },
+        },
         settings = {
             javascript = {
                 inlayHints = {
