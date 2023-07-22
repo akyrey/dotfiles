@@ -66,6 +66,3 @@ require("akyrey.keymaps")
 
 -- Setup auto commands
 require("akyrey.auto_commands")
-
--- Setup lsp
-require("akyrey.lsp")

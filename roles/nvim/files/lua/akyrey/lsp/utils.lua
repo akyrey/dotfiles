@@ -13,14 +13,26 @@ function M.has(buffer, method)
     return false
 end
 
-function M.add_lsp_buffer_keybindings(bufnr)
+---Add function to be executed on LspAttach event
+---@param on_attach fun(client, buffer)
+function M.on_attach(on_attach)
+    vim.api.nvim_create_autocmd("LspAttach", {
+        callback = function(args)
+            local buffer = args.buf
+            local client = vim.lsp.get_client_by_id(args.data.client_id)
+            on_attach(client, buffer)
+        end,
+    })
+end
+
+function M.add_lsp_buffer_keybindings(client, buffer)
     local nmap = function(keys, func, desc, has, mode)
-        if not has or M.has(bufnr, has) then
+        if not has or M.has(buffer, has) then
             if desc then
                 desc = "LSP: " .. desc
             end
 
-            vim.keymap.set(mode or "n", keys, func, { buffer = bufnr, desc = desc })
+            vim.keymap.set(mode or "n", keys, func, { buffer = buffer, desc = desc })
         end
     end
 
@@ -123,36 +135,6 @@ function M.setup_codelens_refresh(client, bufnr)
         buffer = bufnr,
         callback = vim.lsp.codelens.refresh,
     })
-end
-
-function M.common_capabilities()
-    local has_cmp, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
-    local capabilities = vim.tbl_deep_extend(
-        "force",
-        {},
-        vim.lsp.protocol.make_client_capabilities(),
-        has_cmp and cmp_nvim_lsp.default_capabilities() or {}
-    )
-    capabilities.textDocument.completion.completionItem.snippetSupport = true
-    capabilities.textDocument.completion.completionItem.resolveSupport = {
-        properties = {
-            "documentation",
-            "detail",
-            "additionalTextEdits",
-        },
-    }
-
-    return capabilities
-end
-
-function M.enable_inlay_hints(client, buffer)
-    local inlay_hint = vim.lsp.buf.inlay_hint or vim.lsp.inlay_hint
-
-    if inlay_hint then
-        if client.server_capabilities.inlayHintProvider then
-            inlay_hint(buffer, true)
-        end
-    end
 end
 
 return M

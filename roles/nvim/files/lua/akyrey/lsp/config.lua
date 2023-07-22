@@ -2,27 +2,14 @@ local utils = require("akyrey.lsp.utils")
 
 local M = {}
 
---  This function gets run when an LSP connects to a particular buffer.
-local function common_on_attach(client, bufnr)
-    utils.setup_document_highlight(client, bufnr)
-    utils.setup_codelens_refresh(client, bufnr)
-    utils.add_lsp_buffer_keybindings(bufnr)
-    utils.enable_inlay_hints(client, bufnr)
-end
-
--- Enable the following language servers
---  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
---
---  Add any additional override configuration in the following tables. They will be passed to
---  the `settings` field of the server config. You must look up that documentation yourself.
--- If additional configuration must be performed, use the extra_handlers below
-M.servers = {
+---@type lspconfig.options
+M.server = {
     angularls = {},
     ansiblels = {},
     bashls = {},
     dockerls = {},
     gopls = {
-        gopls = {
+        settings = {
             hints = {
                 assignVariableTypes = true,
                 compositeLiteralFields = true,
@@ -34,110 +21,89 @@ M.servers = {
         },
     },
     jsonls = {
-        schemas = require("schemastore").json.schemas(),
-        validate = {
-            enable = true,
+        -- lazy-load schemastore when needed
+        on_new_config = function(new_config)
+            new_config.settings.json.schemas = new_config.settings.json.schemas or {}
+            vim.list_extend(new_config.settings.json.schemas, require("schemastore").json.schemas())
+        end,
+        settings = {
+            validate = {
+                enable = true,
+            },
         },
     },
     lua_ls = {
-        Lua = {
-            diagnostics = { globals = { 'vim' } },
-            hint = {
-                enable = true,
+        settings = {
+            Lua = {
+                diagnostics = { globals = { 'vim' } },
+                hint = { enable = true },
+                telemetry = { enable = false },
+                workspace = { checkThirdParty = false },
+                completion = { callSnippet = "Replace" },
             },
-            telemetry = { enable = false },
-            workspace = { checkThirdParty = false },
         },
     },
     rust_analyzer = {},
     tailwindcss = {
-        tailwindCSS = {
-            lint = {
-                cssConflict = "warning",
-                invalidApply = "error",
-                invalidConfigPath = "error",
-                invalidScreen = "error",
-                invalidTailwindDirective = "error",
-                invalidVariant = "error",
-                recommendedVariantOrder = "warning"
+        settings = {
+            tailwindCSS = {
+                lint = {
+                    cssConflict = "warning",
+                    invalidApply = "error",
+                    invalidConfigPath = "error",
+                    invalidScreen = "error",
+                    invalidTailwindDirective = "error",
+                    invalidVariant = "error",
+                    recommendedVariantOrder = "warning"
+                },
+                validate = true,
             },
-            validate = true,
         },
     },
     tsserver = {
-        javascript = {
-            inlayHints = {
-                includeInlayEnumMemberValueHints = true,
-                includeInlayFunctionLikeReturnTypeHints = true,
-                includeInlayFunctionParameterTypeHints = true,
-                includeInlayParameterNameHints = "all", -- 'none' | 'literals' | 'all';
-                includeInlayParameterNameHintsWhenArgumentMatchesName = true,
-                includeInlayPropertyDeclarationTypeHints = true,
-                includeInlayVariableTypeHints = true,
+        -- Use this to add any additional keymaps for specific lsp servers
+        ---@type LazyKeys[]
+        -- keys = {},
+        settings = {
+            javascript = {
+                inlayHints = {
+                    includeInlayEnumMemberValueHints = true,
+                    includeInlayFunctionLikeReturnTypeHints = true,
+                    includeInlayFunctionParameterTypeHints = true,
+                    includeInlayParameterNameHints = "all", -- 'none' | 'literals' | 'all';
+                    includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+                    includeInlayPropertyDeclarationTypeHints = true,
+                    includeInlayVariableTypeHints = true,
+                },
             },
-        },
-        typescript = {
-            inlayHints = {
-                includeInlayEnumMemberValueHints = true,
-                includeInlayFunctionLikeReturnTypeHints = true,
-                includeInlayFunctionParameterTypeHints = true,
-                includeInlayParameterNameHints = "all", -- 'none' | 'literals' | 'all';
-                includeInlayParameterNameHintsWhenArgumentMatchesName = true,
-                includeInlayPropertyDeclarationTypeHints = true,
-                includeInlayVariableTypeHints = true,
+            typescript = {
+                inlayHints = {
+                    includeInlayEnumMemberValueHints = true,
+                    includeInlayFunctionLikeReturnTypeHints = true,
+                    includeInlayFunctionParameterTypeHints = true,
+                    includeInlayParameterNameHints = "all", -- 'none' | 'literals' | 'all';
+                    includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+                    includeInlayPropertyDeclarationTypeHints = true,
+                    includeInlayVariableTypeHints = true,
+                },
             },
         },
     },
     yamlls = {
-        completion = true,
-        hover = true,
-        schemaStore = {
-            enable = false,
+        -- lazy-load schemastore when needed
+        on_new_config = function(new_config)
+            new_config.settings.yaml.schemas = new_config.settings.yaml.schemas or {}
+            vim.list_extend(new_config.settings.yaml.schemas, require("schemastore").yaml.schemas())
+        end,
+        settings = {
+            completion = true,
+            hover = true,
+            schemaStore = {
+                enable = false,
+            },
+            validate = true,
         },
-        schemas = require("schemastore").yaml.schemas(),
-        validate = true,
     },
 }
-
--- You can provide a dedicated handler for specific servers.
-local extra_handlers = {
-    ["rust_analyzer"] = function()
-        require("rust-tools").setup({
-            server = {
-                on_attach = function(_, bufnr)
-                    utils.add_lsp_buffer_keybindings(bufnr)
-                end,
-            },
-        })
-    end,
-    tsserver = function()
-        require("lspconfig").tsserver.setup {
-            capabilities = utils.common_capabilities(),
-            on_attach = common_on_attach,
-            settings = M.servers.tsserver,
-            commands = {
-                OrganizeImports = {
-                    utils.organize_imports,
-                    description = "Organize imports",
-                },
-            },
-        }
-    end,
-}
-
-local default_handler = {
-    -- The first entry (without a key) will be the default handler
-    -- and will be called for each installed server that doesn't have
-    -- a dedicated handler.
-    function(server_name) -- default handler
-        require("lspconfig")[server_name].setup {
-            capabilities = utils.common_capabilities(),
-            on_attach = common_on_attach,
-            settings = M.servers[server_name],
-        }
-    end,
-}
-
-M.handlers = vim.tbl_deep_extend("force", default_handler, extra_handlers)
 
 return M

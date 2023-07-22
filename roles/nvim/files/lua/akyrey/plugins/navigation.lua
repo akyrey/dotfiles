@@ -19,7 +19,7 @@ return {
         dependencies = {
             "plenary.nvim",
             "telescope-fzf-native.nvim",
-            "refactoring.nvim",
+            "ThePrimeagen/refactoring.nvim",
             "git-worktree.nvim",
         },
         lazy = true,
