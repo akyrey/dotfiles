@@ -18,18 +18,35 @@ return {
         "williamboman/mason.nvim",
         build = ":MasonUpdate", -- :MasonUpdate updates registry contents
         cmd = "Mason",
-        config = function()
-            require("mason").setup({
-                ui = {
-                    border = "rounded",
-                    icons = {
-                        package_installed = "✓",
-                        package_pending = "➜",
-                        package_uninstalled = "✗"
-                    },
-                },
-            })
+        ---@param opts MasonSettings | {ensure_installed: string[]}
+        config = function(_, opts)
+            require("mason").setup(opts)
+            local mr = require("mason-registry")
+            local function ensure_installed()
+                for _, tool in ipairs(opts.ensure_installed) do
+                    local p = mr.get_package(tool)
+                    if not p:is_installed() then
+                        p:install()
+                    end
+                end
+            end
+            if mr.refresh then
+                mr.refresh(ensure_installed)
+            else
+                ensure_installed()
+            end
         end,
+        opts = {
+            ensure_installed = {},
+            ui = {
+                border = "rounded",
+                icons = {
+                    package_installed = "✓",
+                    package_pending = "➜",
+                    package_uninstalled = "✗"
+                },
+            },
+        },
     },
     {
         "jose-elias-alvarez/null-ls.nvim",
@@ -64,7 +81,7 @@ return {
     -- Useful status updates for LSP
     {
         "j-hui/fidget.nvim",
-        opts = function()
+        opts = function() -- This is the same as calling require("fidget").setup({...})
             return {
                 text = {
                     spinner = "dots_pulse",  -- animation shown when tasks are ongoing
