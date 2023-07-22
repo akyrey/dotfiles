@@ -32,7 +32,10 @@ return {
     {
         "norcalli/nvim-colorizer.lua",
         config = function()
-            require("akyrey.config.colorizer").setup()
+            require("colorizer").setup({
+                '*',                      -- Highlight all files, but customize some others.
+                css = { rgb_fn = true, }, -- Enable parsing rgb(...) functions in css.
+            })
         end,
         event = "BufRead",
     },
