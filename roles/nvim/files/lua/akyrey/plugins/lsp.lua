@@ -212,7 +212,9 @@ return {
             end
         end,
         opts = {
-            ensure_installed = {},
+            ensure_installed = {
+                "js-debug-adapter",
+            },
             ui = {
                 border = "rounded",
                 icons = {
