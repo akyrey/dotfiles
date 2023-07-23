@@ -170,6 +170,26 @@ return {
             -- return true if you don't want this server to be setup with lspconfig
             ---@type table<string, fun(server:string, opts:_.lspconfig.options):boolean?>
             setup = {
+                gopls = function(_, opts)
+                    -- workaround for gopls not supporting semanticTokensProvider
+                    -- https://github.com/golang/go/issues/54531#issuecomment-1464982242
+                    require("akyrey.lsp.utils").on_attach(function(client, _)
+                        if client.name == "gopls" then
+                            if not client.server_capabilities.semanticTokensProvider then
+                                local semantic = client.config.capabilities.textDocument.semanticTokens
+                                client.server_capabilities.semanticTokensProvider = {
+                                    full = true,
+                                    legend = {
+                                        tokenTypes = semantic.tokenTypes,
+                                        tokenModifiers = semantic.tokenModifiers,
+                                    },
+                                    range = true,
+                                }
+                            end
+                        end
+                    end)
+                    -- end workaround
+                end,
                 rust_analyzer = function(_, opts)
                     require("rust-tools").setup({ server = opts })
                     return true
@@ -237,9 +257,15 @@ return {
             return {
                 root_dir = require("null-ls.utils").root_pattern(".null-ls-root", ".neoconf.json", "Makefile", ".git"),
                 sources = {
+                    -- Typescript
                     null_ls.builtins.diagnostics.eslint_d,
                     null_ls.builtins.formatting.prettierd,
                     require("typescript.extensions.null-ls.code-actions"),
+                    -- Go
+                    null_ls.builtins.code_actions.gomodifytags,
+                    null_ls.builtins.code_actions.impl,
+                    null_ls.builtins.formatting.gofumpt,
+                    null_ls.builtins.formatting.goimports_reviser,
                 },
             }
         end,
