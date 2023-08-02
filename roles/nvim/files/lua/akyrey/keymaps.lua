@@ -8,6 +8,7 @@ vim.keymap.set("n", "<leader>e", "<cmd>NvimTreeFindFileToggle<cr>", { desc = "To
 vim.keymap.set("n", "<leader>u", vim.cmd.UndotreeToggle)
 
 vim.keymap.set("n", "<leader>vG", vim.cmd.G, { desc = "Fugitive" })
+vim.keymap.set("n", "<leader>vg", require("akyrey.config.toggleterm").lazygit_toggle, { desc = "Lazygit" })
 vim.keymap.set("n", "<leader>vh", "<cmd>DiffviewFileHistory %<cr>", { desc = "Current file history" })
 vim.keymap.set("n", "<leader>vb", "<cmd>diffget //2<cr>", { desc = "Accept left conflict" })
 vim.keymap.set("n", "<leader>vn", "<cmd>diffget //3<cr>", { desc = "Accept right conflict" })
