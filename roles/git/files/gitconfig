@@ -23,6 +23,8 @@
     dfs = df --staged
     # Get changes for a single commit
     dfc = "!dfc() { git df $1^ $1; }; dfc"
+    # Remove local branches already merged on remote https://stackoverflow.com/a/21857717
+    cleanup = "!git branch --merged | grep -v '\\*\\|master\\|main\\|develop' | xargs -n 1 git branch -d"
 
     please = push --force-with-lease
     publish = "!git push -u origin $(git rev-parse --abbrev-ref HEAD)"
