@@ -39,6 +39,51 @@
     path: /tmp/kitty-installer.sh
     state: absent
 
+- name: Create symbolic links to add kitty to PATH
+  when: ansible_os_family == "Archlinux" or ansible_os_family == "Debian"
+  file:
+    src: "{{ dotfiles_user_home }}/.local/kitty.app/bin/kitty"
+    dest: "{{ dotfiles_user_home }}/.local/bin/kitty"
+    state: link
+  tags:
+    - install
+    - kitty
+
+- name: Create symbolic links to add kitten to PATH
+  when: ansible_os_family == "Archlinux" or ansible_os_family == "Debian"
+  file:
+    src: "{{ dotfiles_user_home }}/.local/kitty.app/bin/kitten"
+    dest: "{{ dotfiles_user_home }}/.local/bin/kitten"
+    state: link
+  tags:
+    - install
+    - kitty
+
+- name: Place the kitty.desktop file where it can be found by the OS
+  when: ansible_os_family == "Archlinux" or ansible_os_family == "Debian"
+  copy:
+    src: "{{ dotfiles_user_home }}/.local/kitty.app/share/applications/kitty.desktop"
+    dest: "{{ dotfiles_user_home }}/.local/share/applications/kitty.desktop"
+  tags:
+    - install
+    - kitty
+
+- name: Add kitty-open.desktop too to open files and images via file manager
+  when: ansible_os_family == "Archlinux" or ansible_os_family == "Debian"
+  copy:
+    src: "{{ dotfiles_user_home }}/.local/kitty.app/share/applications/kitty-open.desktop"
+    dest: "{{ dotfiles_user_home }}/.local/share/applications/kitty-open.desktop"
+  tags:
+    - install
+    - kitty
+
+- name: Update the paths to the kitty and its icon in the kitty.desktop file(s)
+  when: ansible_os_family == "Archlinux" or ansible_os_family == "Debian"
+  shell: sed -i "s|Icon=kitty|Icon=/home/$USER/.local/kitty.app/share/icons/hicolor/256x256/apps/kitty.png|g" ~/.local/share/applications/kitty*.desktop && sed -i "s|Exec=kitty|Exec=/home/$USER/.local/kitty.app/bin/kitty|g" ~/.local/share/applications/kitty*.desktop
+  tags:
+    - install
+    - kitty
+
 - name: Symlink configurations
   when: ansible_os_family == "Archlinux" or ansible_os_family == "Debian"
   file:
