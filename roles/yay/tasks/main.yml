@@ -2,14 +2,16 @@
   when: ansible_os_family == "Archlinux"
   git:
     repo: https://aur.archlinux.org/yay.git
-    dest: "~/.yay"
+    dest: "{{ dotfiles_user_home }}/.yay"
   tags:
     - install
     - yay
-      
+
 - name: Install yay
   when: ansible_os_family == "Archlinux"
-  raw: "~/.yay/makepkg -si"
+  shell:
+    cmd: makepkg -sfi --noconfirm
+    chdir: "{{ dotfiles_user_home }}/.yay"
   tags:
     - install
     - yay
@@ -23,7 +25,7 @@
 
 - name: Check for development package updates
   when: ansible_os_family == "Archlinux"
-  raw: "yay -Syu --devel"
+  raw: "yay -Syu --devel --noconfirm"
   tags:
     - install
     - yay
