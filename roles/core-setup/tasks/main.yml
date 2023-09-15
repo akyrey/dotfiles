@@ -3,10 +3,13 @@
   become: yes
   community.general.pacman:
     name:
+      - discord
       - fzf
       - noto-fonts
       - noto-fonts-emoji
       - ripgrep
+      - xclip
+      - wmctrl
     state: present
   tags:
     - install
@@ -18,10 +21,22 @@
     name:
       - bitwarden
       - latte-dock-git
+      - layan-cursor-theme-git
       - microsoft-edge-stable-bin
       - obsidian
+      - papirus-icon-theme
       - postman
     state: present
+  tags:
+    - install
+    - core
+
+- name: Symlink latte-dock layout
+  file:
+    src: "{{ dotfiles_home}}/roles/core-setup/files/akyrey.layout.latte"
+    dest: "{{dotfiles_user_home}}/.config/latte/akyrey.layout.latte"
+    state: link 
+    force: yes
   tags:
     - install
     - core
