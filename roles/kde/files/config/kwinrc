@@ -20,7 +20,14 @@ LongitudeAuto=7.5997
 [TabBox]
 LayoutName=thumbnail_grid
 
+[Tiling]
+padding=4
+
+[Tiling][0d3998b5-12fb-5e5d-9844-298a9a2f96a3]
+tiles={"layoutDirection":"horizontal","tiles":[{"width":0.25},{"width":0.5},{"width":0.25}]}
+
 [org.kde.kdecoration2]
 ButtonsOnLeft=XIAH
 ButtonsOnRight=SM
-theme=__aurorae__svg__WhiteSur-dark
+library=org.kde.breeze
+theme=Brezza

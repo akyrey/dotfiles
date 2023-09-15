@@ -37,6 +37,9 @@ plugin=org.kde.plasma.pager
 immutability=1
 plugin=org.kde.plasma.systemmonitor
 
+[Containments][2][Applets][34][Configuration]
+CurrentPreset=org.kde.plasma.systemmonitor
+
 [Containments][2][Applets][34][Configuration][Appearance]
 chartFace=org.kde.ksysguard.piechart
 title=Utilizzo memoria
@@ -52,6 +55,9 @@ totalSensors=["memory/physical/usedPercent"]
 [Containments][2][Applets][35]
 immutability=1
 plugin=org.kde.plasma.systemmonitor
+
+[Containments][2][Applets][35][Configuration]
+CurrentPreset=org.kde.plasma.systemmonitor
 
 [Containments][2][Applets][35][Configuration][Appearance]
 chartFace=org.kde.ksysguard.piechart
@@ -69,12 +75,16 @@ totalSensors=["cpu/all/usage"]
 immutability=1
 plugin=org.kde.plasma.systemmonitor
 
+[Containments][2][Applets][36][Configuration]
+CurrentPreset=org.kde.plasma.systemmonitor
+
 [Containments][2][Applets][36][Configuration][Appearance]
 chartFace=org.kde.ksysguard.horizontalbars
 title=Utilizzo disco
 
 [Containments][2][Applets][36][Configuration][SensorColors]
 disk/.*/usedPercent=86,87,245
+disk/4273c033-d597-4255-b0ec-2d9d5ff28709/usedPercent=191,53,80
 disk/6ec6a8cd-eac1-4dd0-a3c8-b7088883acc6/usedPercent=245,86,87
 disk/all/usedPercent=87,245,86
 disk/c1b6c0ac-63a6-459b-8e50-eee4c076915e/usedPercent=86,87,245
@@ -87,6 +97,9 @@ totalSensors=["disk/all/usedPercent"]
 [Containments][2][Applets][37]
 immutability=1
 plugin=org.kde.plasma.systemmonitor
+
+[Containments][2][Applets][37][Configuration]
+CurrentPreset=org.kde.plasma.systemmonitor
 
 [Containments][2][Applets][37][Configuration][Appearance]
 chartFace=org.kde.ksysguard.barchart
@@ -110,6 +123,9 @@ totalSensors=["cpu/all/usage"]
 [Containments][2][Applets][38]
 immutability=1
 plugin=org.kde.plasma.systemmonitor
+
+[Containments][2][Applets][38][Configuration]
+CurrentPreset=org.kde.plasma.systemmonitor
 
 [Containments][2][Applets][38][Configuration][Appearance]
 chartFace=org.kde.ksysguard.linechart
@@ -148,7 +164,7 @@ immutability=1
 plugin=org.kde.plasma.systemtray
 
 [Containments][2][Applets][8][Configuration]
-PreloadWeight=15
+PreloadWeight=20
 SystrayContainmentId=9
 
 [Containments][2][ConfigDialog]
@@ -161,21 +177,16 @@ PreloadWeight=0
 [Containments][2][General]
 AppletOrder=37;35;34;36;38;28;33;31;5;6;7;8;19
 
-[Containments][27]
+[Containments][40]
 ItemGeometries-1920x1080=
 ItemGeometriesHorizontal=
-activityId=2777a611-8935-4acf-a377-279286dc2050
+activityId=8eead281-f8c6-4255-a64e-dac4ea1d25af
 formfactor=0
 immutability=1
 lastScreen=0
 location=0
 plugin=org.kde.plasma.folder
 wallpaperplugin=org.kde.image
-
-[Containments][27][General]
-ToolBoxButtonState=topcenter
-ToolBoxButtonX=442
-ToolBoxButtonY=30
 
 [Containments][9]
 activityId=
@@ -250,6 +261,7 @@ DialogWidth=720
 
 [Containments][9][Applets][17][Configuration][General]
 currentTab=streams
+migrated=true
 
 [Containments][9][Applets][18]
 immutability=1
@@ -270,7 +282,7 @@ immutability=1
 plugin=org.kde.plasma.networkmanagement
 
 [Containments][9][Applets][21][Configuration]
-PreloadWeight=0
+PreloadWeight=5
 
 [Containments][9][Applets][22]
 immutability=1
@@ -290,12 +302,16 @@ PreloadWeight=0
 immutability=1
 plugin=org.kde.plasma.vault
 
+[Containments][9][Applets][39]
+immutability=1
+plugin=org.kde.kscreen
+
 [Containments][9][Configuration]
 PreloadWeight=0
 
 [Containments][9][General]
-extraItems=org.kde.plasma.bluetooth,org.kde.plasma.keyboardlayout,org.kde.plasma.clipboard,org.kde.plasma.manage-inputmethod,org.kde.plasma.devicenotifier,org.kde.plasma.networkmanagement,org.kde.plasma.notifications,org.kde.plasma.battery,org.kde.plasma.nightcolorcontrol,org.kde.plasma.volume,org.kde.plasma.keyboardindicator,org.kde.plasma.mediacontroller,org.kde.plasma.vault
-knownItems=org.kde.plasma.bluetooth,org.kde.plasma.keyboardlayout,org.kde.plasma.clipboard,org.kde.plasma.manage-inputmethod,org.kde.plasma.devicenotifier,org.kde.plasma.networkmanagement,org.kde.plasma.notifications,org.kde.plasma.battery,org.kde.plasma.nightcolorcontrol,org.kde.plasma.volume,org.kde.plasma.keyboardindicator,org.kde.plasma.mediacontroller,org.kde.plasma.vault
+extraItems=org.kde.plasma.bluetooth,org.kde.plasma.keyboardlayout,org.kde.plasma.clipboard,org.kde.plasma.manage-inputmethod,org.kde.plasma.devicenotifier,org.kde.plasma.networkmanagement,org.kde.plasma.notifications,org.kde.plasma.battery,org.kde.plasma.nightcolorcontrol,org.kde.plasma.volume,org.kde.plasma.keyboardindicator,org.kde.plasma.mediacontroller,org.kde.kdeconnect,org.kde.kscreen
+knownItems=org.kde.plasma.bluetooth,org.kde.plasma.keyboardlayout,org.kde.plasma.clipboard,org.kde.plasma.manage-inputmethod,org.kde.plasma.devicenotifier,org.kde.plasma.networkmanagement,org.kde.plasma.notifications,org.kde.plasma.battery,org.kde.plasma.nightcolorcontrol,org.kde.plasma.volume,org.kde.plasma.keyboardindicator,org.kde.plasma.mediacontroller,org.kde.kdeconnect,org.kde.kscreen
 
 [ScreenMapping]
 itemsOnDisabledScreens=
