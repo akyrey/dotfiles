@@ -3,7 +3,7 @@
   become: yes
   community.general.pacman:
     name:
-      - firefox
+      - fzf
       - noto-fonts
       - noto-fonts-emoji
       - ripgrep
@@ -16,8 +16,11 @@
   when: ansible_os_family == "Archlinux"
   kewlfft.aur.aur:
     name:
-      - brave-bin
+      - bitwarden
       - latte-dock-git
+      - microsoft-edge-stable-bin
+      - obsidian
+      - postman
     state: present
   tags:
     - install
