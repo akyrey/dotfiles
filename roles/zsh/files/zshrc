@@ -116,6 +116,7 @@ DEFAULT_USER=$USER
 source $HOME/.dotfiles/roles/zsh/aliases.zsh
 source $HOME/.dotfiles/roles/zsh/env.zsh
 source $HOME/.dotfiles/roles/zsh/path.zsh
+source $HOME/.venv/bin/activate
 
 fpath=($HOME/.oh-my-zsh/custom/plugins/zsh-completions/src $fpath)
 
