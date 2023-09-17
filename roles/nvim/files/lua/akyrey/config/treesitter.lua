@@ -17,7 +17,6 @@ M.setup = function()
             "gomod",
             "gowork",
             "gosum",
-            "help",
             "html",
             "javascript",
             "jsdoc",
@@ -28,6 +27,7 @@ M.setup = function()
             "scss",
             "tsx",
             "typescript",
+            "vimdoc",
             "yaml",
         },
         -- Install parsers synchronously (only applied to `ensure_installed`)
