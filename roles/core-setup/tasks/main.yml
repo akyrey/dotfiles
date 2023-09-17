@@ -4,6 +4,7 @@
   community.general.pacman:
     name:
       - discord
+      - docker
       - fzf
       - noto-fonts
       - noto-fonts-emoji
@@ -27,6 +28,39 @@
       - papirus-icon-theme
       - postman
     state: present
+  tags:
+    - install
+    - core
+
+- name: Enable services
+  when: ansible_os_family == "Archlinux"
+  become: yes
+  ansible.builtin.systemd:
+    enabled: yes
+    name: docker
+    state: started
+  tags:
+    - install
+    - core
+
+- name: Add user to new groups
+  when: ansible_os_family == "Archlinux"
+  become: yes
+  ansible.builtin.user:
+    append: yes
+    groups: docker
+    name: "{{ ansible_env['USER'] }}"
+  tags:
+    - install
+    - core
+
+- name: Copy docker daemon.json
+  when: ansible_os_family == "Archlinux"
+  become: yes
+  ansible.builtin.template:
+    dest: "/etc/docker/daemon.json"
+    src: "daemon.json"
+  notify: restart_docker
   tags:
     - install
     - core
