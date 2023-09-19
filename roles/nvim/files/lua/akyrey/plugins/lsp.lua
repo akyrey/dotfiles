@@ -132,9 +132,9 @@ return {
                     active = true,
                     values = {
                         { name = "DiagnosticSignError", text = "" },
-                        { name = "DiagnosticSignWarn",  text = "" },
-                        { name = "DiagnosticSignHint",  text = "" },
-                        { name = "DiagnosticSignInfo",  text = "" },
+                        { name = "DiagnosticSignWarn", text = "" },
+                        { name = "DiagnosticSignHint", text = "" },
+                        { name = "DiagnosticSignInfo", text = "" },
                     },
                 },
                 virtual_text = true,
@@ -258,8 +258,12 @@ return {
                 root_dir = require("null-ls.utils").root_pattern(".null-ls-root", ".neoconf.json", "Makefile", ".git"),
                 sources = {
                     -- Typescript
-                    null_ls.builtins.diagnostics.eslint_d,
-                    null_ls.builtins.formatting.prettierd,
+                    null_ls.builtins.diagnostics.eslint_d.with({
+                        extra_filetypes = { "astro" }
+                    }),
+                    null_ls.builtins.formatting.prettierd.with({
+                        extra_filetypes = { "astro" }
+                    }),
                     require("typescript.extensions.null-ls.code-actions"),
                     -- Go
                     null_ls.builtins.code_actions.gomodifytags,
@@ -288,9 +292,9 @@ return {
         opts = function() -- This is the same as calling require("fidget").setup({...})
             return {
                 text = {
-                    spinner = "dots_pulse",  -- animation shown when tasks are ongoing
-                    done = "✔",            -- character shown when all tasks are complete
-                    commenced = "Started",   -- message shown when task starts
+                    spinner = "dots_pulse", -- animation shown when tasks are ongoing
+                    done = "✔", -- character shown when all tasks are complete
+                    commenced = "Started", -- message shown when task starts
                     completed = "Completed", -- message shown when task completes
                 },
                 align = {
