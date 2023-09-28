@@ -1,7 +1,7 @@
 local M = {}
 
 M.setup = function()
-    local ok, indent_blankline = pcall(require, "indent_blankline")
+    local ok, indent_blankline = pcall(require, "ibl")
 
     if not ok then
         return
