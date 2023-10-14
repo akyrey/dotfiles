@@ -261,8 +261,9 @@ return {
                     null_ls.builtins.diagnostics.eslint_d.with({
                         extra_filetypes = { "astro" }
                     }),
-                    null_ls.builtins.formatting.prettierd.with({
-                        extra_filetypes = { "astro" }
+                    null_ls.builtins.formatting.prettierd,
+                    null_ls.builtins.formatting.prettier.with({
+                        filetypes = { "astro" },
                     }),
                     require("typescript.extensions.null-ls.code-actions"),
                     -- Go
