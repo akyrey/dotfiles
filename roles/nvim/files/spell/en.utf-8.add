@@ -17,7 +17,7 @@ rounded/!
 el/!
 converter/!
 AbortWithError/!
-M/!
+#/!
 toggleExpandRow/!
 ID/!
 DB/!
@@ -34,7 +34,7 @@ parameters/!
 scanner/!
 availableDevices/!
 unable_to_upload/!
-1/!
+#/!
 realm/!
 content/!
 #lterTable/!
@@ -53,3 +53,9 @@ startTokenExpTime/!
 #ameraOptions/!
 cameraOptions/!
 pnpm/!
+#ontAwesomeModule/!
+FooterHostDirective/!
+M/!
+completePayment
+1/!
+FontAwesomeModule/!
