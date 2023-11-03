@@ -141,6 +141,22 @@ M.setup = function()
     })
 
     cmp.setup({
+        enabled = function()
+            local buftype = vim.api.nvim_get_option_value("buftype", { buf = 0 })
+            if buftype == "prompt" then
+                return false
+            end
+
+            return true
+        end,
+        completion = {
+            ---@usage The minimum length of a word to complete on.
+            keyword_length = 1,
+        },
+        experimental = {
+            ghost_text = false,
+            native_menu = false,
+        },
         confirm_opts = {
             behavior = cmp.ConfirmBehavior.Replace,
             select = false,
@@ -172,7 +188,6 @@ M.setup = function()
                     end
                 end,
             },
-            ["<C-Space>"] = cmp.mapping.complete(),
             ["<Tab>"] = cmp.mapping(function(fallback)
                 if cmp.visible() then
                     cmp.select_next_item()
@@ -196,6 +211,7 @@ M.setup = function()
                     fallback()
                 end
             end, { "i", "s" }),
+            ["<C-Space>"] = cmp.mapping.complete(),
             ["<C-e>"] = cmp.mapping.abort(),
             ["<CR>"] = cmp.mapping(function(fallback)
                 if cmp.visible() then
@@ -209,15 +225,16 @@ M.setup = function()
                     if is_insert_mode() then -- prevent overwriting brackets
                         confirm_opts.behavior = cmp.ConfirmBehavior.Insert
                     end
+                    local entry = cmp.get_selected_entry()
+                    local is_copilot = entry and entry.source.name == "copilot"
+                    if is_copilot then
+                        confirm_opts.behavior = cmp.ConfirmBehavior.Replace
+                        confirm_opts.select = true
+                    end
                     if cmp.confirm(confirm_opts) then
                         return -- success, exit early
                     end
                 end
-
-                if jumpable(1) and luasnip.jump(1) then
-                    return -- success, exit early
-                end
-
                 fallback() -- if not exited early, always fallback
             end),
         },
