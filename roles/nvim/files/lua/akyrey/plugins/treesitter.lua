@@ -9,7 +9,7 @@ return {
         end,
         event = { "BufReadPost", "BufNewFile" },
     },
-    { "p00f/nvim-ts-rainbow", lazy = true },
+    { "p00f/nvim-ts-rainbow",   lazy = true },
     { "windwp/nvim-ts-autotag", lazy = true },
     {
         "nvim-treesitter/nvim-treesitter-textobjects",
