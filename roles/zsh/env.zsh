@@ -14,6 +14,7 @@ export DOCKER_BUILDKIT=1
 export WSIGN_FRONTEND_DEV_PATH=~/work/wsign/frontend/
 export WSIGN_NODE_DEV_PATH=~/work/wsign/backend/
 export WSIGN_DOCKER_DEV_PATH=~/work/wsign/docker/
+export WSIGN_HUPAC_DEV_PATH=~/work/wsign/hupac-proxy/
 # wID
 export WID_FRONTEND_DEV_PATH=~/work/wid/frontend/
 export WID_BACKEND_DEV_PATH=~/work/wid/backend/
