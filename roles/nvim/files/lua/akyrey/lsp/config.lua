@@ -86,50 +86,6 @@ M.server = {
             },
         },
     },
-    tsserver = {
-        -- Use this to add any additional keymaps for specific lsp servers
-        ---@type Keymaps[]
-        keys = {
-            { keys = "<leader>go", func = "<cmd>TypescriptOrganizeImports<CR>", desc = "Or[g]anize Imp[o]rts" },
-        },
-        settings = {
-            completions = {
-                completeFunctionCalls = true,
-            },
-            javascript = {
-                format = {
-                    indentSize = vim.o.shiftwidth,
-                    convertTabsToSpaces = vim.o.expandtab,
-                    tabSize = vim.o.tabstop,
-                },
-                inlayHints = {
-                    includeInlayEnumMemberValueHints = true,
-                    includeInlayFunctionLikeReturnTypeHints = true,
-                    includeInlayFunctionParameterTypeHints = true,
-                    includeInlayParameterNameHints = "all", -- 'none' | 'literals' | 'all';
-                    includeInlayParameterNameHintsWhenArgumentMatchesName = true,
-                    includeInlayPropertyDeclarationTypeHints = true,
-                    includeInlayVariableTypeHints = true,
-                },
-            },
-            typescript = {
-                format = {
-                    indentSize = vim.o.shiftwidth,
-                    convertTabsToSpaces = vim.o.expandtab,
-                    tabSize = vim.o.tabstop,
-                },
-                inlayHints = {
-                    includeInlayEnumMemberValueHints = true,
-                    includeInlayFunctionLikeReturnTypeHints = true,
-                    includeInlayFunctionParameterTypeHints = true,
-                    includeInlayParameterNameHints = "all", -- 'none' | 'literals' | 'all';
-                    includeInlayParameterNameHintsWhenArgumentMatchesName = true,
-                    includeInlayPropertyDeclarationTypeHints = true,
-                    includeInlayVariableTypeHints = true,
-                },
-            },
-        },
-    },
     yamlls = {
         -- lazy-load schemastore when needed
         on_new_config = function(new_config)
