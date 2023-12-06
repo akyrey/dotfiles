@@ -30,7 +30,7 @@ M.setup = function()
         hide_in_width = function()
             return vim.fn.winwidth(0) > window_width_limit
         end,
-        package_json = function ()
+        package_json = function()
             return vim.fn.expand "%:." == "package.json"
         end,
     }
@@ -96,6 +96,40 @@ M.setup = function()
             end,
             color = { fg = colors.green },
             cond = conditions.hide_in_width,
+        },
+        copilot = {
+            function()
+                local status = require("copilot.api").status.data
+                return "" .. (status.message or "") .. " "
+            end,
+            cond = function()
+                if not package.loaded["copilot"] then
+                    return
+                end
+                return true
+            end,
+            color = function()
+                if not package.loaded["copilot"] then
+                    return
+                end
+                local fg = function(name)
+                    ---@type {foreground?:number}?
+                    ---@diagnostic disable-next-line: deprecated
+                    local hl = vim.api.nvim_get_hl and vim.api.nvim_get_hl(0, { name = name }) or
+                        vim.api.nvim_get_hl_by_name(name, true)
+                    ---@diagnostic disable-next-line: undefined-field
+                    local fg = hl and (hl.fg or hl.foreground)
+                    return fg and { fg = string.format("#%06x", fg) } or nil
+                end
+                local status = require("copilot.api").status.data
+                local copilot_colors = {
+                    [""] = fg("Special"),
+                    ["Normal"] = fg("Special"),
+                    ["Warning"] = fg("DiagnosticError"),
+                    ["InProgress"] = fg("DiagnosticWarn"),
+                }
+                return copilot_colors[status.status] or copilot_colors[""]
+            end,
         },
         lsp = {
             function(msg)
@@ -194,6 +228,7 @@ M.setup = function()
                 components.diagnostics,
                 components.package_info,
                 components.treesitter,
+                components.copilot,
                 components.lsp,
                 components.filetype,
             },

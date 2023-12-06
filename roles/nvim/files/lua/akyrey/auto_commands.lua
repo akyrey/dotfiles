@@ -43,15 +43,6 @@ vim.api.nvim_create_autocmd("FileType", {
     end,
 })
 
-local prefetch = vim.api.nvim_create_augroup("prefetch", { clear = true })
-vim.api.nvim_create_autocmd("BufRead", {
-    group = prefetch,
-    pattern = "*.py",
-    callback = function()
-        require("cmp_tabnine"):prefetch(vim.fn.expand("%:p"))
-    end
-})
-
 -- Automatically open nvim_tree when nvim is opened on a directory
 -- local function open_nvim_tree(data)
 --     -- buffer is a directory

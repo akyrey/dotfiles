@@ -13,35 +13,67 @@ return {
             "cmp-nvim-lua",
             "cmp-spell",
             "cmp-cmdline",
-            "cmp-tabnine",
             "cmp-npm",
             "cmp-conventionalcommits",
             "cmp-treesitter",
+            {
+                "zbirenbaum/copilot-cmp",
+                dependencies = "copilot.lua",
+                opts = {},
+                config = function(_, opts)
+                    local copilot_cmp = require("copilot_cmp")
+                    copilot_cmp.setup(opts)
+                    -- attach cmp source whenever copilot attaches
+                    -- fixes lazy-loading issues with the copilot cmp source
+                    require("akyrey.lsp.utils").on_attach(function(client)
+                        if client.name == "copilot" then
+                            copilot_cmp._on_insert_enter({})
+                        end
+                    end)
+                end,
+            },
         },
         event = { "InsertEnter", "CmdlineEnter" },
     },
-    { "saadparwaiz1/cmp_luasnip", lazy = true },
-    { "hrsh7th/cmp-buffer", lazy = true },
-    { "hrsh7th/cmp-nvim-lsp", lazy = true },
-    { "hrsh7th/cmp-nvim-lsp-signature-help", lazy = true },
-    { "hrsh7th/cmp-path", lazy = true },
-    { "hrsh7th/cmp-nvim-lua", lazy = true },
-    { "f3fora/cmp-spell", lazy = true },
-    { "hrsh7th/cmp-cmdline", lazy = true },
     {
-        "tzachar/cmp-tabnine",
-        build = "./install.sh",
-        lazy = true,
+        "zbirenbaum/copilot.lua",
+        build = ":Copilot auth",
+        cmd = "Copilot",
+        config = function()
+            require("copilot").setup({
+                panel = {
+                    enabled = false,
+                },
+                suggestion = {
+                    enabled = false,
+                },
+                filetypes = {
+                    markdown = true,
+                    help = true,
+                },
+                copilot_node_command = vim.fn.expand("$HOME") .. "/.asdf/shims/node", -- Node.js version must be > 18.x
+            })
+        end,
+        event = "InsertEnter",
     },
-    { "David-Kunz/cmp-npm", lazy = true },
+    { "saadparwaiz1/cmp_luasnip",              lazy = true },
+    { "hrsh7th/cmp-buffer",                    lazy = true },
+    { "hrsh7th/cmp-nvim-lsp",                  lazy = true },
+    { "hrsh7th/cmp-nvim-lsp-signature-help",   lazy = true },
+    { "hrsh7th/cmp-path",                      lazy = true },
+    { "hrsh7th/cmp-nvim-lua",                  lazy = true },
+    { "f3fora/cmp-spell",                      lazy = true },
+    { "hrsh7th/cmp-cmdline",                   lazy = true },
+    { "David-Kunz/cmp-npm",                    lazy = true },
     { "davidsierradz/cmp-conventionalcommits", lazy = true },
-    { "ray-x/cmp-treesitter", lazy = true },
+    { "ray-x/cmp-treesitter",                  lazy = true },
     {
         "L3MON4D3/LuaSnip",
         config = function()
             local utils = require("akyrey.utils")
             local paths = {}
-            paths[#paths + 1] = utils.join_paths(vim.call("stdpath", "data"), "site", "pack", "packer", "start", "friendly-snippets")
+            paths[#paths + 1] = utils.join_paths(vim.call("stdpath", "data"), "site", "pack", "packer", "start",
+                "friendly-snippets")
             local user_snippets = utils.join_paths(vim.call("stdpath", "config"), "snippets")
             if utils.is_directory(user_snippets) then
                 paths[#paths + 1] = user_snippets
@@ -85,5 +117,5 @@ return {
         ft = "json",
         lazy = true,
     },
-    { "MunifTanjim/nui.nvim", lazy = true },
+    { "MunifTanjim/nui.nvim",         lazy = true },
 }

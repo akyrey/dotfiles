@@ -3,9 +3,8 @@ local M = {}
 M.setup = function()
     local c_ok, cmp = pcall(require, "cmp")
     local l_ok, luasnip = pcall(require, "luasnip")
-    local t_ok, tabnine = pcall(require, "cmp_tabnine.config")
 
-    if not c_ok or not l_ok or not t_ok then
+    if not c_ok or not l_ok then
         return
     end
 
@@ -132,14 +131,6 @@ M.setup = function()
         Variable = " ",
     }
 
-    tabnine:setup({
-        max_lines = 1000,
-        max_num_results = 20,
-        sort = true,
-        run_on_every_keystroke = true,
-        snippet_placeholder = "..",
-    })
-
     cmp.setup({
         enabled = function()
             local buftype = vim.api.nvim_get_option_value("buftype", { buf = 0 })
@@ -240,8 +231,9 @@ M.setup = function()
         },
         sources = cmp.config.sources(
             {
+                -- Copilot Source
+                { name = "copilot" },
                 { name = "nvim_lsp" },
-                { name = "cmp_tabnine" },
                 { name = "luasnip" },
                 { name = "nvim_lsp_signature_help" },
                 { name = "nvim_lua" },
