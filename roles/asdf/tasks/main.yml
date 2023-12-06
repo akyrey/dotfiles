@@ -12,14 +12,14 @@
     - install
     - asdf
 
-- name: Install asdf nodejs 18.17.1 version
-  shell: asdf install nodejs 18.17.1
+- name: Install asdf nodejs 20.10.0 version
+  shell: asdf install nodejs 20.10.0
   tags:
     - install
     - asdf
 
-- name: Set global nodejs version to 18.17.1
-  shell: asdf global nodejs 18.17.1
+- name: Set global nodejs version to 20.10.0
+  shell: asdf global nodejs 20.10.0
   tags:
     - install
     - asdf
