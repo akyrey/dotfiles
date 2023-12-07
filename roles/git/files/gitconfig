@@ -1,8 +1,8 @@
 [hub]
     protocol = https
 [user]
-	name = Dario Vogogna
-	email = dario.vogogna@euronovate.com
+	name = akyrey
+	email = stein.dario@gmail.com
 [alias]
     a = add
     st = status
