@@ -27,10 +27,12 @@ display=Display\tMeta+P,Display\tMeta+P,Switch Display
 _k_friendly_name=Custom Shortcuts Service
 {563009a2-cbfd-4b47-a2a2-eaa06790f098}=Alt+!,none,kitty
 {a2959d9d-3d14-40c8-bf13-43162c747de6}=Alt+$,none,Discord
-{c88163d1-216d-4a73-a5f8-38d0ed9a8a4c}=Alt+@,none,Microsoft Edge
+{c4784444-b4b1-4e81-b599-a273d405aa5f}=Alt+@,none,Firefox
+{c88163d1-216d-4a73-a5f8-38d0ed9a8a4c}=none,none,Microsoft Edge
 {d03619b6-9b3c-48cc-9d9c-a2aadb485550}=none,none,Ricerca
 {db9aa577-a9b6-4441-86d5-737a6d1793e5}=Alt+^,none,Obsidian
 {e3e7b99f-07ce-45fb-811c-2dc08dddaec8}=Alt+#,none,Google Chrome
+{fd4f9116-375f-476e-8468-85b985a34117}=Alt+%,none,Postman
 
 [kmix]
 _k_friendly_name=Audio Volume
@@ -204,7 +206,7 @@ Window to Screen 6=none,,Window to Screen 6
 Window to Screen 7=none,,Window to Screen 7
 _k_friendly_name=KWin
 view_actual_size=Meta+0,Meta+0,Zoom to Actual Size
-view_zoom_in=Meta+=,Meta++,Zoom In
+view_zoom_in=Meta+=,Meta++\tMeta+=,Zoom In
 view_zoom_out=Meta+-,Meta+-,Zoom Out
 
 [lattedock]
@@ -261,11 +263,11 @@ show-on-mouse-pos=none,Meta+V,Open Klipper at Mouse Position
 
 [mediacontrol]
 _k_friendly_name=Media Controller
-mediavolumedown=none,none,Media volume down
-mediavolumeup=none,none,Media volume up
+mediavolumedown=none,,Media volume down
+mediavolumeup=none,,Media volume up
 nextmedia=Media Next,Media Next,Media playback next
 pausemedia=Media Pause,Media Pause,Pause media playback
-playmedia=none,none,Play media playback
+playmedia=none,,Play media playback
 playpausemedia=Media Play,Media Play,Play/Pause media playback
 previousmedia=Media Previous,Media Previous,Media playback previous
 stopmedia=Media Stop,Media Stop,Stop media playback
