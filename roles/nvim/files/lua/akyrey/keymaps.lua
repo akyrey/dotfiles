@@ -145,12 +145,12 @@ vim.keymap.set("n", "<leader>sq", ":Telescope quickfix<cr>", { desc = "[S]earch 
 vim.keymap.set("n", "<leader>st", ":TodoTelescope<cr>", { desc = "[S]earch [T]odo" })
 
 -- Harpoon
-vim.keymap.set("n", "<leader>ha", require("harpoon.mark").add_file, { desc = "[H]arpoon [A]dd File" })
-vim.keymap.set("n", "<leader>ht", require("harpoon.ui").toggle_quick_menu, { desc = "[H]arpoon [T]oggle Quick Menu" })
-vim.keymap.set("n", "<C-h>", function() require("harpoon.ui").nav_file(1) end, { desc = "Harpoon file #1" })
-vim.keymap.set("n", "<C-j>", function() require("harpoon.ui").nav_file(2) end, { desc = "Harpoon file #2" })
-vim.keymap.set("n", "<C-k>", function() require("harpoon.ui").nav_file(3) end, { desc = "Harpoon file #3" })
-vim.keymap.set("n", "<C-l>", function() require("harpoon.ui").nav_file(4) end, { desc = "Harpoon file #4" })
+vim.keymap.set("n", "<leader>ha", function() require("harpoon"):list():append() end, { desc = "[H]arpoon [A]dd File" })
+vim.keymap.set("n", "<leader>ht", function() require("harpoon").ui:toggle_quick_menu(require("harpoon"):list()) end, { desc = "[H]arpoon [T]oggle Quick Menu" })
+vim.keymap.set("n", "<C-h>", function() require("harpoon"):list():select(1) end, { desc = "Harpoon file #1" })
+vim.keymap.set("n", "<C-j>", function() require("harpoon"):list():select(2) end, { desc = "Harpoon file #2" })
+vim.keymap.set("n", "<C-k>", function() require("harpoon"):list():select(3) end, { desc = "Harpoon file #3" })
+vim.keymap.set("n", "<C-l>", function() require("harpoon"):list():select(4) end, { desc = "Harpoon file #4" })
 
 -- Debugger
 vim.keymap.set("n", "<leader>dt", function() require("dap").toggle_breakpoint() end, { desc = "Toggle Breakpoint" })

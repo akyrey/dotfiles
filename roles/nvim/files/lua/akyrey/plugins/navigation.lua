@@ -35,7 +35,14 @@ return {
         lazy = true,
     },
     -- Mark and easily navigate through files
-    "ThePrimeagen/harpoon",
+    {
+        "ThePrimeagen/harpoon",
+        branch = "harpoon2",
+        opts = {},
+        requires = {
+            "nvim-lua/plenary.nvim",
+        }
+    },
     {
         "folke/which-key.nvim",
         config = function()
