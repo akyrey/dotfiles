@@ -1,0 +1,85 @@
+- name: Install system packages
+  when: ansible_os_family == "Debian"
+  become: yes
+  ansible.builtin.apt:
+    name:
+      - docker
+      - fzf
+      - fonts-noto
+      - fonts-noto-color-emoji
+      - papirus-icon-theme
+      - ripgrep
+      - xclip
+      - wmctrl
+    state: present
+    update_cache: yes
+  tags:
+    - install
+    - core
+
+- name: Install common apps through Flatpak
+  when: ansible_distribution == "Pop!_OS"
+  community.general.flatpak:
+    name:
+      - com.bitwarden.desktop
+      - com.discordapp.Discord
+      - com.getpostman.Postman
+      - org.gimp.GIMP
+      - com.slack.Slack
+      - md.obsidian.Obsidian
+  tags:
+    - install
+    - core
+
+- name: Update all packages to their latest version
+  when: ansible_os_family == "Debian"
+  become: yes
+  ansible.builtin.apt:
+    name: "*"
+    state: latest
+    update_cache: yes
+  tags:
+    - update
+    - core
+
+- block:
+    - name: Install Google Chrome dependencies
+      when: ansible_os_family == "Debian"
+      become: yes
+      ansible.builtin.apt:
+        name:
+          - libappindicator3-1
+          - libgbm1
+          - libindicator3-7
+          - libu2f-udev
+        state: present
+        update_cache: yes
+    - name: Install Google Chrome
+      when: ansible_os_family == "Debian"
+      ansible.builtin.apt:
+        deb: https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+  tags:
+    - install
+    - update
+    - core
+
+- name: Clone Layan cursor repo
+  when: ansible_os_family == "Debian"
+  git:
+    repo: https://github.com/vinceliuice/Layan-cursors.git
+    dest: "{{ dotfiles_user_home }}/.layan-cursor"
+  register: layan_cursor_repo_clone
+  tags:
+    - install
+    - update
+    - core
+
+- name: Install Layan cursor
+  when: ansible_os_family == "Debian" and layan_cursor_repo_clone.changed
+  ansible.builtin.shell: ./install.sh
+  args:
+    chdir: "{{ dotfiles_user_home }}/.layan-cursor"
+  tags:
+    - install
+    - update
+    - core

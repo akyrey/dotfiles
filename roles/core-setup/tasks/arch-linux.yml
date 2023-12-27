@@ -1,0 +1,45 @@
+- name: Install system packages
+  when: ansible_os_family == "Archlinux"
+  become: yes
+  community.general.pacman:
+    name:
+      - discord
+      - docker
+      - fzf
+      - noto-fonts
+      - noto-fonts-emoji
+      - ripgrep
+      - xclip
+      - wmctrl
+    state: present
+  tags:
+    - install
+    - core
+
+- name: Install aur system packages
+  when: ansible_os_family == "Archlinux"
+  kewlfft.aur.aur:
+    name:
+      - bitwarden
+      - google-chrome
+      - latte-dock-git
+      - layan-cursor-theme-git
+      - microsoft-edge-stable-bin
+      - obsidian
+      - papirus-icon-theme
+      - postman
+    state: present
+  tags:
+    - install
+    - core
+
+- name: Symlink latte-dock layout
+  when: ansible_os_family == "Archlinux"
+  file:
+    src: "{{ dotfiles_home}}/roles/core-setup/files/akyrey.layout.latte"
+    dest: "{{dotfiles_user_home}}/.config/latte/akyrey.layout.latte"
+    state: link
+    force: yes
+  tags:
+    - install
+    - core

@@ -21,7 +21,7 @@
     - zsh
 
 - name: Install oh-my-zsh
-  raw: "sh -c \"$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)\""
+  raw: 'sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"'
   when: not oh_my_zsh_stat.stat.exists
   tags:
     - dotfiles
@@ -35,6 +35,7 @@
   tags:
     - dotfiles
     - install
+    - update
     - zsh
 
 - name: Install zsh-autosuggestions plugin
@@ -44,23 +45,24 @@
   tags:
     - dotfiles
     - install
+    - update
     - zsh
 
 - name: Install powerlevel10k theme
-  when: not oh_my_zsh_stat.stat.exists
   git:
     repo: https://github.com/romkatv/powerlevel10k.git
     dest: "{{ dotfiles_user_home }}/.oh-my-zsh/custom/themes/powerlevel10k"
   tags:
     - dotfiles
     - install
+    - update
     - zsh
 
 - name: Symlink .zshrc
   file:
     src: "{{ dotfiles_home}}/roles/zsh/files/zshrc"
     dest: "{{dotfiles_user_home}}/.zshrc"
-    state: link 
+    state: link
     force: yes
   tags:
     - dotfiles

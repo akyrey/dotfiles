@@ -1,40 +1,16 @@
-- name: Install system packages
+- import_tasks: roles/core-setup/tasks/arch-linux.yml
   when: ansible_os_family == "Archlinux"
-  become: yes
-  community.general.pacman:
-    name:
-      - discord
-      - docker
-      - fzf
-      - noto-fonts
-      - noto-fonts-emoji
-      - ripgrep
-      - xclip
-      - wmctrl
-    state: present
   tags:
     - install
     - core
 
-- name: Install aur system packages
-  when: ansible_os_family == "Archlinux"
-  kewlfft.aur.aur:
-    name:
-      - bitwarden
-      - google-chrome
-      - latte-dock-git
-      - layan-cursor-theme-git
-      - microsoft-edge-stable-bin
-      - obsidian
-      - papirus-icon-theme
-      - postman
-    state: present
+- import_tasks: roles/core-setup/tasks/debian.yml
+  when: ansible_os_family == "Debian"
   tags:
     - install
     - core
 
 - name: Enable services
-  when: ansible_os_family == "Archlinux"
   become: yes
   ansible.builtin.systemd:
     enabled: yes
@@ -45,7 +21,6 @@
     - core
 
 - name: Add user to new groups
-  when: ansible_os_family == "Archlinux"
   become: yes
   ansible.builtin.user:
     append: yes
@@ -56,22 +31,11 @@
     - core
 
 - name: Copy docker daemon.json
-  when: ansible_os_family == "Archlinux"
   become: yes
   ansible.builtin.template:
     dest: "/etc/docker/daemon.json"
     src: "daemon.json"
   notify: restart_docker
-  tags:
-    - install
-    - core
-
-- name: Symlink latte-dock layout
-  file:
-    src: "{{ dotfiles_home}}/roles/core-setup/files/akyrey.layout.latte"
-    dest: "{{dotfiles_user_home}}/.config/latte/akyrey.layout.latte"
-    state: link 
-    force: yes
   tags:
     - install
     - core
@@ -84,6 +48,7 @@
   register: nerd_fonts_repo_clone
   tags:
     - install
+    - update
     - core
 
 - name: Install Caskaydia Cove Nerd Font
@@ -93,4 +58,5 @@
     chdir: "{{ dotfiles_user_home }}/.nerd-fonts"
   tags:
     - install
+    - update
     - core

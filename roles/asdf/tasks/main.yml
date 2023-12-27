@@ -4,6 +4,7 @@
     dest: "~/.asdf"
   tags:
     - install
+    - update
     - asdf
 
 - name: Install asdf nodejs plugin

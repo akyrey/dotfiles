@@ -34,9 +34,7 @@
     dest: "{{ dotfiles_user_home }}/.ssh/codecommit_rsa"
     mode: 0600
   tags:
-    - dotfiles
-    - install
-    - ssh
+    - euronovate
 
 - name: Install codecommit ssh public key
   copy:
@@ -44,9 +42,7 @@
     dest: "{{ dotfiles_user_home }}/.ssh/codecommit_rsa.pub"
     mode: 0644
   tags:
-    - dotfiles
-    - install
-    - ssh
+    - euronovate
 
 - name: Install BitBucket ssh key
   copy:
@@ -54,9 +50,7 @@
     dest: "{{ dotfiles_user_home }}/.ssh/bitbucket_rsa"
     mode: 0600
   tags:
-    - dotfiles
-    - install
-    - ssh
+    - euronovate
 
 - name: Install BitBucket ssh public key
   copy:
@@ -64,9 +58,7 @@
     dest: "{{ dotfiles_user_home }}/.ssh/bitbucket_rsa.pub"
     mode: 0644
   tags:
-    - dotfiles
-    - install
-    - ssh
+    - euronovate
 
 - name: Install ssh config
   copy:
@@ -74,6 +66,4 @@
     dest: "{{ dotfiles_user_home }}/.ssh/config"
     mode: 0700
   tags:
-    - dotfiles
-    - install
-    - ssh
+    - euronovate

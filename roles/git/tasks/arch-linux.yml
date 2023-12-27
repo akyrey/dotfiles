@@ -1,4 +1,5 @@
 - name: Install git with pacman
+  when: ansible_os_family == "Archlinux"
   community.general.pacman:
     name: git
     state: present
