@@ -51,7 +51,7 @@ return {
                     markdown = true,
                     help = true,
                 },
-                copilot_node_command = vim.fn.expand("$HOME") .. "/.asdf/shims/node", -- Node.js version must be > 18.x
+                copilot_node_command = vim.fn.expand("$HOME") .. "/.asdf/installs/nodejs/20.10.0/bin/node", -- Node.js version must be > 18.x
             })
         end,
         event = "InsertEnter",
