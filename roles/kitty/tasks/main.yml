@@ -8,6 +8,7 @@
   register: kitty_download
   tags:
     - install
+    - update
     - kitty
 
 - name: Check if ~/.local/kitty.app folder already exists
@@ -16,6 +17,7 @@
   register: kitty_installation_folder
   tags:
     - install
+    - update
     - kitty
 
 - name: Remove current installation folder
@@ -25,6 +27,7 @@
     state: absent
   tags:
     - install
+    - update
     - kitty
 
 - name: Install downloaded version
@@ -32,6 +35,7 @@
   ansible.builtin.shell: /tmp/kitty-installer.sh launch=n
   tags:
     - install
+    - update
     - kitty
 
 - name: Remove kitty-installer.sh

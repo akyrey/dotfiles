@@ -24,6 +24,7 @@
     force: yes
   tags:
     - install
+    - update
     - nvim
 
 - name: Check if ~/.neovim/build folder already exists
@@ -32,6 +33,7 @@
   register: nvim_build_folder
   tags:
     - install
+    - update
     - nvim
 
 - name: Remove current nvim build folder
@@ -42,6 +44,7 @@
     state: absent
   tags:
     - install
+    - update
     - nvim
 
 - name: Build nvim in build/bin folder
@@ -53,6 +56,7 @@
       CMAKE_BUILD_TYPE: Release
   tags:
     - install
+    - update
     - nvim
 
 - name: Check if link to /usr/local/bin/nvim folder already exists
