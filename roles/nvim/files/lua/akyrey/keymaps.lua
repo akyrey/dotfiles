@@ -153,6 +153,18 @@ vim.keymap.set("n", "<leader>sC", ":Telescope commands<cr>", { desc = "[S]earch 
 vim.keymap.set("n", "<leader>sq", ":Telescope quickfix<cr>", { desc = "[S]earch [Q]uickfix list" })
 vim.keymap.set("n", "<leader>st", ":TodoTelescope<cr>", { desc = "[S]earch [T]odo" })
 
+-- Trouble
+vim.keymap.set("n", "<leader>xt", function() require("trouble").toggle() end, { desc = "Toggle Trouble window" })
+vim.keymap.set("n", "<leader>xw", function() require("trouble").toggle("workspace_diagnostics") end,
+    { desc = "workspace diagnostics from the builtin LSP client" })
+vim.keymap.set("n", "<leader>xd", function() require("trouble").toggle("document_diagnostics") end,
+    { desc = "document diagnostics from the builtin LSP client" })
+vim.keymap.set("n", "<leader>xq", function() require("trouble").toggle("quickfix") end, { desc = "quickfix items" })
+vim.keymap.set("n", "<leader>xl", function() require("trouble").toggle("loclist") end,
+    { desc = "items from the window's location list" })
+vim.keymap.set("n", "gR", function() require("trouble").toggle("lsp_references") end,
+    { desc = "references of the word under the cursor from the builtin LSP client" })
+
 -- Harpoon
 vim.keymap.set("n", "<leader>ha", function() require("harpoon"):list():append() end, { desc = "[H]arpoon [A]dd File" })
 vim.keymap.set("n", "<leader>ht", function() require("harpoon").ui:toggle_quick_menu(require("harpoon"):list()) end,

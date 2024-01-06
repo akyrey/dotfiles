@@ -44,6 +44,11 @@ return {
         }
     },
     {
+        "folke/trouble.nvim",
+        dependencies = { "nvim-tree/nvim-web-devicons" },
+        opts = {},
+    },
+    {
         "folke/which-key.nvim",
         config = function()
             require("akyrey.config.which-key").setup()
