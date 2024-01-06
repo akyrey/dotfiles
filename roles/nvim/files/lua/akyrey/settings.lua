@@ -18,7 +18,7 @@ return function()
         -- Highlight the text line of the cursor with CursorLine
         cursorline = true,
         -- Comma-separated list of settings for how 'cursorline' is displayed.
-        cursorlineopt = number,
+        cursorlineopt = "number",
         -- Encoding used internally
         encoding = "UTF-8",
         -- Avoid making sounds on error

@@ -1,5 +1,3 @@
-local utils = require("akyrey.lsp.utils")
-
 local M = {}
 
 ---@type lspconfig.options
