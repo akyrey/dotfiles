@@ -164,6 +164,18 @@ vim.keymap.set("n", "<leader>xl", function() require("trouble").toggle("loclist"
     { desc = "items from the window's location list" })
 vim.keymap.set("n", "gR", function() require("trouble").toggle("lsp_references") end,
     { desc = "references of the word under the cursor from the builtin LSP client" })
+vim.keymap.set("n", "[x",
+    function()
+        require("trouble").open()
+        require("trouble").previous({ skip_groups = true, jump = true })
+    end,
+    { desc = "Previous Trouble list item" })
+vim.keymap.set("n", "]x",
+    function()
+        require("trouble").open()
+        require("trouble").next({ skip_groups = true, jump = true })
+    end,
+    { desc = "Next Trouble list item" })
 
 -- Harpoon
 vim.keymap.set("n", "<leader>ha", function() require("harpoon"):list():append() end, { desc = "[H]arpoon [A]dd File" })
