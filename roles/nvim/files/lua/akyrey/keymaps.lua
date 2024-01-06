@@ -4,7 +4,8 @@
 --   Also check which-key.lua file
 
 -- vim.keymap.set("n", "<leader>e", vim.cmd.Ex)
-vim.keymap.set("n", "<leader>e", "<cmd>NvimTreeFindFileToggle<cr>", { desc = "Toggle NvimTree", silent = true, noremap = true })
+vim.keymap.set("n", "<leader>e", "<cmd>NvimTreeFindFileToggle<cr>",
+    { desc = "Toggle NvimTree", silent = true, noremap = true })
 vim.keymap.set("n", "<leader>u", vim.cmd.UndotreeToggle)
 
 vim.keymap.set("n", "<leader>vG", vim.cmd.G, { desc = "Fugitive" })
@@ -34,6 +35,14 @@ vim.keymap.set("n", "<leader>pu", "<cmd>PackerUpdate<cr>", { desc = "[P]acker [U
 -- Diagnostic keymaps
 vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Previous diagnostic" })
 vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Next diagnostic" })
+vim.keymap.set("n", "[w", function() vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.WARN }) end,
+    { desc = "Previous warning diagnostic" })
+vim.keymap.set("n", "]w", function() vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.WARN }) end,
+    { desc = "Next warning diagnostic" })
+vim.keymap.set("n", "[e", function() vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR }) end,
+    { desc = "Previous error diagnostic" })
+vim.keymap.set("n", "]e", function() vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR }) end,
+    { desc = "Next error diagnostic" })
 vim.keymap.set("n", "<leader>f", vim.diagnostic.open_float, { desc = "Open diagnostic float window" })
 vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Move diagnostics to local quickfix" })
 
@@ -119,18 +128,18 @@ vim.keymap.set("n", "<leader>sw", require("telescope.builtin").grep_string, { de
 vim.keymap.set("n", "<leader>sg", require("telescope.builtin").live_grep, { desc = "[S]earch by [G]rep" })
 vim.keymap.set("n", "<leader>sd", require("telescope.builtin").diagnostics, { desc = "[S]earch [D]iagnostics" })
 vim.keymap.set("n", "<leader>sD", ":Telescope diagnostics bufnr=0 theme=get_ivy<cr>",
-{ desc = "[S]earch Buffer [D]iagnostics" })
+    { desc = "[S]earch Buffer [D]iagnostics" })
 vim.keymap.set("n", "<leader>sc", function() require("akyrey.config.telescope").find_config_files() end,
-{ desc = "[S]earch [C]onfig" })
+    { desc = "[S]earch [C]onfig" })
 vim.keymap.set("n", "<leader>sC", function() require("akyrey.config.telescope").grep_config_files() end,
-{ desc = "Grep [C]onfig" })
+    { desc = "Grep [C]onfig" })
 
 vim.keymap.set("n", "<leader>sW", function() require("telescope").extensions.git_worktree.git_worktrees() end,
-{ desc = "[S]earch [W]orktrees" })
+    { desc = "[S]earch [W]orktrees" })
 vim.keymap.set("n", "<leader>wc", function() require("telescope").extensions.git_worktree.create_git_worktree() end,
-{ desc = "[W]orktree [C]reate" })
+    { desc = "[W]orktree [C]reate" })
 vim.keymap.set({ "n", "v" }, "<leader>rr", function() require("telescope").extensions.refactoring.refactors() end,
-{ desc = "Open [R]efacto[r]ing Menu" })
+    { desc = "Open [R]efacto[r]ing Menu" })
 
 vim.keymap.set("n", "<leader>ss", ":Telescope git_status<cr>", { desc = "[S]earch Git [S]tatus" })
 vim.keymap.set("n", "<leader>sb", ":Telescope git_branches<cr>", { desc = "[S]earch [B]ranch" })
@@ -146,7 +155,8 @@ vim.keymap.set("n", "<leader>st", ":TodoTelescope<cr>", { desc = "[S]earch [T]od
 
 -- Harpoon
 vim.keymap.set("n", "<leader>ha", function() require("harpoon"):list():append() end, { desc = "[H]arpoon [A]dd File" })
-vim.keymap.set("n", "<leader>ht", function() require("harpoon").ui:toggle_quick_menu(require("harpoon"):list()) end, { desc = "[H]arpoon [T]oggle Quick Menu" })
+vim.keymap.set("n", "<leader>ht", function() require("harpoon").ui:toggle_quick_menu(require("harpoon"):list()) end,
+    { desc = "[H]arpoon [T]oggle Quick Menu" })
 vim.keymap.set("n", "<C-h>", function() require("harpoon"):list():select(1) end, { desc = "Harpoon file #1" })
 vim.keymap.set("n", "<C-j>", function() require("harpoon"):list():select(2) end, { desc = "Harpoon file #2" })
 vim.keymap.set("n", "<C-k>", function() require("harpoon"):list():select(3) end, { desc = "Harpoon file #3" })
@@ -162,7 +172,7 @@ vim.keymap.set("n", "<leader>dg", function() require("dap").session() end, { des
 vim.keymap.set("n", "<leader>di", function() require("dap").step_into() end, { desc = "Step Into" })
 vim.keymap.set("n", "<leader>do", function() require("dap").step_over() end, { desc = "Step Over" })
 vim.keymap.set("n", "<leader>du", function() require("dap").step_out() end, { desc = "Step Out" })
-vim.keymap.set("n", "<leader>dp", function() require("dap").pause.toggle() end, { desc = "Pause" })
+vim.keymap.set("n", "<leader>dp", function() require("dap").pause() end, { desc = "Pause" })
 vim.keymap.set("n", "<leader>dr", function() require("dap").repl.toggle() end, { desc = "Toggle Repl" })
 vim.keymap.set("n", "<leader>ds", function() require("dap").continue() end, { desc = "Start" })
 vim.keymap.set("n", "<leader>dq", function() require("dap").close() end, { desc = "Quit" })
@@ -176,4 +186,4 @@ vim.keymap.set("n", "<leader>id", function() require('package-info').delete() en
 vim.keymap.set("n", "<leader>ii", function() require('package-info').install() end, { desc = "Install a new package" })
 vim.keymap.set("n", "<leader>ir", function() require('package-info').reinstall() end, { desc = "Reinstall dependencies" })
 vim.keymap.set("n", "<leader>ip", function() require('package-info').change_version() end,
-{ desc = "Install a different package version" })
+    { desc = "Install a different package version" })
