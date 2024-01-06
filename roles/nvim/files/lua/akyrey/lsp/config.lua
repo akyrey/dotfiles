@@ -58,6 +58,7 @@ M.server = {
             },
         },
     },
+    intelephense = {},
     lua_ls = {
         settings = {
             Lua = {
