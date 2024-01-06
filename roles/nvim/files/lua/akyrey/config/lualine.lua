@@ -115,8 +115,7 @@ M.setup = function()
                 local fg = function(name)
                     ---@type {foreground?:number}?
                     ---@diagnostic disable-next-line: deprecated
-                    local hl = vim.api.nvim_get_hl and vim.api.nvim_get_hl(0, { name = name }) or
-                        vim.api.nvim_get_hl_by_name(name, true)
+                    local hl = vim.api.nvim_get_hl and vim.api.nvim_get_hl(0, { name = name })
                     ---@diagnostic disable-next-line: undefined-field
                     local fg = hl and (hl.fg or hl.foreground)
                     return fg and { fg = string.format("#%06x", fg) } or nil
@@ -134,7 +133,7 @@ M.setup = function()
         lsp = {
             function(msg)
                 msg = msg or "LS Inactive"
-                local buf_clients = vim.lsp.buf_get_clients()
+                local buf_clients = vim.lsp.get_clients()
                 if next(buf_clients) == nil then
                     -- TODO: clean up this if statement
                     if type(msg) == "boolean" or #msg == 0 then
@@ -173,12 +172,12 @@ M.setup = function()
         progress = { "progress", cond = conditions.hide_in_width, color = {} },
         spaces = {
             function()
-                if not vim.api.nvim_buf_get_option(0, "expandtab") then
-                    return "Tab size: " .. vim.api.nvim_buf_get_option(0, "tabstop") .. " "
+                if not vim.api.nvim_get_option_value("expandtab") then
+                    return "Tab size: " .. vim.api.nvim_get_option_value("tabstop") .. " "
                 end
-                local size = vim.api.nvim_buf_get_option(0, "shiftwidth")
+                local size = vim.api.nvim_get_option_value("shiftwidth")
                 if size == 0 then
-                    size = vim.api.nvim_buf_get_option(0, "tabstop")
+                    size = vim.api.nvim_get_option_value("tabstop")
                 end
                 return "Spaces: " .. size .. " "
             end,
