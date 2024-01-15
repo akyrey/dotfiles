@@ -10,14 +10,3 @@ export GIT_ASKPASS='/usr/bin/ksshaskpass'
 # Path to install go app and libraries
 export GOPATH=$HOME/go
 export DOCKER_BUILDKIT=1
-# wSign
-export WSIGN_FRONTEND_DEV_PATH=~/work/wsign/frontend/
-export WSIGN_NODE_DEV_PATH=~/work/wsign/backend/
-export WSIGN_DOCKER_DEV_PATH=~/work/wsign/docker/
-export WSIGN_HUPAC_DEV_PATH=~/work/wsign/hupac-proxy/
-# wID
-export WID_FRONTEND_DEV_PATH=~/work/wid/frontend/
-export WID_BACKEND_DEV_PATH=~/work/wid/backend/
-export WID_BACKEND_CONAD_DEV_PATH=~/work/wid/backend-conad/
-export WID_BACKEND_ZAIN_DEV_PATH=~/work/wid/backend-zain/
-export WID_DOCKER_DEV_PATH=~/work/wid/docker/

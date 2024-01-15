@@ -24,8 +24,9 @@
       - com.bitwarden.desktop
       - com.discordapp.Discord
       - com.getpostman.Postman
-      - org.gimp.GIMP
       - com.slack.Slack
+      - com.vscodium.codium
+      - org.gimp.GIMP
       - md.obsidian.Obsidian
   tags:
     - install
@@ -56,6 +57,7 @@
         update_cache: yes
     - name: Install Google Chrome
       when: ansible_os_family == "Debian"
+      become: yes
       ansible.builtin.apt:
         deb: https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
   tags:

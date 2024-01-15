@@ -1,8 +1,8 @@
 [hub]
     protocol = https
 [user]
-	name = akyrey
-	email = stein.dario@gmail.com
+	name = Dario Vogogna
+	email = dario@skiperformance.com
 [alias]
     a = add
     st = status
