@@ -27,6 +27,7 @@
       - com.slack.Slack
       - com.vscodium.codium
       - org.gimp.GIMP
+      - org.signal.Signal
       - md.obsidian.Obsidian
   tags:
     - install
