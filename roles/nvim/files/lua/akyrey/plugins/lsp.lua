@@ -119,6 +119,7 @@ return {
             -- Additional lua configuration, makes nvim stuff amazing
             { "folke/neodev.nvim", opts = {} },
             "hrsh7th/cmp-nvim-lsp",
+            "lspcontainers/lspcontainers.nvim",
             "williamboman/mason.nvim",
             "williamboman/mason-lspconfig.nvim",
         },
@@ -188,6 +189,17 @@ return {
                     end)
                     -- end workaround
                 end,
+                -- intelephense = function()
+                --     require('lspconfig').intelephense.setup {
+                --         before_init = function(params)
+                --             params.processId = vim.NIL
+                --         end,
+                --         cmd = require('lspcontainers').command('intelephense'),
+                --         on_attach = require("akyrey.lsp.utils").on_attach,
+                --         root_dir = require('lspconfig/util').root_pattern("composer.json", ".git", vim.fn.getcwd()),
+                --     }
+                --     return true
+                -- end,
                 rust_analyzer = function(_, opts)
                     require("rust-tools").setup({ server = opts })
                     return true
@@ -214,7 +226,8 @@ return {
         dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
         config = {
             on_attach = function()
-                vim.keymap.set("n", "<leader>go", "<cmd>TSToolsOrganizeImports<CR>", { desc = "LSP: Or[g]anize Imp[o]rts" })
+                vim.keymap.set("n", "<leader>go", "<cmd>TSToolsOrganizeImports<CR>",
+                    { desc = "LSP: Or[g]anize Imp[o]rts" })
             end,
             settings = {
                 -- spawn additional tsserver instance to calculate diagnostics on it
@@ -321,6 +334,7 @@ return {
         opts = function()
             local null_ls = require("null-ls")
             return {
+                -- debug = true,
                 root_dir = require("null-ls.utils").root_pattern(".null-ls-root", ".neoconf.json", "Makefile", ".git"),
                 sources = {
                     -- Typescript
@@ -338,6 +352,9 @@ return {
                     null_ls.builtins.formatting.goimports_reviser,
                     -- SQL
                     null_ls.builtins.formatting.sqlfmt,
+                    -- PHP
+                    null_ls.builtins.diagnostics.phpcs,
+                    null_ls.builtins.formatting.phpcsfixer,
                 },
             }
         end,

@@ -10,22 +10,27 @@ return {
         },
         opts = function()
             local dap = require("dap")
-            if not dap.adapters["pwa-node"] then
-                require("dap").adapters["pwa-node"] = {
-                    type = "server",
-                    host = "localhost",
-                    port = "${port}",
-                    executable = {
-                        command = "node",
-                        -- 💀 Make sure to update this path to point to your installation
-                        args = {
-                            require("mason-registry").get_package("js-debug-adapter"):get_install_path()
-                            .. "/js-debug/src/dapDebugServer.js",
-                            "${port}",
-                        },
+            dap.adapters["pwa-node"] = {
+                type = "server",
+                host = "localhost",
+                port = "${port}",
+                executable = {
+                    command = "node",
+                    args = {
+                        require("mason-registry").get_package("js-debug-adapter"):get_install_path()
+                        .. "/js-debug/src/dapDebugServer.js",
+                        "${port}",
                     },
+                },
+            }
+            dap.adapters["php"] = {
+                type = "executable",
+                command = "node",
+                args = {
+                    require("mason-registry").get_package("php-debug-adapter"):get_install_path()
+                    .. "/extension/out/phpDebug.js",
                 }
-            end
+            }
             for _, language in ipairs({ "typescript", "javascript" }) do
                 if not dap.configurations[language] then
                     dap.configurations[language] = {
@@ -46,6 +51,33 @@ return {
                     }
                 end
             end
+            dap.configurations.php = {
+                {
+                    name = "Listen for Xdebug",
+                    type = "php",
+                    request = "launch",
+                    port = 9000,
+                    xdebugSettings = {
+                        max_children = 50,
+                        max_depth = 5,
+                        max_data = 4096
+                    }
+                },
+                {
+                    name = "Docker: Listen for Xdebug",
+                    type = "php",
+                    request = "launch",
+                    port = 9000,
+                    pathMappings = {
+                        ["/var/www/html"] = "${workspaceFolder}"
+                    },
+                    xdebugSettings = {
+                        max_children = 50,
+                        max_depth = 5,
+                        max_data = 4096
+                    }
+                }
+            }
         end,
     },
     {
