@@ -28,7 +28,7 @@
     - install
     - ssh
 
-- name: Install codecommit ssh key
+- name: Install Euronovate codecommit ssh key
   copy:
     src: "{{ dotfiles_home }}/roles/ssh/files/codecommit_rsa"
     dest: "{{ dotfiles_user_home }}/.ssh/codecommit_rsa"
@@ -36,7 +36,7 @@
   tags:
     - euronovate
 
-- name: Install codecommit ssh public key
+- name: Install Euronovate codecommit ssh public key
   copy:
     src: "{{ dotfiles_home }}/roles/ssh/files/codecommit_rsa.pub"
     dest: "{{ dotfiles_user_home }}/.ssh/codecommit_rsa.pub"
@@ -44,7 +44,7 @@
   tags:
     - euronovate
 
-- name: Install BitBucket ssh key
+- name: Install Euronovate BitBucket ssh key
   copy:
     src: "{{ dotfiles_home }}/roles/ssh/files/bitbucket_rsa"
     dest: "{{ dotfiles_user_home }}/.ssh/bitbucket_rsa"
@@ -52,7 +52,7 @@
   tags:
     - euronovate
 
-- name: Install BitBucket ssh public key
+- name: Install Euronovate BitBucket ssh public key
   copy:
     src: "{{ dotfiles_home }}/roles/ssh/files/bitbucket_rsa.pub"
     dest: "{{ dotfiles_user_home }}/.ssh/bitbucket_rsa.pub"
@@ -60,10 +60,26 @@
   tags:
     - euronovate
 
+- name: Install Skiperformance BitBucket ssh key
+  copy:
+    src: "{{ dotfiles_home }}/roles/ssh/files/skiperformance"
+    dest: "{{ dotfiles_user_home }}/.ssh/skiperformance"
+    mode: 0600
+  tags:
+    - skiperformance
+
+- name: Install Skiperformance BitBucket ssh public key
+  copy:
+    src: "{{ dotfiles_home }}/roles/ssh/files/skiperformance.pub"
+    dest: "{{ dotfiles_user_home }}/.ssh/skiperformance.pub"
+    mode: 0644
+  tags:
+    - skiperformance
+
 - name: Install ssh config
   copy:
     src: "{{ dotfiles_home }}/roles/ssh/files/config"
     dest: "{{ dotfiles_user_home }}/.ssh/config"
     mode: 0700
   tags:
-    - euronovate
+    - ssh
