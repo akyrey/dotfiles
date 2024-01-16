@@ -25,7 +25,7 @@
       - com.discordapp.Discord
       - com.getpostman.Postman
       - com.slack.Slack
-      - com.vscodium.codium
+      - io.dbeaver.DBeaverCommunity
       - org.gimp.GIMP
       - org.signal.Signal
       - md.obsidian.Obsidian
@@ -40,6 +40,16 @@
     name: "*"
     state: latest
     update_cache: yes
+  tags:
+    - update
+    - core
+
+- name: Update all Flatpak packages
+  when: ansible_distribution == "Pop!_OS"
+  become: yes
+  ansible.builtin.command: flatpak update --noninteractive
+  register: flatpak_update_output
+  changed_when: "'app/' in flatpak_update_output.stdout"
   tags:
     - update
     - core
