@@ -31,6 +31,16 @@ function M.is_directory(path)
     return stat and stat.type == "directory" or false
 end
 
+function M.file_exists(name)
+    local f = io.open(name, "r")
+    if f ~= nil then
+        io.close(f)
+        return true
+    end
+
+    return false
+end
+
 function M.join_paths(...)
     local result = table.concat({ ... }, path_sep)
     return result

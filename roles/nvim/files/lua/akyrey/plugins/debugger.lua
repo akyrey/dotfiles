@@ -53,10 +53,13 @@ return {
             end
             dap.configurations.php = {
                 {
-                    name = "Listen for Xdebug",
+                    name = "Docker: Listen for Xdebug 2",
                     type = "php",
                     request = "launch",
                     port = 9000,
+                    pathMappings = {
+                        ["/var/www/html"] = "${workspaceFolder}"
+                    },
                     xdebugSettings = {
                         max_children = 50,
                         max_depth = 5,
@@ -64,12 +67,12 @@ return {
                     }
                 },
                 {
-                    name = "Docker: Listen for Xdebug",
+                    name = "Docker: Listen for Xdebug 3",
                     type = "php",
                     request = "launch",
-                    port = 9000,
+                    port = 9003,
                     pathMappings = {
-                        ["/var/www/html"] = "${workspaceFolder}"
+                        ["/skp-svc"] = "${workspaceFolder}"
                     },
                     xdebugSettings = {
                         max_children = 50,
