@@ -16,6 +16,14 @@
     - install
     - tmux
 
+- name: Install TPM
+  git:
+    repo: https://github.com/tmux-plugins/tpm
+    dest: ~/.tmux/plugins/tpm
+  tags:
+    - install
+    - tmux
+
 - name: Symlink .tmux.conf
   file:
     src: "{{ dotfiles_home }}/roles/tmux/files/tmux.conf"
