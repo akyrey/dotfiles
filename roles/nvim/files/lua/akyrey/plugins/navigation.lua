@@ -39,7 +39,7 @@ return {
         "ThePrimeagen/harpoon",
         branch = "harpoon2",
         opts = {},
-        requires = {
+        dependencies = {
             "nvim-lua/plenary.nvim",
         }
     },

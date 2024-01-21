@@ -224,7 +224,7 @@ return {
     {
         "pmizio/typescript-tools.nvim",
         dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
-        config = {
+        opts = {
             on_attach = function()
                 vim.keymap.set("n", "<leader>go", "<cmd>TSToolsOrganizeImports<CR>",
                     { desc = "LSP: Or[g]anize Imp[o]rts" })
@@ -285,7 +285,6 @@ return {
                 },
             },
         },
-        opts = {},
     },
     -- Automatically install LSPs to stdpath for neovim
     {
