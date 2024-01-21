@@ -40,6 +40,9 @@
     - role: wakatime
       tags:
         - wakatime
+    - role: wezterm
+      tags:
+        - wezterm
     - role: xcode-clt
       tags:
         - xcode-clt
