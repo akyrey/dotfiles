@@ -1,16 +1,7 @@
 - name: Add wezterm repo
   when: ansible_os_family == "Debian"
   become: yes
-  shell: curl -fsSL https://apt.fury.io/wez/gpg.key | gpg --yes --dearmor -o /usr/share/keyrings/wezterm-fury.gpg; \ echo 'deb [signed-by=/usr/share/keyrings/wezterm-fury.gpg] https://apt.fury.io/wez/ * *' | tee /etc/apt/sources.list.d/wezterm.list
-
-- name: Install wezterm nightly
-  when: ansible_os_family == "Debian"
-  become: yes
-  ansible.builtin.apt:
-    name:
-      - wezterm-nightly
-    state: present
-    update_cache: yes
+  shell: curl -LO https://github.com/wez/wezterm/releases/download/20230712-072601-f4abf8fd/wezterm-20230712-072601-f4abf8fd.Ubuntu22.04.deb; apt install -y ./wezterm-20230712-072601-f4abf8fd.Ubuntu22.04.deb; rm wezterm-20230712-072601-f4abf8fd.Ubuntu22.04.deb
   tags:
     - install
     - wezterm
