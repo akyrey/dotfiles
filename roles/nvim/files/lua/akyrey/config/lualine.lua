@@ -7,6 +7,8 @@ M.setup = function()
         return
     end
 
+    local icons = require("akyrey.config.icons")
+
     local window_width_limit = 80
     local colors = {
         bg = "#202328",
@@ -47,17 +49,9 @@ M.setup = function()
     end
 
     local components = {
-        mode = {
-            function()
-                return " "
-            end,
-            padding = { left = 0, right = 0 },
-            color = {},
-            cond = nil,
-        },
         branch = {
             "b:gitsigns_head",
-            icon = " ",
+            icon = icons.kinds.Control,
             color = { gui = "bold" },
             cond = conditions.hide_in_width,
         },
@@ -70,7 +64,7 @@ M.setup = function()
         diff = {
             "diff",
             source = diff_source,
-            symbols = { added = "  ", modified = "柳", removed = " " },
+            symbols = icons.git,
             diff_color = {
                 added = { fg = colors.green },
                 modified = { fg = colors.yellow },
@@ -82,7 +76,12 @@ M.setup = function()
         diagnostics = {
             "diagnostics",
             sources = { "nvim_diagnostic" },
-            symbols = { error = " ", warn = " ", info = " ", hint = " " },
+            symbols = {
+                error = icons.diagnostics.Error,
+                warn = icons.diagnostics.Warn,
+                info = icons.diagnostics.Info,
+                hint = icons.diagnostics.Hint,
+            },
             color = {},
             cond = conditions.hide_in_width,
         },
@@ -90,7 +89,7 @@ M.setup = function()
             function()
                 local b = vim.api.nvim_get_current_buf()
                 if next(vim.treesitter.highlighter.active[b]) then
-                    return "  "
+                    return icons.misc.treesitter
                 end
                 return ""
             end,
@@ -100,7 +99,7 @@ M.setup = function()
         copilot = {
             function()
                 local status = require("copilot.api").status.data
-                return "" .. (status.message or "") .. " "
+                return icons.kinds.Copilot .. (status.message or "") .. " "
             end,
             cond = function()
                 if not package.loaded["copilot"] then
@@ -141,7 +140,6 @@ M.setup = function()
                     end
                     return msg
                 end
-                local buf_ft = vim.bo.filetype
                 local buf_client_names = {}
 
                 -- add client
@@ -164,7 +162,7 @@ M.setup = function()
 
                 return table.concat(buf_client_names, ", ")
             end,
-            icon = " ",
+            icon = icons.misc.lsp,
             color = { gui = "bold" },
             cond = conditions.hide_in_width,
         },
@@ -225,7 +223,6 @@ M.setup = function()
             },
             lualine_x = {
                 components.diagnostics,
-                components.package_info,
                 components.treesitter,
                 components.copilot,
                 components.lsp,

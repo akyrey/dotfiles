@@ -7,21 +7,22 @@ M.setup = function()
         return
     end
 
+    local icons = require("akyrey.config.icons").dap
     local config = {
         breakpoint = {
-            text = "",
+            text = icons.Breakpoint,
             texthl = "LspDiagnosticsSignError",
             linehl = "",
             numhl = "",
         },
         breakpoint_rejected = {
-            text = "",
+            text = icons.BreakpointRejected,
             texthl = "LspDiagnosticsSignHint",
             linehl = "",
             numhl = "",
         },
         stopped = {
-            text = "",
+            text = icons.Stopped,
             texthl = "LspDiagnosticsSignInformation",
             linehl = "DiagnosticUnderlineInfo",
             numhl = "LspDiagnosticsSignInformation",

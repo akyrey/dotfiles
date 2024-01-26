@@ -103,47 +103,7 @@ M.setup = function()
         end
     end
 
-    local vim_item_symbol = {
-        Array         = " ",
-        Boolean       = "󰨙 ",
-        Class         = " ",
-        Codeium       = "󰘦 ",
-        Color         = " ",
-        Control       = " ",
-        Collapsed     = " ",
-        Constant      = "󰏿 ",
-        Constructor   = " ",
-        Copilot       = " ",
-        Enum          = " ",
-        EnumMember    = " ",
-        Event         = " ",
-        Field         = " ",
-        File          = " ",
-        Folder        = " ",
-        Function      = "󰊕 ",
-        Interface     = " ",
-        Key           = " ",
-        Keyword       = " ",
-        Method        = "󰊕 ",
-        Module        = " ",
-        Namespace     = "󰦮 ",
-        Null          = " ",
-        Number        = "󰎠 ",
-        Object        = " ",
-        Operator      = " ",
-        Package       = " ",
-        Property      = " ",
-        Reference     = " ",
-        Snippet       = " ",
-        String        = " ",
-        Struct        = "󰆼 ",
-        TabNine       = "󰏚 ",
-        Text          = " ",
-        TypeParameter = " ",
-        Unit          = " ",
-        Value         = " ",
-        Variable      = "󰀫 ",
-    }
+    local icons = require("akyrey.config.icons")
 
     cmp.setup({
         enabled = function()
@@ -168,7 +128,7 @@ M.setup = function()
         },
         window = {
             documentation = {
-                border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+                border = icons.borders,
             },
         },
         snippet = {
@@ -262,20 +222,20 @@ M.setup = function()
         ),
         formatting = {
             format = function(entry, vim_item)
-                vim_item.kind = string.format("%s %s", vim_item_symbol[vim_item.kind], vim_item.kind)
+                vim_item.kind = string.format("%s %s", icons.kinds[vim_item.kind], vim_item.kind)
                 -- set a name for each source
                 vim_item.menu = ({
-                    copilot = "   (Copilot)",
-                    buffer = "   (Buffer)",
-                    nvim_lsp = "   (LSP)",
-                    luasnip = "   (Snippet)",
-                    nvim_lua = "   (Lua)",
-                    cmp_tabnine = "   (T9)",
-                    path = "   (Path)",
-                    spell = "   (Spell)",
-                    calc = "   (Calc)",
-                    conventionalcommits = "   (CC)",
-                    treesitter = " 🌲  (TS)",
+                    copilot = icons.kinds.Copilot .. " (Copilot)",
+                    buffer = icons.kinds.File .. " (Buffer)",
+                    nvim_lsp = icons.misc.lsp .. " (LSP)",
+                    luasnip = icons.kinds.Snippet .. " (Snippet)",
+                    nvim_lua = icons.kinds.Constructor .. " (Lua)",
+                    cmp_tabnine = icons.kinds.TabNine .. " (T9)",
+                    path = icons.kinds.Folder .. " (Path)",
+                    spell = icons.kinds.Text .. " (Spell)",
+                    calc = icons.kinds.Operator .. " (Calc)",
+                    conventionalcommits = icons.kinds.Field .. " (CC)",
+                    treesitter = icons.misc.treesitter .. " (TS)",
                 })[entry.source.name]
                 return vim_item;
             end

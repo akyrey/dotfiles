@@ -211,3 +211,7 @@ vim.keymap.set("n", "<leader>ii", function() require('package-info').install() e
 vim.keymap.set("n", "<leader>ir", function() require('package-info').reinstall() end, { desc = "Reinstall dependencies" })
 vim.keymap.set("n", "<leader>ip", function() require('package-info').change_version() end,
     { desc = "Install a different package version" })
+
+-- Bufferline
+vim.keymap.set("n", "[b", "<cmd>BufferLineCyclePrev<cr>", { desc = "Prev buffer" })
+vim.keymap.set("n", "]b", "<cmd>BufferLineCycleNext<cr>", { desc = "Next buffer" })

@@ -130,10 +130,10 @@ return {
                 signs = {
                     active = true,
                     values = {
-                        { name = "DiagnosticSignError", text = "" },
-                        { name = "DiagnosticSignWarn", text = "" },
-                        { name = "DiagnosticSignHint", text = "" },
-                        { name = "DiagnosticSignInfo", text = "" },
+                        { name = "DiagnosticSignError", text = require("akyrey.config.icons").diagnostics.Error },
+                        { name = "DiagnosticSignWarn", text = require("akyrey.config.icons").diagnostics.Warn },
+                        { name = "DiagnosticSignHint", text = require("akyrey.config.icons").diagnostics.Hint },
+                        { name = "DiagnosticSignInfo", text = require("akyrey.config.icons").diagnostics.Info },
                     },
                 },
                 virtual_text = true,
