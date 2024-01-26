@@ -1,5 +1,4 @@
 - name: Symlink kde plasma themes folder
-  when: ansible_os_family == "Archlinux"
   file:
     src: "{{ dotfiles_home }}/roles/kde/files/theme/plasma"
     dest: "{{ dotfiles_user_home }}/.local/share/plasma"
@@ -9,7 +8,6 @@
     - kde
 
 - name: Symlink kde plasma wallpapers folder
-  when: ansible_os_family == "Archlinux"
   file:
     src: "{{ dotfiles_home }}/roles/kde/files/theme/wallpapers"
     dest: "{{ dotfiles_user_home }}/.local/share/wallpapers"
@@ -19,13 +17,11 @@
     - kde
 
 - name: Find all files in kde/files/config
-  when: ansible_os_family == "Archlinux"
   find:
     paths: "{{ dotfiles_home }}/roles/kde/files/config"
   register: find
 
 - name: Backup kde/files/config files that will be overwritten
-  when: ansible_os_family == "Archlinux"
   shell: "mv {{ dotfiles_user_home }}/.config/{{ item.path | basename }} {{ dotfiles_user_home }}/.config/{{ item.path | basename }}.bak"
   with_items: "{{ find.files }}"
   tags:
@@ -33,7 +29,6 @@
     - kde
 
 - name: Create symlinks to kde config
-  when: ansible_os_family == "Archlinux"
   file:
     src: "{{ item.path }}"
     path: "{{ dotfiles_user_home }}/.config/{{ item.path | basename }}"
