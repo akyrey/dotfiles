@@ -31,3 +31,10 @@ alias mount-gdrive="rclone mount --daemon --daemon-timeout=5m --buffer-size=64M 
 
 alias work="timer 25m && notify-send 'Pomodoro' 'Work Timer is up! Take a Break \U0001F600' -i '~/Pictures/clock.png'"
 alias rest="timer 10m && notify-send 'Pomodoro' 'Break is over! Get back to work \U0001F62C' -i '~/Pictures/clock.png'"
+
+air() {
+  docker run -it --rm \
+    -w "$PWD" -v "$PWD":"$PWD" \
+    -p "$AIR_PORT":"$AIR_PORT" \
+    docker.io/cosmtrek/air "$@"
+}
