@@ -32,3 +32,12 @@
   tags:
     - install
     - scripts
+
+- name: Create symlink to ~/.local/bin/ssh-ask-pass.sh
+  file:
+    src: "{{ dotfiles_home }}/roles/scripts/files/ssh-ask-pass.sh"
+    dest: "{{ dotfiles_user_home }}/.local/bin/ssh-ask-pass.sh"
+    state: link
+  tags:
+    - install
+    - scripts
