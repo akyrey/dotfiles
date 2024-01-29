@@ -22,7 +22,7 @@ alias dkrmi="docker rmi $(docker images --filter "dangling=true" -q --no-trunc)"
 alias aws-login="aws ecr get-login-password --region eu-south-1 | docker login --username AWS --password-stdin 422393141836.dkr.ecr.eu-south-1.amazonaws.com"
 
 # Install globally required packages
-alias npm-global="npm i -g npmrc eslint eslint_d prettier @fsouza/prettierd npx"
+alias pnpm-global="pnpm i -g npmrc eslint eslint_d prettier @fsouza/prettierd npx"
 
 # Logitech headset requires these inputs
 alias fix-headset="headsetcontrol -l 0 && headsetcontrol -s 128"
