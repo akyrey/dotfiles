@@ -1,7 +1,7 @@
 - name: Add wezterm repo
   when: ansible_os_family == "Debian"
   become: yes
-  shell: curl -LO https://github.com/wez/wezterm/releases/download/20240127-113634-bbcac864/wezterm-20240127-113634-bbcac864.Ubuntu22.04.deb; apt install -y ./wezterm-20240127-113634-bbcac864.Ubuntu22.04.deb; rm wezterm-20240127-113634-bbcac864.Ubuntu22.04.deb
+  shell: curl -LO https://github.com/wez/wezterm/releases/download/20240128-202157-1e552d76/wezterm-20240128-202157-1e552d76.Ubuntu22.04.deb; apt install -y ./wezterm-20240128-202157-1e552d76.Ubuntu22.04.deb; rm wezterm-20240128-202157-1e552d76.Ubuntu22.04.deb
   tags:
     - install
     - wezterm
