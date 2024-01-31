@@ -137,6 +137,16 @@ M.setup = function()
         },
     })
 
+    local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
+    parser_config.blade = {
+        install_info = {
+            url = "https://github.com/EmranMR/tree-sitter-blade",
+            files = { "src/parser.c" },
+            branch = "main",
+        },
+        filetype = "blade"
+    }
+
     local ok_ts, ts_context_commentstring = pcall(require, "ts_context_commentstring")
 
     if not ok_ts then
