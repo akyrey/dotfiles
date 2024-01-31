@@ -215,3 +215,9 @@ vim.keymap.set("n", "<leader>ip", function() require('package-info').change_vers
 -- Bufferline
 vim.keymap.set("n", "[b", "<cmd>BufferLineCyclePrev<cr>", { desc = "Prev buffer" })
 vim.keymap.set("n", "]b", "<cmd>BufferLineCycleNext<cr>", { desc = "Next buffer" })
+
+-- Neogen - Generate annotations
+vim.keymap.set("n", "<leader>nf", function() require("neogen").generate() end,
+    { desc = "Ge[n]erate [f]unction annotations" })
+vim.keymap.set("n", "<leader>nc", function() require("neogen").generate({ type = "class" }) end,
+    { desc = "Ge[n]erate [c]lass annotations" })
