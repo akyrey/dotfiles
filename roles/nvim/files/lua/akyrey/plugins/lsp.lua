@@ -332,6 +332,8 @@ return {
         event = { "BufReadPre", "BufNewFile" },
         opts = function()
             local null_ls = require("null-ls")
+            local utils = require("akyrey.utils")
+            local root_patterns = { ".git" }
             return {
                 -- debug = true,
                 root_dir = require("null-ls.utils").root_pattern(".null-ls-root", ".neoconf.json", "Makefile", ".git"),
@@ -352,8 +354,50 @@ return {
                     -- SQL
                     null_ls.builtins.formatting.sqlfmt,
                     -- PHP
-                    null_ls.builtins.diagnostics.phpcs,
-                    null_ls.builtins.formatting.phpcsfixer,
+                    null_ls.builtins.diagnostics.phpcs.with({
+                        -- [DEBUG Fri 19 Jan 2024 01:07:09 PM CET] /home/akyrey/.local/share/nvim/lazy/none-ls.nvim/lua/null-ls/helpers/generator_factory.lua:329: spawning command "phpcs" at /home/akyrey/work/skp-core with args { "--report=json", "-q", "-s", "--runtime-set", "ignore_warnings_on_exit", "1", "--runtime-set", "ignore_errors_on_exit", "1", "--stdin-path=/home/akyrey/work/skp-core/application/classes/Model/Skp/Product.php", "--basepath=" }
+                        args = {
+                            "--report=json",
+                            "-q",
+                            "-s",
+                            "--runtime-set",
+                            "ignore_warnings_on_exit",
+                            "1",
+                            "--runtime-set",
+                            "ignore_errors_on_exit",
+                            "1",
+                            "--standard=.phpcs.xml",
+                            "--basepath=",
+                            "$FILENAME"
+                        },
+                        command = function()
+                            local root_dir = vim.fs.dirname(vim.fs.find(root_patterns, { upward = true })[1])
+
+                            if root_dir ~= nil and utils.file_exists(utils.join_paths(root_dir, "dev", "bin", "phpcs")) then
+                                return utils.join_paths(root_dir, "dev", "bin", "phpcs")
+                            end
+
+                            return "phpcs"
+                        end,
+                    }),
+                    null_ls.builtins.formatting.phpcsfixer.with({
+                        args = {
+                            "--no-interaction",
+                            "--quiet",
+                            "--config=.php-cs-fixer.dist.php",
+                            "fix",
+                            "$FILENAME",
+                        },
+                        command = function()
+                            local root_dir = vim.fs.dirname(vim.fs.find(root_patterns, { upward = true })[1])
+
+                            if root_dir ~= nil and utils.file_exists(utils.join_paths(root_dir, "dev", "bin", "php-cs-fixer")) then
+                                return utils.join_paths(root_dir, "dev", "bin", "php-cs-fixer")
+                            end
+
+                            return "php-cs-fixer"
+                        end,
+                    }),
                 },
             }
         end,
