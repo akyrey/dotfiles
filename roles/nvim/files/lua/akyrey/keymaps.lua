@@ -202,6 +202,10 @@ vim.keymap.set("n", "<leader>ds", function() require("dap").continue() end, { de
 vim.keymap.set("n", "<leader>dq", function() require("dap").close() end, { desc = "Quit" })
 vim.keymap.set("n", "<leader>dU", function() require("dapui").toggle({ reset = true }) end, { desc = "Toggle UI" })
 
+-- Testing
+vim.keymap.set("n", "<leader>td", function() require("neotest").run.run({ strategy = "dap" }) end,
+    { desc = "Debug Nearest" })
+
 -- Package-info
 vim.keymap.set("n", "<leader>is", function() require('package-info').show() end, { desc = "Show package versions" })
 vim.keymap.set("n", "<leader>ic", function() require('package-info').hide() end, { desc = "Hide package versions" })
