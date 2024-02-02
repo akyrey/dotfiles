@@ -64,8 +64,8 @@ function M.add_lsp_buffer_keybindings(client, buffer)
     end, "[W]orkspace [L]ist Folders")
 
     -- Format code
-    nmap("<leader>lf", function() require("akyrey.lsp.format").format() end, "[F]ormat", "formatting")
-    nmap("<leader>lf", function() require("akyrey.lsp.format").format() end, "[F]ormat Range", "rangeFormatting", "v")
+    nmap("<leader>lf", function() require("conform").format() end, "[F]ormat", "formatting")
+    nmap("<leader>lf", function() require("conform").format() end, "[F]ormat Range", "rangeFormatting", "v")
 
     -- Client specific keymaps
     local servers = require("akyrey.lsp.config").server

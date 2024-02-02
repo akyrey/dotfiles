@@ -131,9 +131,9 @@ return {
                     active = true,
                     values = {
                         { name = "DiagnosticSignError", text = require("akyrey.config.icons").diagnostics.Error },
-                        { name = "DiagnosticSignWarn", text = require("akyrey.config.icons").diagnostics.Warn },
-                        { name = "DiagnosticSignHint", text = require("akyrey.config.icons").diagnostics.Hint },
-                        { name = "DiagnosticSignInfo", text = require("akyrey.config.icons").diagnostics.Info },
+                        { name = "DiagnosticSignWarn",  text = require("akyrey.config.icons").diagnostics.Warn },
+                        { name = "DiagnosticSignHint",  text = require("akyrey.config.icons").diagnostics.Hint },
+                        { name = "DiagnosticSignInfo",  text = require("akyrey.config.icons").diagnostics.Info },
                     },
                 },
                 virtual_text = true,
@@ -342,20 +342,11 @@ return {
                     null_ls.builtins.diagnostics.eslint_d.with({
                         extra_filetypes = { "astro" }
                     }),
-                    null_ls.builtins.formatting.prettierd,
-                    null_ls.builtins.formatting.prettier.with({
-                        filetypes = { "astro" },
-                    }),
                     -- Go
                     null_ls.builtins.code_actions.gomodifytags,
                     null_ls.builtins.code_actions.impl,
-                    null_ls.builtins.formatting.gofumpt,
-                    null_ls.builtins.formatting.goimports_reviser,
-                    -- SQL
-                    null_ls.builtins.formatting.sqlfmt,
                     -- PHP
                     null_ls.builtins.diagnostics.phpcs.with({
-                        -- [DEBUG Fri 19 Jan 2024 01:07:09 PM CET] /home/akyrey/.local/share/nvim/lazy/none-ls.nvim/lua/null-ls/helpers/generator_factory.lua:329: spawning command "phpcs" at /home/akyrey/work/skp-core with args { "--report=json", "-q", "-s", "--runtime-set", "ignore_warnings_on_exit", "1", "--runtime-set", "ignore_errors_on_exit", "1", "--stdin-path=/home/akyrey/work/skp-core/application/classes/Model/Skp/Product.php", "--basepath=" }
                         args = {
                             "--report=json",
                             "-q",
@@ -367,8 +358,9 @@ return {
                             "ignore_errors_on_exit",
                             "1",
                             "--standard=.phpcs.xml",
+                            -- "--stdin-path=$FILENAME",
                             "--basepath=",
-                            "$FILENAME"
+                            "$FILENAME",
                         },
                         command = function()
                             local root_dir = vim.fs.dirname(vim.fs.find(root_patterns, { upward = true })[1])
@@ -379,8 +371,48 @@ return {
 
                             return "phpcs"
                         end,
+                        method = null_ls.methods.DIAGNOSTICS_ON_SAVE,
                     }),
-                    null_ls.builtins.formatting.phpcsfixer.with({
+                },
+            }
+        end,
+    },
+
+    -- Formatter
+    {
+        'stevearc/conform.nvim',
+        opts = function()
+            local utils = require("akyrey.utils")
+            local root_patterns = { ".git" }
+            local js_formatter = { { "prettierd", "prettier" } }
+            return {
+                formatters_by_ft = {
+                    lua = { "stylua" },
+                    -- JS related
+                    javascript = js_formatter,
+                    javascriptreact = js_formatter,
+                    typescript = js_formatter,
+                    typescriptreact = js_formatter,
+                    vue = js_formatter,
+                    css = js_formatter,
+                    scss = js_formatter,
+                    less = js_formatter,
+                    html = js_formatter,
+                    json = js_formatter,
+                    jsonc = js_formatter,
+                    yaml = js_formatter,
+                    markdown = js_formatter,
+                    graphql = js_formatter,
+                    astro = js_formatter,
+
+                    go = { { "gofumpt", "goimports_reviser" } },
+
+                    sql = { "sqlfmt" },
+
+                    php = { "php_cs_fixer" },
+                },
+                formatters = {
+                    php_cs_fixer = {
                         args = {
                             "--no-interaction",
                             "--quiet",
@@ -397,7 +429,7 @@ return {
 
                             return "php-cs-fixer"
                         end,
-                    }),
+                    },
                 },
             }
         end,
