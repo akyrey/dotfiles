@@ -12,7 +12,6 @@ return {
     {
         "p00f/nvim-ts-rainbow",
         event = "VeryLazy",
-        opts = {},
     },
     {
         "windwp/nvim-ts-autotag",
