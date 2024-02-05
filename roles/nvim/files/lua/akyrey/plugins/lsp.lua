@@ -358,9 +358,8 @@ return {
                             "ignore_errors_on_exit",
                             "1",
                             "--standard=.phpcs.xml",
-                            -- "--stdin-path=$FILENAME",
+                            "--stdin-path=$FILENAME",
                             "--basepath=",
-                            "$FILENAME",
                         },
                         command = function()
                             local root_dir = vim.fs.dirname(vim.fs.find(root_patterns, { upward = true })[1])
@@ -371,7 +370,6 @@ return {
 
                             return "phpcs"
                         end,
-                        method = null_ls.methods.DIAGNOSTICS_ON_SAVE,
                     }),
                 },
             }
