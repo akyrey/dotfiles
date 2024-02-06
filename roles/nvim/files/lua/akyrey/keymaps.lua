@@ -186,6 +186,12 @@ vim.keymap.set("n", "<C-j>", function() require("harpoon"):list():select(2) end,
 vim.keymap.set("n", "<C-k>", function() require("harpoon"):list():select(3) end, { desc = "Harpoon file #3" })
 vim.keymap.set("n", "<C-l>", function() require("harpoon"):list():select(4) end, { desc = "Harpoon file #4" })
 
+-- Flash
+vim.keymap.set({ "n", "x", "o" }, "s", function() require("flash").jump() end, { desc = "Flash" })
+vim.keymap.set({ "n", "x", "o" }, "S", function() require("flash").treesitter() end, { desc = "Flash Treesitter" })
+vim.keymap.set({ "c" }, "<C-s>", function() require("flash").toggle() end, { desc = "Flash Toggle" })
+vim.keymap.set({ "o", "x" }, "R", function() require("flash").treesitter_search() end, { desc = "Treesitter Search" })
+
 -- Debugger
 vim.keymap.set("n", "<leader>dt", function() require("dap").toggle_breakpoint() end, { desc = "Toggle Breakpoint" })
 vim.keymap.set("n", "<leader>db", function() require("dap").step_back() end, { desc = "Step Back" })
