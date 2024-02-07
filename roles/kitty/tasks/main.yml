@@ -5,6 +5,9 @@
     method: GET
     dest: /tmp/kitty-installer.sh
     mode: 'u+rwx'
+    status_code:
+      - 200
+      - 304
   register: kitty_download
   tags:
     - install
