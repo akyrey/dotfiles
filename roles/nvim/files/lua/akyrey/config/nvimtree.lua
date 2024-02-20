@@ -135,6 +135,7 @@ function M.setup()
         vim.keymap.set("n", "H", api.tree.collapse_all, opts("Collapse All"))
     end
 
+    local icons = require("akyrey.config.icons").diagnostics
     nvimtree.setup({
         diagnostics = {
             enable = true,
@@ -146,13 +147,14 @@ function M.setup()
                 max = vim.diagnostic.severity.ERROR,
             },
             icons = {
-                hint = "",
-                info = "",
-                warning = "",
-                error = "",
+                hint = icons.Hint,
+                info = icons.Info,
+                warning = icons.Warn,
+                error = icons.Error,
             },
         },
         filters = {
+        git_ignored = false,
             custom = {
                 "^.git$",
             },

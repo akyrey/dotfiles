@@ -72,7 +72,7 @@ return {
                     request = "launch",
                     port = 9003,
                     pathMappings = {
-                        ["/skp-svc"] = "${workspaceFolder}"
+                        ["/skp-svc/src"] = "${workspaceFolder}"
                     },
                     xdebugSettings = {
                         max_children = 50,

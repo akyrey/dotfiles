@@ -39,6 +39,7 @@ M.setup = function()
             file_ignore_patterns = {
                 "node_modules/.*",
                 "documentation",
+                "tests/coverage/.*",
             },
             path_display = { shorten = 5 },
             winblend = 0,
