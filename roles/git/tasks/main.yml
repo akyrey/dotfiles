@@ -32,38 +32,20 @@
   tags:
     - install
 
-- name: Git personal setup email
-  git_config:
-    name: user.email
-    scope: global
-    value: "stein.dario@gmail.com"
+- name: Symlink gitconfig-personal file
+  file:
+    src: "{{ dotfiles_home }}/roles/git/files/gitconfig-personal"
+    dest: "{{ dotfiles_user_home }}/.gitconfig-personal"
+    state: link
+    force: yes
   tags:
     - install
-    - git-personal
 
-- name: Git personal setup name
-  git_config:
-    name: user.name
-    scope: global
-    value: "akyrey"
+- name: Symlink gitconfig-work file
+  file:
+    src: "{{ dotfiles_home }}/roles/git/files/gitconfig-work"
+    dest: "{{ dotfiles_user_home }}/.gitconfig-work"
+    state: link
+    force: yes
   tags:
     - install
-    - git-personal
-
-- name: Git Euronovate setup email
-  git_config:
-    name: user.email
-    scope: global
-    value: "dario.vogogna@euronovate.com"
-  tags:
-    - install
-    - git-euronovate
-
-- name: Git Euronovate setup name
-  git_config:
-    name: user.name
-    scope: global
-    value: "Dario Vogogna"
-  tags:
-    - install
-    - git-euronovate

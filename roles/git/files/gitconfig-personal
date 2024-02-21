@@ -1,0 +1,7 @@
+[user]
+  name = akyrey
+  email = stein.dario@gmail.com
+[gpg]
+	format = ssh
+[user]
+	signingkey = /home/akyrey/.ssh/id_rsa.pub

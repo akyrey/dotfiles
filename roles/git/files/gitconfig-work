@@ -1,0 +1,7 @@
+[user]
+  name = Dario Vogogna
+  email = dario@skiperformance.com
+[gpg]
+	format = ssh
+[user]
+	signingkey = /home/akyrey/.ssh/skiperformance.pub

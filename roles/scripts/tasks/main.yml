@@ -41,3 +41,12 @@
   tags:
     - install
     - scripts
+
+- name: Create symlink to ~/.local/bin/better-branch.sh
+  file:
+    src: "{{ dotfiles_home }}/roles/scripts/files/better-branch.sh"
+    dest: "{{ dotfiles_user_home }}/.local/bin/better-branch.sh"
+    state: link
+  tags:
+    - install
+    - scripts
