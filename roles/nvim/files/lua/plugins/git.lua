@@ -14,4 +14,10 @@ return {
     "ThePrimeagen/git-worktree.nvim",
     event = "VeryLazy",
   },
+  {
+    "lewis6991/gitsigns.nvim",
+    opts = {
+      current_line_blame = true,
+    },
+  },
 }
