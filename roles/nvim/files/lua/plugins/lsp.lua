@@ -121,4 +121,28 @@ return {
       },
     },
   },
+  {
+    "williamboman/mason.nvim",
+    opts = function(_, opts)
+      vim.list_extend(opts.ensure_installed, {
+        "ansible-language-server",
+        "bash-language-server",
+        "css-lsp",
+        "docker-compose-language-service",
+        "dockerfile-language-server",
+        "gopls",
+        "html-lsp",
+        "intelephense",
+        "lua-language-server",
+        "prettier",
+        "rust-analyzer",
+        "shellcheck",
+        "stylua",
+        "tailwindcss-language-server",
+        "templ",
+        "typescript-language-server",
+        "yaml-language-server",
+      })
+    end,
+  },
 }
