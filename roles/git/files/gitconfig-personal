@@ -1,7 +1,11 @@
 [user]
   name = akyrey
   email = stein.dario@gmail.com
-[gpg]
-	format = ssh
+[commit]
+	gpgsign = true
 [user]
-	signingkey = /home/akyrey/.ssh/id_rsa.pub
+	signingkey = 4FD7E3CEBBA7C238
+[maintenance]
+	repo = /home/akyrey/work/skp-core
+	repo = /home/akyrey/work/totalizer
+	repo = /home/akyrey/work/wallet
