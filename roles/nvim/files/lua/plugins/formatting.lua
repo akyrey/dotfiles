@@ -1,6 +1,8 @@
 return {
   "stevearc/conform.nvim",
   opts = function(_, opts)
+    opts.formatters_by_ft.go = { { "gofumpt", "goimports_reviser" } }
+    opts.formatters_by_ft.php = { "php_cs_fixer" }
     table.insert(opts.formatters, {
       php_cs_fixer = {
         args = {
