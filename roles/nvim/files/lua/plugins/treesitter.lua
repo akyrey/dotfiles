@@ -18,33 +18,5 @@ return {
       },
     }
     vim.treesitter.language.register("templ", "templ")
-
-    return {
-      ensure_installed = {
-        "astro",
-        "bash",
-        "css",
-        "git_config",
-        "gitcommit",
-        "gitignore",
-        "go",
-        "gomod",
-        "html",
-        "javascript",
-        "jsdoc",
-        "json",
-        "lua",
-        "markdown",
-        "php",
-        "phpdoc",
-        "rust",
-        "scss",
-        "sql",
-        "templ",
-        "toml",
-        "typescript",
-        "yaml",
-      },
-    }
   end,
 }

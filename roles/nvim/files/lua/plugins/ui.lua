@@ -26,6 +26,10 @@ return {
     },
   },
   {
+    "weilbith/nvim-code-action-menu",
+    cmd = "CodeActionMenu",
+  },
+  {
     "nvimdev/dashboard-nvim",
     opts = function(_, opts)
       local logo = [[
