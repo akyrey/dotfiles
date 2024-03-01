@@ -30,6 +30,9 @@ return {
     cmd = "CodeActionMenu",
   },
   {
+    "kevinhwang91/nvim-bqf",
+  },
+  {
     "nvimdev/dashboard-nvim",
     opts = function(_, opts)
       local logo = [[
