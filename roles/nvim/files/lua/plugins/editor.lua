@@ -6,6 +6,7 @@ return {
       { mode = "i", "<C-p>", false },
       { mode = "i", "<C-b>", false },
       { mode = "i", "<C-f>", false },
+      { mode = "i", "<CR>", false },
     },
     ---@param opts cmp.ConfigSchema
     opts = function(_, opts)
@@ -26,6 +27,7 @@ return {
         ["<C-j>"] = cmp.mapping(cmp.mapping.select_next_item(), { "i", "c" }),
         ["<Down>"] = cmp.mapping(cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }), { "i" }),
         ["<Up>"] = cmp.mapping(cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }), { "i" }),
+
         ["<C-u>"] = cmp.mapping.scroll_docs(-4),
         ["<C-d>"] = cmp.mapping.scroll_docs(4),
         -- Think of <c-l> as moving to the right of your snippet expansion.
@@ -46,6 +48,11 @@ return {
             luasnip.jump(-1)
           end
         end, { "i", "s" }),
+
+        -- Accept ([y]es) the completion.
+        --  This will auto-import if your LSP supports it.
+        --  This will expand snippets if the LSP sent a snippet.
+        ["<C-y>"] = cmp.mapping.confirm({ select = true }),
       })
 
       -- Automatically insert parentheses after selecting a method/function
