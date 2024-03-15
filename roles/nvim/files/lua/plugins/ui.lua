@@ -16,8 +16,8 @@ return {
   {
     "akinsho/bufferline.nvim",
     keys = {
-      { "[o", "<Cmd>BufferLineCycleNext<CR>", desc = "Next tab" },
-      { "]o", "<Cmd>BufferLineCyclePrev<CR>", desc = "Prev tab" },
+      { "[o", "<Cmd>BufferLineCyclePrev<CR>", desc = "Prev tab" },
+      { "]o", "<Cmd>BufferLineCycleNext<CR>", desc = "Next tab" },
     },
     opts = {
       options = {
