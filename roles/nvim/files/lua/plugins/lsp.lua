@@ -27,6 +27,13 @@ return {
         ansiblels = {},
         bashls = {},
         dockerls = {},
+        gopls = {
+          settings = {
+            gopls = {
+              gofumpt = true,
+            },
+          },
+        },
         intelephense = {},
         lua_ls = {
           settings = {
