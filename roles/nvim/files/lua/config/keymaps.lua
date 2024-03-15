@@ -10,8 +10,6 @@ vim.keymap.del({ "n", "t" }, "<C-j>")
 vim.keymap.del({ "n", "t" }, "<C-k>")
 vim.keymap.del({ "n", "t" }, "<C-l>")
 
-vim.keymap.set("n", "<leader>e", vim.cmd.Ex, { desc = "Open netrw" })
-
 -- Git related
 vim.keymap.set("n", "<leader>vG", vim.cmd.G, { desc = "Fugitive" })
 vim.keymap.set("n", "<leader>vh", "<cmd>DiffviewFileHistory %<cr>", { desc = "Current file history" })
