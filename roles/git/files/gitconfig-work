@@ -1,0 +1,11 @@
+[user]
+  name = Dario Vogogna
+  email = dario@skiperformance.com
+[commit]
+	gpgsign = true
+[user]
+	signingkey = 62F3A38A0A5BE552
+[maintenance]
+	repo = /home/akyrey/work/skp-core
+	repo = /home/akyrey/work/totalizer
+	repo = /home/akyrey/work/wallet

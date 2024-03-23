@@ -1,8 +1,5 @@
 [hub]
     protocol = https
-[user]
-	name = Dario Vogogna
-	email = dario@skiperformance.com
 [alias]
     a = add
     st = status
@@ -42,10 +39,10 @@
 
     issues = !hub browse -- issues
     url = "!f() { sha=$(git rev-parse ${1:-HEAD}); hub browse -u -- commit/$sha; }; f"
-    # Copy current branch name to clipboard (macOS only)
-    cb = "!git rev-parse --abbrev-ref HEAD | tr -d '\n' | pbcopy"
 
     remote-branches = "!f() { git ls-remote --heads ${1:origin} | sed 's?.*refs/heads/??'; }; f "
+    staash = stash --all
+    bb = !better-branch.sh
 [color]
     diff = auto
     status = auto
@@ -76,3 +73,17 @@
     autoStash = true
 [fetch]
     prune = true
+# REuse REcorded REsolution - reuse recorded conflict resolutions during a merge
+[rerere]
+    enabled = true
+# Display branches in multiple columns
+[column]
+    ui = auto
+# Order branches by commit date
+[branch]
+    sort = -committerdate
+
+[includeIf "gitdir:~/work/"]
+  path = .gitconfig-work
+[includeIf "gitdir:~/personal/"]
+  path = .gitconfig-personal

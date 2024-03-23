@@ -3,12 +3,17 @@
   become: yes
   community.general.pacman:
     name:
+      - brave-browser
+      - dbeaver
       - discord
       - docker
+      - firefox
       - fzf
+      - gimp
       - noto-fonts
       - noto-fonts-emoji
       - ripgrep
+      - thunderbird
       - xclip
       - wmctrl
     state: present
@@ -28,6 +33,9 @@
       - obsidian
       - papirus-icon-theme
       - postman
+      - signal-desktop
+      - slack-desktop
+      - spotify
     state: present
   tags:
     - install
