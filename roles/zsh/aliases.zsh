@@ -34,7 +34,8 @@ alias rest="timer 10m && notify-send 'Pomodoro' 'Break is over! Get back to work
 
 air() {
   docker run -it --rm \
+    --network "${NETWORK:=default}" \
     -w "$PWD" -v "$PWD":"$PWD" \
-    -p "$AIR_PORT":"$AIR_PORT" \
+    -p "${AIR_PORT:=4000}":"${AIR_PORT:=4000}" \
     docker.io/cosmtrek/air "$@"
 }
