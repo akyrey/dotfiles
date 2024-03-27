@@ -3,17 +3,21 @@
   become: yes
   community.general.pacman:
     name:
+      - base-devel
       - brave-browser
+      - code
       - dbeaver
       - discord
       - docker
       - firefox
       - fzf
       - gimp
+      - git
+      - linux-headers
       - noto-fonts
       - noto-fonts-emoji
-      - ripgrep
       - thunderbird
+      - ripgrep
       - xclip
       - wmctrl
     state: present
@@ -21,14 +25,26 @@
     - install
     - core
 
+- name: Update all packages to their latest version
+  when: ansible_os_family == "Archlinux"
+  community.general.pacman:
+    update_cache: true
+    upgrade: true
+  tags:
+    - update
+    - core
+
 - name: Install aur system packages
   when: ansible_os_family == "Archlinux"
+  become: yes
+  become_user: aur_builder
   kewlfft.aur.aur:
     name:
       - bitwarden
       - google-chrome
       - latte-dock-git
       - layan-cursor-theme-git
+      - leapp-bin
       - microsoft-edge-stable-bin
       - obsidian
       - papirus-icon-theme
@@ -41,6 +57,18 @@
     - install
     - core
 
+- name: Update all AUR packages to their latest version
+  when: ansible_os_family == "Archlinux"
+  become: yes
+  become_user: aur_builder
+  kewlfft.aur.aur:
+    aur_only: yes
+    update_cache: yes
+    upgrade: yes
+  tags:
+    - update
+    - core
+
 - name: Symlink latte-dock layout
   when: ansible_os_family == "Archlinux"
   file:
@@ -48,6 +76,44 @@
     dest: "{{dotfiles_user_home}}/.config/latte/akyrey.layout.latte"
     state: link
     force: yes
+  tags:
+    - install
+    - core
+
+- name: Install System76 dependencies
+  when: ansible_system_vendor == "System76" and ansible_os_family == "Archlinux"
+  block:
+    - name: Install System76 drivers
+      become: yes
+      become_user: aur_builder
+      kewlfft.aur.aur:
+        name:
+          - firmware-manager-git
+          - system76-driver
+          - system76-firmware-daemon-git
+    - name: Enable System76 driver
+      become: yes
+      ansible.builtin.systemd_service:
+        name: system76
+        enabled: true
+    - name: Enable System76 firmware daemon
+      become: yes
+      ansible.builtin.systemd_service:
+        name: system76-firmware-daemon
+        enabled: true
+    - name: Add user {{ user }} to 'adm' group
+      become: yes
+      user:
+        name: '{{ user }}'
+        groups: adm
+        append: yes
+    # - name: Install NVIDIA drivers
+    #   kewlfft.aur.aur:
+    #     name:
+    #       - nvidia
+    #       - nvidia-utils
+    #       - nvidia-settings
+    #       - lib32-nvidia-utils
   tags:
     - install
     - core

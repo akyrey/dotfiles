@@ -18,6 +18,18 @@
     - install
     - wezterm
 
+- name: Install wezterm
+  when: ansible_os_family == "Archlinux"
+  become: yes
+  community.general.pacman:
+    name:
+      - ttf-nerd-fonts-symbols-mono
+      - wezterm
+    state: present
+  tags:
+    - install
+    - wezterm
+
 - name: Symlink configurations
   when: ansible_os_family == "Archlinux" or ansible_os_family == "Debian"
   file:
