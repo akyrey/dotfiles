@@ -25,6 +25,37 @@
     - install
     - core
 
+- name: Complete docker installation
+  when: ansible_os_family == "Archlinux"
+  block:
+    - name: Add current user to docker group
+      become: yes
+      user:
+        name: '{{ user }}'
+        groups: docker
+        append: yes
+    - name: Activate group changes
+      ansible.builtin.command: newgrp docker
+    - name: Enable docker service
+      become: yes
+      ansible.builtin.systemd_service:
+        name: docker.service
+        enabled: true
+    - name: Enable containerd service
+      become: yes
+      ansible.builtin.systemd_service:
+        name: containerd.service
+        enabled: true
+    - name: Symlink daemon.json
+      become: yes
+      file:
+        src: "{{ dotfiles_home }}/roles/core-setup/files/daemon.json"
+        dest: "/etc/docker/daemon.json"
+        state: link
+  tags:
+    - install
+    - core
+
 - name: Update all packages to their latest version
   when: ansible_os_family == "Archlinux"
   community.general.pacman:
