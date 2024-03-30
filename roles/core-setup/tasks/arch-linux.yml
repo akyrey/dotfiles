@@ -18,7 +18,9 @@
       - noto-fonts-emoji
       - thunderbird
       - ripgrep
+      # Required to copy to clipboard in vim on X11
       - xclip
+      - yay
       - wmctrl
     state: present
   tags:
@@ -31,7 +33,7 @@
     - name: Add current user to docker group
       become: yes
       user:
-        name: '{{ user }}'
+        name: akyrey
         groups: docker
         append: yes
     - name: Activate group changes
@@ -58,6 +60,7 @@
 
 - name: Update all packages to their latest version
   when: ansible_os_family == "Archlinux"
+  become: yes
   community.general.pacman:
     update_cache: true
     upgrade: true
@@ -67,15 +70,14 @@
 
 - name: Install aur system packages
   when: ansible_os_family == "Archlinux"
-  become: yes
-  become_user: aur_builder
   kewlfft.aur.aur:
     name:
       - bitwarden
       - google-chrome
       - latte-dock-git
       - layan-cursor-theme-git
-      - leapp-bin
+      - lazidocker
+      - lazigit
       - microsoft-edge-stable-bin
       - obsidian
       - papirus-icon-theme
@@ -83,6 +85,8 @@
       - signal-desktop
       - slack-desktop
       - spotify
+      # Required to copy to clipboard in vim on X11
+      - wl-clipboard
     state: present
   tags:
     - install
@@ -90,8 +94,6 @@
 
 - name: Update all AUR packages to their latest version
   when: ansible_os_family == "Archlinux"
-  become: yes
-  become_user: aur_builder
   kewlfft.aur.aur:
     aur_only: yes
     update_cache: yes
@@ -115,8 +117,6 @@
   when: ansible_system_vendor == "System76" and ansible_os_family == "Archlinux"
   block:
     - name: Install System76 drivers
-      become: yes
-      become_user: aur_builder
       kewlfft.aur.aur:
         name:
           - firmware-manager-git
@@ -132,19 +132,12 @@
       ansible.builtin.systemd_service:
         name: system76-firmware-daemon
         enabled: true
-    - name: Add user {{ user }} to 'adm' group
+    - name: Add user to 'adm' group
       become: yes
       user:
-        name: '{{ user }}'
+        name: akyrey
         groups: adm
         append: yes
-    # - name: Install NVIDIA drivers
-    #   kewlfft.aur.aur:
-    #     name:
-    #       - nvidia
-    #       - nvidia-utils
-    #       - nvidia-settings
-    #       - lib32-nvidia-utils
   tags:
     - install
     - core

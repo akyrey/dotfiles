@@ -12,11 +12,11 @@ end
 
 config.color_scheme = 'Catppuccin Mocha'
 
-config.font = wezterm.font 'CaskaydiaCove Nerd Font Mono'
+config.font = wezterm.font 'CaskaydiaMono Nerd Font'
 
 config.enable_tab_bar = false
 config.font_size = 13.0
-config.window_background_image = '/home/akyrey/.config/kitty/background.png'
+config.window_background_image = '/home/akyrey/.config/wezterm/background.png'
 config.window_background_image_hsb = {
     brightness = 0.01,
     hue = 1.0,

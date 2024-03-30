@@ -4,7 +4,7 @@
 [commit]
 	gpgsign = true
 [user]
-	signingkey = 62F3A38A0A5BE552
+	signingkey = A3711C2D598F61FCD857D03E36272CCF0D986E7A
 [maintenance]
 	repo = /home/akyrey/work/skp-core
 	repo = /home/akyrey/work/totalizer

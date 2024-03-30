@@ -39,3 +39,13 @@
   tags:
     - install
     - wezterm
+
+- name: Symlink background
+  when: ansible_os_family == "Archlinux" or ansible_os_family == "Debian"
+  file:
+    src: "{{ dotfiles_home }}/roles/wezterm/files/background.png"
+    dest: "{{ dotfiles_user_home }}/.config/wezterm/background.png"
+    state: link
+  tags:
+    - install
+    - wezterm
