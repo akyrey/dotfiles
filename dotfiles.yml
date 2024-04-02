@@ -46,9 +46,6 @@
     - role: xcode-clt
       tags:
         - xcode-clt
-    - role: yay
-      tags:
-        - yay
     - role: zsh
       tags:
         - zsh
