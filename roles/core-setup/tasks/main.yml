@@ -53,11 +53,6 @@
       ansible.builtin.shell: ./install.sh CascadiaCode
       args:
         chdir: "{{ dotfiles_user_home }}/.nerd-fonts"
-    - name: Install Caskaydia Mono Nerd Font
-      when: nerd_fonts_repo_clone.changed
-      ansible.builtin.shell: ./install.sh CascadiaMono
-      args:
-        chdir: "{{ dotfiles_user_home }}/.nerd-fonts"
   tags:
     - install
     - update

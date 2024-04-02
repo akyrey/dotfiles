@@ -12,7 +12,7 @@ end
 
 config.color_scheme = 'Catppuccin Mocha'
 
-config.font = wezterm.font 'CaskaydiaMono Nerd Font'
+config.font = wezterm.font('CaskaydiaCove Nerd Font')
 
 config.enable_tab_bar = false
 config.font_size = 13.0
