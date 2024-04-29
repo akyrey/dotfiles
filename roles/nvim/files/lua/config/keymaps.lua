@@ -61,7 +61,7 @@ vim.keymap.set("i", "?", "?<c-g>u")
 
 -- Harpoon
 vim.keymap.set("n", "<leader>ha", function()
-  require("harpoon"):list():append()
+  require("harpoon"):list():add()
 end, { desc = "[H]arpoon [A]dd File" })
 vim.keymap.set("n", "<leader>ht", function()
   require("harpoon").ui:toggle_quick_menu(require("harpoon"):list())

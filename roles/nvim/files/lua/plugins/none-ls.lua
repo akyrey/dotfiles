@@ -35,6 +35,13 @@ return {
           return "phpcs"
         end,
       }),
+      nls.builtins.formatting.prettier.with({
+        extra_filetypes = { "astro" },
+      }),
     })
+    local remove_sources = { "goimports", "gofumpt" }
+    opts.sources = vim.tbl_filter(function(source)
+      return not vim.tbl_contains(remove_sources, source.name)
+    end, opts.sources)
   end,
 }

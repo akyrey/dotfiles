@@ -16,6 +16,13 @@ return {
         end,
         desc = "Step Over",
       },
+      {
+        "<leader>d?",
+        function()
+          require("dapui").eval(nil, { enter = true })
+        end,
+        desc = "Display current word value",
+      },
     },
     opts = function()
       local dap = require("dap")

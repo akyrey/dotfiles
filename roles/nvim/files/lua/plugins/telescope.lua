@@ -18,6 +18,13 @@ return {
     },
     opts = function(_, opts)
       opts.defaults = vim.tbl_extend("force", opts.defaults or {}, {
+        file_ignore_patterns = {
+          ".git/.*",
+          "node_modules/.*",
+          "documentation/.*",
+          "tests/coverage/.*",
+          "package-lock.json",
+        },
         prompt_prefix = " ",
         selection_caret = " ",
         vimgrep_arguments = {
