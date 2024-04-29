@@ -5,7 +5,6 @@
     name:
       - base-devel
       - brave-browser
-      - code
       - dbeaver
       - discord
       - docker
@@ -85,6 +84,7 @@
       - signal-desktop
       - slack-desktop
       - spotify
+      - vscodium-bin
       # Required to copy to clipboard in vim on X11
       - wl-clipboard
     state: present
