@@ -18,4 +18,8 @@ return {
     },
     opts = {},
   },
+  -- {
+  --   dir = "~/personal/timecamp.nvim",
+  --   opts = {},
+  -- },
 }
