@@ -2,12 +2,11 @@
 let mapleader=" "
 
 """ Plugins  --------------------------------
-set commentary
-set highlightedyank
-set NERDTree
+Plug 'machakann/vim-highlightedyank'
+Plug 'tpope/vim-commentary'
 """ Avoid overwriting default register on paste
-set ReplaceWithRegister
-set surround
+Plug 'vim-scripts/ReplaceWithRegister'
+Plug 'tpope/vim-surround'
 
 """ Common settings -------------------------
 """ Don't highlight matches with last search pattern
@@ -60,17 +59,19 @@ nmap <leader>k :m .-2<CR>==
 nmap <C-f> <Action>(GotoFile)
 nmap <C-o> <Action>(Back)
 nmap <C-i> <Action>(Forward)
+nmap <space><space> <Action>(GotoFile)
 nmap <leader>sc <Action>(GotoClass)
 nmap <leader>ss <Action>(GotoSymbol)
 nmap <leader>sr <Action>(RecentFiles)
-nmap <leader>st <Action>(FindInPath)
-nmap <leader>la <Action>(ShowIntentionActions)
-nmap <leader>lf <Action>(ReformatCode)
-nmap <leader>lj <Action>(GotoNextError)
-nmap <leader>lk <Action>(GotoPreviousError)
+nmap <leader>sg <Action>(FindInPath)
+nmap <leader>sw <Action>(FindWordAtCaret)
+nmap <leader>ca <Action>(ShowIntentionActions)
+nmap <leader>cf <Action>(ReformatCode)
+nmap <leader>[e <Action>(GotoNextError)
+nmap <leader>]e <Action>(GotoPreviousError)
 nmap <leader>gd <Action>(GotoDeclaration)
-nmap <leader>gc <Action>(RenameElement)
-nmap <leader>gl <Action>(ShowErrorDescription)
+nmap <leader>cr <Action>(RenameElement)
+nmap <leader>cd <Action>(ShowErrorDescription)
 nmap <leader>go <Action>(OptimizeImports)
 nmap <leader>rm <Action>(ExtractMethod)
 nmap <leader>rs <Action>(ChangeSignature)
