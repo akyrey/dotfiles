@@ -87,3 +87,5 @@
   path = .gitconfig-work
 [includeIf "gitdir:~/personal/"]
   path = .gitconfig-personal
+[gpg]
+	program = gpg2

@@ -1,6 +1,7 @@
 return {
   "stevearc/conform.nvim",
   opts = function(_, opts)
+    opts.format.timeout_ms = 20000
     opts.formatters_by_ft.go = { "gofumpt", "goimports_reviser" }
     opts.formatters_by_ft.php = { "php_cs_fixer" }
     opts.formatters.php_cs_fixer = {
