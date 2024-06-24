@@ -2,6 +2,6 @@
   shell: curl "https://awscli.amazonaws.com/AWSCLIV2.pkg" -o "AWSCLIV2.pkg"
 
 - name: Install AWS cli
-  become: yes
+  become: true
   shell: installer -pkg AWSCLIV2.pkg -target /
 

@@ -5,6 +5,6 @@
   shell: unzip awscliv2.zip
 
 - name: Install AWS cli
-  become: yes
+  become: true
   shell: ./aws/install
 

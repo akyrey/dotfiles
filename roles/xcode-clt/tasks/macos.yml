@@ -21,7 +21,7 @@
   when: xcode_clt_package is not skipped
 
 - name: Install XCode Command Line Tools installation package
-  become: yes
+  become: true
   command: softwareupdate -i "{{ xcode_clt_package.stdout }}"
   register: xcode_clt_installation
   when: xcode_clt_package is not skipped

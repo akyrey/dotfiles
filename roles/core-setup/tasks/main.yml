@@ -11,7 +11,7 @@
     - core
 
 - name: Enable services
-  become: yes
+  become: true
   ansible.builtin.systemd:
     enabled: yes
     name: docker
@@ -21,7 +21,7 @@
     - core
 
 - name: Add user to new groups
-  become: yes
+  become: true
   ansible.builtin.user:
     append: yes
     groups: docker
@@ -31,7 +31,7 @@
     - core
 
 - name: Copy docker daemon.json
-  become: yes
+  become: true
   ansible.builtin.template:
     dest: "/etc/docker/daemon.json"
     src: "daemon.json"

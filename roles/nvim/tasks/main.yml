@@ -37,7 +37,7 @@
     - nvim
 
 - name: Remove current nvim build folder
-  become: yes
+  become: true
   when: nvim_build_folder.stat.exists
   file:
     path: "{{ dotfiles_user_home }}/.neovim/build"
@@ -48,7 +48,7 @@
     - nvim
 
 - name: Build nvim in build/bin folder
-  become: yes
+  become: true
   community.general.make:
     chdir: "{{ dotfiles_user_home }}/.neovim"
     target: install
@@ -68,7 +68,7 @@
     - nvim
 
 - name: Symlink neovim files
-  become: yes
+  become: true
   when: not nvim_folder.stat.exists
   file:
     src: "{{ dotfiles_user_home }}/.neovim/build/bin/nvim"

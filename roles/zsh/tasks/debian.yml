@@ -1,5 +1,5 @@
 - name: Install zsh with apt
-  become: yes
+  become: true
   apt:
     name: zsh
     state: present

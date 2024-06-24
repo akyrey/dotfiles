@@ -1,6 +1,6 @@
 - name: Add additional apt gpg keys and sources
   when: ansible_os_family == "Debian"
-  become: yes
+  become: true
   block:
     - name: Brave apt key and repository
       shell: >
@@ -33,7 +33,7 @@
 
 - name: Install system packages
   when: ansible_os_family == "Debian"
-  become: yes
+  become: true
   ansible.builtin.apt:
     name:
       - brave-browser
@@ -77,7 +77,7 @@
 
 - name: Update all packages to their latest version
   when: ansible_os_family == "Debian"
-  become: yes
+  become: true
   ansible.builtin.apt:
     name: "*"
     state: latest
@@ -88,7 +88,7 @@
 
 - name: Update all Flatpak packages
   when: ansible_distribution == "Pop!_OS"
-  become: yes
+  become: true
   ansible.builtin.command: flatpak update --noninteractive
   register: flatpak_update_output
   changed_when: "'app/' in flatpak_update_output.stdout"
@@ -99,7 +99,7 @@
 - block:
     - name: Install Google Chrome dependencies
       when: ansible_os_family == "Debian"
-      become: yes
+      become: true
       ansible.builtin.apt:
         name:
           - libappindicator3-1
@@ -110,7 +110,7 @@
         update_cache: yes
     - name: Install Google Chrome
       when: ansible_os_family == "Debian"
-      become: yes
+      become: true
       ansible.builtin.apt:
         deb: https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
   tags:

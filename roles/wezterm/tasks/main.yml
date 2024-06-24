@@ -1,6 +1,6 @@
 - name: Add wezterm repo
   when: ansible_os_family == "Debian"
-  become: yes
+  become: true
   shell: curl -fsSL https://apt.fury.io/wez/gpg.key | sudo gpg --yes --dearmor -o /usr/share/keyrings/wezterm-fury.gpg \ echo 'deb [signed-by=/usr/share/keyrings/wezterm-fury.gpg] https://apt.fury.io/wez/ * *' | sudo tee /etc/apt/sources.list.d/wezterm.list
   tags:
     - install
@@ -8,7 +8,7 @@
 
 - name: Install wezterm
   when: ansible_os_family == "Debian"
-  become: yes
+  become: true
   ansible.builtin.apt:
     name:
       - wezterm
@@ -20,7 +20,7 @@
 
 - name: Install wezterm
   when: ansible_os_family == "Archlinux"
-  become: yes
+  become: true
   community.general.pacman:
     name:
       - ttf-nerd-fonts-symbols-mono

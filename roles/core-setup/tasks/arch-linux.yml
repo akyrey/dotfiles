@@ -1,6 +1,6 @@
 - name: Install system packages
   when: ansible_os_family == "Archlinux"
-  become: yes
+  become: true
   community.general.pacman:
     name:
       - base-devel
@@ -30,7 +30,7 @@
   when: ansible_os_family == "Archlinux"
   block:
     - name: Add current user to docker group
-      become: yes
+      become: true
       user:
         name: akyrey
         groups: docker
@@ -38,17 +38,17 @@
     - name: Activate group changes
       ansible.builtin.command: newgrp docker
     - name: Enable docker service
-      become: yes
+      become: true
       ansible.builtin.systemd_service:
         name: docker.service
         enabled: true
     - name: Enable containerd service
-      become: yes
+      become: true
       ansible.builtin.systemd_service:
         name: containerd.service
         enabled: true
     - name: Symlink daemon.json
-      become: yes
+      become: true
       file:
         src: "{{ dotfiles_home }}/roles/core-setup/files/daemon.json"
         dest: "/etc/docker/daemon.json"
@@ -59,7 +59,7 @@
 
 - name: Update all packages to their latest version
   when: ansible_os_family == "Archlinux"
-  become: yes
+  become: true
   community.general.pacman:
     update_cache: true
     upgrade: true
@@ -123,17 +123,17 @@
           - system76-driver
           - system76-firmware-daemon-git
     - name: Enable System76 driver
-      become: yes
+      become: true
       ansible.builtin.systemd_service:
         name: system76
         enabled: true
     - name: Enable System76 firmware daemon
-      become: yes
+      become: true
       ansible.builtin.systemd_service:
         name: system76-firmware-daemon
         enabled: true
     - name: Add user to 'adm' group
-      become: yes
+      become: true
       user:
         name: akyrey
         groups: adm
