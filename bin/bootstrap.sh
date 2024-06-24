@@ -10,10 +10,10 @@ fi
 if ! [ -x "$(command -v ansible)" ]; then
   if ! [ -x "$(command -v python3 -m pip)" ]; then
     curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-    python3 get-pip.py --user
+    python3 get-pip.py
     rm get-pip.py
   fi
-  python3 -m pip install --user ansible
+  python3 -m pip install ansible
   ansible-galaxy collection install community.general
   ansible-galaxy collection install ansible.posix
   ansible-galaxy collection install kewlfft.aur
