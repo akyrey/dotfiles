@@ -1,9 +1,9 @@
 #!/bin/bash
 set -e
 
-tags="$@"
+tags="$*"
 
-if [ -z $tags ]; then
+if [ -z "$tags" ]; then
   tags="all"
 fi
 
@@ -19,7 +19,17 @@ if ! [ -x "$(command -v ansible)" ]; then
   ansible-galaxy collection install kewlfft.aur
 fi
 
-ansible-playbook -i ~/.dotfiles/hosts ~/.dotfiles/dotfiles.yml --vault-id ssh@prompt --vault-id wakatime@prompt --ask-become-pass --tags $tags
+cmd="ansible-playbook -i ~/.dotfiles/hosts ~/.dotfiles/dotfiles.yml"
+
+if [[ "$tags" == *"ssh"* || "$tags" == "all" ]]; then
+  cmd="$cmd --vault-id ssh@prompt"
+fi
+
+if [[ "$tags" == *"wakatime"* || "$tags" == "all" ]]; then
+  cmd="$cmd --vault-id wakatime@prompt"
+fi
+
+eval "$cmd --ask-become-pass --tags $tags"
 
 if command -v terminal-notifier 1>/dev/null 2>&1; then
   terminal-notifier -title "dotfiles: Bootstrap complete" -message "Successfully set up dev environment."
