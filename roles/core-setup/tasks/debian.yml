@@ -1,14 +1,56 @@
+- name: Add additional apt gpg keys and sources
+  when: ansible_os_family == "Debian"
+  become: yes
+  block:
+    - name: Brave apt key and repository
+      shell: >
+        curl -fsSL https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg -o /usr/share/keyrings/brave-browser-archive-keyring.gpg | \
+        echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg] https://brave-browser-apt-release.s3.brave.com/ stable main"|sudo tee /etc/apt/sources.list.d/brave-browser-release.list
+
+    - name: Docker apt key and repository
+      shell: >
+        curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc | \
+        echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+        sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+    - name: NVIDIA Container Toolkit apt key and repository
+      shell: >
+        curl -sS https://nvidia.github.io/libnvidia-container/gpgkey | sudo gpg --dearmor --yes -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg | \
+        echo "deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://nvidia.github.io/libnvidia-container/stable/deb/$(ARCH)"
+
+    - name: Spotify apt key and repository
+      shell: >
+        curl -sS https://download.spotify.com/debian/pubkey_6224F9941A8AA6D1.gpg | sudo gpg --dearmor --yes -o /etc/apt/trusted.gpg.d/spotify.gpg | \
+        echo "deb http://repository.spotify.com stable non-free" | sudo tee /etc/apt/sources.list.d/spotify.list
+
+    - name: VSCode apt key and repository
+      shell: >
+        curl -sS https://packages.microsoft.com/keys/microsoft.asc | sudo gpg --dearmor --yes -o /etc/apt/keyrings/packages.microsoft.gpg | \
+        echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" |sudo tee /etc/apt/sources.list.d/vscode.list > /dev/null
+  tags:
+    - install
+    - core
+
 - name: Install system packages
   when: ansible_os_family == "Debian"
   become: yes
   ansible.builtin.apt:
     name:
-      - docker
+      - brave-browser
+      - code
+      # Docker
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+      - docker-buildx-plugin
+      - docker-compose-plugin
       - fzf
       - fonts-noto
       - fonts-noto-color-emoji
+      - nvidia-container-toolkit
       - papirus-icon-theme
       - ripgrep
+      - spotify-client
       - xclip
       - wmctrl
     state: present

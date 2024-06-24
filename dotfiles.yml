@@ -1,4 +1,4 @@
-- name: Set up local Arch Linux / Mac machine
+- name: Set up local Linux / Mac machine
   hosts: local
   roles:
     - role: asdf
