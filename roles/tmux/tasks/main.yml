@@ -1,16 +1,16 @@
-- import_tasks: roles/tmux/tasks/arch-linux.yml
+- include_tasks: roles/tmux/tasks/arch-linux.yml
   when: ansible_os_family == "Archlinux"
   tags:
     - install
     - tmux
 
-- import_tasks: roles/tmux/tasks/debian.yml
+- include_tasks: roles/tmux/tasks/debian.yml
   when: ansible_os_family == "Debian"
   tags:
     - install
     - tmux
 
-- import_tasks: roles/tmux/tasks/macos.yml
+- include_tasks: roles/tmux/tasks/macos.yml
   when: ansible_os_family == "Darwin"
   tags:
     - install

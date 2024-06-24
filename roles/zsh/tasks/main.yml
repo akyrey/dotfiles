@@ -1,11 +1,11 @@
-- import_tasks: roles/zsh/tasks/arch-linux.yml
+- include_tasks: roles/zsh/tasks/arch-linux.yml
   when: ansible_os_family == "Archlinux"
   tags:
     - dotfiles
     - install
     - zsh
 
-- import_tasks: roles/zsh/tasks/debian.yml
+- include_tasks: roles/zsh/tasks/debian.yml
   when: ansible_os_family == "Debian"
   tags:
     - dotfiles

@@ -1,10 +1,10 @@
-- import_tasks: roles/core-setup/tasks/arch-linux.yml
+- include_tasks: roles/core-setup/tasks/arch-linux.yml
   when: ansible_os_family == "Archlinux"
   tags:
     - install
     - core
 
-- import_tasks: roles/core-setup/tasks/debian.yml
+- include_tasks: roles/core-setup/tasks/debian.yml
   when: ansible_os_family == "Debian"
   tags:
     - install

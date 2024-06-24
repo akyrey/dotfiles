@@ -6,13 +6,13 @@
     - install
     - aws
 
-- import_tasks: roles/aws/tasks/macos.yml
+- include_tasks: roles/aws/tasks/macos.yml
   when: not aws_cli.stat.exists and ansible_os_family == "Darwin"
   tags:
     - install
     - aws
 
-- import_tasks: roles/aws/tasks/linux.yml
+- include_tasks: roles/aws/tasks/linux.yml
   when: not aws_cli.stat.exists and (ansible_os_family == "Archlinux" or ansible_os_family == "Debian")
   tags:
     - install

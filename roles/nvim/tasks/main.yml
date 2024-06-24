@@ -1,16 +1,16 @@
-- import_tasks: roles/nvim/tasks/debian.yml
+- include_tasks: roles/nvim/tasks/debian.yml
   when: ansible_os_family == "Debian"
   tags:
     - install
     - nvim
 
-- import_tasks: roles/nvim/tasks/arch-linux.yml
+- include_tasks: roles/nvim/tasks/arch-linux.yml
   when: ansible_os_family == "Archlinux"
   tags:
     - install
     - nvim
 
-- import_tasks: roles/nvim/tasks/macos.yml
+- include_tasks: roles/nvim/tasks/macos.yml
   when: ansible_os_family == "Darwin"
   tags:
     - install
