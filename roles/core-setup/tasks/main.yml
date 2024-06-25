@@ -10,6 +10,7 @@
     - install
     - core
     - lazygit
+    - lazydocker
 
 - name: Enable services
   become: true

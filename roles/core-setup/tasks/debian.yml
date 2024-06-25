@@ -101,6 +101,27 @@
     - core
     - lazygit
 
+- name: Install Lazydocker
+  when: ansible_os_family == "Debian"
+  block:
+    - name: Check if it's already installed
+      stat:
+        path: "{{ dotfiles_user_home }}/.local/bin/lazydocker"
+      register: lazydocker_installed
+    - name: Remove previous version
+      when: lazydocker_installed.stat.exists
+      file:
+        path: "{{ dotfiles_user_home }}/.local/bin/lazydocker"
+        state: absent
+    - name: Install latest release version
+      shell: >
+        curl https://raw.githubusercontent.com/jesseduffield/lazydocker/master/scripts/install_update_linux.sh | bash
+  tags:
+    - install
+    - update
+    - core
+    - lazydocker
+
 - name: Update all packages to their latest version
   when: ansible_os_family == "Debian"
   become: true
