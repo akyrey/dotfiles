@@ -9,6 +9,7 @@
   tags:
     - install
     - core
+    - lazygit
 
 - name: Enable services
   become: true

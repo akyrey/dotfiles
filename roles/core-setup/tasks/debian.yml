@@ -75,6 +75,32 @@
     - install
     - core
 
+- name: Install Lazygit
+  when: ansible_os_family == "Debian"
+  become: true
+  block:
+    - name: Check if it's already installed
+      stat:
+        path: "/usr/local/bin/lazygit"
+      register: lazygit_installed
+    - name: Remove previous version
+      when: lazygit_installed.stat.exists
+      file:
+        path: "/usr/local/bin/lazygit"
+        state: absent
+    - name: Install latest release version
+      shell: >
+        LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[^"]*') && \
+        curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz" && \
+        tar xf lazygit.tar.gz lazygit && \
+        sudo install lazygit /usr/local/bin && \
+        rm -r lazygit
+  tags:
+    - install
+    - update
+    - core
+    - lazygit
+
 - name: Update all packages to their latest version
   when: ansible_os_family == "Debian"
   become: true
