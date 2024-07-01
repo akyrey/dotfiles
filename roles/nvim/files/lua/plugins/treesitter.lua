@@ -25,6 +25,12 @@ return {
       },
       filetype = "blade",
     }
+    vim.filetype.add({
+      pattern = {
+        [".*%.blade%.php"] = "blade",
+      },
+    })
+
     parser_config.templ = {
       install_info = {
         url = "https://github.com/vrischmann/tree-sitter-templ.git",

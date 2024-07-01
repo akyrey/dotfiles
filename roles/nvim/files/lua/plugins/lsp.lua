@@ -34,7 +34,9 @@ return {
             },
           },
         },
-        intelephense = {},
+        intelephense = {
+          filetypes = { "blade", "php" },
+        },
         lua_ls = {
           settings = {
             Lua = {
