@@ -23,10 +23,29 @@ return {
       inlay_hints = {
         enabled = true,
       },
+      --- @type lspconfig.options
       servers = {
         ansiblels = {},
         bashls = {},
         dockerls = {},
+        emmet_ls = {
+          filetypes = {
+            "astro",
+            "blade",
+            "css",
+            "eruby",
+            "html",
+            "htmldjango",
+            "javascriptreact",
+            "less",
+            "pug",
+            "sass",
+            "scss",
+            "svelte",
+            "typescriptreact",
+            "vue",
+          },
+        },
         gopls = {
           settings = {
             gopls = {
@@ -36,6 +55,15 @@ return {
         },
         intelephense = {
           filetypes = { "blade", "php" },
+          settings = {
+            intelephense = {
+              filetypes = { "php", "blade", "php_only" },
+              files = {
+                associations = { "*.php", "*.blade.php" }, -- Associating .blade.php files as well
+                maxSize = 5000000,
+              },
+            },
+          },
         },
         lua_ls = {
           settings = {
@@ -74,15 +102,20 @@ return {
       vim.list_extend(opts.ensure_installed, {
         "ansible-language-server",
         "bash-language-server",
+        "blade-formatter",
         "css-lsp",
         "docker-compose-language-service",
         "dockerfile-language-server",
+        "emmet-ls",
+        "eslint_d",
         "gopls",
         "html-lsp",
         "intelephense",
         "lua-language-server",
+        "php-debug-adapter",
         "prettier",
         "rust-analyzer",
+        "rustywind",
         "shellcheck",
         "stylua",
         "tailwindcss-language-server",

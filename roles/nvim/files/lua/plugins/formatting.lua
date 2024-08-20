@@ -4,6 +4,7 @@ return {
     opts.default_format_opts.timeout_ms = 20000
     opts.formatters_by_ft.go = { "gofumpt", "goimports_reviser" }
     opts.formatters_by_ft.php = { "php_cs_fixer" }
+    opts.formatters_by_ft.blade = { "blade-formatter", "rustywind" }
     opts.formatters.php_cs_fixer = {
       args = {
         "--no-interaction",

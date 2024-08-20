@@ -32,7 +32,7 @@ return {
             end
           end
 
-          return "phpcs"
+          return "./vendor/bin/phpcs"
         end,
       }),
       nls.builtins.formatting.prettier.with({
