@@ -30,6 +30,7 @@ set visualbell
 
 """ Idea specific settings ------------------
 set idearefactormode="keep"
+""" Append next line to current keeping cursor position
 """ Join command will be performed via IDE
 set ideajoin
 
@@ -51,15 +52,16 @@ nmap Y y$
 """ Keeping cursor centered on search operations
 nmap n nzzzv
 nmap N Nzzzv
-nmap J mzJ`z
 """ Moving text
-nmap <leader>j :m .+1<CR>==
-nmap <leader>k :m .-2<CR>==
+map <A-j> <Action>(MoveLineDown)
+map <A-k> <Action>(MoveLineUp)
 
 nmap <C-f> <Action>(GotoFile)
 nmap <C-o> <Action>(Back)
 nmap <C-i> <Action>(Forward)
 nmap <space><space> <Action>(GotoFile)
+
+""" LSP related
 nmap <leader>sc <Action>(GotoClass)
 nmap <leader>ss <Action>(GotoSymbol)
 nmap <leader>sr <Action>(RecentFiles)
@@ -67,16 +69,42 @@ nmap <leader>sg <Action>(FindInPath)
 nmap <leader>sw <Action>(FindWordAtCaret)
 nmap <leader>ca <Action>(ShowIntentionActions)
 nmap <leader>cf <Action>(ReformatCode)
-nmap <leader>[e <Action>(GotoNextError)
-nmap <leader>]e <Action>(GotoPreviousError)
-nmap <leader>gd <Action>(GotoDeclaration)
+nmap gd <Action>(GotoDeclaration)
+nmap gr <Action>(GotoDeclaration)
 nmap <leader>cr <Action>(RenameElement)
 nmap <leader>cd <Action>(ShowErrorDescription)
 nmap <leader>go <Action>(OptimizeImports)
 nmap <leader>rm <Action>(ExtractMethod)
 nmap <leader>rs <Action>(ChangeSignature)
 
+""" Debug TODO: add more
+map <leader>dc <Action>(Debug)
+
+map [e <Action>(GotoPreviousError)
+map ]e <Action>(GotoNextError)
+map [h <Action>(PreviousDiff)
+map ]h <Action>(NextDiff)
+map [p <Action>(PreviousParameter)
+map ]p <Action>(NextParameter)
+map [q <Action>(PreviousOccurence)
+map ]q <Action>(NextOccurence)
+
 """ Visual mode
 """ Moving text
 vmap J :m '>+1<CR>gv=gv
 vmap K :m '<-2<CR>gv=gv
+
+" Don't use Ex mode, use Q for formatting.
+map Q gq
+
+""" Harpoon
+nmap <leader>ht <Action>(ShowBookmarks)
+nmap <leader>ha <Action>(ToggleBookmark)
+nmap <leader>hh <Action>(ToggleBookmark0)
+nmap <leader>hj <Action>(ToggleBookmark1)
+nmap <leader>hk <Action>(ToggleBookmark2)
+nmap <leader>hl <Action>(ToggleBookmark3)
+nmap <C-h> <Action>(GotoBookmark0)
+nmap <C-j> <Action>(GotoBookmark1)
+nmap <C-k> <Action>(GotoBookmark2)
+nmap <C-l> <Action>(GotoBookmark3)
