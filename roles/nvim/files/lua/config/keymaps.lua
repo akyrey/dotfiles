@@ -34,7 +34,7 @@ vim.keymap.set({ "n", "v" }, "<leader>d", "\"_d", { desc = "Delete to void regis
 vim.keymap.set("n", "<C-q>", ":call QuickFixToggle()<CR>", { desc = "Toggle quickfix list" })
 
 -- Y will yank from cursor until the end of the line instead of entire line
-vim.keymap.set("n", "Y", "yg$")
+vim.keymap.set("n", "Y", "y$")
 -- Keeping cursor centered on search operations
 vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
