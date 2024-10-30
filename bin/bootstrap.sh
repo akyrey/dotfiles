@@ -21,6 +21,14 @@ fi
 
 cmd="ansible-playbook -i ~/.dotfiles/hosts ~/.dotfiles/dotfiles.yml"
 
+if [[ "$tags" == *"k8s"* || "$tags" == "all" ]]; then
+  cmd="$cmd --vault-id k8s@prompt"
+fi
+
+if [[ "$tags" == *"scripts"* || "$tags" == "all" ]]; then
+  cmd="$cmd --vault-id intelephense@prompt"
+fi
+
 if [[ "$tags" == *"ssh"* || "$tags" == "all" ]]; then
   cmd="$cmd --vault-id ssh@prompt"
 fi

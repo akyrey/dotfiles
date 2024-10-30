@@ -22,6 +22,9 @@
     - role: ideavim
       tags:
         - ideavim
+    - role: k8s
+      tags:
+        - k8s
     - role: kde
       tags:
         - kde

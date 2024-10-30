@@ -1,0 +1,19 @@
+- name: Ensure .kube directory exists.
+  file:
+    dest: "{{ dotfiles_user_home }}/.kube"
+    mode: 0700
+    state: directory
+  tags:
+    - dotfiles
+    - install
+    - k8s
+
+- name: Install arsh79.me config
+  copy:
+    src: "{{ dotfiles_home }}/roles/k8s/files/config"
+    dest: "{{ dotfiles_user_home }}/.kube/config"
+    mode: 0644
+  tags:
+    - dotfiles
+    - install
+    - k8s
