@@ -39,3 +39,7 @@ air() {
     -p "${AIR_PORT:=4000}":"${AIR_PORT:=4000}" \
     docker.io/cosmtrek/air "$@"
 }
+
+sail() {
+  ./vendor/bin/sail "$@"
+}
