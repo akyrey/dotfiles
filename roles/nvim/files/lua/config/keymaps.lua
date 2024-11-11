@@ -5,10 +5,6 @@
 -- Reset mappings
 vim.keymap.del("n", "<leader>xl")
 vim.keymap.del("n", "<leader>xq")
-vim.keymap.del({ "n", "t" }, "<C-h>")
-vim.keymap.del({ "n", "t" }, "<C-j>")
-vim.keymap.del({ "n", "t" }, "<C-k>")
-vim.keymap.del({ "n", "t" }, "<C-l>")
 
 -- Git related
 vim.keymap.set("n", "<leader>vG", vim.cmd.G, { desc = "Fugitive" })
