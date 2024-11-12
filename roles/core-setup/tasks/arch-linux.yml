@@ -82,6 +82,7 @@
       - nvidia-container-toolkit
       - obsidian
       - papirus-icon-theme
+      - phpstorm
       - postman
       - signal-desktop
       - slack-desktop
