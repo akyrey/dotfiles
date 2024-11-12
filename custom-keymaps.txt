@@ -1,0 +1,9 @@
+run-or-raise "org.wezfurlong.wezterm.org.wezfurlong.wezterm" wezterm
+run-or-raise brave-browser.Brave-browser brave-browser
+run-or-raise google-chrome.Google-chrome google-chrome
+run-or-raise slack.Slack "flatpak run com.slack.Slack"
+run-or-raise postman.Postman "flatpak run com.getpostman.Postman"
+run-or-raise obsidian.obsidian "flatpak run md.obsidian.Obsidian"
+run-or-raise DBeaver.DBeaver "flatpak run io.dbeaver.DBeaverCommunity"
+run-or-raise "jetbrains-phpstorm.jetbrains-phpstorm" "/opt/PhpStorm-242.21829.154/bin/phpstorm"
+run-or-raise spotify.Spotify spotify
