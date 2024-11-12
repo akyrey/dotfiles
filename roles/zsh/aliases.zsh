@@ -43,3 +43,14 @@ air() {
 sail() {
   ./vendor/bin/sail "$@"
 }
+
+# composer() {
+#   docker run --rm -it \
+#     --env COMPOSER_HOME \
+#     --env COMPOSER_CACHE_DIR \
+#     --user $(id -u):$(id -g) \
+#     -v "${COMPOSER_HOME:-$HOME/.config/composer}":"$COMPOSER_HOME" \
+#     -v "${COMPOSER_CACHE_DIR:-$HOME/.cache/composer}":"$COMPOSER_CACHE_DIR" \
+#     -v "$PWD":"/app" \
+#     composer "$@"
+# }
