@@ -72,18 +72,21 @@
   kewlfft.aur.aur:
     name:
       - bitwarden
+      - docker-buildx
+      - docker-compose
       - google-chrome
       - layan-cursor-theme-git
       - lazidocker
       - lazigit
       - microsoft-edge-stable-bin
+      - nvidia-container-toolkit
       - obsidian
       - papirus-icon-theme
       - postman
       - signal-desktop
       - slack-desktop
       - spotify
-      - vscodium-bin
+      - visual-studio-code-bin
       # Required to copy to clipboard in vim on X11
       - wl-clipboard
     state: present
