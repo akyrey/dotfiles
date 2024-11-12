@@ -73,7 +73,6 @@
     name:
       - bitwarden
       - google-chrome
-      - latte-dock-git
       - layan-cursor-theme-git
       - lazidocker
       - lazigit
@@ -100,17 +99,6 @@
     upgrade: yes
   tags:
     - update
-    - core
-
-- name: Symlink latte-dock layout
-  when: ansible_os_family == "Archlinux"
-  file:
-    src: "{{ dotfiles_home}}/roles/core-setup/files/akyrey.layout.latte"
-    dest: "{{dotfiles_user_home}}/.config/latte/akyrey.layout.latte"
-    state: link
-    force: yes
-  tags:
-    - install
     - core
 
 - name: Install System76 dependencies
