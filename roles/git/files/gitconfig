@@ -87,7 +87,7 @@
   path = .gitconfig-work
 [includeIf "gitdir:~/personal/"]
   path = .gitconfig-personal
+[includeIf "gitdir:~/"]
+  path = .gitconfig-personal
 [gpg]
 	program = gpg2
-[credential]
-	helper = /usr/share/doc/git/contrib/credential/libsecret/git-credential-libsecret
