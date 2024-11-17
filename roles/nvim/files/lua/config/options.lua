@@ -15,8 +15,8 @@ vim.opt.undodir = vim.fn.stdpath("data").."/undodir"
 vim.opt.undofile = true
 
 -- Undercurl TODO: find how to enable this
--- vim.cmd([[let &t_Cs = " \e[4:3m]"]])
--- vim.cmd([[let &t_Ce = " \e[4:3m]"]])
+vim.cmd([[let &t_Cs = " \e[4:3m]"]])
+vim.cmd([[let &t_Ce = " \e[4:3m]"]])
 
 -- Toggle quickfix listb
 vim.cmd([[
