@@ -150,9 +150,10 @@
     - update
     - core
 
-- block:
-    - name: Install Google Chrome dependencies
-      when: ansible_os_family == "Debian"
+- name: Install Google Chrome
+  when: ansible_os_family == "Debian"
+  block:
+    - name: Install dependencies
       become: true
       ansible.builtin.apt:
         name:
@@ -162,8 +163,7 @@
           - libu2f-udev
         state: present
         update_cache: yes
-    - name: Install Google Chrome
-      when: ansible_os_family == "Debian"
+    - name: Install using apt
       become: true
       ansible.builtin.apt:
         deb: https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
@@ -172,22 +172,19 @@
     - update
     - core
 
-- name: Clone Layan cursor repo
-  when: ansible_os_family == "Debian"
-  git:
-    repo: https://github.com/vinceliuice/Layan-cursors.git
-    dest: "{{ dotfiles_user_home }}/.layan-cursor"
-  register: layan_cursor_repo_clone
-  tags:
-    - install
-    - update
-    - core
-
 - name: Install Layan cursor
-  when: ansible_os_family == "Debian" and layan_cursor_repo_clone.changed
-  ansible.builtin.shell: ./install.sh
-  args:
-    chdir: "{{ dotfiles_user_home }}/.layan-cursor"
+  when: ansible_os_family == "Debian"
+  block:
+  - name: Clone repo
+    git:
+      repo: https://github.com/vinceliuice/Layan-cursors.git
+      dest: "{{ dotfiles_user_home }}/.layan-cursor"
+    register: layan_cursor_repo_clone
+  - name: Run install script
+    when: ansible_os_family == "Debian" and layan_cursor_repo_clone.changed
+    ansible.builtin.shell: ./install.sh
+    args:
+      chdir: "{{ dotfiles_user_home }}/.layan-cursor"
   tags:
     - install
     - update
