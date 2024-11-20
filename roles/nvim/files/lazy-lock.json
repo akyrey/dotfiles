@@ -62,7 +62,7 @@
   "refactoring.nvim": { "branch": "master", "commit": "2db6d378e873de31d18ade549c2edba64ff1c2e3" },
   "render-markdown.nvim": { "branch": "main", "commit": "d6a82d70765aa238b7ea48d257a1d57a92501423" },
   "rustaceanvim": { "branch": "master", "commit": "6e742b9fc6a37e46181879f6c32cecfa8cd2cebf" },
-  "snacks.nvim": { "branch": "main", "commit": "c770ebeaf7b19abad8a447ef55b48cec71e7db54" },
+  "snacks.nvim": { "branch": "main", "commit": "7f63d4fefb7ba22f6e98986f7adeb04f9f9369b1" },
   "tailwindcss-colorizer-cmp.nvim": { "branch": "main", "commit": "3d3cd95e4a4135c250faf83dd5ed61b8e5502b86" },
   "telescope-fzf-native.nvim": { "branch": "main", "commit": "cf48d4dfce44e0b9a2e19a008d6ec6ea6f01a83b" },
   "telescope.nvim": { "branch": "master", "commit": "85922dde3767e01d42a08e750a773effbffaea3e" },
