@@ -59,6 +59,13 @@
     - install
     - core
 
+- name: Add Flathub repository
+  when: ansible_distribution == "Pop!_OS"
+  ansible.builtin.shell: flatpak remote-add --user --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+  tags:
+    - install
+    - core
+
 - name: Install common apps through Flatpak
   when: ansible_distribution == "Pop!_OS"
   community.general.flatpak:
