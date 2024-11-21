@@ -47,10 +47,16 @@
       - fzf
       - fonts-noto
       - fonts-noto-color-emoji
+      - gnupg2
+      - libnss3-tools
+      - libsecret-1-0
+      - libsecret-1-dev
+      - libsecret-tools
       - nvidia-container-toolkit
       - papirus-icon-theme
       - ripgrep
       - spotify-client
+      - spotify-client-gnome-support
       - xclip
       - wmctrl
     state: present
