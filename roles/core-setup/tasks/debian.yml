@@ -182,7 +182,8 @@
       dest: "{{ dotfiles_user_home }}/.layan-cursor"
     register: layan_cursor_repo_clone
   - name: Run install script
-    when: ansible_os_family == "Debian" and layan_cursor_repo_clone.changed
+    when: layan_cursor_repo_clone.changed
+    become: true
     ansible.builtin.shell: ./install.sh
     args:
       chdir: "{{ dotfiles_user_home }}/.layan-cursor"
