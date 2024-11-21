@@ -15,3 +15,17 @@ The bootstrap script will install `pip` and `ansible` if they are not found.
 ### Ansible vault
 
 Files can be encrypted using `ansible-vault create --vault-id project@prompt foo.yml`.
+
+## Common commands/issues
+
+### Import GPG keys
+
+Use the command `gpg --import <keyfile>`
+
+### sudo commands slow to ask for password
+
+The `/etc/hosts` file is missing current hostname. Retrieve it using `hostname` command and add a line to `/etc/hosts`
+
+```
+127.0.0.1   localhost <hostname>
+```
