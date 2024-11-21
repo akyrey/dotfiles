@@ -2,10 +2,10 @@ return {
   {
     "catppuccin/nvim",
     name = "catppuccin",
-    opts = function(_, opts)
-      opts.flavour = "macchiato"
-      opts.transparent_background = true
-    end,
+    opts = {
+      flavour = "macchiato",
+      transparent_background = true,
+    },
   },
   {
     "LazyVim/LazyVim",
