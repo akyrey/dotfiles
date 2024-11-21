@@ -21,6 +21,10 @@ fi
 
 cmd="ansible-playbook -i ~/.dotfiles/hosts ~/.dotfiles/dotfiles.yml"
 
+if [[ "$tags" == *"core-setup"* || "$tags" == *"gnome"* || "$tags" == "all" ]]; then
+  cmd="$cmd --vault-id gnome@prompt"
+fi
+
 if [[ "$tags" == *"k8s"* || "$tags" == "all" ]]; then
   cmd="$cmd --vault-id k8s@prompt"
 fi

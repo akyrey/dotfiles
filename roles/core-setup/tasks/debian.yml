@@ -65,6 +65,15 @@
     - install
     - core
 
+- name: Install system packages
+  when: ansible_os_family == "Debian"
+  become: true
+  ansible.builtin.shell: dconf load / < "{{ dotfiles_home }}/roles/core-setup/files/dconf-settings.ini"
+  tags:
+    - install
+    - gnome
+    - core
+
 - name: Add Flathub repository
   when: ansible_distribution == "Pop!_OS"
   become: true
