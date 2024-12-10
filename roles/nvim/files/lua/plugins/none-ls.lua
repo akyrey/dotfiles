@@ -35,6 +35,32 @@ return {
           return "./vendor/bin/phpcs"
         end,
       }),
+      nls.builtins.diagnostics.phpstan.with({
+        args = {
+          "analyze",
+          "-c",
+          ".phpstan/dist.neon",
+          "--error-format",
+          "json",
+          "--no-progress",
+          "$FILENAME",
+        },
+        command = function()
+          local root_patterns = { ".git" }
+          local root_dir = vim.fs.dirname(vim.fs.find(root_patterns, { upward = true })[1])
+          local path_sep = vim.loop.os_uname().version:match("Windows") and "\\" or "/"
+          if root_dir ~= nil then
+            local filename = table.concat({ root_dir, "dev", "bin", "phpstan" }, path_sep)
+            local f = io.open(filename, "r")
+            if f ~= nil then
+              io.close(f)
+              return filename
+            end
+          end
+
+          return "phpstan"
+        end,
+      }),
       nls.builtins.formatting.prettier.with({
         extra_filetypes = { "astro" },
       }),
