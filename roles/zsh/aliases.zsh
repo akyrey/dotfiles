@@ -13,10 +13,16 @@ alias v="nvim"
 
 alias timezsh="time zsh -i -c echo"
 
+# Dockers
 alias dk="docker"
-alias dkc="docker compose"
-
+alias dki="docker images"
+alias dkr="docker run -it --rm"
+alias dkxxx="docker system prune -f --volumes"
 alias dkrmi="docker rmi $(docker images --filter "dangling=true" -q --no-trunc)"
+alias dkc="docker compose"
+function dkrv() {
+  docker run -it --rm -v "$PWD":/ws -w /ws "$@";
+}
 
 # Docker login to ECR repo
 alias aws-login="aws ecr get-login-password --region eu-south-1 | docker login --username AWS --password-stdin 422393141836.dkr.ecr.eu-south-1.amazonaws.com"
@@ -32,25 +38,30 @@ alias mount-gdrive="rclone mount --daemon --daemon-timeout=5m --buffer-size=64M 
 alias work="timer 25m && notify-send 'Pomodoro' 'Work Timer is up! Take a Break \U0001F600' -i '~/Pictures/clock.png'"
 alias rest="timer 10m && notify-send 'Pomodoro' 'Break is over! Get back to work \U0001F62C' -i '~/Pictures/clock.png'"
 
-air() {
+# Tools
+function air() {
   docker run -it --rm \
     --network "${NETWORK:=default}" \
     -w "$PWD" -v "$PWD":"$PWD" \
     -p "${AIR_PORT:=4000}":"${AIR_PORT:=4000}" \
-    docker.io/cosmtrek/air "$@"
+    docker.io/cosmtrek/air "$@";
 }
 
-sail() {
-  ./vendor/bin/sail "$@"
+function sail() { 
+  if [ -x "$PWD/vendor/bin/sail" ]; then
+    "$PWD/vendor/bin/sail" "$@";
+  else
+    dkrv laravelsail/php83-composer "$@";
+  fi
 }
 
-# composer() {
-#   docker run --rm -it \
-#     --env COMPOSER_HOME \
-#     --env COMPOSER_CACHE_DIR \
-#     --user $(id -u):$(id -g) \
-#     -v "${COMPOSER_HOME:-$HOME/.config/composer}":"$COMPOSER_HOME" \
-#     -v "${COMPOSER_CACHE_DIR:-$HOME/.cache/composer}":"$COMPOSER_CACHE_DIR" \
-#     -v "$PWD":"/app" \
-#     composer "$@"
-# }
+function composer() {
+  docker run --rm -it \
+    --env COMPOSER_HOME \
+    --env COMPOSER_CACHE_DIR \
+    --user $(id -u):$(id -g) \
+    -v "${COMPOSER_HOME:-$HOME/.config/composer}":"$COMPOSER_HOME" \
+    -v "${COMPOSER_CACHE_DIR:-$HOME/.cache/composer}":"$COMPOSER_CACHE_DIR" \
+    -w "$PWD" -v "$PWD":"$PWD" \
+    composer "$@";
+}
