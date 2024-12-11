@@ -34,10 +34,6 @@ return {
     require("nvim-treesitter.configs").setup(opts)
   end,
   opts = function(_, opts)
-    opts.autopairs = {
-      enable = true,
-    }
-
     vim.list_extend(opts.ensure_installed, {
       "css",
       "dockerfile",
