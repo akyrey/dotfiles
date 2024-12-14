@@ -58,60 +58,30 @@ return {
     },
   },
   {
-    "hrsh7th/nvim-cmp",
-    keys = {
-      { mode = "i", "<C-n>", false },
-      { mode = "i", "<C-p>", false },
-      { mode = "i", "<C-b>", false },
-      { mode = "i", "<C-f>", false },
-      { mode = "i", "<CR>", false },
-    },
-    ---@param opts cmp.ConfigSchema
-    opts = function(_, opts)
-      local luasnip = require("luasnip")
-      local cmp = require("cmp")
-
-      opts.window = {
-        documentation = {
-          -- stylua: ignore
-          border = {
-         "╭", "─", "╮", "│", "╯", "─", "╰", "│"
+    "saghen/blink.cmp",
+    opts = {
+      keymap = {
+        preset = "enter",
+        ["<Up>"] = { "select_prev", "fallback" },
+        ["<Down>"] = { "select_next", "fallback" },
+        ["<C-k>"] = { "select_prev", "fallback" },
+        ["<C-j>"] = { "select_next", "fallback" },
+        ["<C-u>"] = { "scroll_documentation_up", "fallback" },
+        ["<C-d>"] = { "scroll_documentation_down", "fallback" },
+      },
+      completion = {
+        menu = {
+          border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+          draw = {
+            columns = { { "label", "label_description", gap = 1 }, { "kind_icon", "kind" } },
           },
         },
-      }
-
-      opts.mapping = vim.tbl_extend("force", opts.mapping, {
-        ["<C-k>"] = cmp.mapping(cmp.mapping.select_prev_item(), { "i", "c" }),
-        ["<C-j>"] = cmp.mapping(cmp.mapping.select_next_item(), { "i", "c" }),
-        ["<Down>"] = cmp.mapping(cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }), { "i" }),
-        ["<Up>"] = cmp.mapping(cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }), { "i" }),
-
-        ["<C-u>"] = cmp.mapping.scroll_docs(-4),
-        ["<C-d>"] = cmp.mapping.scroll_docs(4),
-        -- Think of <c-l> as moving to the right of your snippet expansion.
-        --  So if you have a snippet that's like:
-        --  function $name($args)
-        --    $body
-        --  end
-        --
-        -- <c-l> will move you to the right of each of the expansion locations.
-        -- <c-h> is similar, except moving you backwards.
-        ["<C-l>"] = cmp.mapping(function()
-          if luasnip.expand_or_locally_jumpable() then
-            luasnip.expand_or_jump()
-          end
-        end, { "i", "s" }),
-        ["<C-h>"] = cmp.mapping(function()
-          if luasnip.locally_jumpable(-1) then
-            luasnip.jump(-1)
-          end
-        end, { "i", "s" }),
-
-        -- Accept ([y]es) the completion.
-        --  This will auto-import if your LSP supports it.
-        --  This will expand snippets if the LSP sent a snippet.
-        ["<C-y>"] = cmp.mapping.confirm({ select = true }),
-      })
-    end,
+        documentation = {
+          window = {
+            border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+          },
+        },
+      },
+    },
   },
 }
