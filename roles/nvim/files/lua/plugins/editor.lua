@@ -64,12 +64,13 @@ return {
         preset = "enter",
         ["<Up>"] = { "select_prev", "fallback" },
         ["<Down>"] = { "select_next", "fallback" },
-        ["<C-k>"] = { "select_prev", "fallback" },
-        ["<C-j>"] = { "select_next", "fallback" },
         ["<C-u>"] = { "scroll_documentation_up", "fallback" },
         ["<C-d>"] = { "scroll_documentation_down", "fallback" },
       },
       completion = {
+        list = {
+          selection = "auto_insert",
+        },
         menu = {
           border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
           draw = {
