@@ -52,6 +52,7 @@
     excludesfile = ~/.gitignore_global
     editor = nvim
     autocrlf = input
+    pager = delta
 [apply]
     whitespace = nowarn
 [mergetool]
@@ -82,12 +83,18 @@
 # Order branches by commit date
 [branch]
     sort = -committerdate
+[gpg]
+    program = gpg2
+[credential]
+    helper = /usr/share/doc/git/contrib/credential/libsecret/git-credential-libsecret
+[interactive]
+    diffFilter = delta --color-only
+
+[delta]
+    navigate = true  # use n and N to move between diff sections
+    dark = true      # or light = true, or omit for auto-detection
 
 [includeIf "gitdir:~/work/"]
-  path = .gitconfig-work
+    path = .gitconfig-work
 [includeIf "gitdir:~/personal/"]
-  path = .gitconfig-personal
-[gpg]
-	program = gpg2
-[credential]
-	helper = /usr/share/doc/git/contrib/credential/libsecret/git-credential-libsecret
+    path = .gitconfig-personal

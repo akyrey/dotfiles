@@ -47,9 +47,9 @@
   become: true
   ansible.builtin.apt:
     name:
+      - bat
       - brave-browser
       - code
-      # Docker
       - docker-ce
       - docker-ce-cli
       - containerd.io
@@ -58,6 +58,7 @@
       - fzf
       - fonts-noto
       - fonts-noto-color-emoji
+      - git-delta
       - gnupg2
       - kubectl
       - lens
