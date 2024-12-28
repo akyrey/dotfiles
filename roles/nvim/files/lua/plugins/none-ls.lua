@@ -58,7 +58,7 @@ return {
             end
           end
 
-          return "phpstan"
+          return "./vendor/bin/phpstan"
         end,
       }),
       nls.builtins.formatting.prettier.with({
