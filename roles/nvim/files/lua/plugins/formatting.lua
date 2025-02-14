@@ -3,7 +3,7 @@ return {
   opts = function(_, opts)
     opts.default_format_opts.timeout_ms = 20000
     opts.formatters_by_ft.go = { "gofumpt", "goimports_reviser" }
-    opts.formatters_by_ft.php = { "php_cs_fixer" }
+    opts.formatters_by_ft.php = { "pint", "php_cs_fixer" }
     opts.formatters_by_ft.blade = { "blade-formatter", "rustywind" }
     opts.formatters.php_cs_fixer = {
       args = {
@@ -13,6 +13,10 @@ return {
         "fix",
         "$FILENAME",
       },
+      -- Use php-cs-fixer only when a .php-cs-fixer.dist.php file is present
+      condition = function(ctx)
+        return vim.fs.find({ ".php-cs-fixer.dist.php" }, { path = ctx.filename, upward = true })[1]
+      end,
       command = function()
         local root_patterns = { ".git" }
         local root_dir = vim.fs.dirname(vim.fs.find(root_patterns, { upward = true })[1])
