@@ -1,5 +1,6 @@
 export FLYCTL_INSTALL="/home/akyrey/.fly"
 
+export PATH=$ASDF_DATA_DIR/shims:$PATH
 export PATH=${PATH}:$ZSH/bin
 export PATH=$PATH:/usr/local/go/bin
 export PATH=$PATH:$HOME/go/bin
