@@ -35,13 +35,6 @@ set idearefactormode="keep"
 set ideajoin
 
 """ Mappings --------------------------------
-""" Insert mode
-""" 'jk' for quitting insert mode
-imap jk <ESC>
-""" 'kj' for quitting insert mode
-imap kj <ESC>
-""" 'jj' for quitting insert mode
-imap jj <ESC>
 """ Moving text
 imap <C-j> <esc>:m .+1<CR>V
 imap <C-k> <esc>:m .-2<CR>V
@@ -79,6 +72,10 @@ nmap <leader>rs <Action>(ChangeSignature)
 
 """ Debug TODO: add more
 map <leader>dc <Action>(Debug)
+map <leader>db <Action>(ToggleLineBreakpoint)
+map <leader>do <Action>(StepOver)
+map <leader>dO <Action>(StepOut)
+map <leader>di <Action>(StepInto)
 
 map [e <Action>(GotoPreviousError)
 map ]e <Action>(GotoNextError)
