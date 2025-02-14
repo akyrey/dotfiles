@@ -18,7 +18,7 @@ alias dk="docker"
 alias dki="docker images"
 alias dkr="docker run -it --rm"
 alias dkxxx="docker system prune -f --volumes"
-alias dkrmi="docker rmi $(docker images --filter "dangling=true" -q --no-trunc)"
+alias dkrmi="docker rmi $(docker images --filter 'dangling=true' -q --no-trunc)"
 alias dkc="docker compose"
 function dkrv() {
   docker run -it --rm -v "$PWD":/ws -w /ws "$@";
@@ -35,19 +35,19 @@ alias fix-headset="headsetcontrol -l 0 && headsetcontrol -s 128"
 
 alias mount-gdrive="rclone mount --daemon --daemon-timeout=5m --buffer-size=64M --dir-cache-time=64h --vfs-cache-mode=full  --vfs-read-chunk-size 100M  --vfs-read-chunk-size-limit 0 --vfs-cache-max-age=6h GDrive: ~/GDrive"
 
-alias work="timer 25m && notify-send 'Pomodoro' 'Work Timer is up! Take a Break \U0001F600' -i '~/Pictures/clock.png'"
-alias rest="timer 10m && notify-send 'Pomodoro' 'Break is over! Get back to work \U0001F62C' -i '~/Pictures/clock.png'"
+alias work="timer 45m && notify-send 'Pomodoro' 'Work Timer is up! Take a Break' -i ~/Pictures/clock.png"
+alias rest="timer 5m && notify-send 'Pomodoro' 'Break is over! Get back to work' -i ~/Pictures/clock.png"
 
 # Tools
 function air() {
-  docker run -it --rm \
+  dkrv \
     --network "${NETWORK:=default}" \
-    -w "$PWD" -v "$PWD":"$PWD" \
+    --user $(id -u):$(id -g) \
     -p "${AIR_PORT:=4000}":"${AIR_PORT:=4000}" \
     docker.io/cosmtrek/air "$@";
 }
 
-function sail() { 
+function sail() {
   if [ -x "$PWD/vendor/bin/sail" ]; then
     "$PWD/vendor/bin/sail" "$@";
   else
@@ -55,13 +55,20 @@ function sail() {
   fi
 }
 
+function php() {
+  if [ -x "$PWD/xenv" ]; then
+    "$PWD/xenv" "run" "php" "$@";
+  else
+    php "$@";
+  fi
+}
+
 function composer() {
-  docker run --rm -it \
+  dkrv \
     --env COMPOSER_HOME \
     --env COMPOSER_CACHE_DIR \
     --user $(id -u):$(id -g) \
     -v "${COMPOSER_HOME:-$HOME/.config/composer}":"$COMPOSER_HOME" \
     -v "${COMPOSER_CACHE_DIR:-$HOME/.cache/composer}":"$COMPOSER_CACHE_DIR" \
-    -w "$PWD" -v "$PWD":"$PWD" \
     composer "$@";
 }
