@@ -68,9 +68,6 @@ return {
         ["<C-d>"] = { "scroll_documentation_down", "fallback" },
       },
       completion = {
-        list = {
-          selection = "auto_insert",
-        },
         menu = {
           border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
           draw = {
