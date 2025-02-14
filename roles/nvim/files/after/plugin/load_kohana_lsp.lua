@@ -1,4 +1,4 @@
--- local client = vim.lsp.start_client({
+-- local client = vim.lsp.start({
 --   name = "kohana-lsp",
 --   cmd = { "/home/akyrey/personal/kohana-lsp/main" },
 --   root_dir = vim.fn.getcwd(),
