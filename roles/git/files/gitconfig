@@ -86,7 +86,7 @@
 [gpg]
     program = gpg2
 [credential]
-    helper = /usr/share/doc/git/contrib/credential/libsecret/git-credential-libsecret
+    helper = /usr/share/git/credential/libsecret/git-credential-libsecret
 [interactive]
     diffFilter = delta --color-only
 
