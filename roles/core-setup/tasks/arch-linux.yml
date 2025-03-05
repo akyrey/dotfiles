@@ -12,6 +12,7 @@
       - fzf
       - gimp
       - git
+      - keychain
       - linux-headers
       - noto-fonts
       - noto-fonts-emoji
