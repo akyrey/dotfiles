@@ -133,7 +133,6 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 
 bindkey -s ^f "tmux-sessionizer\n"
 
-
 # pnpm
 export PNPM_HOME="/home/akyrey/.local/share/pnpm"
 case ":$PATH:" in
@@ -141,3 +140,8 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 # pnpm end
+
+# append completions to fpath
+fpath=(${ASDF_DATA_DIR:-$HOME/.asdf}/completions $fpath)
+# initialise completions with ZSH's compinit
+autoload -Uz compinit && compinit
