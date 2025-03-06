@@ -76,6 +76,24 @@
   tags:
     - skiperformance
 
+- name: Install Skiperformance stage BitBucket ssh key
+  copy:
+    src: "{{ dotfiles_home }}/roles/ssh/files/skiperformance-stage"
+    dest: "{{ dotfiles_user_home }}/.ssh/skiperformance-stage"
+    mode: 0600
+  tags:
+    - skiperformance
+    - skiperformance-stage
+
+- name: Install Skiperformance stage BitBucket ssh public key
+  copy:
+    src: "{{ dotfiles_home }}/roles/ssh/files/skiperformance-stage.pub"
+    dest: "{{ dotfiles_user_home }}/.ssh/skiperformance-stage.pub"
+    mode: 0644
+  tags:
+    - skiperformance
+    - skiperformance-stage
+
 - name: Install ssh config
   copy:
     src: "{{ dotfiles_home }}/roles/ssh/files/config"
