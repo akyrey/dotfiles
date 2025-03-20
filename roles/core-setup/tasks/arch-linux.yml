@@ -4,7 +4,6 @@
   community.general.pacman:
     name:
       - base-devel
-      - brave-browser
       - dbeaver
       - discord
       - docker

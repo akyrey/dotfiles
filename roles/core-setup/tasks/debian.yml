@@ -2,11 +2,6 @@
   when: ansible_os_family == "Debian"
   become: true
   block:
-    - name: Brave apt key and repository
-      shell: >
-        curl -fsSL https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg -o /usr/share/keyrings/brave-browser-archive-keyring.gpg | \
-        echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg] https://brave-browser-apt-release.s3.brave.com/ stable main"|sudo tee /etc/apt/sources.list.d/brave-browser-release.list
-
     - name: Docker apt key and repository
       shell: >
         curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc | \
@@ -48,7 +43,6 @@
   ansible.builtin.apt:
     name:
       - bat
-      - brave-browser
       - code
       - docker-ce
       - docker-ce-cli
