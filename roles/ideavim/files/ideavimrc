@@ -4,9 +4,11 @@ let mapleader=" "
 """ Plugins  --------------------------------
 Plug 'machakann/vim-highlightedyank'
 Plug 'tpope/vim-commentary'
+Plug 'preservim/nerdtree'
 """ Avoid overwriting default register on paste
 Plug 'vim-scripts/ReplaceWithRegister'
 Plug 'tpope/vim-surround'
+set which-key
 
 """ Common settings -------------------------
 """ Don't highlight matches with last search pattern
@@ -27,6 +29,10 @@ set showmode
 set smartcase
 """ Avoid making sounds on error
 set visualbell
+" disable the timeout option
+set notimeout
+" increase the timeoutlen (default: 1000), don't add space around the equal sign
+set timeoutlen=5000
 
 """ Idea specific settings ------------------
 set idearefactormode="keep"
@@ -54,6 +60,9 @@ nmap <C-o> <Action>(Back)
 nmap <C-i> <Action>(Forward)
 nmap <space><space> <Action>(GotoFile)
 
+""" Git
+nmap <leader>gg <Action>(ChangesView.ToggleCommitUi)
+
 """ LSP related
 nmap <leader>sc <Action>(GotoClass)
 nmap <leader>ss <Action>(GotoSymbol)
@@ -62,6 +71,7 @@ nmap <leader>sg <Action>(FindInPath)
 nmap <leader>sw <Action>(FindWordAtCaret)
 nmap <leader>ca <Action>(ShowIntentionActions)
 nmap <leader>cf <Action>(ReformatCode)
+vmap <leader>cf <Action>(ReformatCode)
 nmap gd <Action>(GotoDeclaration)
 nmap gr <Action>(GotoDeclaration)
 nmap <leader>cr <Action>(RenameElement)
@@ -106,3 +116,41 @@ nmap <C-h> <Action>(GotoBookmark0)
 nmap <C-j> <Action>(GotoBookmark1)
 nmap <C-k> <Action>(GotoBookmark2)
 nmap <C-l> <Action>(GotoBookmark3)
+
+""" Navigation
+nmap <leader>hr <Action>(RecentFiles)
+nnoremap <leader>e :NERDTree<cr>
+nmap <leader>f <Action>(FileStructurePopup)
+
+""" Tests
+nmap <leader>tt <Action>(RunClass)
+nmap <leader>tT <Action>(RunTests)
+nmap <leader>tr <Action>(Run)
+nmap <leader>tl <Action>(Rerun)
+nmap <leader>ts <Action>(ActivateRunToolWindow)
+
+""" Invert current word
+function! Invert(calledFromVisual)
+  let antonyms = ['true', 'false', 'after', 'before', 'start', 'end', 'left', 'right', 'first', 'last',
+                 \'True', 'False', 'After', 'Before', 'Start', 'End', 'Left', 'Right', 'First', 'Last']
+
+  if a:calledFromVisual
+    normal gv"wy
+  else
+    normal "wyiw
+  endif
+  let wordUnderCaret = @w
+
+  let eraseWord = a:calledFromVisual ? 'gvc' : 'ciw'
+  let count = 0
+  while (count < len(antonyms))
+    if (antonyms[count] ==# wordUnderCaret)
+      let antonym = (count % 2 ==? 0) ? antonyms[count + 1] : antonyms[count - 1]
+      execute 'normal ' .. eraseWord .. antonym
+      break
+    endif
+    let count += 1
+  endwhile
+endfunction
+nnoremap ! :call Invert(0)<CR>
+vnoremap ! :<C-u>call Invert(1)<CR>
