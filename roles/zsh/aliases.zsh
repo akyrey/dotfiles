@@ -51,7 +51,7 @@ function sail() {
   if [ -x "$PWD/vendor/bin/sail" ]; then
     "$PWD/vendor/bin/sail" "$@";
   else
-    dkrv laravelsail/php83-composer "$@";
+    dkrv laravelsail/php84-composer "$@";
   fi
 }
 
