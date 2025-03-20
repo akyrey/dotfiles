@@ -12,6 +12,21 @@
     - lazygit
     - lazydocker
 
+- name: Copy run-or-raise shortcuts
+  block:
+    - name: Create config directory if it doesn't exist
+      file:
+        dest: "{{ dotfiles_user_home }}/.config/run-or-raise/"
+        state: directory
+    - name: Create symlink to shortcuts file
+      file:
+        src: "{{ dotfiles_home }}/roles/core-setup/files/ror-shortcuts.conf"
+        dest: "{{ dotfiles_user_home }}/.config/run-or-raise/shortcuts.conf"
+        state: link
+  tags:
+    - install
+    - core
+
 - name: Enable services
   become: true
   ansible.builtin.systemd:
