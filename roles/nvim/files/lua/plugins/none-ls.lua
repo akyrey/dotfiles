@@ -39,7 +39,7 @@ return {
         args = {
           "analyze",
           "-c",
-          ".phpstan/dist.neon",
+          ".phpstan/phpstorm.neon",
           "--error-format",
           "json",
           "--no-progress",

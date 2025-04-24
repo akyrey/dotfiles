@@ -61,6 +61,22 @@ return {
               files = {
                 associations = { "*.php", "*.blade.php" }, -- Associating .blade.php files as well
                 maxSize = 5000000,
+                exclude = {
+                  "**/.git/**",
+                  "**/.svn/**",
+                  "**/.hg/**",
+                  "**/CVS/**",
+                  "**/.DS_Store/**",
+                  "**/node_modules/**",
+                  "**/bower_components/**",
+                  "**/vendor/**/{Tests,tests}/**",
+                  "**/.phpstan/**",
+                  "**/.history/**",
+                  "**/.null-ls**",
+                  "**/vendor/**/vendor/**",
+                  "**/work/**/application/cache/**",
+                  "**/work/**/tests/coverage/**",
+                },
               },
             },
           },

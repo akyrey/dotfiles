@@ -1,6 +1,7 @@
 {
   "extras": [
-    "lazyvim.plugins.extras.editor.refactoring"
+    "lazyvim.plugins.extras.editor.refactoring",
+    "lazyvim.plugins.extras.lang.php"
   ],
   "install_version": 7,
   "news": {
