@@ -5,33 +5,5 @@ return {
     opts.formatters_by_ft.go = { "gofumpt", "goimports_reviser" }
     opts.formatters_by_ft.php = { "pint", "php_cs_fixer" }
     opts.formatters_by_ft.blade = { "blade-formatter", "rustywind" }
-    opts.formatters.php_cs_fixer = {
-      args = {
-        "--no-interaction",
-        "--quiet",
-        "--config=.php-cs-fixer.dist.php",
-        "fix",
-        "$FILENAME",
-      },
-      -- Use php-cs-fixer only when a .php-cs-fixer.dist.php file is present
-      condition = function(ctx)
-        return vim.fs.find({ ".php-cs-fixer.dist.php" }, { path = ctx.filename, upward = true })[1]
-      end,
-      command = function()
-        local root_patterns = { ".git" }
-        local root_dir = vim.fs.dirname(vim.fs.find(root_patterns, { upward = true })[1])
-        local path_sep = vim.loop.os_uname().version:match("Windows") and "\\" or "/"
-        if root_dir ~= nil then
-          local filename = table.concat({ root_dir, "dev", "bin", "php-cs-fixer" }, path_sep)
-          local f = io.open(filename, "r")
-          if f ~= nil then
-            io.close(f)
-            return filename
-          end
-        end
-
-        return "php-cs-fixer"
-      end,
-    }
   end,
 }
