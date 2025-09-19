@@ -21,7 +21,10 @@ alias dkxxx="docker system prune -f --volumes"
 alias dkrmi="docker rmi $(docker images --filter 'dangling=true' -q --no-trunc)"
 alias dkc="docker compose"
 function dkrv() {
-  docker run -it --rm -v "$PWD":/ws -w /ws "$@";
+  docker run -it --rm \
+    -u $(id -u):$(id -g) \
+    -v "$PWD":/ws -w /ws \
+    "$@";
 }
 
 # Docker login to ECR repo
