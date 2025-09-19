@@ -21,6 +21,20 @@ vim.api.nvim_create_autocmd("VimEnter", {
 })
 
 -- PHP related autocmds
+vim.api.nvim_create_autocmd("User", {
+  pattern = "TSUpdate",
+  callback = function()
+    ---@class ParserInfo[]
+    local parser_config = require("nvim-treesitter.parsers")
+    parser_config.blade = {
+      install_info = {
+        url = "https://github.com/EmranMR/tree-sitter-blade",
+        query = "queries/blade",
+      },
+    }
+  end,
+})
+
 -- Define an autocmd group for the blade workaround
 local lsp_blade_workaround = vim.api.nvim_create_augroup("lsp_blade_workaround", { clear = true })
 -- Autocommand to temporarily change 'blade' filetype to 'php' when opening for LSP server activation
