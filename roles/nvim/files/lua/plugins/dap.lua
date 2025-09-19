@@ -33,8 +33,7 @@ return {
         executable = {
           command = "node",
           args = {
-            require("mason-registry").get_package("js-debug-adapter"):get_install_path()
-              .. "/js-debug/src/dapDebugServer.js",
+            vim.fn.expand("$MASON/share/js-debug-adapter/js-debug/src/dapDebugServer.js"),
             "${port}",
           },
         },
@@ -43,7 +42,7 @@ return {
         type = "executable",
         command = "node",
         args = {
-          require("mason-registry").get_package("php-debug-adapter"):get_install_path() .. "/extension/out/phpDebug.js",
+          vim.fn.expand("$MASON/share/php-debug-adapter/extension/out/phpDebug.js"),
         },
       }
       for _, language in ipairs({ "typescript", "javascript" }) do
