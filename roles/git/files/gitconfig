@@ -22,6 +22,8 @@
     dfc = "!dfc() { git df $1^ $1; }; dfc"
     # Remove local branches already merged on remote https://stackoverflow.com/a/21857717
     cleanup = "!git branch --merged | grep -v '\\*\\|master\\|main\\|develop' | xargs -n 1 git branch -d"
+    # Remove local branches that do not have the remove branch anymore
+    gone = "!f() { git fetch --all --prune; git branch -vv | awk '/: gone]/{print $1}' | xargs git branch -D; }; f"
 
     please = push --force-with-lease
     publish = "!git push -u origin $(git rev-parse --abbrev-ref HEAD)"
@@ -52,7 +54,6 @@
     excludesfile = ~/.gitignore_global
     editor = nvim
     autocrlf = input
-    pager = delta
 [apply]
     whitespace = nowarn
 [mergetool]
@@ -84,9 +85,9 @@
 [branch]
     sort = -committerdate
 [gpg]
-    program = gpg2
+    program = gpg
 [credential]
-    helper = /usr/share/git/credential/libsecret/git-credential-libsecret
+    helper = osxkeychain
 [interactive]
     diffFilter = delta --color-only
 
