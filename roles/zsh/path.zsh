@@ -1,4 +1,4 @@
-export FLYCTL_INSTALL="/home/akyrey/.fly"
+export FLYCTL_INSTALL="$HOME/.fly"
 
 export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
 export PATH=${PATH}:$ZSH/bin

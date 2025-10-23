@@ -1,6 +1,6 @@
 -- local client = vim.lsp.start({
 --   name = "kohana-lsp",
---   cmd = { "/home/akyrey/personal/kohana-lsp/main" },
+--   cmd = { "$HOME/personal/kohana-lsp/main" },
 --   root_dir = vim.fn.getcwd(),
 --   on_attach = require("lazyvim.util").lsp.on_attach,
 -- })

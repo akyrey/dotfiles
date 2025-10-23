@@ -6,6 +6,7 @@
 [user]
 	signingkey = FD12534BDBB4A206
 [maintenance]
-	repo = /home/akyrey/work/skp-core
-	repo = /home/akyrey/work/totalizer
-	repo = /home/akyrey/work/wallet
+	repo = ~/work/core-api
+	repo = ~/work/skp-core
+	repo = ~/work/totalizer
+	repo = ~/work/wallet
