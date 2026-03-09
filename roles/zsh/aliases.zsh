@@ -50,6 +50,24 @@ function air() {
     docker.io/cosmtrek/air "$@";
 }
 
+# xenv function to find and execute the nearest xenv script
+function x() {
+  if [ -x ./xenv ]; then
+    ./xenv "$@"
+  else
+    # find the nearest xenv in parent directories until home or root
+    local dir="$PWD"
+    while [ "$dir" != "/" ] && [ "$dir" != "$HOME" ]; do
+      if [ -x "$dir/xenv" ]; then
+        "$dir/xenv" "$@"
+        return
+      fi
+      dir=$(dirname "$dir")
+    done
+    echo "No xenv found in current or parent directories."
+  fi
+}
+
 function sail() {
   if [ -x "$PWD/vendor/bin/sail" ]; then
     "$PWD/vendor/bin/sail" "$@";
