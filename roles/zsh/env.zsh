@@ -6,6 +6,8 @@ export VISUAL="/usr/local/bin/nvim"
 export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
 export XDG_CONFIG_HOME=$HOME/.config
 export GPG_TTY=$(tty)
+export ANDROID_HOME=$HOME/Library/Android/sdk
 # Path to install go app and libraries
 export GOPATH=$HOME/go
 export DOCKER_BUILDKIT=1
+export JAVA_HOME="$(/usr/libexec/java_home)"

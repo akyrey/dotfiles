@@ -16,7 +16,7 @@ config.font = wezterm.font("CaskaydiaCove Nerd Font")
 
 config.enable_tab_bar = false
 config.font_size = 13.0
-config.window_background_image = "/home/akyrey/.config/wezterm/background.png"
+config.window_background_image = "$HOME/.config/wezterm/background.png"
 config.window_background_image_hsb = {
 	brightness = 0.01,
 	hue = 1.0,
