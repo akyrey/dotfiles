@@ -127,8 +127,6 @@ source $HOME/.venv/bin/activate
 
 fpath=($HOME/.oh-my-zsh/custom/plugins/zsh-completions/src $fpath)
 
-test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
-
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 bindkey -s ^f "tmux-sessionizer\n"
@@ -145,6 +143,3 @@ esac
 fpath=(${ASDF_DATA_DIR:-$HOME/.asdf}/completions $fpath)
 # initialise completions with ZSH's compinit
 autoload -Uz compinit && compinit
-
-# Start ssh agent
-eval $(keychain --eval --quiet)
