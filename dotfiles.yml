@@ -1,6 +1,9 @@
 - name: Set up local Linux / Mac machine
   hosts: local
   roles:
+    - role: ai
+      tags:
+        - ai
     - role: asdf
       tags:
         - asdf

@@ -1,0 +1,39 @@
+- name: Clone everything-claude-code repository
+  git:
+    repo: https://github.com/affaan-m/everything-claude-code.git
+    dest: "{{ dotfiles_user_home }}/.ecc"
+    force: yes
+  tags:
+    - install
+    - update
+    - ai
+
+- name: Creates directory ~/.claude/rules
+  file:
+    path: "{{ dotfiles_user_home }}/.claude/rules"
+    state: directory
+  tags:
+    - install
+    - update
+    - ai
+
+- name: Find all files in ecc/rules
+  find:
+    paths: "{{ dotfiles_user_home }}/.ecc/rules"
+    file_type: any
+  register: find_rules
+  tags:
+    - install
+    - update
+    - ai
+
+- name: Create symlinks to ecc rules files
+  file:
+    src: "{{ item.path }}"
+    path: "{{ dotfiles_user_home }}/.claude/rules/{{ item.path | basename }}"
+    state: link
+  with_items: "{{ find_rules.files }}"
+  tags:
+    - install
+    - update
+    - ai
