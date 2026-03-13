@@ -1,3 +1,10 @@
+---
+# =============================================================================
+# AI Tools Setup
+# Clones everything-claude-code and symlinks components for Claude Code and
+# OpenCode into their respective user-level config directories.
+# =============================================================================
+
 - name: Clone everything-claude-code repository
   git:
     repo: https://github.com/affaan-m/everything-claude-code.git
@@ -8,32 +15,213 @@
     - update
     - ai
 
-- name: Creates directory ~/.claude/rules
-  file:
-    path: "{{ dotfiles_user_home }}/.claude/rules"
-    state: directory
-  tags:
-    - install
-    - update
-    - ai
+# =============================================================================
+# Claude Code Setup (~/.claude/)
+# =============================================================================
 
-- name: Find all files in ecc/rules
-  find:
-    paths: "{{ dotfiles_user_home }}/.ecc/rules"
-    file_type: any
-  register: find_rules
-  tags:
-    - install
-    - update
-    - ai
+- name: Install Claude Code components
+  block:
+    # -------------------------------------------------------------------------
+    # Create required directories
+    # -------------------------------------------------------------------------
+    - name: Create ~/.claude subdirectories
+      file:
+        path: "{{ dotfiles_user_home }}/.claude/{{ item }}"
+        state: directory
+      loop:
+        - commands
+        - agents
+        - rules
+        - skills
+      tags:
+        - install
+        - update
+        - ai
 
-- name: Create symlinks to ecc rules files
-  file:
-    src: "{{ item.path }}"
-    path: "{{ dotfiles_user_home }}/.claude/rules/{{ item.path | basename }}"
-    state: link
-  with_items: "{{ find_rules.files }}"
-  tags:
-    - install
-    - update
-    - ai
+    # -------------------------------------------------------------------------
+    # Commands: symlink individual .md files so custom commands can coexist
+    # -------------------------------------------------------------------------
+    - name: Find all command files in ecc/commands
+      find:
+        paths: "{{ dotfiles_user_home }}/.ecc/commands"
+        patterns: "*.md"
+        file_type: file
+      register: ecc_commands
+      tags:
+        - install
+        - update
+        - ai
+
+    - name: Symlink ecc command files into ~/.claude/commands
+      file:
+        src: "{{ item.path }}"
+        dest: "{{ dotfiles_user_home }}/.claude/commands/{{ item.path | basename }}"
+        state: link
+        force: yes
+      loop: "{{ ecc_commands.files }}"
+      tags:
+        - install
+        - update
+        - ai
+
+    # -------------------------------------------------------------------------
+    # Agents: symlink individual .md files so custom agents can coexist
+    # -------------------------------------------------------------------------
+    - name: Find all agent files in ecc/agents
+      find:
+        paths: "{{ dotfiles_user_home }}/.ecc/agents"
+        patterns: "*.md"
+        file_type: file
+      register: ecc_agents
+      tags:
+        - install
+        - update
+        - ai
+
+    - name: Symlink ecc agent files into ~/.claude/agents
+      file:
+        src: "{{ item.path }}"
+        dest: "{{ dotfiles_user_home }}/.claude/agents/{{ item.path | basename }}"
+        state: link
+        force: yes
+      loop: "{{ ecc_agents.files }}"
+      tags:
+        - install
+        - update
+        - ai
+
+    # -------------------------------------------------------------------------
+    # Rules: symlink whole subdirectories to preserve cross-references between
+    # common/ and language-specific rules (files use relative paths like
+    # ../common/). Language dirs: common, typescript, golang, php.
+    # -------------------------------------------------------------------------
+    - name: Symlink ecc rules subdirectories into ~/.claude/rules
+      file:
+        src: "{{ dotfiles_user_home }}/.ecc/rules/{{ item }}"
+        dest: "{{ dotfiles_user_home }}/.claude/rules/{{ item }}"
+        state: link
+        force: yes
+      loop:
+        - common
+        - typescript
+        - golang
+        - php
+      tags:
+        - install
+        - update
+        - ai
+
+    # -------------------------------------------------------------------------
+    # Skills: symlink individual skill subdirectories so custom skills can
+    # coexist alongside ecc skills in ~/.claude/skills/
+    # -------------------------------------------------------------------------
+    - name: Find all skill subdirectories in ecc/skills
+      find:
+        paths: "{{ dotfiles_user_home }}/.ecc/skills"
+        file_type: directory
+        recurse: no
+      register: ecc_skills
+      tags:
+        - install
+        - update
+        - ai
+
+    - name: Symlink ecc skill subdirectories into ~/.claude/skills
+      file:
+        src: "{{ item.path }}"
+        dest: "{{ dotfiles_user_home }}/.claude/skills/{{ item.path | basename }}"
+        state: link
+        force: yes
+      loop: "{{ ecc_skills.files }}"
+      tags:
+        - install
+        - update
+        - ai
+
+# =============================================================================
+# OpenCode Setup (~/.opencode/)
+# =============================================================================
+
+- name: Install OpenCode components
+  block:
+    # -------------------------------------------------------------------------
+    # Create required directories
+    # -------------------------------------------------------------------------
+    - name: Create ~/.opencode subdirectories
+      file:
+        path: "{{ dotfiles_user_home }}/.opencode/{{ item }}"
+        state: directory
+      loop:
+        - commands
+        - prompts/agents
+        - instructions
+      tags:
+        - install
+        - update
+        - ai
+
+    # -------------------------------------------------------------------------
+    # Commands: symlink individual .md files so custom commands can coexist
+    # -------------------------------------------------------------------------
+    - name: Find all command files in ecc/.opencode/commands
+      find:
+        paths: "{{ dotfiles_user_home }}/.ecc/.opencode/commands"
+        patterns: "*.md"
+        file_type: file
+      register: ecc_opencode_commands
+      tags:
+        - install
+        - update
+        - ai
+
+    - name: Symlink ecc opencode command files into ~/.opencode/commands
+      file:
+        src: "{{ item.path }}"
+        dest: "{{ dotfiles_user_home }}/.opencode/commands/{{ item.path | basename }}"
+        state: link
+        force: yes
+      loop: "{{ ecc_opencode_commands.files }}"
+      tags:
+        - install
+        - update
+        - ai
+
+    # -------------------------------------------------------------------------
+    # Agents: symlink individual .txt agent prompts so custom agents can coexist
+    # -------------------------------------------------------------------------
+    - name: Find all agent prompt files in ecc/.opencode/prompts/agents
+      find:
+        paths: "{{ dotfiles_user_home }}/.ecc/.opencode/prompts/agents"
+        patterns: "*.txt"
+        file_type: file
+      register: ecc_opencode_agents
+      tags:
+        - install
+        - update
+        - ai
+
+    - name: Symlink ecc opencode agent files into ~/.opencode/prompts/agents
+      file:
+        src: "{{ item.path }}"
+        dest: "{{ dotfiles_user_home }}/.opencode/prompts/agents/{{ item.path | basename }}"
+        state: link
+        force: yes
+      loop: "{{ ecc_opencode_agents.files }}"
+      tags:
+        - install
+        - update
+        - ai
+
+    # -------------------------------------------------------------------------
+    # Instructions: symlink the main instructions file
+    # -------------------------------------------------------------------------
+    - name: Symlink ecc opencode instructions into ~/.opencode/instructions
+      file:
+        src: "{{ dotfiles_user_home }}/.ecc/.opencode/instructions/INSTRUCTIONS.md"
+        dest: "{{ dotfiles_user_home }}/.opencode/instructions/INSTRUCTIONS.md"
+        state: link
+        force: yes
+      tags:
+        - install
+        - update
+        - ai
