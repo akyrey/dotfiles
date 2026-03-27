@@ -17,6 +17,9 @@
     - role: git
       tags:
         - git
+    - role: hammerspoon
+      tags:
+        - hammerspoon
     - role: homebrew
       tags:
         - homebrew

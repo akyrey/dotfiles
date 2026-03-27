@@ -1,0 +1,23 @@
+- include_tasks: roles/hammerspoon/tasks/macos.yml
+  when: ansible_os_family == "Darwin"
+  tags:
+    - install
+    - hammerspoon
+
+- name: Check if link to ~/.hammerspoon folder already exists
+  stat:
+    path: "{{ dotfiles_user_home }}/.hammerspoon"
+  register: hammerspoon_folder
+  tags:
+    - install
+    - hammerspoon
+
+- name: Symlink hammerspoon configurations
+  when: not hammerspoon_folder.stat.exists
+  file:
+    src: "{{ dotfiles_home }}/roles/hammerspoon/files"
+    dest: "{{ dotfiles_user_home }}/.hammerspoon"
+    state: link
+  tags:
+    - install
+    - hammerspoon

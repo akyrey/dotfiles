@@ -1,0 +1,6 @@
+- name: Install hammerspoon on MacOS
+  community.general.homebrew:
+    name:
+      - hammerspoon
+    state: absent
+    update_homebrew: yes
