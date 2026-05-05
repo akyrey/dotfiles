@@ -31,11 +31,12 @@ return {
     -- use a release tag to download pre-built binaries
     version = "1.*",
     sources = {
-      default = { "lsp", "path", "snippets", "buffer" },
+      default = { "lsp", "path", "snippets", "buffer", "laravel" },
       providers = {
         laravel = {
           name = "laravel",
           module = "blink.compat.source",
+          score_offset = 95,
         },
       },
     },
