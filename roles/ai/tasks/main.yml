@@ -138,6 +138,30 @@
         - update
         - ai
 
+    # Also add generic skills
+    - name: Create ~/.agents subdirectories
+      file:
+        path: "{{ dotfiles_user_home }}/.agents/{{ item }}"
+        state: directory
+      loop:
+        - skills
+      tags:
+        - install
+        - update
+        - ai
+
+    - name: Symlink ecc skill subdirectories into ~/.agents/skills
+      file:
+        src: "{{ item.path }}"
+        dest: "{{ dotfiles_user_home }}/.agents/skills/{{ item.path | basename }}"
+        state: link
+        force: yes
+      loop: "{{ ecc_skills.files }}"
+      tags:
+        - install
+        - update
+        - ai
+
 # =============================================================================
 # OpenCode Setup (~/.opencode/)
 # =============================================================================
