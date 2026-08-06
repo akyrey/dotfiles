@@ -26,10 +26,6 @@ return {
     },
   },
   {
-    "weilbith/nvim-code-action-menu",
-    cmd = "CodeActionMenu",
-  },
-  {
     "kevinhwang91/nvim-bqf",
     opts = {
       preview = {

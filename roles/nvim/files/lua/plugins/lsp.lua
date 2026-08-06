@@ -101,7 +101,6 @@ return {
             },
           },
         },
-        rust_analyzer = {},
         tsserver = {},
       },
       ---@type table<string, fun(server:string, opts:_.lspconfig.options):boolean?>

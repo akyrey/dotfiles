@@ -5,6 +5,7 @@ return {
     priority = 1000,
     opts = {
       flavour = "macchiato",
+      integrations = { blink_cmp = true },
     },
   },
   {
