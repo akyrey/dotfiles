@@ -1,6 +1,9 @@
 ---
 # =============================================================================
 # AI Tools Setup
+# =============================================================================
+
+# =============================================================================
 # Clones everything-claude-code and symlinks components for Claude Code and
 # OpenCode into their respective user-level config directories.
 # =============================================================================
@@ -243,6 +246,95 @@
       file:
         src: "{{ dotfiles_user_home }}/.ecc/.opencode/instructions/INSTRUCTIONS.md"
         dest: "{{ dotfiles_user_home }}/.opencode/instructions/INSTRUCTIONS.md"
+        state: link
+        force: yes
+      tags:
+        - install
+        - update
+        - ai
+
+# =============================================================================
+# Clones obsidian-skills and symlinks components for Claude Code and
+# OpenCode into their respective user-level config directories.
+# =============================================================================
+
+- name: Clone obsidian-skills repository
+  git:
+    repo: https://github.com/kepano/obsidian-skills.git
+    dest: "{{ dotfiles_user_home }}/.obsidian-skills"
+    force: yes
+  tags:
+    - install
+    - update
+    - ai
+
+- name: Install Claude Code components
+  block:
+    # -------------------------------------------------------------------------
+    # Create required directories
+    # -------------------------------------------------------------------------
+    - name: Create ~/.claude subdirectories
+      file:
+        path: "{{ dotfiles_user_home }}/.claude/{{ item }}"
+        state: directory
+      loop:
+        - skills
+      tags:
+        - install
+        - update
+        - ai
+
+    # -------------------------------------------------------------------------
+    # Skills: symlink individual skill subdirectories so custom skills can
+    # coexist alongside obsidian-skills skills in ~/.claude/skills/
+    # -------------------------------------------------------------------------
+    - name: Find all skill subdirectories in obsidian-skills/skills
+      find:
+        paths: "{{ dotfiles_user_home }}/.obsidian-skills/skills"
+        file_type: directory
+        recurse: no
+      register: obsidian_skills
+      tags:
+        - install
+        - update
+        - ai
+
+    - name: Symlink obsidian-skills skill subdirectories into ~/.claude/skills
+      file:
+        src: "{{ item.path }}"
+        dest: "{{ dotfiles_user_home }}/.claude/skills/{{ item.path | basename }}"
+        state: link
+        force: yes
+      loop: "{{ obsidian_skills.files }}"
+      tags:
+        - install
+        - update
+        - ai
+
+- name: Install OpenCode components
+  block:
+    # -------------------------------------------------------------------------
+    # Create required directories
+    # -------------------------------------------------------------------------
+    - name: Create ~/.opencode subdirectories
+      file:
+        path: "{{ dotfiles_user_home }}/.opencode/{{ item }}"
+        state: directory
+      loop:
+        - skills
+      tags:
+        - install
+        - update
+        - ai
+
+    # -------------------------------------------------------------------------
+    # Skills: symlink the entire obsidian-skills directory so custom stills can
+    # coexist alongside obsidian-skills skills in ~/.opencode/skills/
+    # -------------------------------------------------------------------------
+    - name: Symlink obsidian-skills directly into ~/.opencode/skills
+      file:
+        src: "{{ dotfiles_user_home }}/.obsidian-skills"
+        dest: "{{ dotfiles_user_home }}/.opencode/skills/obsidian-skills"
         state: link
         force: yes
       tags:
