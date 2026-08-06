@@ -14,7 +14,8 @@ local mappings = {
 	{ { "alt", "shift" }, "4", "com.tinyspeck.slackmacgap" },
 	{ { "alt", "shift" }, "5", "com.postmanlabs.mac" },
 	{ { "alt", "shift" }, "6", "md.obsidian" },
-	{ { "alt", "shift" }, "7", "com.jetbrains.datagrip" },
+	-- { { "alt", "shift" }, "7", "com.jetbrains.datagrip" },
+	{ { "alt", "shift" }, "7", "org.jkiss.dbeaver.core.product" },
 	{ { "alt", "shift" }, "8", "com.jetbrains.PhpStorm" },
 	{ { "alt", "shift" }, "9", "com.spotify.client" },
 }
