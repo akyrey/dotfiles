@@ -95,3 +95,20 @@
   tags:
     - install
     - nvim
+
+# --- Language servers written in Go -----------------------------------------
+# These are plain Go programs, not Neovim plugins. The old config listed them in
+# the lazy.nvim plugin spec, which cloned the repos but never built anything;
+# the binaries actually used came from $GOPATH/bin. Install them properly here.
+- name: Install akyrey Go language servers
+  command: "go install {{ item }}@latest"
+  loop:
+    - github.com/akyrey/koseven-lsp/cmd/koseven-lsp
+    - github.com/akyrey/laravel-lsp/cmd/laravel-lsp
+  environment:
+    GOBIN: "{{ dotfiles_user_home }}/go/bin"
+  changed_when: false
+  tags:
+    - install
+    - update
+    - nvim

@@ -1,157 +1,101 @@
 return {
-  {
-    "neovim/nvim-lspconfig",
-    ---@class PluginLspOpts
-    opts = {
-      diagnostics = {
-        float = {
-          focusable = true,
-          style = "minimal",
-          border = "rounded",
-          source = "always",
-          header = "",
-          prefix = "",
-          format = function(d)
-            local code = d.code or (d.user_data and d.user_data.lsp.code)
-            if code then
-              return string.format("%s [%s]", d.message, code):gsub("1. ", "")
-            end
-            return d.message
-          end,
-        },
-      },
-      inlay_hints = {
-        enabled = true,
-      },
-      --- @type lspconfig.options
-      servers = {
-        ansiblels = {},
-        bashls = {},
-        dockerls = {},
-        emmet_ls = {
-          filetypes = {
-            "astro",
-            "blade",
-            "css",
-            "eruby",
-            "html",
-            "htmldjango",
-            "javascriptreact",
-            "less",
-            "pug",
-            "sass",
-            "scss",
-            "svelte",
-            "typescriptreact",
-            "vue",
-          },
-        },
-        gopls = {
-          settings = {
-            gopls = {
-              gofumpt = true,
-            },
-          },
-        },
-        koseven_lsp = {
-          cmd = { "koseven-lsp" },
-          filetypes = { "php" },
-          single_file_support = false,
-        },
-        intelephense = {
-          filetypes = { "blade", "php" },
-          settings = {
-            intelephense = {
-              filetypes = { "php", "blade", "php_only" },
-              files = {
-                associations = { "*.php", "*.blade.php" }, -- Associating .blade.php files as well
-                maxSize = 5000000,
-                exclude = {
-                  "**/.git/**",
-                  "**/.svn/**",
-                  "**/.hg/**",
-                  "**/CVS/**",
-                  "**/.DS_Store/**",
-                  "**/node_modules/**",
-                  "**/bower_components/**",
-                  "**/vendor/**/{Tests,tests}/**",
-                  "**/.phpstan/**",
-                  "**/.history/**",
-                  "**/.null-ls**",
-                  "**/vendor/**/vendor/**",
-                  "**/work/**/application/cache/**",
-                  "**/work/**/tests/coverage/**",
-                },
-              },
-            },
-          },
-        },
-        laravel_lsp = {
-          cmd = { vim.fn.exepath("laravel-lsp") },
-          filetypes = { "php" },
-          root_dir = vim.fs.root(0, { "artisan", "composer.json" }),
-          init_options = {
-            scanDirs = { "app", "modules" },
-            referenceDirs = { "app", "routes", "modules", "modules/*/routes" },
-          },
-        },
-        lua_ls = {
-          settings = {
-            Lua = {
-              diagnostics = { globals = { "vim" } },
-              hint = { enable = true },
-              telemetry = { enable = false },
-              runtime = { version = "LuaJIT" },
-              workspace = {
-                checkThirdParty = false,
-                -- Tells lua_ls where to find all the Lua files that you have loaded
-                -- for your neovim configuration.
-                library = {
-                  "${3rd}/luv/library",
-                  unpack(vim.api.nvim_get_runtime_file("", true)),
-                },
-              },
-              completion = { callSnippet = "Replace" },
-            },
-          },
-        },
-        tsserver = {},
-      },
-      ---@type table<string, fun(server:string, opts:_.lspconfig.options):boolean?>
-      -- setup = {
-      --   tsserver = function()
-      --     return true
-      --   end,
-      -- },
-    },
-  },
+  -- Installs language servers, formatters, linters and debug adapters.
+  -- Used purely as a package manager: server configuration lives in lsp/*.lua
+  -- and is enabled by core/lsp.lua, with no mason-lspconfig bridge.
   {
     "mason-org/mason.nvim",
-    opts = function(_, opts)
-      vim.list_extend(opts.ensure_installed, {
+    cmd = { "Mason", "MasonInstall", "MasonUpdate" },
+    lazy = false,
+    keys = {
+      { "<leader>cm", "<cmd>Mason<cr>", desc = "Mason" },
+    },
+    opts = {
+      ensure_installed = {
+        -- language servers
         "ansible-language-server",
         "bash-language-server",
-        "blade-formatter",
         "css-lsp",
         "docker-compose-language-service",
         "dockerfile-language-server",
         "emmet-ls",
-        "eslint_d",
         "gopls",
+        "gomodifytags", -- used by gopher.nvim
+        "impl", -- used by gopher.nvim
         "html-lsp",
         "intelephense",
+        "json-lsp",
         "lua-language-server",
-        "php-debug-adapter",
-        "prettier",
-        "rust-analyzer",
-        "rustywind",
-        "shellcheck",
-        "stylua",
         "tailwindcss-language-server",
-        "templ",
-        "typescript-language-server",
+        "vtsls",
         "yaml-language-server",
-      })
+        -- formatters
+        "blade-formatter",
+        "gofumpt",
+        "goimports-reviser",
+        "prettier",
+        "shfmt",
+        "stylua",
+        -- linters
+        "eslint_d",
+        "shellcheck",
+        -- debug adapters
+        "delve",
+        "js-debug-adapter",
+        "php-debug-adapter",
+      },
+    },
+    config = function(_, opts)
+      require("mason").setup(opts)
+
+      -- mason.nvim v2 dropped automatic installation of `ensure_installed`,
+      -- so trigger it once the registry is ready.
+      local registry = require("mason-registry")
+      registry.refresh(function()
+        for _, name in ipairs(opts.ensure_installed) do
+          local ok, pkg = pcall(registry.get_package, name)
+          if ok and not pkg:is_installed() then
+            pkg:install()
+          end
+        end
+      end)
     end,
   },
+
+  -- Lua LSP that understands the Neovim API and this config's own modules.
+  -- Replaces neoconf/neodev, hence no .neoconf.json in this config.
+  {
+    "folke/lazydev.nvim",
+    ft = "lua",
+    opts = {
+      library = {
+        { path = "${3rd}/luv/library", words = { "vim%.uv" } },
+        { path = "snacks.nvim", words = { "Snacks" } },
+      },
+    },
+  },
+
+  -- Go struct tags and interface stubs.
+  --
+  -- These were previously code-action sources on none-ls (gomodifytags and
+  -- impl, pulled in by LazyVim's lang.go extra). Dropping none-ls took them
+  -- with it, so they come back here as explicit commands instead.
+  {
+    "olexsmir/gopher.nvim",
+    ft = "go",
+    dependencies = { "nvim-lua/plenary.nvim", "nvim-treesitter/nvim-treesitter" },
+    -- The gomodifytags and impl binaries it shells out to are installed by
+    -- mason above, so no :GoInstallDeps build step here.
+    opts = {},
+    -- stylua: ignore
+    keys = {
+      { "<leader>cgt", "<cmd>GoTagAdd json<cr>", ft = "go", desc = "Add json struct tags" },
+      { "<leader>cgy", "<cmd>GoTagAdd yaml<cr>", ft = "go", desc = "Add yaml struct tags" },
+      { "<leader>cgd", "<cmd>GoTagAdd db<cr>", ft = "go", desc = "Add db struct tags" },
+      { "<leader>cgT", "<cmd>GoTagRm json<cr>", ft = "go", desc = "Remove json struct tags" },
+      { "<leader>cgi", "<cmd>GoImpl<cr>", ft = "go", desc = "Implement interface" },
+    },
+  },
+
+  -- JSON and YAML schema catalog, consumed by lsp/jsonls.lua and lsp/yamlls.lua.
+  { "b0o/SchemaStore.nvim", lazy = true, version = false },
 }

@@ -1,96 +1,100 @@
 return {
   "stevearc/conform.nvim",
-  opts = function(_, opts)
-    local util = require("conform.util")
-    local uv = vim.loop
-    local function exec_docker_or_global(exe)
-      local root_patterns = { "composer.json", ".git" }
-      local root_dir = vim.fs.dirname(vim.fs.find(root_patterns, { upward = true })[1])
-      local path_sep = vim.loop.os_uname().version:match("Windows") and "\\" or "/"
+  event = { "BufWritePre" },
+  cmd = "ConformInfo",
+  keys = {
+    {
+      "<leader>cf",
+      function()
+        require("core.format").format({ async = true })
+      end,
+      mode = { "n", "v" },
+      desc = "Format buffer",
+    },
+    {
+      "<leader>cF",
+      function()
+        require("conform").format({ formatters = { "injected" }, timeout_ms = 3000 })
+      end,
+      mode = { "n", "v" },
+      desc = "Format injected languages",
+    },
+  },
+  opts = function()
+    local exec = require("util.exec")
 
-      -- Try to use the local version of the executable first (e.g., from a Docker container)
-      local local_path = table.concat({ root_dir, "dev", "bin", exe }, path_sep)
-      if uv.fs_stat(local_path) then
-        return local_path
-      end
-
-      local xenv_path = table.concat({ root_dir, "xenv" }, path_sep)
-      -- If the local version is not found, check if "xenv" is available and use it to execute the global version
-      if vim.fn.executable(xenv_path) == 1 then
-        return xenv_path
-      end
-
-      local sail_path = table.concat({ root_dir, "vendor", "bin", "sail" }, path_sep)
-      -- If "xenv" is not available, check if "sail" is available and use it to execute the global version
-      if vim.fn.executable(sail_path) == 1 then
-        return sail_path
-      end
-
-      -- Simply run default executable, which will rely on PATH and possibly be a global installation
-      local vendor_path = table.concat({ root_dir, "vendor", "bin", exe }, path_sep)
-      if vim.fn.executable(vendor_path) == 1 then
-        return vendor_path
-      end
-
-      return exe
-    end
-
-    opts.default_format_opts.timeout_ms = 20000
-    opts.formatters.pint = function()
-      local cmd = exec_docker_or_global("pint")
-      local args = { "$RELATIVE_FILEPATH" }
-      if cmd:match("sail$") or cmd:match("xenv$") then
-        table.insert(args, 1, "pint")
-      end
-
-      return {
-        meta = {
-          url = "https://github.com/laravel/pint",
-          description = "Laravel Pint is an opinionated PHP code style fixer for minimalists.",
-        },
-        command = cmd,
-        args = args,
-        stdin = false,
-      }
-    end
-    opts.formatters.phpcsfixer = {
-      meta = {
-        url = "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer",
-        description = "The PHP Coding Standards Fixer.",
+    return {
+      -- Autoformat is off by default (vim.g.autoformat = false); core/format.lua
+      -- decides per buffer, and <leader>uf / <leader>uF toggle it.
+      format_on_save = function(bufnr)
+        if not require("core.format").enabled(bufnr) then
+          return nil
+        end
+        return { timeout_ms = 20000, lsp_format = "fallback" }
+      end,
+      default_format_opts = {
+        timeout_ms = 20000,
+        lsp_format = "fallback",
       },
-      command = exec_docker_or_global("php-cs-fixer"),
-      args = {
-        "--config=.php-cs-fixer.dist.php",
-        "fix",
-        "$RELATIVE_FILEPATH",
+      formatters_by_ft = {
+        blade = { "blade-formatter" },
+        css = { "prettier" },
+        -- Note the hyphen: conform ships goimports-reviser.lua. The old config
+        -- spelled it goimports_reviser, which silently resolved to nothing.
+        go = { "gofumpt", "goimports-reviser" },
+        html = { "prettier" },
+        javascript = { "prettier" },
+        javascriptreact = { "prettier" },
+        json = { "prettier" },
+        jsonc = { "prettier" },
+        lua = { "stylua" },
+        markdown = { "prettier" },
+        scss = { "prettier" },
+        sh = { "shfmt" },
+        typescript = { "prettier" },
+        typescriptreact = { "prettier" },
+        yaml = { "prettier" },
+        -- Laravel projects use pint; everything else uses php-cs-fixer.
+        php = function(bufnr)
+          return exec.has_pint(bufnr) and { "pint" } or { "phpcsfixer" }
+        end,
       },
-      stdin = false,
-      cwd = util.root_file({ "composer.json" }),
+      formatters = {
+        pint = function(bufnr)
+          local resolved = exec.php_tool("pint", bufnr)
+          return {
+            meta = {
+              url = "https://github.com/laravel/pint",
+              description = "Laravel Pint is an opinionated PHP code style fixer for minimalists.",
+            },
+            command = resolved.cmd,
+            args = vim.list_extend(vim.deepcopy(resolved.args), { "$RELATIVE_FILEPATH" }),
+            stdin = false,
+            cwd = function()
+              return exec.project_root(bufnr)
+            end,
+          }
+        end,
+        phpcsfixer = function(bufnr)
+          local resolved = exec.php_tool("php-cs-fixer", bufnr)
+          return {
+            meta = {
+              url = "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer",
+              description = "The PHP Coding Standards Fixer.",
+            },
+            command = resolved.cmd,
+            args = vim.list_extend(vim.deepcopy(resolved.args), {
+              "--config=.php-cs-fixer.dist.php",
+              "fix",
+              "$RELATIVE_FILEPATH",
+            }),
+            stdin = false,
+            cwd = function()
+              return exec.project_root(bufnr)
+            end,
+          }
+        end,
+      },
     }
-    opts.formatters_by_ft.blade = { "blade-formatter" }
-    opts.formatters_by_ft.go = { "gofumpt", "goimports_reviser" }
-    opts.formatters_by_ft.php = function()
-      local function has_pint()
-        local composer = "composer.json"
-        local fd = io.open(composer, "r")
-        if not fd then
-          return false
-        end
-        local content = fd:read("*a")
-        fd:close()
-        if not content then
-          return false
-        end
-        local ok, json = pcall(vim.fn.json_decode, content)
-        if not ok or not json then
-          return false
-        end
-        local require = json.require or {}
-        local require_dev = json["require-dev"] or {}
-        return require["laravel/pint"] or require_dev["laravel/pint"]
-      end
-
-      return has_pint() and { "pint" } or { "phpcsfixer" }
-    end
   end,
 }
