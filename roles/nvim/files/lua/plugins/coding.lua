@@ -13,5 +13,11 @@ return {
       },
     },
   },
+  {
+    "akyrey/koseven-lsp",
+  },
+  {
+    "akyrey/laravel-ls",
+    name = "laravel-lsp",
   },
 }

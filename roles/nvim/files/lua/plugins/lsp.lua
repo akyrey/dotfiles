@@ -53,6 +53,11 @@ return {
             },
           },
         },
+        koseven_lsp = {
+          cmd = { "koseven-lsp" },
+          filetypes = { "php" },
+          single_file_support = false,
+        },
         intelephense = {
           filetypes = { "blade", "php" },
           settings = {
@@ -79,6 +84,15 @@ return {
                 },
               },
             },
+          },
+        },
+        laravel_lsp = {
+          cmd = { vim.fn.exepath("laravel-lsp") },
+          filetypes = { "php" },
+          root_dir = vim.fs.root(0, { "artisan", "composer.json" }),
+          init_options = {
+            scanDirs = { "app", "modules" },
+            referenceDirs = { "app", "routes", "modules", "modules/*/routes" },
           },
         },
         lua_ls = {
