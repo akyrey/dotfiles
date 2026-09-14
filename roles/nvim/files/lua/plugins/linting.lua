@@ -25,9 +25,22 @@ return {
 
     lint.linters_by_ft = opts.linters_by_ft
 
+    --- Path of the buffer relative to the project root. The PHP tools run with
+    --- cwd = root, and for xenv/sail projects that root is a bind mount inside a
+    --- container (/skp, /var/www/html, ...), where the host's absolute path does
+    --- not exist. Relative paths resolve correctly on both sides.
+    ---@param root string
+    ---@param bufnr integer?
+    ---@return string
+    local function relative_path(root, bufnr)
+      local name = vim.api.nvim_buf_get_name(bufnr or 0)
+      return vim.fs.relpath(root, name) or name
+    end
+
     -- Extra arguments layered on top of nvim-lint's built-in definitions.
-    -- phpcs reads the buffer over stdin (hence the trailing "-"); phpstan does
-    -- not, so nvim-lint appends the filename itself and we must not.
+    -- phpcs reads the buffer over stdin (hence the trailing "-"). phpstan does
+    -- not, so nvim-lint would append the buffer's absolute path itself; we turn
+    -- that off (see APPEND_FNAME) and append the relative one instead.
     local EXTRA_ARGS = {
       phpcs = function()
         return {
@@ -56,7 +69,47 @@ return {
           table.insert(args, 2, ".phpstan/phpstorm.neon")
           table.insert(args, 2, "-c")
         end
+        table.insert(args, relative_path(root))
         return args
+      end,
+    }
+
+    -- Linters whose filename argument we supply ourselves. nvim-lint appends
+    -- `nvim_buf_get_name()` to any linter that does not read stdin, and that
+    -- absolute host path does not exist inside the xenv/sail container.
+    local APPEND_FNAME = {
+      phpstan = false,
+    }
+
+    -- Parser overrides. nvim-lint's phpstan parser looks the buffer up in the
+    -- report by its absolute host path, which never matches when phpstan ran
+    -- inside a container and reported its own mount path, so the buffer silently
+    -- gets no diagnostics. Match on the project-relative tail instead.
+    local PARSERS = {
+      phpstan = function(output, bufnr)
+        if output == nil or vim.trim(output) == "" then
+          return {}
+        end
+        local ok, decoded = pcall(vim.json.decode, output)
+        if not ok or type(decoded) ~= "table" then
+          return {}
+        end
+        local rel = relative_path(exec.project_root(bufnr), bufnr)
+        local diagnostics = {}
+        for path, file in pairs(decoded.files or {}) do
+          if vim.endswith(path, rel) then
+            for _, message in ipairs(file.messages or {}) do
+              table.insert(diagnostics, {
+                lnum = type(message.line) == "number" and (message.line - 1) or 0,
+                col = 0,
+                message = message.message,
+                source = "phpstan",
+                code = message.identifier,
+              })
+            end
+          end
+        end
+        return diagnostics
       end,
     }
 
@@ -71,9 +124,11 @@ return {
       local resolved = exec.php_tool(linter.name, 0)
       return vim.tbl_extend("force", linter, {
         cmd = resolved.cmd,
-        -- Wrappers (xenv, sail) take the tool name as their first argument.
+        -- Wrappers (xenv, sail) contribute their own prefix, e.g. `php vendor/bin/phpstan`.
         args = vim.list_extend(vim.deepcopy(resolved.args), build(root)),
         cwd = root,
+        append_fname = APPEND_FNAME[linter.name] ~= false,
+        parser = PARSERS[linter.name] or linter.parser,
       })
     end
 
