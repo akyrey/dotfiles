@@ -99,17 +99,28 @@ return {
     end,
   },
 
-  -- Auto-close brackets and quotes.
+  -- Auto-close brackets and quotes. `(`, `[` and `{` only auto-close when
+  -- followed by whitespace, EOL or a delimiter; typing one right before an
+  -- identifier (`{$something`, `(card`, ...) just inserts the open
+  -- character instead of wrapping it, matching most editors' behavior.
   {
     "echasnovski/mini.pairs",
     event = "VeryLazy",
-    opts = {
-      modes = { insert = true, command = true, terminal = false },
-      skip_next = [=[[%w%%%'%[%"%.%`%$]]=],
-      skip_ts = { "string" },
-      skip_unbalanced = true,
-      markdown = true,
-    },
+    opts = function()
+      local open_neigh = [=[^[^\][%s%)%]},;:'"`]]=]
+      local function open(pair)
+        return { action = "open", pair = pair, neigh_pattern = open_neigh }
+      end
+
+      return {
+        modes = { insert = true, command = true, terminal = false },
+        mappings = {
+          ["("] = open("()"),
+          ["["] = open("[]"),
+          ["{"] = open("{}"),
+        },
+      }
+    end,
   },
 
   -- sa/sd/sr to add, delete and replace surrounding pairs.
