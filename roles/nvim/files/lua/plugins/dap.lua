@@ -37,7 +37,7 @@ return {
         executable = {
           command = "node",
           args = {
-            vim.fn.expand("$MASON/share/js-debug-adapter/js-debug/src/dapDebugServer.js"),
+            vim.fn.expand("$MASON/packages/js-debug-adapter/js-debug/src/dapDebugServer.js"),
             "${port}",
           },
         },
@@ -45,7 +45,7 @@ return {
       dap.adapters["php"] = {
         type = "executable",
         command = "node",
-        args = { vim.fn.expand("$MASON/share/php-debug-adapter/extension/out/phpDebug.js") },
+        args = { vim.fn.expand("$MASON/packages/php-debug-adapter/extension/out/phpDebug.js") },
       }
 
       for _, language in ipairs({ "typescript", "javascript" }) do
