@@ -41,6 +41,24 @@ vim.diagnostic.config({
   },
 })
 
+-- Dim text tagged "unnecessary" (e.g. intelephense's unused-variable/import
+-- hints) regardless of severity, since `underline` above is restricted to
+-- errors and would otherwise never reach hint-level diagnostics.
+local unnecessary_ns = vim.api.nvim_create_namespace("akyrey_diagnostic_unnecessary")
+
+vim.api.nvim_create_autocmd("DiagnosticChanged", {
+  group = vim.api.nvim_create_augroup("akyrey_diagnostic_unnecessary", { clear = true }),
+  callback = function(event)
+    local bufnr = event.buf
+    vim.api.nvim_buf_clear_namespace(bufnr, unnecessary_ns, 0, -1)
+    for _, d in ipairs(event.data.diagnostics) do
+      if d._tags and d._tags.unnecessary then
+        vim.hl.range(bufnr, unnecessary_ns, "DiagnosticUnnecessary", { d.lnum, d.col }, { d.end_lnum, d.end_col })
+      end
+    end
+  end,
+})
+
 -- ---------------------------------------------------------------------------
 -- Capabilities
 -- ---------------------------------------------------------------------------
