@@ -58,6 +58,44 @@
     - update
     - zsh
 
+- name: Create zsh completions directory
+  file:
+    path: "{{ zsh_completions_dir }}"
+    state: directory
+    mode: "0755"
+  tags:
+    - dotfiles
+    - install
+    - update
+    - zsh
+
+- name: Generate zsh completion scripts
+  command: "{{ item }} completion zsh"
+  loop: "{{ zsh_completion_commands }}"
+  register: zsh_completion_scripts
+  changed_when: false
+  failed_when: false
+  tags:
+    - dotfiles
+    - install
+    - update
+    - zsh
+
+- name: Write zsh completion files
+  copy:
+    content: "{{ item.stdout }}\n"
+    dest: "{{ zsh_completions_dir }}/_{{ item.item }}"
+    mode: "0644"
+  loop: "{{ zsh_completion_scripts.results }}"
+  loop_control:
+    label: "{{ item.item }}"
+  when: item.rc | default(1) == 0
+  tags:
+    - dotfiles
+    - install
+    - update
+    - zsh
+
 - name: Symlink .zshrc
   file:
     src: "{{ dotfiles_home}}/roles/zsh/files/zshrc"
