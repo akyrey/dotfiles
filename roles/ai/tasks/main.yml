@@ -341,3 +341,39 @@
         - install
         - update
         - ai
+
+- name: Install my personal skills
+  block:
+    - name: Create ~/.claude subdirectories
+      file:
+        path: "{{ dotfiles_user_home }}/.claude/{{ item }}"
+        state: directory
+      loop:
+        - skills
+      tags:
+        - install
+        - update
+        - ai
+
+    - name: Find all skill subdirectories in files/skills
+      find:
+        paths: "{{ dotfiles_home }}/roles/ai/files/skills"
+        file_type: directory
+        recurse: no
+      register: personal_skills
+      tags:
+        - install
+        - update
+        - ai
+
+    - name: Symlink personal skills subdirectories into ~/.claude/skills
+      file:
+        src: "{{ item.path }}"
+        dest: "{{ dotfiles_user_home }}/.claude/skills/{{ item.path | basename }}"
+        state: link
+        force: yes
+      loop: "{{ personal_skills.files }}"
+      tags:
+        - install
+        - update
+        - ai
