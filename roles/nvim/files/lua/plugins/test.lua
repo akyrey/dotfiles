@@ -25,16 +25,24 @@ return {
       { "<leader>td", function() require("neotest").run.run({ strategy = "dap" }) end, desc = "Debug nearest" },
     },
     opts = function()
+      local php_test = require("util.php_test")
       return {
         log_level = vim.log.levels.WARN,
         adapters = {
-          -- Pest runs inside the docker environment, driven by ./xenv.
-          require("neotest-pest")({
-            sail_enabled = true,
-            sail_project_path = "/skp",
-            pest_cmd = { "./xenv", "php", "vendor/bin/pest" },
-          }),
-          require("neotest-phpunit"),
+          -- Both PHP adapters run inside each project's container through its
+          -- projector `php` command; see lua/util/php_test.lua. The adapter's
+          -- own sail handling stays off (a function, because a plain `false`
+          -- reads as unset in neotest-pest's config) so paths reach the
+          -- wrapper as absolute host paths it can rewrite.
+          php_test.wrap(
+            require("neotest-pest")({
+              sail_enabled = function()
+                return false
+              end,
+            }),
+            { loose_filter = true }
+          ),
+          php_test.wrap(require("neotest-phpunit")),
           require("neotest-golang"),
         },
         status = { virtual_text = true },
