@@ -9,7 +9,7 @@ vim.g.autoformat = false
 
 -- Root detection spec, consumed by lua/core/root.lua.
 vim.g.root_spec = { "lsp", { ".git", "lua" }, "cwd" }
-vim.g.root_lsp_ignore = { "copilot", "null-ls" }
+vim.g.root_lsp_ignore = { "null-ls" }
 
 -- snacks.nvim animations
 vim.g.snacks_animate = true
