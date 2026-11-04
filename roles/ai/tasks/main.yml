@@ -4,15 +4,19 @@
 # =============================================================================
 
 # =============================================================================
-# Clones everything-claude-code and symlinks components for Claude Code and
-# OpenCode into their respective user-level config directories.
+# Clones third-party skill repositories and symlinks a curated subset of their
+# skills, agents, commands and rules (see defaults/main.yml) into the Claude
+# Code and OpenCode user-level config directories.
 # =============================================================================
 
-- name: Clone everything-claude-code repository
+- name: Clone AI skill repositories
   git:
-    repo: https://github.com/affaan-m/everything-claude-code.git
-    dest: "{{ dotfiles_user_home }}/.ecc"
+    repo: "{{ item.repo }}"
+    dest: "{{ item.dest }}"
     force: yes
+  loop: "{{ ai_skill_repos }}"
+  loop_control:
+    label: "{{ item.repo }}"
   tags:
     - install
     - update
@@ -41,107 +45,6 @@
         - update
         - ai
 
-    # -------------------------------------------------------------------------
-    # Commands: symlink individual .md files so custom commands can coexist
-    # -------------------------------------------------------------------------
-    - name: Find all command files in ecc/commands
-      find:
-        paths: "{{ dotfiles_user_home }}/.ecc/commands"
-        patterns: "*.md"
-        file_type: file
-      register: ecc_commands
-      tags:
-        - install
-        - update
-        - ai
-
-    - name: Symlink ecc command files into ~/.claude/commands
-      file:
-        src: "{{ item.path }}"
-        dest: "{{ dotfiles_user_home }}/.claude/commands/{{ item.path | basename }}"
-        state: link
-        force: yes
-      loop: "{{ ecc_commands.files }}"
-      tags:
-        - install
-        - update
-        - ai
-
-    # -------------------------------------------------------------------------
-    # Agents: symlink individual .md files so custom agents can coexist
-    # -------------------------------------------------------------------------
-    - name: Find all agent files in ecc/agents
-      find:
-        paths: "{{ dotfiles_user_home }}/.ecc/agents"
-        patterns: "*.md"
-        file_type: file
-      register: ecc_agents
-      tags:
-        - install
-        - update
-        - ai
-
-    - name: Symlink ecc agent files into ~/.claude/agents
-      file:
-        src: "{{ item.path }}"
-        dest: "{{ dotfiles_user_home }}/.claude/agents/{{ item.path | basename }}"
-        state: link
-        force: yes
-      loop: "{{ ecc_agents.files }}"
-      tags:
-        - install
-        - update
-        - ai
-
-    # -------------------------------------------------------------------------
-    # Rules: symlink whole subdirectories to preserve cross-references between
-    # common/ and language-specific rules (files use relative paths like
-    # ../common/). Language dirs: common, typescript, golang, php.
-    # -------------------------------------------------------------------------
-    - name: Symlink ecc rules subdirectories into ~/.claude/rules
-      file:
-        src: "{{ dotfiles_user_home }}/.ecc/rules/{{ item }}"
-        dest: "{{ dotfiles_user_home }}/.claude/rules/{{ item }}"
-        state: link
-        force: yes
-      loop:
-        - common
-        - typescript
-        - golang
-        - php
-      tags:
-        - install
-        - update
-        - ai
-
-    # -------------------------------------------------------------------------
-    # Skills: symlink individual skill subdirectories so custom skills can
-    # coexist alongside ecc skills in ~/.claude/skills/
-    # -------------------------------------------------------------------------
-    - name: Find all skill subdirectories in ecc/skills
-      find:
-        paths: "{{ dotfiles_user_home }}/.ecc/skills"
-        file_type: directory
-        recurse: no
-      register: ecc_skills
-      tags:
-        - install
-        - update
-        - ai
-
-    - name: Symlink ecc skill subdirectories into ~/.claude/skills
-      file:
-        src: "{{ item.path }}"
-        dest: "{{ dotfiles_user_home }}/.claude/skills/{{ item.path | basename }}"
-        state: link
-        force: yes
-      loop: "{{ ecc_skills.files }}"
-      tags:
-        - install
-        - update
-        - ai
-
-    # Also add generic skills
     - name: Create ~/.agents subdirectories
       file:
         path: "{{ dotfiles_user_home }}/.agents/{{ item }}"
@@ -153,13 +56,108 @@
         - update
         - ai
 
-    - name: Symlink ecc skill subdirectories into ~/.agents/skills
+    # -------------------------------------------------------------------------
+    # Commands and agents: symlink individual .md files so custom ones can
+    # coexist
+    # -------------------------------------------------------------------------
+    - name: Symlink ecc command files into ~/.claude/commands
       file:
-        src: "{{ item.path }}"
-        dest: "{{ dotfiles_user_home }}/.agents/skills/{{ item.path | basename }}"
+        src: "{{ ai_ecc_dir }}/commands/{{ item }}.md"
+        dest: "{{ dotfiles_user_home }}/.claude/commands/{{ item }}.md"
         state: link
         force: yes
-      loop: "{{ ecc_skills.files }}"
+      loop: "{{ ai_ecc_commands }}"
+      tags:
+        - install
+        - update
+        - ai
+
+    - name: Symlink ecc agent files into ~/.claude/agents
+      file:
+        src: "{{ ai_ecc_dir }}/agents/{{ item }}.md"
+        dest: "{{ dotfiles_user_home }}/.claude/agents/{{ item }}.md"
+        state: link
+        force: yes
+      loop: "{{ ai_ecc_agents }}"
+      tags:
+        - install
+        - update
+        - ai
+
+    # -------------------------------------------------------------------------
+    # Rules: symlink whole subdirectories to preserve cross-references between
+    # common/ and language-specific rules (files use relative paths like
+    # ../common/).
+    # -------------------------------------------------------------------------
+    - name: Symlink ecc rules subdirectories into ~/.claude/rules
+      file:
+        src: "{{ ai_ecc_dir }}/rules/{{ item }}"
+        dest: "{{ dotfiles_user_home }}/.claude/rules/{{ item }}"
+        state: link
+        force: yes
+      loop: "{{ ai_ecc_rules }}"
+      tags:
+        - install
+        - update
+        - ai
+
+    # -------------------------------------------------------------------------
+    # Skills: symlink individual skill subdirectories so custom skills can
+    # coexist in ~/.claude/skills/ and ~/.agents/skills/
+    # -------------------------------------------------------------------------
+    - name: Symlink curated skills into skill directories
+      file:
+        src: "{{ item.1.0.dest }}/{{ item.1.0.skills_dir }}/{{ item.1.1 }}"
+        dest: "{{ item.0 }}/{{ item.1.1 | basename }}"
+        state: link
+        force: yes
+      loop: "{{ ai_skill_link_dirs | product(ai_skill_repos | subelements('skills')) | list }}"
+      loop_control:
+        label: "{{ item.0 }}/{{ item.1.1 | basename }}"
+      tags:
+        - install
+        - update
+        - ai
+
+    # -------------------------------------------------------------------------
+    # Remove symlinks into the cloned repos that are no longer listed, so
+    # dropping an entry from defaults/main.yml uninstalls it
+    # -------------------------------------------------------------------------
+    - name: Remove unlisted symlinks into AI skill repositories
+      shell: |
+        while IFS= read -r link; do
+          target=$(readlink "$link")
+          managed=false
+          for prefix in $MANAGED_PREFIXES; do
+            case "$target" in "$prefix"/*) managed=true ;; esac
+          done
+          $managed || continue
+          [[ " $KEEP " == *" $(basename "$link") "* ]] && continue
+          rm "$link" && echo "removed $link"
+        done < <(find "$LINK_DIR" -mindepth 1 -maxdepth 1 -type l)
+      args:
+        executable: /bin/bash
+      # Space-separated: Jinja passes "\n" through as a literal backslash-n
+      environment:
+        LINK_DIR: "{{ item.0 }}"
+        MANAGED_PREFIXES: "{{ ai_skill_repos | map(attribute='dest') | join(' ') }}"
+        KEEP: "{{ item.1 | join(' ') }}"
+      register: ai_pruned_links
+      changed_when: ai_pruned_links.stdout | length > 0
+      # Pairs of [directory, names to keep]
+      loop: >-
+        {{
+          ai_skill_link_dirs
+          | product([ai_skill_repos | map(attribute='skills') | flatten | map('basename') | list])
+          | list
+          + [
+            [dotfiles_user_home ~ '/.claude/agents', ai_ecc_agents | map('regex_replace', '$', '.md') | list],
+            [dotfiles_user_home ~ '/.claude/commands', ai_ecc_commands | map('regex_replace', '$', '.md') | list],
+            [dotfiles_user_home ~ '/.claude/rules', ai_ecc_rules],
+          ]
+        }}
+      loop_control:
+        label: "{{ item.0 }}"
       tags:
         - install
         - update
@@ -182,6 +180,7 @@
         - commands
         - prompts/agents
         - instructions
+        - skills
       tags:
         - install
         - update
@@ -192,7 +191,7 @@
     # -------------------------------------------------------------------------
     - name: Find all command files in ecc/.opencode/commands
       find:
-        paths: "{{ dotfiles_user_home }}/.ecc/.opencode/commands"
+        paths: "{{ ai_ecc_dir }}/.opencode/commands"
         patterns: "*.md"
         file_type: file
       register: ecc_opencode_commands
@@ -218,7 +217,7 @@
     # -------------------------------------------------------------------------
     - name: Find all agent prompt files in ecc/.opencode/prompts/agents
       find:
-        paths: "{{ dotfiles_user_home }}/.ecc/.opencode/prompts/agents"
+        paths: "{{ ai_ecc_dir }}/.opencode/prompts/agents"
         patterns: "*.txt"
         file_type: file
       register: ecc_opencode_agents
@@ -244,7 +243,7 @@
     # -------------------------------------------------------------------------
     - name: Symlink ecc opencode instructions into ~/.opencode/instructions
       file:
-        src: "{{ dotfiles_user_home }}/.ecc/.opencode/instructions/INSTRUCTIONS.md"
+        src: "{{ ai_ecc_dir }}/.opencode/instructions/INSTRUCTIONS.md"
         dest: "{{ dotfiles_user_home }}/.opencode/instructions/INSTRUCTIONS.md"
         state: link
         force: yes
@@ -253,82 +252,8 @@
         - update
         - ai
 
-# =============================================================================
-# Clones obsidian-skills and symlinks components for Claude Code and
-# OpenCode into their respective user-level config directories.
-# =============================================================================
-
-- name: Clone obsidian-skills repository
-  git:
-    repo: https://github.com/kepano/obsidian-skills.git
-    dest: "{{ dotfiles_user_home }}/.obsidian-skills"
-    force: yes
-  tags:
-    - install
-    - update
-    - ai
-
-- name: Install Claude Code components
-  block:
     # -------------------------------------------------------------------------
-    # Create required directories
-    # -------------------------------------------------------------------------
-    - name: Create ~/.claude subdirectories
-      file:
-        path: "{{ dotfiles_user_home }}/.claude/{{ item }}"
-        state: directory
-      loop:
-        - skills
-      tags:
-        - install
-        - update
-        - ai
-
-    # -------------------------------------------------------------------------
-    # Skills: symlink individual skill subdirectories so custom skills can
-    # coexist alongside obsidian-skills skills in ~/.claude/skills/
-    # -------------------------------------------------------------------------
-    - name: Find all skill subdirectories in obsidian-skills/skills
-      find:
-        paths: "{{ dotfiles_user_home }}/.obsidian-skills/skills"
-        file_type: directory
-        recurse: no
-      register: obsidian_skills
-      tags:
-        - install
-        - update
-        - ai
-
-    - name: Symlink obsidian-skills skill subdirectories into ~/.claude/skills
-      file:
-        src: "{{ item.path }}"
-        dest: "{{ dotfiles_user_home }}/.claude/skills/{{ item.path | basename }}"
-        state: link
-        force: yes
-      loop: "{{ obsidian_skills.files }}"
-      tags:
-        - install
-        - update
-        - ai
-
-- name: Install OpenCode components
-  block:
-    # -------------------------------------------------------------------------
-    # Create required directories
-    # -------------------------------------------------------------------------
-    - name: Create ~/.opencode subdirectories
-      file:
-        path: "{{ dotfiles_user_home }}/.opencode/{{ item }}"
-        state: directory
-      loop:
-        - skills
-      tags:
-        - install
-        - update
-        - ai
-
-    # -------------------------------------------------------------------------
-    # Skills: symlink the entire obsidian-skills directory so custom stills can
+    # Skills: symlink the entire obsidian-skills directory so custom skills can
     # coexist alongside obsidian-skills skills in ~/.opencode/skills/
     # -------------------------------------------------------------------------
     - name: Symlink obsidian-skills directly into ~/.opencode/skills
@@ -344,17 +269,6 @@
 
 - name: Install my personal skills
   block:
-    - name: Create ~/.claude subdirectories
-      file:
-        path: "{{ dotfiles_user_home }}/.claude/{{ item }}"
-        state: directory
-      loop:
-        - skills
-      tags:
-        - install
-        - update
-        - ai
-
     - name: Find all skill subdirectories in files/skills
       find:
         paths: "{{ dotfiles_home }}/roles/ai/files/skills"
