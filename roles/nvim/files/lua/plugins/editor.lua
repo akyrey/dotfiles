@@ -126,13 +126,30 @@ return {
     },
   },
 
-  -- Run and watch shell tasks (composer scripts, make targets, ...) from nvim.
+  -- Run and watch shell tasks from nvim. Project commands come from projector
+  -- (lua/util/projector.lua); the npm, make, ... providers stay for the rest.
   {
     "stevearc/overseer.nvim",
     cmd = { "OverseerRun", "OverseerToggle", "OverseerTaskAction", "OverseerQuickAction" },
-    opts = {},
+    opts = {
+      -- composer scripts would run on the host, outside the project's
+      -- container; projector's `composer` command runs them in the right place.
+      disable_template_modules = { "overseer.template.composer" },
+    },
+    config = function(_, opts)
+      local overseer = require("overseer")
+      overseer.setup(opts)
+      overseer.register_template(require("util.projector").overseer_provider)
+    end,
     keys = {
       { "<leader>oo", "<cmd>OverseerRun<cr>", desc = "Run task" },
+      {
+        "<leader>oa",
+        function()
+          require("util.projector").run_with_args()
+        end,
+        desc = "Run projector command with args",
+      },
       { "<leader>ow", "<cmd>OverseerToggle<cr>", desc = "Task list" },
       { "<leader>ot", "<cmd>OverseerTaskAction<cr>", desc = "Task action" },
       { "<leader>oq", "<cmd>OverseerQuickAction<cr>", desc = "Quick action" },

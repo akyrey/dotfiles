@@ -23,6 +23,7 @@ lua/util/
   exec.lua               resolving PHP tools through docker / xenv / sail / vendor
   lsp.lua                node_modules-aware cmd builder for the vscode-* servers
   php_test.lua           runs the neotest PHP adapters through projector's `php`
+  projector.lua          projector commands as overseer tasks
   treesitter.lua         "is there a parser/query for this?" helpers
 lsp/<server>.lua         one file per language server, found on the runtimepath
 lua/plugins/*.lua        plugin specs, one file per concern
