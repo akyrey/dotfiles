@@ -51,6 +51,7 @@ return {
         markdown = { "prettier" },
         scss = { "prettier" },
         sh = { "shfmt" },
+        sql = { "sql_formatter" },
         typescript = { "prettier" },
         typescriptreact = { "prettier" },
         yaml = { "prettier" },
@@ -60,6 +61,11 @@ return {
         end,
       },
       formatters = {
+        -- Every project database is MySQL; the default dialect rejects its syntax
+        -- (backtick identifiers, ON DUPLICATE KEY UPDATE, ...).
+        sql_formatter = {
+          prepend_args = { "--language", "mysql" },
+        },
         pint = function(bufnr)
           local resolved = exec.php_tool("pint", bufnr)
           return {

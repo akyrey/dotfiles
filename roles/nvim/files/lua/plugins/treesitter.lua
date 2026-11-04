@@ -15,6 +15,7 @@ local PARSERS = {
   "yaml",
   "json",
   "json5", -- jsonc has no grammar of its own; it uses the json parser
+  "sql",
   -- config and scripting
   "lua",
   "luadoc",

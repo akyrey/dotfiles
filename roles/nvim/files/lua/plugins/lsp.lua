@@ -34,6 +34,7 @@ return {
         "goimports-reviser",
         "prettier",
         "shfmt",
+        "sql-formatter",
         "stylua",
         -- linters
         "eslint_d",
