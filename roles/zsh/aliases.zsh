@@ -27,6 +27,8 @@ function dkrv() {
     "$@";
 }
 
+alias pj=projector
+
 # Docker login to ECR repo
 alias aws-login="aws ecr get-login-password --region eu-south-1 | docker login --username AWS --password-stdin 422393141836.dkr.ecr.eu-south-1.amazonaws.com"
 
