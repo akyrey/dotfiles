@@ -69,38 +69,21 @@ return {
         end
       end
 
-      -- Xdebug listeners. The path mapping is what differs between the
-      -- containers: skp-core/sail mount at /var/www/html, the service repos
-      -- at /skp-svc.
-      local xdebug_settings = { max_children = 50, max_depth = 5, max_data = 4096 }
-      dap.configurations.php = {
-        {
-          name = "Docker: Listen for Xdebug 3 - skp-core and sail",
-          type = "php",
-          request = "launch",
-          port = 9003,
-          pathMappings = { ["/var/www/html"] = "${workspaceFolder}" },
-          xdebugSettings = xdebug_settings,
-        },
-        {
-          name = "Docker: Listen for Xdebug 3 - wallet and totalizer",
-          type = "php",
-          request = "launch",
-          port = 9003,
-          pathMappings = { ["/skp-svc"] = "${workspaceFolder}" },
-          xdebugSettings = xdebug_settings,
-        },
-        {
-          name = "Docker: Listen for Xdebug 2",
-          type = "php",
-          request = "launch",
-          port = 9000,
-          pathMappings = { ["/var/www/html"] = "${workspaceFolder}" },
-          xdebugSettings = xdebug_settings,
-        },
-      }
-      -- blade buffers are still PHP as far as the debugger is concerned
-      dap.configurations.blade = dap.configurations.php
+      -- PHP debug configurations come from each project's .vscode/launch.json,
+      -- which nvim-dap reads on every `continue`. Each project listens on its
+      -- own Xdebug port with its own container path mapping, so they belong
+      -- with the project rather than in one shared list here. Blade templates
+      -- use the same configurations as PHP.
+      require("dap.ext.vscode").type_to_filetypes.php = { "php", "blade" }
+
+      -- Keep large arrays and objects inspectable without flooding the UI.
+      local XDEBUG_SETTINGS = { max_children = 50, max_depth = 5, max_data = 4096 }
+      dap.listeners.on_config["akyrey_xdebug_settings"] = function(config)
+        if config.type ~= "php" or config.xdebugSettings then
+          return config
+        end
+        return vim.tbl_extend("force", config, { xdebugSettings = XDEBUG_SETTINGS })
+      end
 
       -- Breakpoint signs
       vim.fn.sign_define("DapBreakpoint", { text = "\u{25cf}", texthl = "DiagnosticError" })
