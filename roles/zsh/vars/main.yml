@@ -4,3 +4,8 @@ zsh_completions_dir: "{{ dotfiles_user_home }}/.zsh/completions"
 zsh_completion_commands:
   - projector
   - postman-sync
+  - kubectl
+  - docker
+
+# ZDOTDIR holding the oh-my-zsh-free config (antidote + starship).
+zsh_next_zdotdir: "{{ dotfiles_user_home }}/.config/zsh-next"

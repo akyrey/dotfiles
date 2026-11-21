@@ -1,0 +1,113 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+
+# Two-line prompt modelled on the previous p10k setup: rounded pills on the
+# left, context on the right of the first line, ❯ on the second.
+add_newline = false
+command_timeout = 500
+
+format = """
+[╭─](fg:238)$os$directory$git_branch$git_state$git_status\
+$fill\
+$status$cmd_duration$jobs$direnv$python$nodejs$golang$php$rust$java$lua$kubernetes$aws$terraform$time
+[╰─](fg:238)$character"""
+
+[fill]
+symbol = " "
+
+[os]
+disabled = false
+format = "[](fg:white)[$symbol](fg:black bg:white)[](fg:white) "
+
+[os.symbols]
+Macos = ""
+Arch = ""
+Debian = ""
+Ubuntu = ""
+Linux = ""
+
+[directory]
+format = "[](fg:blue)[$path$read_only](fg:black bg:blue)[](fg:blue) "
+truncation_length = 4
+truncate_to_repo = false
+truncation_symbol = "…/"
+read_only = " "
+
+[git_branch]
+symbol = " "
+format = "[](fg:green)[$symbol$branch(:$remote_branch)](fg:black bg:green)[](fg:green)"
+
+[git_state]
+format = " [$state( $progress_current/$progress_total)]($style)"
+
+[git_status]
+format = "( [$all_status$ahead_behind]($style))"
+style = "yellow"
+
+[character]
+success_symbol = "[❯](bold green)"
+error_symbol = "[❯](bold red)"
+
+[status]
+disabled = false
+format = "[✘ $status]($style) "
+style = "red"
+
+[cmd_duration]
+min_time = 3_000
+format = "[ $duration]($style) "
+style = "yellow"
+
+[jobs]
+format = "[$symbol$number]($style) "
+
+[direnv]
+disabled = false
+format = "[$symbol$loaded]($style) "
+
+# ~/.venv is always active, so only show Python inside Python projects.
+[python]
+detect_env_vars = []
+symbol = " "
+format = "[$symbol($version )(\\($virtualenv\\) )]($style)"
+
+[nodejs]
+symbol = " "
+format = "[$symbol($version )]($style)"
+
+[golang]
+symbol = " "
+format = "[$symbol($version )]($style)"
+
+[php]
+symbol = " "
+format = "[$symbol($version )]($style)"
+
+[rust]
+symbol = " "
+format = "[$symbol($version )]($style)"
+
+[java]
+symbol = " "
+format = "[$symbol($version )]($style)"
+
+[lua]
+symbol = " "
+format = "[$symbol($version )]($style)"
+
+# Only show the k8s context in repos that deploy to Kubernetes.
+[kubernetes]
+disabled = false
+detect_files = ["Chart.yaml", "kustomization.yaml", "helmfile.yaml", "skaffold.yaml"]
+format = "[ $context( \\($namespace\\))]($style) "
+
+[aws]
+format = "[$symbol($profile )(\\($region\\) )]($style)"
+symbol = " "
+
+[terraform]
+format = "[$symbol$workspace]($style) "
+
+[time]
+disabled = false
+format = "[ $time]($style)"
+style = "dimmed white"

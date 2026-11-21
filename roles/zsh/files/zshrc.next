@@ -1,0 +1,76 @@
+# zsh config without oh-my-zsh: antidote for plugins, starship for the prompt.
+# Try it next to the current config with:  ZDOTDIR=$HOME/.config/zsh-next zsh
+# Benchmark both with:  hyperfine 'zsh -i -c exit' 'ZDOTDIR=$HOME/.config/zsh-next zsh -i -c exit'
+
+export DOTFILES="$HOME/.dotfiles"
+ZSH_CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/zsh"
+[[ -d $ZSH_CACHE_DIR ]] || mkdir -p "$ZSH_CACHE_DIR"
+
+source "$DOTFILES/roles/zsh/options.zsh"
+
+# --- Plugins (antidote, only sourced when the bundle list changes) --------
+fpath=("$HOME/.zsh/completions" "${ASDF_DATA_DIR:-$HOME/.asdf}/completions" $fpath)
+
+_zsh_plugins_txt="$DOTFILES/roles/zsh/files/zsh_plugins.txt"
+_zsh_plugins_static="$ZSH_CACHE_DIR/zsh_plugins.zsh"
+if [[ ! $_zsh_plugins_static -nt $_zsh_plugins_txt ]]; then
+  source "${ANTIDOTE_DIR:-$HOME/.antidote}/antidote.zsh"
+  antidote bundle <"$_zsh_plugins_txt" >|"$_zsh_plugins_static"
+fi
+source "$_zsh_plugins_static"
+unset _zsh_plugins_txt _zsh_plugins_static
+
+# --- Completion: full security check at most once a day -------------------
+_zsh_compinit() {
+  setopt local_options extended_glob
+  local dump="$ZSH_CACHE_DIR/zcompdump-$ZSH_VERSION"
+  autoload -Uz compinit
+  if [[ -n $dump(#qN.mh+24) ]]; then
+    compinit -d "$dump"
+  else
+    compinit -C -d "$dump"
+  fi
+}
+_zsh_compinit
+unfunction _zsh_compinit
+
+# --- Personal config --------------------------------------------------------
+source "$DOTFILES/roles/zsh/aliases.zsh"
+source "$DOTFILES/roles/zsh/env.zsh"
+source "$DOTFILES/roles/zsh/path.zsh"
+[[ -r $HOME/.venv/bin/activate ]] && VIRTUAL_ENV_DISABLE_PROMPT=1 source "$HOME/.venv/bin/activate"
+
+# pnpm
+export PNPM_HOME="$HOME/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+
+export PATH="$PATH:$HOME/.turso"
+export PATH="$HOME/.local/bin:$PATH"
+
+# fzf key bindings (Ctrl-R, Ctrl-T, Alt-C) and completion
+command -v fzf >/dev/null && source <(fzf --zsh)
+
+bindkey -s ^f "tmux-sessionizer\n"
+
+# --- Prompt -----------------------------------------------------------------
+eval "$(starship init zsh)"
+
+# Transient prompt: collapse the previous two-line prompt to a single ❯ once
+# a command is accepted, like p10k's POWERLEVEL9K_TRANSIENT_PROMPT=always.
+_starship_prompt=$PROMPT
+_starship_rprompt=$RPROMPT
+_transient_prompt_line_finish() {
+  PROMPT='%F{green}❯%f '
+  RPROMPT=''
+  zle .reset-prompt
+}
+_transient_prompt_restore() {
+  PROMPT=$_starship_prompt
+  RPROMPT=$_starship_rprompt
+}
+autoload -Uz add-zle-hook-widget
+add-zle-hook-widget zle-line-finish _transient_prompt_line_finish
+add-zsh-hook precmd _transient_prompt_restore

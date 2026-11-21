@@ -1,0 +1,5 @@
+# antidote bundle list, compiled to a static file by zshrc.next.
+zsh-users/zsh-completions path:src kind:fpath
+zsh-users/zsh-autosuggestions
+# Deferred so it loads after compinit and every other widget, as required.
+zdharma-continuum/fast-syntax-highlighting kind:defer
