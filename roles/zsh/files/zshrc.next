@@ -63,7 +63,7 @@ eval "$(starship init zsh)"
 _starship_prompt=$PROMPT
 _starship_rprompt=$RPROMPT
 _transient_prompt_line_finish() {
-  PROMPT='%F{green}❯%f '
+  PROMPT='%F{#a6e3a1}❯%f '
   RPROMPT=''
   zle .reset-prompt
 }

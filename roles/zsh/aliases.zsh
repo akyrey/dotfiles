@@ -18,7 +18,7 @@ alias dk="docker"
 alias dki="docker images"
 alias dkr="docker run -it --rm"
 alias dkxxx="docker system prune -f --volumes"
-alias dkrmi="docker rmi $(docker images --filter 'dangling=true' -q --no-trunc)"
+alias dkrmi='docker rmi $(docker images --filter dangling=true -q --no-trunc)'
 alias dkc="docker compose"
 function dkrv() {
   docker run -it --rm \
