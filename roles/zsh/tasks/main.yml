@@ -54,6 +54,45 @@
     - install
     - zsh
 
+# Catppuccin theme from https://github.com/catppuccin/zsh-fsh
+- name: Create fast-syntax-highlighting config directory
+  file:
+    path: "{{ dotfiles_user_home }}/.config/fsh"
+    state: directory
+    mode: "0755"
+  tags:
+    - dotfiles
+    - install
+    - zsh
+
+- name: Symlink catppuccin fast-syntax-highlighting theme
+  file:
+    src: "{{ dotfiles_home }}/roles/zsh/files/fsh/{{ zsh_fsh_theme }}.ini"
+    dest: "{{ dotfiles_user_home }}/.config/fsh/{{ zsh_fsh_theme }}.ini"
+    state: link
+    force: yes
+  tags:
+    - dotfiles
+    - install
+    - zsh
+
+- name: Apply fast-syntax-highlighting theme
+  command:
+    argv:
+      - zsh
+      - -c
+      - |
+        source "$HOME/.antidote/antidote.zsh"
+        antidote bundle zdharma-continuum/fast-syntax-highlighting >/dev/null
+        export FAST_WORK_DIR=XDG
+        source "$(antidote path zdharma-continuum/fast-syntax-highlighting)/fast-syntax-highlighting.plugin.zsh"
+        fast-theme --quiet "XDG:{{ zsh_fsh_theme }}"
+    creates: "{{ dotfiles_user_home }}/.cache/fsh/current_theme.zsh"
+  tags:
+    - dotfiles
+    - install
+    - zsh
+
 # Opt-in config: start it with `ZDOTDIR={{ zsh_next_zdotdir }} zsh`.
 - name: Symlink oh-my-zsh-free zshrc into its ZDOTDIR
   file:

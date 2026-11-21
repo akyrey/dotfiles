@@ -2,8 +2,8 @@
 
 # Catppuccin powerline layout (based on `starship preset catppuccin-powerline`)
 # on two lines: chained segments on the left, status on the right, ❯ below.
-# Change the flavour via `palette` (mocha, macchiato, frappe, latte).
-palette = "catppuccin_mocha"
+# Macchiato matches kitty, wezterm and tmux. Change the flavour via `palette` (mocha, macchiato, frappe, latte).
+palette = "catppuccin_macchiato"
 add_newline = false
 command_timeout = 500
 
