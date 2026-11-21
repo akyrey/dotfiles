@@ -1,121 +1,83 @@
--- Project root detection, ported from LazyVim's util.root.
+-- The single definition of "project root" for this config.
 --
--- Resolution order comes from `vim.g.root_spec`; the first detector that returns
--- a directory wins. Used by pickers and by anything that needs "the project"
--- rather than the cwd.
+-- Two questions share one set of markers:
+--   * `M.project()` / `M.find()`: the directory that owns a file, found by
+--     walking up to the nearest marker. Used by PHP tooling (formatters,
+--     linters, tests), which must run where composer.json and vendor/ live.
+--   * `M.get()`: the root pickers and the explorer open in. Prefers what an
+--     attached language server reports, then falls back to `M.project()`.
 local M = {}
 
----@alias RootFn fun(buf: integer): string[]
+--- Markers in priority order: composer.json is searched all the way up before
+--- anything else, so a PHP project nested inside a larger git repository (or
+--- next to a package.json) roots at itself.
+M.MARKERS = { "composer.json", "go.mod", "package.json", ".git" }
 
----@type table<string, RootFn>
-M.detectors = {}
+--- LSP clients whose root is never a project root.
+local LSP_IGNORE = { "copilot" }
 
-function M.detectors.cwd()
-  return { vim.uv.cwd() }
+--- Nearest directory holding one of `M.MARKERS`, or nil when there is none.
+---@param source? integer|string buffer number or path, defaults to the current buffer
+---@return string?
+function M.find(source)
+  return vim.fs.root(source or 0, M.MARKERS)
 end
 
---- Roots reported by any LSP client attached to the buffer.
-function M.detectors.lsp(buf)
-  local bufpath = M.bufpath(buf)
-  if not bufpath then
+--- Like `M.find()`, falling back to the cwd.
+---@param source? integer|string buffer number or path, defaults to the current buffer
+---@return string
+function M.project(source)
+  return M.find(source) or vim.uv.cwd()
+end
+
+--- Normalised real path of a buffer's file, or nil for unnamed buffers.
+---@param buf integer
+---@return string?
+local function bufpath(buf)
+  local name = vim.api.nvim_buf_get_name(buf)
+  if name == "" then
+    return nil
+  end
+  return vim.fs.normalize(vim.uv.fs_realpath(name) or name)
+end
+
+--- Roots reported by LSP clients attached to the buffer that contain its file,
+--- deepest first.
+---@param buf integer
+---@return string[]
+local function lsp_roots(buf)
+  local path = bufpath(buf)
+  if not path then
     return {}
   end
   local roots = {} ---@type string[]
-  local ignore = vim.g.root_lsp_ignore or {}
-  for _, client in pairs(vim.lsp.get_clients({ bufnr = buf })) do
-    if not vim.tbl_contains(ignore, client.name) then
-      for _, ws in pairs(client.config.workspace_folders or {}) do
-        roots[#roots + 1] = vim.uri_to_fname(ws.uri)
-      end
-      if client.root_dir then
-        roots[#roots + 1] = client.root_dir
-      end
-    end
-  end
-  return vim.tbl_filter(function(path)
-    path = M.norm(path)
-    return path and bufpath:find(path, 1, true) == 1
-  end, roots)
-end
-
---- Roots found by walking up looking for marker files/directories.
----@param patterns string[]|string
-function M.detectors.pattern(buf, patterns)
-  patterns = type(patterns) == "string" and { patterns } or patterns
-  local path = M.bufpath(buf) or vim.uv.cwd()
-  local pattern = vim.fs.find(function(name)
-    for _, p in ipairs(patterns) do
-      if name == p or (p:sub(1, 1) == "*" and name:find(vim.pesc(p:sub(2)) .. "$")) then
-        return true
+  for _, client in ipairs(vim.lsp.get_clients({ bufnr = buf })) do
+    if not vim.tbl_contains(LSP_IGNORE, client.name) then
+      local candidates = vim.tbl_map(function(ws)
+        return vim.uri_to_fname(ws.uri)
+      end, client.workspace_folders or {})
+      table.insert(candidates, client.root_dir)
+      for _, root in ipairs(candidates) do
+        root = vim.fs.normalize(root)
+        if vim.fs.relpath(root, path) and not vim.tbl_contains(roots, root) then
+          table.insert(roots, root)
+        end
       end
     end
-    return false
-  end, { path = path, upward = true })[1]
-  return pattern and { vim.fs.dirname(pattern) } or {}
-end
-
-function M.bufpath(buf)
-  return M.realpath(vim.api.nvim_buf_get_name(assert(buf)))
-end
-
-function M.realpath(path)
-  if path == "" or path == nil then
-    return nil
   end
-  path = vim.uv.fs_realpath(path) or path
-  return M.norm(path)
+  table.sort(roots, function(a, b)
+    return #a > #b
+  end)
+  return roots
 end
 
-function M.norm(path)
-  if path:sub(1, 1) == "~" then
-    local home = vim.uv.os_homedir()
-    path = home .. path:sub(2)
-  end
-  path = path:gsub("\\", "/"):gsub("/+", "/")
-  return path:sub(-1) == "/" and path:sub(1, -2) or path
-end
-
----@param spec string|string[]|RootFn
----@return RootFn
-local function resolve(spec)
-  if M.detectors[spec] then
-    return M.detectors[spec]
-  elseif type(spec) == "function" then
-    return spec
-  end
-  return function(buf)
-    return M.detectors.pattern(buf, spec)
-  end
-end
-
---- All candidate roots for a buffer, best first.
----@param opts? { buf?: integer }
-function M.detect(opts)
-  opts = opts or {}
-  local buf = opts.buf or vim.api.nvim_get_current_buf()
-  local ret = {} ---@type string[]
-  for _, spec in ipairs(vim.g.root_spec or { "lsp", { ".git", "lua" }, "cwd" }) do
-    local paths = resolve(spec)(buf)
-    paths = paths or {}
-    paths = type(paths) == "table" and paths or { paths }
-    for _, p in ipairs(paths) do
-      local pp = M.realpath(p)
-      if pp and not vim.tbl_contains(ret, pp) then
-        ret[#ret + 1] = pp
-      end
-    end
-    if #ret > 0 then
-      break
-    end
-  end
-  return ret
-end
-
---- The project root for a buffer, falling back to cwd.
----@param buf? integer
+--- The root for pickers and the explorer: the deepest LSP root containing the
+--- buffer's file, else `M.project()`.
+---@param buf? integer defaults to the current buffer
 ---@return string
 function M.get(buf)
-  return M.detect({ buf = buf })[1] or vim.uv.cwd()
+  buf = (buf == nil or buf == 0) and vim.api.nvim_get_current_buf() or buf
+  return lsp_roots(buf)[1] or M.project(buf)
 end
 
 return M

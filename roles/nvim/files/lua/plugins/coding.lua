@@ -7,7 +7,6 @@ return {
     dependencies = {
       "rafamadriz/friendly-snippets",
       "L3MON4D3/LuaSnip",
-      "saghen/blink.compat",
     },
     ---@module 'blink.cmp'
     ---@type blink.cmp.Config
@@ -46,14 +45,6 @@ return {
     opts_extend = { "sources.default" },
   },
 
-  -- Compatibility shim so nvim-cmp sources can be used from blink.
-  {
-    "saghen/blink.compat",
-    version = "2.*", -- v2 pairs with blink.cmp v1
-    lazy = true,
-    opts = {},
-  },
-
   {
     "L3MON4D3/LuaSnip",
     lazy = true,
@@ -78,9 +69,11 @@ return {
     end,
   },
 
-  -- Smarter a/i textobjects: aa/ia for arguments, af/if for functions, ...
+  -- Smarter a/i textobjects: aa/ia for arguments, af/if for functions, ac/ic
+  -- for classes, ao/io for blocks, at/it for tags. The treesitter ones use
+  -- nvim-treesitter-textobjects' queries.
   {
-    "echasnovski/mini.ai",
+    "nvim-mini/mini.ai",
     event = "VeryLazy",
     opts = function()
       local ai = require("mini.ai")
@@ -104,7 +97,7 @@ return {
   -- identifier (`{$something`, `(card`, ...) just inserts the open
   -- character instead of wrapping it, matching most editors' behavior.
   {
-    "echasnovski/mini.pairs",
+    "nvim-mini/mini.pairs",
     event = "VeryLazy",
     opts = function()
       local open_neigh = [=[^[^\][%s%)%]},;:'"`]]=]
@@ -125,7 +118,7 @@ return {
 
   -- sa/sd/sr to add, delete and replace surrounding pairs.
   {
-    "echasnovski/mini.surround",
+    "nvim-mini/mini.surround",
     event = "VeryLazy",
     opts = {
       -- Prefixed with `gs` so plain `s` keeps its built-in meaning and stays

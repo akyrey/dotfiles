@@ -22,6 +22,7 @@ return {
   config = function(_, opts)
     local lint = require("lint")
     local exec = require("util.exec")
+    local roots = require("core.root")
 
     lint.linters_by_ft = opts.linters_by_ft
 
@@ -94,7 +95,7 @@ return {
         if not ok or type(decoded) ~= "table" then
           return {}
         end
-        local rel = relative_path(exec.project_root(bufnr), bufnr)
+        local rel = relative_path(roots.project(bufnr), bufnr)
         local diagnostics = {}
         for path, file in pairs(decoded.files or {}) do
           if vim.endswith(path, rel) then
@@ -120,7 +121,7 @@ return {
       if not build then
         return linter
       end
-      local root = exec.project_root(0)
+      local root = roots.project(0)
       local resolved = exec.php_tool(linter.name, 0)
       return vim.tbl_extend("force", linter, {
         cmd = resolved.cmd,
@@ -147,7 +148,7 @@ return {
       if not candidates then
         return true
       end
-      local root = exec.project_root(0)
+      local root = roots.project(0)
       for _, rel in ipairs(candidates) do
         if vim.uv.fs_stat(vim.fs.joinpath(root, rel)) then
           return true
@@ -156,20 +157,53 @@ return {
       return false
     end
 
-    local function run()
+    -- Linters that read the file from disk rather than the buffer. Running them
+    -- on InsertLeave reports on the last saved version and, for phpstan, spins
+    -- up a container every time insert mode ends, so they only run when the
+    -- file on disk is current (read, write, or an explicit <leader>cl).
+    local DISK_ONLY = { phpstan = true }
+
+    ---@param opts? { skip_disk_only?: boolean }
+    local function run(opts)
+      opts = opts or {}
       -- Linters that read from disk produce nonsense on scratch and unnamed
       -- buffers, so only lint real files.
       if vim.bo.buftype ~= "" or vim.api.nvim_buf_get_name(0) == "" then
         return
       end
-      lint.try_lint(nil, { wrap_linter = wrap_linter, filter = filter })
+      lint.try_lint(nil, {
+        wrap_linter = wrap_linter,
+        filter = function(linter)
+          if opts.skip_disk_only and DISK_ONLY[linter.name] then
+            return false
+          end
+          return filter(linter)
+        end,
+      })
     end
 
-    vim.api.nvim_create_autocmd({ "BufReadPost", "BufWritePost", "InsertLeave" }, {
-      group = vim.api.nvim_create_augroup("akyrey_lint", { clear = true }),
-      callback = run,
+    local group = vim.api.nvim_create_augroup("akyrey_lint", { clear = true })
+    vim.api.nvim_create_autocmd({ "BufReadPost", "BufWritePost" }, {
+      group = group,
+      callback = function()
+        run()
+      end,
+    })
+    vim.api.nvim_create_autocmd("InsertLeave", {
+      group = group,
+      callback = function()
+        run({ skip_disk_only = true })
+      end,
     })
 
-    vim.keymap.set("n", "<leader>cl", run, { desc = "Lint buffer" })
+    vim.keymap.set("n", "<leader>cl", function()
+      run()
+    end, { desc = "Lint buffer" })
+
+    -- This plugin loads on the first buffer's BufReadPost, after which the
+    -- autocmd above is too late for that buffer, so lint it now.
+    vim.schedule(function()
+      run()
+    end)
   end,
 }

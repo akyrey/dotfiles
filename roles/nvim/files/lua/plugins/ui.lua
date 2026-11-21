@@ -9,7 +9,6 @@ return {
         override = {
           ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
           ["vim.lsp.util.stylize_markdown"] = true,
-          ["cmp.entry.get_documentation"] = true,
         },
       },
       routes = {
@@ -39,8 +38,9 @@ return {
       { "<leader>sna", function() require("noice").cmd("all") end, desc = "Noice all" },
       { "<leader>snd", function() require("noice").cmd("dismiss") end, desc = "Dismiss all" },
       { "<leader>snt", function() require("noice").cmd("pick") end, desc = "Noice picker" },
-      { "<c-f>", function() if not require("noice.lsp").scroll(4) then return "<c-f>" end end, silent = true, expr = true, desc = "Scroll forward", mode = { "i", "n", "s" } },
-      { "<c-b>", function() if not require("noice.lsp").scroll(-4) then return "<c-b>" end end, silent = true, expr = true, desc = "Scroll backward", mode = { "i", "n", "s" } },
+      -- Insert/select only: normal-mode <c-f> is the tmux sessionizer (core/keymaps.lua).
+      { "<c-f>", function() if not require("noice.lsp").scroll(4) then return "<c-f>" end end, silent = true, expr = true, desc = "Scroll forward", mode = { "i", "s" } },
+      { "<c-b>", function() if not require("noice.lsp").scroll(-4) then return "<c-b>" end end, silent = true, expr = true, desc = "Scroll backward", mode = { "i", "s" } },
     },
   },
 
@@ -48,7 +48,7 @@ return {
   {
     "akinsho/bufferline.nvim",
     event = "VeryLazy",
-    dependencies = { "echasnovski/mini.icons" },
+    dependencies = { "nvim-mini/mini.icons" },
     opts = {
       options = {
         mode = "tabs",
@@ -65,14 +65,11 @@ return {
         },
       },
     },
+    -- Only tab-level commands: pinning, groups and close-left/right act on
+    -- buffers, which this tab-mode line does not show.
     keys = {
       { "[o", "<cmd>BufferLineCyclePrev<cr>", desc = "Prev tab" },
       { "]o", "<cmd>BufferLineCycleNext<cr>", desc = "Next tab" },
-      { "<leader>bj", "<cmd>BufferLinePick<cr>", desc = "Pick buffer" },
-      { "<leader>bp", "<cmd>BufferLineTogglePin<cr>", desc = "Toggle pin" },
-      { "<leader>bP", "<cmd>BufferLineGroupClose ungrouped<cr>", desc = "Delete non-pinned buffers" },
-      { "<leader>br", "<cmd>BufferLineCloseRight<cr>", desc = "Delete buffers to the right" },
-      { "<leader>bl", "<cmd>BufferLineCloseLeft<cr>", desc = "Delete buffers to the left" },
     },
   },
 
@@ -80,7 +77,7 @@ return {
   {
     "nvim-lualine/lualine.nvim",
     event = "VeryLazy",
-    dependencies = { "echasnovski/mini.icons" },
+    dependencies = { "nvim-mini/mini.icons" },
     opts = function()
       local icons = { error = "E", warn = "W", info = "I", hint = "H" }
       return {
@@ -102,7 +99,7 @@ return {
             { "filename", path = 1 },
           },
           lualine_x = {
-            -- Pending formatter / lsp / dap status.
+            -- Debugger status while a session is running.
             {
               function()
                 return "  " .. require("dap").status()
@@ -171,7 +168,6 @@ return {
       spec = {
         {
           mode = { "n", "v" },
-          { "<leader>a", group = "ai" },
           { "<leader>b", group = "buffer" },
           { "<leader>c", group = "code" },
           { "<leader>d", group = "debug" },
@@ -205,7 +201,7 @@ return {
 
   -- Icons, used by bufferline, lualine, snacks and neo-tree-likes.
   {
-    "echasnovski/mini.icons",
+    "nvim-mini/mini.icons",
     lazy = true,
     opts = {},
     init = function()

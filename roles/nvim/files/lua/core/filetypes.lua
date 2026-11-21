@@ -22,9 +22,11 @@ vim.filetype.add({
     ["tsconfig%..*%.json"] = "jsonc",
     -- docker-compose.override.yml, docker-compose.prod.yml, ...
     ["docker%-compose%..*%.ya?ml"] = "yaml.docker-compose",
-    -- Ansible task files and playbooks in this dotfiles layout.
-    [".*/tasks/.*%.ya?ml"] = "yaml.ansible",
-    [".*/handlers/.*%.ya?ml"] = "yaml.ansible",
+    -- Ansible role tasks/handlers, playbooks and inventory vars. tasks/ and
+    -- handlers/ only count inside roles/, since plenty of non-ansible projects
+    -- have a tasks/ directory full of YAML.
+    [".*/roles/[^/]+/tasks/.*%.ya?ml"] = "yaml.ansible",
+    [".*/roles/[^/]+/handlers/.*%.ya?ml"] = "yaml.ansible",
     [".*/playbooks/.*%.ya?ml"] = "yaml.ansible",
     [".*/group_vars/.*%.ya?ml"] = "yaml.ansible",
     [".*/host_vars/.*%.ya?ml"] = "yaml.ansible",

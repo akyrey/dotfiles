@@ -7,10 +7,6 @@ vim.g.maplocalleader = "\\"
 -- Never format on save by default; `<leader>uf` toggles it per buffer/session.
 vim.g.autoformat = false
 
--- Root detection spec, consumed by lua/core/root.lua.
-vim.g.root_spec = { "lsp", { ".git", "lua" }, "cwd" }
-vim.g.root_lsp_ignore = { "null-ls" }
-
 -- snacks.nvim animations
 vim.g.snacks_animate = true
 
@@ -27,9 +23,10 @@ opt.undolevels = 10000
 opt.undodir = vim.fn.stdpath("data") .. "/undodir"
 opt.updatetime = 200 -- also drives CursorHold / gitsigns blame
 
--- Clipboard: stay on the unnamed register, copy to the system clipboard
--- explicitly with <leader>y. Avoids every delete clobbering the system clipboard.
-opt.clipboard = { "unnamed" }
+-- Clipboard: keep yanks and deletes in Neovim's own registers and copy to the
+-- system clipboard explicitly with <leader>y. Not "unnamed": that targets the
+-- `*` register, which on macOS *is* the system clipboard.
+opt.clipboard = ""
 
 -- Indentation
 opt.expandtab = true
@@ -97,12 +94,8 @@ opt.sessionoptions = { "buffers", "curdir", "tabpages", "winsize", "help", "glob
 -- Formatting via conform.nvim, so `gq` uses the configured formatter.
 opt.formatexpr = "v:lua.require'conform'.formatexpr()"
 
--- Folding: treesitter where a parser exists, indent everywhere else.
+-- Folding: treesitter where a parser with fold queries exists, none elsewhere.
 opt.foldlevel = 99
 opt.foldtext = ""
 opt.foldmethod = "expr"
 opt.foldexpr = "v:lua.require'util.treesitter'.foldexpr()"
-
--- Undercurl support in terminals that understand it.
-vim.cmd([[let &t_Cs = "\e[4:3m"]])
-vim.cmd([[let &t_Ce = "\e[4:0m"]])

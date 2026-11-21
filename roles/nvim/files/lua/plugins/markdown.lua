@@ -2,8 +2,8 @@ return {
   -- In-buffer markdown rendering: headings, tables, code blocks, callouts.
   {
     "MeanderingProgrammer/render-markdown.nvim",
-    ft = { "markdown", "norg", "rmd", "org", "codecompanion" },
-    dependencies = { "nvim-treesitter/nvim-treesitter", "echasnovski/mini.icons" },
+    ft = { "markdown" },
+    dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-mini/mini.icons" },
     opts = {
       code = { sign = false, width = "block", right_pad = 1 },
       heading = { sign = false, icons = {} },

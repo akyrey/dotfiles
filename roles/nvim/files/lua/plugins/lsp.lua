@@ -4,7 +4,8 @@ return {
   -- and is enabled by core/lsp.lua, with no mason-lspconfig bridge.
   {
     "mason-org/mason.nvim",
-    cmd = { "Mason", "MasonInstall", "MasonUpdate" },
+    -- Loads at startup: setup() puts mason's bin dir on $PATH, which every
+    -- server, formatter and linter below relies on.
     lazy = false,
     keys = {
       { "<leader>cm", "<cmd>Mason<cr>", desc = "Mason" },
@@ -61,6 +62,12 @@ return {
       end)
     end,
   },
+
+  -- Server defaults (cmd, filetypes, root detection) for every server named in
+  -- core/lsp.lua. lspconfig only contributes its lsp/<name>.lua files to the
+  -- runtimepath; nothing calls setup(). Overrides live in after/lsp/<name>.lua
+  -- so they are merged on top of these defaults rather than underneath them.
+  { "neovim/nvim-lspconfig", lazy = false, config = false },
 
   -- Lua LSP that understands the Neovim API and this config's own modules.
   -- Replaces neoconf/neodev, hence no .neoconf.json in this config.

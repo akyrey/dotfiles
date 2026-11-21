@@ -110,7 +110,7 @@ carried over unchanged.
 
 ## <leader>x
 
-- [ ] `<leader>xl` (n) — Location List
+- [ ] `<leader>xl` (n) — Diagnostics to Location List
 - [ ] `<leader>xq` (n) — Quickfix List
 
 ## <leader>|
@@ -204,26 +204,6 @@ These live in the plugin specs in the new config, not in `core/keymaps.lua`.
 ## <leader>U
 
 - [ ] `<leader>U` (n) — Toggle undotree
-
-## <leader>a
-
-- [ ] `<leader>as` (v) — Send to Claude
-- [ ] `<leader>ab` (n) — Add current buffer
-- [ ] `<leader>aC` (n) — Continue Claude
-- [ ] `<leader>ar` (n) — Resume Claude
-- [ ] `<leader>af` (n) — Focus Claude
-- [ ] `<leader>ac` (n) — Toggle Claude
-- [ ] `<leader>a` (v) — +ai
-- [ ] `<leader>ad` (n) — Deny diff
-- [ ] `<leader>aa` (n) — Accept diff
-
-## <leader>b
-
-- [ ] `<leader>br` (n) — Delete Buffers to the Right
-- [ ] `<leader>bj` (n) — Pick Buffer
-- [ ] `<leader>bl` (n) — Delete Buffers to the Left
-- [ ] `<leader>bP` (n) — Delete Non-Pinned Buffers
-- [ ] `<leader>bp` (n) — Toggle Pin
 
 ## <leader>c
 

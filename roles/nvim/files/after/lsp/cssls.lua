@@ -1,9 +1,5 @@
-local lsp = require("util.lsp")
-
+-- Overrides on top of nvim-lspconfig's lsp/cssls.lua.
 return {
-  cmd = lsp.node_cmd("vscode-css-language-server"),
-  filetypes = { "css", "scss", "less" },
-  root_markers = { "package.json", ".git" },
   settings = {
     -- Tailwind's @apply/@tailwind at-rules are not standard CSS.
     css = { validate = true, lint = { unknownAtRules = "ignore" } },

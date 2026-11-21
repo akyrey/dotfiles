@@ -124,7 +124,8 @@ return {
     vim.api.nvim_create_autocmd("User", {
       pattern = "VeryLazy",
       callback = function()
-        -- Route vim.notify through snacks, and expose the debug helpers.
+        -- Debug helpers: dd(...) and vim.print() pretty-print through
+        -- Snacks.debug. (vim.notify goes through snacks' notifier on its own.)
         _G.dd = function(...)
           Snacks.debug.inspect(...)
         end

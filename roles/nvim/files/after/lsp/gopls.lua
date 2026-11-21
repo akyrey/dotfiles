@@ -1,7 +1,5 @@
+-- Overrides on top of nvim-lspconfig's lsp/gopls.lua.
 return {
-  cmd = { "gopls" },
-  filetypes = { "go", "gomod", "gowork" },
-  root_markers = { "go.work", "go.mod", ".git" },
   settings = {
     gopls = {
       gofumpt = true,

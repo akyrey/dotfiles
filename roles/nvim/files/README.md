@@ -16,16 +16,16 @@ lua/core/
   autocmds.lua           global autocmds
   filetypes.lua          vim.filetype.add
   lazy.lua               lazy.nvim bootstrap + setup
-  root.lua               project root detection (vim.g.root_spec)
+  root.lua               the one project-root definition (markers + LSP roots)
   format.lua             the autoformat toggle conform asks about
   lsp.lua                diagnostics, LspAttach keymaps, vim.lsp.enable list
 lua/util/
   exec.lua               resolving PHP tools through docker / xenv / sail / vendor
-  lsp.lua                node_modules-aware cmd builder for the vscode-* servers
   php_test.lua           runs the neotest PHP adapters through projector's `php`
   projector.lua          projector commands as overseer tasks
   treesitter.lua         "is there a parser/query for this?" helpers
-lsp/<server>.lua         one file per language server, found on the runtimepath
+lsp/<server>.lua         servers nvim-lspconfig doesn't ship (koseven_lsp, laravel_lsp)
+after/lsp/<server>.lua   overrides merged on top of nvim-lspconfig's defaults
 lua/plugins/*.lua        plugin specs, one file per concern
 after/ftplugin/*.lua     per-filetype settings
 queries/blade/*.scm      highlight and injection queries for the blade parser
@@ -36,10 +36,19 @@ queries/blade/*.scm      highlight and injection queries for the blade parser
 **Plugins.** `lazy.nvim`, with `lua/plugins/` imported wholesale. Everything is
 lazy-loaded by default; specs that must run at startup say `lazy = false`.
 
-**LSP.** No `nvim-lspconfig`. Each server is a plain table in `lsp/<name>.lua`
-that Neovim resolves off the runtimepath, and `lua/core/lsp.lua` names the ones
-to turn on in a single `vim.lsp.enable({...})` call. `mason.nvim` is present
-only to install binaries.
+**LSP.** Native `vim.lsp.config` / `vim.lsp.enable`, with `nvim-lspconfig`
+present only as a source of `lsp/<name>.lua` defaults (nothing calls its
+`setup()`). Neovim merges every `lsp/<name>.lua` on the runtimepath in order, so
+our overrides live in `after/lsp/<name>.lua`, which sorts last and wins; they
+hold only what differs from lspconfig. Servers lspconfig doesn't know about live
+in `lsp/`. `lua/core/lsp.lua` names the servers to turn on in a single
+`vim.lsp.enable({...})` call. `mason.nvim` is present only to install binaries.
+
+**Project root.** `lua/core/root.lua` is the only place that decides what "the
+project" is. `project()` walks up to the nearest marker (`composer.json` first,
+then `go.mod`, `package.json`, `.git`) and is what the PHP formatters, linters
+and test runner use; `get()` prefers an attached language server's root and is
+what pickers and the explorer open in.
 
 **Formatting.** `conform.nvim`. Format-on-save is off globally
 (`vim.g.autoformat = false`); `<leader>uf` toggles it for a buffer and
@@ -60,7 +69,9 @@ and uses the queries in `queries/blade/`.
 
 ## Adding a language server
 
-1. Write `lsp/<name>.lua` returning `{ cmd, filetypes, root_markers, settings }`.
+1. If nvim-lspconfig ships the server, put only your changes in
+   `after/lsp/<name>.lua` (or nothing at all). Otherwise write `lsp/<name>.lua`
+   returning `{ cmd, filetypes, root_markers, settings }`.
 2. Add `"<name>"` to the `vim.lsp.enable({...})` list in `lua/core/lsp.lua`.
 3. Add the binary to `ensure_installed` in `lua/plugins/lsp.lua`, or install it
    from the Ansible role if mason does not carry it.

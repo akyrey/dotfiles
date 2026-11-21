@@ -60,15 +60,26 @@ return {
 
       -- Blade has no upstream grammar in nvim-treesitter, so register it here.
       -- The highlight and injection queries live in this config's queries/blade/.
-      require("nvim-treesitter.parsers").blade = {
-        install_info = {
-          url = "https://github.com/EmranMR/tree-sitter-blade",
-          revision = "b5291d1ba207a8ebb8383b2ecb8a8a6535210a50",
-        },
-        -- blade injects php_only and html, so those parsers must exist too
-        requires = { "html", "php_only" },
-        tier = 3,
-      }
+      -- :TSUpdate reloads the parsers table, dropping anything added to it, so
+      -- register again on its `User TSUpdate` event as nvim-treesitter's docs
+      -- prescribe for custom parsers.
+      local function register_blade()
+        require("nvim-treesitter.parsers").blade = {
+          install_info = {
+            url = "https://github.com/EmranMR/tree-sitter-blade",
+            revision = "b5291d1ba207a8ebb8383b2ecb8a8a6535210a50",
+          },
+          -- blade injects php_only and html, so those parsers must exist too
+          requires = { "html", "php_only" },
+          tier = 3,
+        }
+      end
+      register_blade()
+      vim.api.nvim_create_autocmd("User", {
+        group = vim.api.nvim_create_augroup("akyrey_treesitter_blade", { clear = true }),
+        pattern = "TSUpdate",
+        callback = register_blade,
+      })
 
       -- Filetypes with no grammar of their own, pointed at a compatible one.
       -- Without this, tsconfig.json (jsonc) and .mdx files get no highlighting
@@ -107,32 +118,22 @@ return {
     end,
   },
 
-  -- Treesitter-aware textobjects and motions (af/if, ac/ic, ]f, [f, ...).
+  -- Treesitter-aware motions (]f, [f, ]C, [C). Selection textobjects
+  -- (af/if, ac/ic, aa/ia, ...) come from mini.ai in plugins/coding.lua, which
+  -- uses this plugin's queries.
   {
     "nvim-treesitter/nvim-treesitter-textobjects",
     branch = "main",
     event = { "BufReadPost", "BufNewFile" },
     dependencies = { "nvim-treesitter/nvim-treesitter" },
     opts = {
-      select = { lookahead = true },
       move = { set_jumps = true },
     },
     config = function(_, opts)
       require("nvim-treesitter-textobjects").setup(opts)
 
-      local select = require("nvim-treesitter-textobjects.select")
       local move = require("nvim-treesitter-textobjects.move")
       local map = vim.keymap.set
-
-      -- af/if, ac/ic, aa/ia select function, class and parameter.
-      for key, obj in pairs({ f = "function", c = "class", a = "parameter" }) do
-        map({ "x", "o" }, "a" .. key, function()
-          select.select_textobject("@" .. obj .. ".outer", "textobjects")
-        end, { desc = "Select outer " .. obj })
-        map({ "x", "o" }, "i" .. key, function()
-          select.select_textobject("@" .. obj .. ".inner", "textobjects")
-        end, { desc = "Select inner " .. obj })
-      end
 
       map({ "n", "x", "o" }, "]f", function()
         move.goto_next_start("@function.outer", "textobjects")
@@ -140,10 +141,11 @@ return {
       map({ "n", "x", "o" }, "[f", function()
         move.goto_previous_start("@function.outer", "textobjects")
       end, { desc = "Prev function start" })
-      map({ "n", "x", "o" }, "]c", function()
+      -- Upper-case C: ]c / [c stay the built-in next/prev change in diff mode.
+      map({ "n", "x", "o" }, "]C", function()
         move.goto_next_start("@class.outer", "textobjects")
       end, { desc = "Next class start" })
-      map({ "n", "x", "o" }, "[c", function()
+      map({ "n", "x", "o" }, "[C", function()
         move.goto_previous_start("@class.outer", "textobjects")
       end, { desc = "Prev class start" })
     end,

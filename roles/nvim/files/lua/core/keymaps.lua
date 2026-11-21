@@ -32,13 +32,15 @@ map("n", "Y", "y$", { desc = "Yank to end of line" })
 -- Registers and clipboard
 -- ---------------------------------------------------------------------------
 
--- The unnamed register is the default (see core/options.lua), so reaching the
--- system clipboard is explicit.
+-- 'clipboard' is empty (see core/options.lua), so yanks and deletes stay in
+-- Neovim's own registers and reaching the system clipboard is explicit.
 map({ "n", "v" }, "<leader>y", '"+y', { desc = "Copy to system clipboard" })
 map("n", "<leader>Y", '"+Y', { desc = "Copy line to system clipboard" })
 
--- Delete without clobbering the yank register.
-map({ "n", "v" }, "<leader>d", '"_d', { desc = "Delete to void register" })
+-- Delete without clobbering the yank register. Upper-case D because the
+-- <leader>d prefix belongs to the debugger (plugins/dap.lua): sharing it made
+-- `<leader>diw` step into instead of deleting a word.
+map({ "n", "v" }, "<leader>D", '"_d', { desc = "Delete to void register" })
 
 -- ---------------------------------------------------------------------------
 -- Insert mode
@@ -134,9 +136,10 @@ map(
 -- Diagnostics
 -- ---------------------------------------------------------------------------
 
-map("n", "<leader>f", vim.diagnostic.open_float, { desc = "Open diagnostic float window" })
+-- Not on bare <leader>f / <leader>q: those are prefixes (<leader>ff,
+-- <leader>qq, ...), so a mapping on the prefix itself waits for 'timeoutlen'.
 map("n", "<leader>cd", vim.diagnostic.open_float, { desc = "Line diagnostics" })
-map("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Move diagnostics to location list" })
+map("n", "<leader>xl", vim.diagnostic.setloclist, { desc = "Diagnostics to location list" })
 
 ---@param severity vim.diagnostic.Severity?
 local function diagnostic_goto(count, severity)

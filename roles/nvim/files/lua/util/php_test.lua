@@ -15,7 +15,6 @@
 -- Projects without a projector `php` command run the tools directly.
 local M = {}
 
-local ROOT_MARKERS = { "composer.json" }
 local PROJECTOR_COMMAND = "php"
 local REPORT_DIR = "vendor"
 
@@ -135,7 +134,7 @@ function M.wrap(adapter, opts)
 
   function wrapped.build_spec(args)
     local spec = adapter.build_spec(args)
-    local root = spec and vim.fs.root(args.tree:data().path, ROOT_MARKERS)
+    local root = spec and require("core.root").find(args.tree:data().path)
     -- The dap strategy launches its own program; leave it untouched.
     if not root or args.strategy == "dap" then
       return spec

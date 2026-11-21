@@ -1,13 +1,13 @@
--- Expands emmet abbreviations. Deliberately broad filetype list so it works in
--- blade templates as well as plain HTML.
+-- Overrides on top of nvim-lspconfig's lsp/emmet_ls.lua: lspconfig's filetype
+-- list plus blade, so abbreviations expand in blade templates too.
 return {
-  cmd = { "emmet-ls", "--stdio" },
   filetypes = {
     "astro",
     "blade",
     "css",
     "eruby",
     "html",
+    "htmlangular",
     "htmldjango",
     "javascriptreact",
     "less",
@@ -15,8 +15,8 @@ return {
     "sass",
     "scss",
     "svelte",
+    "templ",
     "typescriptreact",
     "vue",
   },
-  root_markers = { ".git" },
 }

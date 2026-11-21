@@ -7,16 +7,10 @@
 -- always root-relative, and it is the only copy.
 local M = {}
 
-local ROOT_MARKERS = { "composer.json", ".git" }
-
 --- Project root for a buffer. Always pass the buffer being acted on: conform
 --- can format a buffer that is not the current one, and resolving against the
 --- wrong buffer picks up the wrong project's vendor/ and xenv.
----@param bufnr integer?
----@return string
-local function project_root(bufnr)
-  return vim.fs.root(bufnr or 0, ROOT_MARKERS) or vim.uv.cwd()
-end
+local project_root = require("core.root").project
 
 --- Resolve how to run a PHP tool, in order of preference:
 ---   1. <root>/dev/bin/<exe>                     project's own docker wrapper script
@@ -86,7 +80,5 @@ function M.has_pint(bufnr)
   local req_dev = json["require-dev"] or {}
   return (req["laravel/pint"] or req_dev["laravel/pint"]) ~= nil
 end
-
-M.project_root = project_root
 
 return M

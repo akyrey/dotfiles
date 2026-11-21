@@ -12,7 +12,6 @@ return {
         dap = true,
         dap_ui = true,
         diffview = true,
-        fidget = true,
         gitsigns = true,
         harpoon = true,
         markdown = true,

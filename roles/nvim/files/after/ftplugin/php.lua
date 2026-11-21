@@ -4,6 +4,10 @@
 -- before the cursor: treesitter's parse tree lags behind the character
 -- that's currently being typed (most visibly inside a fresh `//` comment),
 -- so it isn't reliable for this same-keystroke check.
+--
+-- A second `-` straight after an expanded `->` turns it into `--`, so the
+-- decrement `$i--` still types naturally. Subtraction needs a space before the
+-- `-` (`$i - 1`), as PSR-12 asks for anyway.
 local function in_string_or_comment(before_cursor)
   local hash = before_cursor:find("#")
   if before_cursor:find("//", 1, true) or (hash and before_cursor:sub(hash, hash + 1) ~= "#[") then
@@ -31,6 +35,11 @@ vim.keymap.set("i", "-", function()
   local col = vim.fn.col(".") - 1
   local line = vim.fn.getline(".")
   local char_before = line:sub(col, col)
+
+  -- `$i-` became `$i->`; a second `-` means the decrement `$i--`.
+  if line:sub(col - 1, col) == "->" and line:sub(col - 2, col - 2):match("[%w_%)%]]") then
+    return "<BS>-"
+  end
 
   if char_before:match("[%w_%$%)%]]") and not in_string_or_comment(line:sub(1, col)) then
     return "->"

@@ -89,23 +89,45 @@ return {
     "ThePrimeagen/harpoon",
     branch = "harpoon2",
     dependencies = { "nvim-lua/plenary.nvim" },
-    event = "VeryLazy",
-    opts = {
-      ---@type HarpoonSettings
-      settings = {
-        save_on_toggle = true,
-        sync_on_ui_close = true,
-        -- Key the list by "<cwd>-<branch>" so each branch keeps its own set of
-        -- files. Falls back to cwd alone outside a git repo.
-        key = function()
-          local branch = vim.system({ "git", "rev-parse", "--abbrev-ref", "HEAD" }, { text = true }):wait()
-          if branch.code == 0 then
-            return vim.uv.cwd() .. "-" .. vim.trim(branch.stdout)
-          end
-          return vim.uv.cwd()
+    opts = function()
+      -- harpoon calls `key` on every list() access, i.e. on every <C-h/j/k/l>.
+      -- Cache the branch per cwd instead of running git each time, and forget
+      -- it whenever the branch may have changed: after changing directory,
+      -- when focus returns from another tmux pane, or when leaving a terminal
+      -- (lazygit, a shell) inside nvim.
+      local branch_by_cwd = {} ---@type table<string, string|false>
+      vim.api.nvim_create_autocmd({ "DirChanged", "FocusGained", "TermLeave" }, {
+        group = vim.api.nvim_create_augroup("akyrey_harpoon_branch", { clear = true }),
+        callback = function()
+          branch_by_cwd = {}
         end,
-      },
-    },
+      })
+
+      ---@param cwd string
+      ---@return string|false
+      local function branch(cwd)
+        if branch_by_cwd[cwd] == nil then
+          local result = vim.system({ "git", "rev-parse", "--abbrev-ref", "HEAD" }, { cwd = cwd, text = true }):wait()
+          branch_by_cwd[cwd] = result.code == 0 and vim.trim(result.stdout) or false
+        end
+        return branch_by_cwd[cwd]
+      end
+
+      return {
+        ---@type HarpoonSettings
+        settings = {
+          save_on_toggle = true,
+          sync_on_ui_close = true,
+          -- Key the list by "<cwd>-<branch>" so each branch keeps its own set
+          -- of files. Falls back to cwd alone outside a git repo.
+          key = function()
+            local cwd = vim.uv.cwd()
+            local name = branch(cwd)
+            return name and (cwd .. "-" .. name) or cwd
+          end,
+        },
+      }
+    end,
     -- stylua: ignore
     keys = {
       { "<leader>ha", function() require("harpoon"):list():add() end, desc = "Harpoon add file" },
@@ -178,13 +200,13 @@ return {
   -- Inline highlighting for shorthand patterns. Hex and rgb() colours are left
   -- to nvim-colorizer (see plugins/ui.lua) rather than being done twice.
   {
-    "echasnovski/mini.hipatterns",
+    "nvim-mini/mini.hipatterns",
     event = { "BufReadPost", "BufNewFile" },
     opts = function()
       local hi = require("mini.hipatterns")
       return {
         highlighters = {
-          -- #rrggbb written as a `0xRRGGBB` literal, common in lua configs
+          -- 3-digit #rgb shorthand, expanded to #rrggbb for the highlight
           shorthand = {
             pattern = "()#%x%x%x()%f[^%x%w]",
             group = function(_, _, data)

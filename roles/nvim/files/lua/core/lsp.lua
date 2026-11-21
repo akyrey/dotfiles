@@ -1,6 +1,9 @@
 -- LSP wiring: diagnostics, per-buffer keymaps, and which servers to enable.
--- Server settings themselves live one-per-file in lsp/*.lua, which Neovim
--- resolves off the runtimepath when vim.lsp.enable() names them.
+--
+-- Server definitions come from nvim-lspconfig's lsp/<name>.lua files. Our
+-- overrides live in after/lsp/<name>.lua: Neovim merges every lsp/<name>.lua on
+-- the runtimepath in order, and after/ sorts last, so ours win. Servers that
+-- lspconfig does not know about (koseven_lsp, laravel_lsp) live in lsp/.
 
 -- ---------------------------------------------------------------------------
 -- Diagnostics
@@ -82,8 +85,9 @@ vim.api.nvim_create_autocmd("LspAttach", {
       return
     end
 
-    local function map(mode, lhs, rhs, desc)
-      vim.keymap.set(mode, lhs, rhs, { buffer = buf, desc = "LSP: " .. desc })
+    ---@param opts? vim.keymap.set.Opts
+    local function map(mode, lhs, rhs, desc, opts)
+      vim.keymap.set(mode, lhs, rhs, vim.tbl_extend("force", { buffer = buf, desc = "LSP: " .. desc }, opts or {}))
     end
 
     -- Navigation goes through the picker so results are fuzzy-filterable.
@@ -95,7 +99,9 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
     map("n", "gd", picker("lsp_definitions"), "Goto definition")
     map("n", "gD", vim.lsp.buf.declaration, "Goto declaration")
-    map("n", "gr", picker("lsp_references"), "References")
+    -- nowait: the built-in grn/gra/grr/gri/grt maps would otherwise make
+    -- every `gr` wait for 'timeoutlen'.
+    map("n", "gr", picker("lsp_references"), "References", { nowait = true })
     map("n", "gI", picker("lsp_implementations"), "Goto implementation")
     map("n", "gy", picker("lsp_type_definitions"), "Goto type definition")
     map("n", "<leader>ss", picker("lsp_symbols"), "Document symbols")
@@ -117,31 +123,17 @@ vim.api.nvim_create_autocmd("LspAttach", {
       Snacks.rename.rename_file()
     end, "Rename file")
 
+    -- Inlay hints on by default; <leader>uh (a Snacks toggle, see
+    -- plugins/snacks.lua) turns them off. Reference highlighting under the
+    -- cursor comes from Snacks.words, which also cleans up on LspDetach.
     if client:supports_method("textDocument/inlayHint") then
       vim.lsp.inlay_hint.enable(true, { bufnr = buf })
-      map("n", "<leader>uh", function()
-        vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = buf }), { bufnr = buf })
-      end, "Toggle inlay hints")
-    end
-
-    if client:supports_method("textDocument/documentHighlight") then
-      local group = vim.api.nvim_create_augroup("akyrey_lsp_highlight_" .. buf, { clear = true })
-      vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
-        buffer = buf,
-        group = group,
-        callback = vim.lsp.buf.document_highlight,
-      })
-      vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
-        buffer = buf,
-        group = group,
-        callback = vim.lsp.buf.clear_references,
-      })
     end
   end,
 })
 
 -- ---------------------------------------------------------------------------
--- Enabled servers (each has a matching lsp/<name>.lua)
+-- Enabled servers (defaults from nvim-lspconfig, overrides in after/lsp/)
 -- ---------------------------------------------------------------------------
 
 vim.lsp.enable({
