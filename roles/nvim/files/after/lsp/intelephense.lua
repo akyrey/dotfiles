@@ -27,6 +27,11 @@ return {
           "**/vendor/**/vendor/**",
           "**/work/**/application/cache/**",
           "**/work/**/tests/coverage/**",
+          -- Laravel's compiled views, caches and laravel-lsp's temp files come
+          -- and go faster than intelephense indexes them, which filled the LSP
+          -- log with tens of thousands of ENOENT warnings.
+          "**/storage/framework/**",
+          "**/bootstrap/cache/**",
         },
       },
     },

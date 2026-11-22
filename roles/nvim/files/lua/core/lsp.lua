@@ -6,6 +6,27 @@
 -- lspconfig does not know about (koseven_lsp, laravel_lsp) live in lsp/.
 
 -- ---------------------------------------------------------------------------
+-- Log rotation
+-- ---------------------------------------------------------------------------
+
+-- Neovim never rotates the LSP log, and it records everything a server writes
+-- to stderr as ERROR regardless of log level, so chatty servers (koseven-lsp's
+-- INFO logging) grew it past 200 MB. Move it aside at startup once it passes
+-- the cap; at most one previous log is kept.
+local LSP_LOG_MAX_BYTES = 50 * 1024 * 1024
+
+do
+  local log_path = vim.lsp.log.get_filename()
+  local stat = vim.uv.fs_stat(log_path)
+  if stat and stat.size > LSP_LOG_MAX_BYTES then
+    local ok, err = os.rename(log_path, log_path .. ".old")
+    if not ok then
+      vim.notify("Could not rotate LSP log: " .. tostring(err), vim.log.levels.WARN)
+    end
+  end
+end
+
+-- ---------------------------------------------------------------------------
 -- Diagnostics
 -- ---------------------------------------------------------------------------
 

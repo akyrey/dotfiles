@@ -5,6 +5,9 @@
 vim.filetype.add({
   extension = {
     mdx = "mdx",
+    -- Go templates. gopls lists `gotmpl` among its filetypes and the gotmpl
+    -- treesitter parser is installed, but Neovim has no detection for it.
+    gotmpl = "gotmpl",
   },
   filename = {
     ["tsconfig.json"] = "jsonc",
