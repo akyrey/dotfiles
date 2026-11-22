@@ -18,7 +18,7 @@ alias dk="docker"
 alias dki="docker images"
 alias dkr="docker run -it --rm"
 alias dkxxx="docker system prune -f --volumes"
-alias dkrmi="docker rmi $(docker images --filter 'dangling=true' -q --no-trunc)"
+alias dkrmi='docker rmi $(docker images --filter dangling=true -q --no-trunc)'
 alias dkc="docker compose"
 function dkrv() {
   docker run -it --rm \
@@ -26,6 +26,8 @@ function dkrv() {
     -v "$PWD":/ws -w /ws \
     "$@";
 }
+
+alias pj=projector
 
 # Docker login to ECR repo
 alias aws-login="aws ecr get-login-password --region eu-south-1 | docker login --username AWS --password-stdin 422393141836.dkr.ecr.eu-south-1.amazonaws.com"

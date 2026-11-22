@@ -1,0 +1,209 @@
+-- Replaces none-ls.nvim, which existed in the old config only to run phpcs and
+-- phpstan. nvim-lint has both built in, so this drops a plugin and the code
+-- that filtered LazyVim's own none-ls sources back out.
+--
+-- The PHP linters need the same docker/xenv/sail resolution as the formatters,
+-- and they must run from the project root so .phpcs.xml and the phpstan config
+-- resolve. nvim-lint's `wrap_linter` hook exists for exactly this: it runs just
+-- before cmd and args are evaluated, so the command can be resolved per buffer.
+return {
+  "mfussenegger/nvim-lint",
+  event = { "BufReadPost", "BufNewFile", "BufWritePost" },
+  opts = {
+    linters_by_ft = {
+      php = { "phpcs", "phpstan" },
+      blade = { "phpcs" },
+      javascript = { "eslint_d" },
+      javascriptreact = { "eslint_d" },
+      typescript = { "eslint_d" },
+      typescriptreact = { "eslint_d" },
+    },
+  },
+  config = function(_, opts)
+    local lint = require("lint")
+    local exec = require("util.exec")
+    local roots = require("core.root")
+
+    lint.linters_by_ft = opts.linters_by_ft
+
+    --- Path of the buffer relative to the project root. The PHP tools run with
+    --- cwd = root, and for xenv/sail projects that root is a bind mount inside a
+    --- container (/skp, /var/www/html, ...), where the host's absolute path does
+    --- not exist. Relative paths resolve correctly on both sides.
+    ---@param root string
+    ---@param bufnr integer?
+    ---@return string
+    local function relative_path(root, bufnr)
+      local name = vim.api.nvim_buf_get_name(bufnr or 0)
+      return vim.fs.relpath(root, name) or name
+    end
+
+    -- Extra arguments layered on top of nvim-lint's built-in definitions.
+    -- phpcs reads the buffer over stdin (hence the trailing "-"). phpstan does
+    -- not, so nvim-lint would append the buffer's absolute path itself; we turn
+    -- that off (see APPEND_FNAME) and append the relative one instead.
+    local EXTRA_ARGS = {
+      phpcs = function()
+        return {
+          "--report=json",
+          "-q",
+          "-s",
+          -- Report findings without a non-zero exit, so nvim-lint sees output.
+          "--runtime-set",
+          "ignore_warnings_on_exit",
+          "1",
+          "--runtime-set",
+          "ignore_errors_on_exit",
+          "1",
+          "--standard=.phpcs.xml",
+          "--stdin-path=" .. vim.api.nvim_buf_get_name(0),
+          "--basepath=",
+          "-",
+        }
+      end,
+      phpstan = function(root)
+        local args = { "analyze", "--error-format", "json", "--no-progress" }
+        -- skp-core keeps its config out of the default location; other projects
+        -- use a plain phpstan.neon that phpstan finds on its own.
+        local custom = vim.fs.joinpath(root, ".phpstan", "phpstorm.neon")
+        if vim.uv.fs_stat(custom) then
+          table.insert(args, 2, ".phpstan/phpstorm.neon")
+          table.insert(args, 2, "-c")
+        end
+        table.insert(args, relative_path(root))
+        return args
+      end,
+    }
+
+    -- Linters whose filename argument we supply ourselves. nvim-lint appends
+    -- `nvim_buf_get_name()` to any linter that does not read stdin, and that
+    -- absolute host path does not exist inside the xenv/sail container.
+    local APPEND_FNAME = {
+      phpstan = false,
+    }
+
+    -- Parser overrides. nvim-lint's phpstan parser looks the buffer up in the
+    -- report by its absolute host path, which never matches when phpstan ran
+    -- inside a container and reported its own mount path, so the buffer silently
+    -- gets no diagnostics. Match on the project-relative tail instead.
+    local PARSERS = {
+      phpstan = function(output, bufnr)
+        if output == nil or vim.trim(output) == "" then
+          return {}
+        end
+        local ok, decoded = pcall(vim.json.decode, output)
+        if not ok or type(decoded) ~= "table" then
+          return {}
+        end
+        local rel = relative_path(roots.project(bufnr), bufnr)
+        local diagnostics = {}
+        for path, file in pairs(decoded.files or {}) do
+          if vim.endswith(path, rel) then
+            for _, message in ipairs(file.messages or {}) do
+              table.insert(diagnostics, {
+                lnum = type(message.line) == "number" and (message.line - 1) or 0,
+                col = 0,
+                message = message.message,
+                source = "phpstan",
+                code = message.identifier,
+              })
+            end
+          end
+        end
+        return diagnostics
+      end,
+    }
+
+    ---@param linter lint.Linter
+    ---@return lint.Linter
+    local function wrap_linter(linter)
+      local build = EXTRA_ARGS[linter.name]
+      if not build then
+        return linter
+      end
+      local root = roots.project(0)
+      local resolved = exec.php_tool(linter.name, 0)
+      return vim.tbl_extend("force", linter, {
+        cmd = resolved.cmd,
+        -- Wrappers (xenv, sail) contribute their own prefix, e.g. `php vendor/bin/phpstan`.
+        args = vim.list_extend(vim.deepcopy(resolved.args), build(root)),
+        cwd = root,
+        append_fname = APPEND_FNAME[linter.name] ~= false,
+        parser = PARSERS[linter.name] or linter.parser,
+      })
+    end
+
+    -- A PHP linter with no config in the project just errors out. Skip it
+    -- rather than showing a failure notification on every save: not every
+    -- repo here carries a .phpcs.xml or a phpstan config.
+    local CONFIGS = {
+      phpcs = { ".phpcs.xml", ".phpcs.xml.dist", "phpcs.xml", "phpcs.xml.dist" },
+      phpstan = { ".phpstan/phpstorm.neon", "phpstan.neon", "phpstan.neon.dist" },
+    }
+
+    ---@param linter lint.Linter
+    ---@return boolean
+    local function filter(linter)
+      local candidates = CONFIGS[linter.name]
+      if not candidates then
+        return true
+      end
+      local root = roots.project(0)
+      for _, rel in ipairs(candidates) do
+        if vim.uv.fs_stat(vim.fs.joinpath(root, rel)) then
+          return true
+        end
+      end
+      return false
+    end
+
+    -- Linters that read the file from disk rather than the buffer. Running them
+    -- on InsertLeave reports on the last saved version and, for phpstan, spins
+    -- up a container every time insert mode ends, so they only run when the
+    -- file on disk is current (read, write, or an explicit <leader>cl).
+    local DISK_ONLY = { phpstan = true }
+
+    ---@param opts? { skip_disk_only?: boolean }
+    local function run(opts)
+      opts = opts or {}
+      -- Linters that read from disk produce nonsense on scratch and unnamed
+      -- buffers, so only lint real files.
+      if vim.bo.buftype ~= "" or vim.api.nvim_buf_get_name(0) == "" then
+        return
+      end
+      lint.try_lint(nil, {
+        wrap_linter = wrap_linter,
+        filter = function(linter)
+          if opts.skip_disk_only and DISK_ONLY[linter.name] then
+            return false
+          end
+          return filter(linter)
+        end,
+      })
+    end
+
+    local group = vim.api.nvim_create_augroup("akyrey_lint", { clear = true })
+    vim.api.nvim_create_autocmd({ "BufReadPost", "BufWritePost" }, {
+      group = group,
+      callback = function()
+        run()
+      end,
+    })
+    vim.api.nvim_create_autocmd("InsertLeave", {
+      group = group,
+      callback = function()
+        run({ skip_disk_only = true })
+      end,
+    })
+
+    vim.keymap.set("n", "<leader>cl", function()
+      run()
+    end, { desc = "Lint buffer" })
+
+    -- This plugin loads on the first buffer's BufReadPost, after which the
+    -- autocmd above is too late for that buffer, so lint it now.
+    vim.schedule(function()
+      run()
+    end)
+  end,
+}

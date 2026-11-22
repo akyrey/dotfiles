@@ -1,31 +1,35 @@
 return {
   {
     "mfussenegger/nvim-dap",
-    keys = {
-      {
-        "<leader>dO",
-        function()
-          require("dap").step_out()
-        end,
-        desc = "Step Out",
-      },
-      {
-        "<leader>do",
-        function()
-          require("dap").step_over()
-        end,
-        desc = "Step Over",
-      },
-      {
-        "<leader>d?",
-        function()
-          require("dapui").eval(nil, { enter = true })
-        end,
-        desc = "Display current word value",
-      },
+    dependencies = {
+      "rcarriga/nvim-dap-ui",
+      "theHamsta/nvim-dap-virtual-text",
     },
-    opts = function()
+    -- stylua: ignore
+    keys = {
+      { "<leader>dB", function() require("dap").set_breakpoint(vim.fn.input("Breakpoint condition: ")) end, desc = "Breakpoint condition" },
+      { "<leader>db", function() require("dap").toggle_breakpoint() end, desc = "Toggle breakpoint" },
+      { "<leader>dc", function() require("dap").continue() end, desc = "Run/continue" },
+      { "<leader>da", function() require("dap").continue({ before = function() return vim.fn.input("Args: ") end }) end, desc = "Run with args" },
+      { "<leader>dC", function() require("dap").run_to_cursor() end, desc = "Run to cursor" },
+      { "<leader>dg", function() require("dap").goto_() end, desc = "Go to line (no execute)" },
+      { "<leader>di", function() require("dap").step_into() end, desc = "Step into" },
+      { "<leader>dj", function() require("dap").down() end, desc = "Down" },
+      { "<leader>dk", function() require("dap").up() end, desc = "Up" },
+      { "<leader>dl", function() require("dap").run_last() end, desc = "Run last" },
+      { "<leader>do", function() require("dap").step_over() end, desc = "Step over" },
+      { "<leader>dO", function() require("dap").step_out() end, desc = "Step out" },
+      { "<leader>dP", function() require("dap").pause() end, desc = "Pause" },
+      { "<leader>dr", function() require("dap").repl.toggle() end, desc = "Toggle REPL" },
+      { "<leader>ds", function() require("dap").session() end, desc = "Session" },
+      { "<leader>dt", function() require("dap").terminate() end, desc = "Terminate" },
+      { "<leader>dw", function() require("dap.ui.widgets").hover() end, desc = "Widgets" },
+      { "<leader>d?", function() require("dapui").eval(nil, { enter = true }) end, desc = "Display current word value" },
+    },
+    config = function()
       local dap = require("dap")
+
+      -- Adapters. Both binaries come from mason (see plugins/lsp.lua).
       dap.adapters["pwa-node"] = {
         type = "server",
         host = "localhost",
@@ -33,7 +37,7 @@ return {
         executable = {
           command = "node",
           args = {
-            vim.fn.expand("$MASON/share/js-debug-adapter/js-debug/src/dapDebugServer.js"),
+            vim.fn.expand("$MASON/packages/js-debug-adapter/js-debug/src/dapDebugServer.js"),
             "${port}",
           },
         },
@@ -41,10 +45,9 @@ return {
       dap.adapters["php"] = {
         type = "executable",
         command = "node",
-        args = {
-          vim.fn.expand("$MASON/share/php-debug-adapter/extension/out/phpDebug.js"),
-        },
+        args = { vim.fn.expand("$MASON/packages/php-debug-adapter/extension/out/phpDebug.js") },
       }
+
       for _, language in ipairs({ "typescript", "javascript" }) do
         if not dap.configurations[language] then
           dap.configurations[language] = {
@@ -65,60 +68,68 @@ return {
           }
         end
       end
-      dap.configurations.php = {
-        {
-          name = "Docker: Listen for Xdebug 3 - skp-core and sail",
-          type = "php",
-          request = "launch",
-          port = 9003,
-          pathMappings = {
-            ["/var/www/html"] = "${workspaceFolder}",
-          },
-          xdebugSettings = {
-            max_children = 50,
-            max_depth = 5,
-            max_data = 4096,
-          },
-        },
-        {
-          name = "Docker: Listen for Xdebug 3 - wallet and totalizer",
-          type = "php",
-          request = "launch",
-          port = 9003,
-          pathMappings = {
-            ["/skp-svc"] = "${workspaceFolder}",
-          },
-          xdebugSettings = {
-            max_children = 50,
-            max_depth = 5,
-            max_data = 4096,
-          },
-        },
-        {
-          name = "Docker: Listen for Xdebug 2",
-          type = "php",
-          request = "launch",
-          port = 9000,
-          pathMappings = {
-            ["/var/www/html"] = "${workspaceFolder}",
-          },
-          xdebugSettings = {
-            max_children = 50,
-            max_depth = 5,
-            max_data = 4096,
-          },
-        },
-      }
+
+      -- PHP debug configurations come from each project's .vscode/launch.json,
+      -- which nvim-dap reads on every `continue`. Each project listens on its
+      -- own Xdebug port with its own container path mapping, so they belong
+      -- with the project rather than in one shared list here. Blade templates
+      -- use the same configurations as PHP.
+      require("dap.ext.vscode").type_to_filetypes.php = { "php", "blade" }
+
+      -- Keep large arrays and objects inspectable without flooding the UI.
+      local XDEBUG_SETTINGS = { max_children = 50, max_depth = 5, max_data = 4096 }
+      dap.listeners.on_config["akyrey_xdebug_settings"] = function(config)
+        if config.type ~= "php" or config.xdebugSettings then
+          return config
+        end
+        return vim.tbl_extend("force", config, { xdebugSettings = XDEBUG_SETTINGS })
+      end
+
+      -- Breakpoint signs
+      vim.fn.sign_define("DapBreakpoint", { text = "\u{25cf}", texthl = "DiagnosticError" })
+      vim.fn.sign_define("DapBreakpointCondition", { text = "\u{25cf}", texthl = "DiagnosticWarn" })
+      vim.fn.sign_define("DapStopped", { text = "\u{25b6}", texthl = "DiagnosticInfo" })
     end,
   },
-  {
-    "nvim-neotest/nvim-nio",
-  },
+
   {
     "rcarriga/nvim-dap-ui",
-    requires = {
-      "mfussenegger/nvim-dap",
-      "nvim-neotest/nvim-nio",
+    dependencies = { "nvim-neotest/nvim-nio" },
+    opts = {},
+    -- stylua: ignore
+    keys = {
+      { "<leader>du", function() require("dapui").toggle({}) end, desc = "Dap UI" },
+      { "<leader>de", function() require("dapui").eval() end, desc = "Eval", mode = { "n", "v" } },
     },
+    config = function(_, opts)
+      local dap, dapui = require("dap"), require("dapui")
+      dapui.setup(opts)
+      -- Open the UI when a session starts, close it when it ends.
+      dap.listeners.after.event_initialized["dapui_config"] = function()
+        dapui.open({})
+      end
+      dap.listeners.before.event_terminated["dapui_config"] = function()
+        dapui.close({})
+      end
+      dap.listeners.before.event_exited["dapui_config"] = function()
+        dapui.close({})
+      end
+    end,
+  },
+
+  { "nvim-neotest/nvim-nio", lazy = true },
+
+  {
+    "theHamsta/nvim-dap-virtual-text",
+    lazy = true,
+    opts = {},
+  },
+
+  -- Go debugging via delve, with test-aware launch configs.
+  {
+    "leoluz/nvim-dap-go",
+    ft = "go",
+    dependencies = { "mfussenegger/nvim-dap" },
+    opts = {},
   },
 }

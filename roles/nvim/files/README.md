@@ -1,4 +1,83 @@
-# 💤 LazyVim
+# Neovim configuration
 
-A starter template for [LazyVim](https://github.com/LazyVim/LazyVim).
-Refer to the [documentation](https://lazyvim.github.io/installation) to get started.
+A self-contained Neovim config with no distribution framework on top. Everything
+the editor does is defined in this directory.
+
+Requires Neovim 0.11+ (developed against 0.13-dev) for native `vim.lsp.config`
+and `vim.lsp.enable`.
+
+## Layout
+
+```
+init.lua                 entry point; requires each core module in order
+lua/core/
+  options.lua            vim.o / vim.g settings
+  keymaps.lua            global keymaps (plugin keymaps live in their specs)
+  autocmds.lua           global autocmds
+  filetypes.lua          vim.filetype.add
+  lazy.lua               lazy.nvim bootstrap + setup
+  root.lua               the one project-root definition (markers + LSP roots)
+  format.lua             the autoformat toggle conform asks about
+  lsp.lua                diagnostics, LspAttach keymaps, vim.lsp.enable list
+lua/util/
+  exec.lua               resolving PHP tools through docker / xenv / sail / vendor
+  php_test.lua           runs the neotest PHP adapters through projector's `php`
+  projector.lua          projector commands as overseer tasks
+  treesitter.lua         "is there a parser/query for this?" helpers
+lsp/<server>.lua         servers nvim-lspconfig doesn't ship (koseven_lsp, laravel_lsp)
+after/lsp/<server>.lua   overrides merged on top of nvim-lspconfig's defaults
+lua/plugins/*.lua        plugin specs, one file per concern
+after/ftplugin/*.lua     per-filetype settings
+queries/blade/*.scm      highlight and injection queries for the blade parser
+```
+
+## How the pieces fit
+
+**Plugins.** `lazy.nvim`, with `lua/plugins/` imported wholesale. Everything is
+lazy-loaded by default; specs that must run at startup say `lazy = false`.
+
+**LSP.** Native `vim.lsp.config` / `vim.lsp.enable`, with `nvim-lspconfig`
+present only as a source of `lsp/<name>.lua` defaults (nothing calls its
+`setup()`). Neovim merges every `lsp/<name>.lua` on the runtimepath in order, so
+our overrides live in `after/lsp/<name>.lua`, which sorts last and wins; they
+hold only what differs from lspconfig. Servers lspconfig doesn't know about live
+in `lsp/`. `lua/core/lsp.lua` names the servers to turn on in a single
+`vim.lsp.enable({...})` call. `mason.nvim` is present only to install binaries.
+
+**Project root.** `lua/core/root.lua` is the only place that decides what "the
+project" is. `project()` walks up to the nearest marker (`composer.json` first,
+then `go.mod`, `package.json`, `.git`) and is what the PHP formatters, linters
+and test runner use; `get()` prefers an attached language server's root and is
+what pickers and the explorer open in.
+
+**Formatting.** `conform.nvim`. Format-on-save is off globally
+(`vim.g.autoformat = false`); `<leader>uf` toggles it for a buffer and
+`<leader>uF` globally, and `<leader>cf` formats on demand regardless.
+
+**Linting.** `nvim-lint`. PHP linters are resolved per project and skipped
+entirely when the project has no `.phpcs.xml` / phpstan config.
+
+**PHP tooling.** `lua/util/exec.lua` decides how to run pint, php-cs-fixer,
+phpcs and phpstan, preferring in order: `<root>/dev/bin/<tool>`, `<root>/xenv`,
+`<root>/vendor/bin/sail`, `<root>/vendor/bin/<tool>`, then `$PATH`. `pint` is
+chosen over `php-cs-fixer` when composer.json requires `laravel/pint`.
+
+**Treesitter.** `nvim-treesitter` on the `main` branch: parsers are installed
+from the list in `lua/plugins/treesitter.lua` and a `FileType` autocmd enables
+highlighting and indenting per buffer. The blade grammar is registered there too
+and uses the queries in `queries/blade/`.
+
+## Adding a language server
+
+1. If nvim-lspconfig ships the server, put only your changes in
+   `after/lsp/<name>.lua` (or nothing at all). Otherwise write `lsp/<name>.lua`
+   returning `{ cmd, filetypes, root_markers, settings }`.
+2. Add `"<name>"` to the `vim.lsp.enable({...})` list in `lua/core/lsp.lua`.
+3. Add the binary to `ensure_installed` in `lua/plugins/lsp.lua`, or install it
+   from the Ansible role if mason does not carry it.
+
+## Adding a plugin
+
+Add a spec to the matching file in `lua/plugins/`, or create a new one. Give it
+a real load trigger (`event`, `ft`, `cmd` or `keys`) rather than leaving it
+eager.

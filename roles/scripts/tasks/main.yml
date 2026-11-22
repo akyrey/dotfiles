@@ -15,15 +15,6 @@
     - install
     - scripts
 
-- name: Create symlink to ~/.local/bin/cht.sh
-  file:
-    src: "{{ dotfiles_home }}/roles/scripts/files/cht.sh"
-    dest: "{{ dotfiles_user_home }}/.local/bin/cht.sh"
-    state: link
-  tags:
-    - install
-    - scripts
-
 - name: Create symlink to ~/.local/bin/run-or-raise
   file:
     src: "{{ dotfiles_home }}/roles/scripts/files/run-or-raise"

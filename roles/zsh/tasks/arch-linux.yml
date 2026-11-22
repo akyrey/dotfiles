@@ -1,4 +1,6 @@
 - name: Install zsh with pacman
   community.general.pacman:
-    name: zsh
+    name:
+      - zsh
+      - starship
     state: present
