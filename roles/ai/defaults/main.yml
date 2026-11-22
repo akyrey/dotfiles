@@ -1,0 +1,159 @@
+---
+# =============================================================================
+# Third-party skill repositories
+# =============================================================================
+# Each repository is cloned to `dest` and only the listed skills (paths
+# relative to `skills_dir`) are symlinked into every directory in
+# ai_skill_link_dirs. Symlinks into a cloned repo that are no longer listed
+# are removed, so this list is the single source of truth.
+
+ai_ecc_dir: "{{ dotfiles_user_home }}/.ecc"
+
+ai_skill_link_dirs:
+  - "{{ dotfiles_user_home }}/.claude/skills"
+  - "{{ dotfiles_user_home }}/.agents/skills"
+
+ai_skill_repos:
+  - repo: https://github.com/affaan-m/ECC.git
+    dest: "{{ ai_ecc_dir }}"
+    skills_dir: skills
+    skills:
+      # Languages and frameworks
+      - laravel-patterns
+      - laravel-security
+      - laravel-tdd
+      - laravel-verification
+      - laravel-plugin-discovery
+      - golang-patterns
+      - golang-testing
+      # Data and infrastructure
+      - postgres-patterns
+      - mysql-patterns
+      - redis-patterns
+      - database-migrations
+      - docker-patterns
+      - kubernetes-patterns
+      - deployment-patterns
+      # Workflow
+      - api-design
+      - coding-standards
+      - error-handling
+      - e2e-testing
+      - tdd-workflow
+      - verification-loop
+      - security-review
+      - security-scan
+      - git-workflow
+      - search-first
+      - deep-research
+      - research-ops
+      - documentation-lookup
+      - jira-integration
+      - mcp-server-patterns
+      - strategic-compact
+
+  - repo: https://github.com/mattpocock/skills.git
+    dest: "{{ dotfiles_user_home }}/.mattpocock-skills"
+    skills_dir: skills
+    skills:
+      - productivity/grilling
+      - productivity/grill-me
+      - productivity/handoff
+      - productivity/writing-for-agents
+      - engineering/grill-with-docs
+      - engineering/domain-modeling
+      - engineering/diagnosing-bugs
+      - engineering/codebase-design
+      - engineering/improve-codebase-architecture
+      - engineering/prototype
+
+  # pstack is Cursor-first; only skills that work unchanged in Claude Code.
+  - repo: https://github.com/cursor/plugins.git
+    dest: "{{ dotfiles_user_home }}/.cursor-plugins"
+    skills_dir: pstack/skills
+    skills:
+      - blast-radius
+      - technical-writing
+      - principle-fix-root-causes
+      - principle-prove-it-works
+      - principle-test-behavior-not-implementation
+      - principle-subtract-before-you-add
+      - principle-boundary-discipline
+      - principle-laziness-protocol
+      - principle-type-system-discipline
+      - principle-attack-the-premise
+
+  - repo: https://github.com/addyosmani/agent-skills.git
+    dest: "{{ dotfiles_user_home }}/.addyosmani-agent-skills"
+    skills_dir: skills
+    skills:
+      - source-driven-development
+      - deprecation-and-migration
+
+  # Only standalone skills; the plan/execute chain cross-references itself.
+  - repo: https://github.com/obra/superpowers.git
+    dest: "{{ dotfiles_user_home }}/.superpowers"
+    skills_dir: skills
+    skills:
+      - receiving-code-review
+      - verification-before-completion
+
+  - repo: https://github.com/kepano/obsidian-skills.git
+    dest: "{{ dotfiles_user_home }}/.obsidian-skills"
+    skills_dir: skills
+    skills:
+      - defuddle
+      - json-canvas
+      - knap
+      - obsidian-bases
+      - obsidian-cli
+      - obsidian-markdown
+
+# =============================================================================
+# ECC agents, commands and rules
+# =============================================================================
+
+ai_ecc_agents:
+  - php-reviewer
+  - go-reviewer
+  - typescript-reviewer
+  - database-reviewer
+  - security-reviewer
+  - code-reviewer
+  - pr-test-analyzer
+  - silent-failure-hunter
+  - tdd-guide
+  - planner
+  - architect
+  - build-error-resolver
+  - go-build-resolver
+  - refactor-cleaner
+  - code-simplifier
+  - doc-updater
+  - e2e-runner
+  - performance-optimizer
+
+ai_ecc_commands:
+  - plan
+  - code-review
+  - review-pr
+  - pr
+  - build-fix
+  - go-build
+  - go-review
+  - go-test
+  - test-coverage
+  - refactor-clean
+  - update-docs
+  - jira
+  - checkpoint
+  - save-session
+  - resume-session
+  - sessions
+
+# Whole directories, so the ../common/ references in language rules resolve.
+ai_ecc_rules:
+  - common
+  - typescript
+  - golang
+  - php

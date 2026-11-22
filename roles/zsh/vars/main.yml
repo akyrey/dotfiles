@@ -1,0 +1,6 @@
+# CLIs whose `<name> completion zsh` output is saved as an autoloaded
+# completion function in zsh_completions_dir. Missing binaries are skipped.
+zsh_completions_dir: "{{ dotfiles_user_home }}/.zsh/completions"
+zsh_completion_commands:
+  - projector
+  - postman-sync
