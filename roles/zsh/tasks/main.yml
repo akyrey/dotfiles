@@ -30,14 +30,11 @@
     - update
     - zsh
 
-- name: Create config directories for starship and the oh-my-zsh-free zshrc
+- name: Create config directory for starship
   file:
-    path: "{{ item }}"
+    path: "{{ dotfiles_user_home }}/.config"
     state: directory
     mode: "0755"
-  loop:
-    - "{{ dotfiles_user_home }}/.config"
-    - "{{ zsh_next_zdotdir }}"
   tags:
     - dotfiles
     - install
@@ -93,64 +90,6 @@
     - install
     - zsh
 
-# Opt-in config: start it with `ZDOTDIR={{ zsh_next_zdotdir }} zsh`.
-- name: Symlink oh-my-zsh-free zshrc into its ZDOTDIR
-  file:
-    src: "{{ dotfiles_home }}/roles/zsh/files/zshrc.next"
-    dest: "{{ zsh_next_zdotdir }}/.zshrc"
-    state: link
-    force: yes
-  tags:
-    - dotfiles
-    - install
-    - zsh
-
-- name: Check for oh-my-zsh installation
-  stat: "path={{ dotfiles_user_home }}/.oh-my-zsh"
-  register: oh_my_zsh_stat
-  tags:
-    - dotfiles
-    - install
-    - zsh
-
-- name: Install oh-my-zsh
-  raw: 'sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"'
-  when: not oh_my_zsh_stat.stat.exists
-  tags:
-    - dotfiles
-    - install
-    - zsh
-
-- name: Install zsh-completion plugin
-  ansible.builtin.git:
-    repo: "https://github.com/zsh-users/zsh-completions"
-    dest: "{{ dotfiles_user_home }}/.oh-my-zsh/custom/plugins/zsh-completions"
-  tags:
-    - dotfiles
-    - install
-    - update
-    - zsh
-
-- name: Install zsh-autosuggestions plugin
-  ansible.builtin.git:
-    repo: "https://github.com/zsh-users/zsh-autosuggestions"
-    dest: "{{ dotfiles_user_home }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
-  tags:
-    - dotfiles
-    - install
-    - update
-    - zsh
-
-- name: Install powerlevel10k theme
-  git:
-    repo: https://github.com/romkatv/powerlevel10k.git
-    dest: "{{ dotfiles_user_home }}/.oh-my-zsh/custom/themes/powerlevel10k"
-  tags:
-    - dotfiles
-    - install
-    - update
-    - zsh
-
 - name: Create zsh completions directory
   file:
     path: "{{ zsh_completions_dir }}"
@@ -191,8 +130,8 @@
 
 - name: Symlink .zshrc
   file:
-    src: "{{ dotfiles_home}}/roles/zsh/files/zshrc"
-    dest: "{{dotfiles_user_home}}/.zshrc"
+    src: "{{ dotfiles_home }}/roles/zsh/files/zshrc"
+    dest: "{{ dotfiles_user_home }}/.zshrc"
     state: link
     force: yes
   tags:

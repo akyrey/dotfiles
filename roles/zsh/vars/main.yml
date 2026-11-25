@@ -7,8 +7,5 @@ zsh_completion_commands:
   - kubectl
   - docker
 
-# ZDOTDIR holding the oh-my-zsh-free config (antidote + starship).
-zsh_next_zdotdir: "{{ dotfiles_user_home }}/.config/zsh-next"
-
 # fast-syntax-highlighting theme, vendored in roles/zsh/files/fsh.
 zsh_fsh_theme: catppuccin-macchiato

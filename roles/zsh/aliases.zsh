@@ -4,7 +4,6 @@ alias c="clear"
 alias pg='ps -ef | grep'
 alias pkill!="pkill -9 -f "
 
-alias ohmyzsh="nvim ~/.oh-my-zsh"
 alias reload!='. ~/.zshrc'
 
 alias vim="nvim"

@@ -1,5 +1,7 @@
-# antidote bundle list, compiled to a static file by zshrc.next.
+# antidote bundle list, compiled to a static file by zshrc.
 zsh-users/zsh-completions path:src kind:fpath
 zsh-users/zsh-autosuggestions
+# Jump to frecent directories with `z <part-of-path>` (what omz's z wraps).
+agkozak/zsh-z
 # Deferred so it loads after compinit and every other widget, as required.
 zdharma-continuum/fast-syntax-highlighting kind:defer
